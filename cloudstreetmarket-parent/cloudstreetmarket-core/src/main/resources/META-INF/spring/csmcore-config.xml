@@ -9,4 +9,4 @@
  <context:annotation-config/>
  <context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core" />  
 
-</beans>  
+</beans>
