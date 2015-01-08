@@ -12,7 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @Controller
 @RequestMapping("/info")
-public class InfoTagController {
+public class InfoTagController extends CloudstreetWebAppWCI {
 
 	@Autowired
 	private WebApplicationContext webAppContext;
