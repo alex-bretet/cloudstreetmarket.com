@@ -1,12 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"  
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
- xmlns:context="http://www.springframework.org/schema/context"  
- xsi:schemaLocation="http://www.springframework.org/schema/beans  
-  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
-  http://www.springframework.org/schema/context  
-  http://www.springframework.org/schema/context/spring-context-4.0.xsd" >  
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+ 	xmlns:context="http://www.springframework.org/schema/context"  
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/jdbc 
+		http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/data/jpa
+		http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context  
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd" >  
  
- <context:annotation-config/>
- <context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core" />  
+ 	<context:annotation-config/>
+ 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core" />  
+ 
+	<jpa:repositories base-package="edu.zipcloud.cloudstreetmarket.core.daos" />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>org.hsqldb.jdbcDriver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:hsqldb:mem:csm</value>
+        </property>
+        <property name="username">
+            <value>sa</value>
+        </property>
+    </bean>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="jpaData"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceXmlLocation" value="classpath*:/META-INF/persistence.xml"/>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+		</property>
+		<property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.default_schema">public</prop>
+            </props>
+        </property>
+	</bean>
 
 </beans>

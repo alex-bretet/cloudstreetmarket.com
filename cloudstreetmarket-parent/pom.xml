@@ -20,6 +20,8 @@
 		<dom4j.version>1.6.1</dom4j.version>
 		<junit.version>4.4</junit.version>
 		<commons-lang3.version>3.0</commons-lang3.version>
+		<persistence.api>1.0.2</persistence.api>
+		<jee.version>7.0</jee.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -125,7 +127,61 @@
 				<artifactId>spring-messaging</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+		    <dependency>
+		      <groupId>org.springframework.data</groupId>
+		      <artifactId>spring-data-jpa</artifactId>
+		      <version>1.0.2.RELEASE</version>
+		    </dependency> 
+    
+			<dependency>
+			    <groupId>javax</groupId>
+			    <artifactId>javaee-api</artifactId>
+			    <version>${jee.version}</version>
+			    <scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>1.0.1.Final</version>
+			</dependency>
+		   <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>4.1.5.SP1</version>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>org.jboss.logging</groupId>
+		            <artifactId>jboss-logging</artifactId>
+		        </exclusion>
+	        </exclusions>
+		   </dependency>
+		   <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		    <version>4.1.5.SP1</version>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>org.jboss.logging</groupId>
+		            <artifactId>jboss-logging</artifactId>
+		        </exclusion>
+	        </exclusions>
+		   </dependency>
+			<dependency>
+			    <groupId>org.jboss.logging</groupId>
+			    <artifactId>jboss-logging</artifactId>
+			    <version>3.1.0.CR1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>2.3.2</version>
+			</dependency>
+		   <dependency>
+		        <groupId>org.javassist</groupId>
+		        <artifactId>javassist</artifactId>
+		        <version>3.18.2-GA</version>
+		    </dependency>
+		    
 			<!-- Tests -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -156,12 +212,12 @@
 				<version>${java.uel.version}</version>
 				<scope>provided</scope>
 			</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
 
 			<!-- Logging dependencies -->
 			<dependency>
