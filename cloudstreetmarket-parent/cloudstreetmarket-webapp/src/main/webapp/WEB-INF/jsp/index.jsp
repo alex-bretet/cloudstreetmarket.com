@@ -184,17 +184,17 @@
 	
 							<div id='tableMarketPrices'>		
 									<script>
-										var dailyMarketsActivity = [];
-										var market;
+										var dailyIndicesActivity = [];
+										var populatedIndex;
 									</script>
 							
-									<c:forEach var="market" items="${dailyMarketsActivity}">
+									<c:forEach var="index" items="${dailyIndicesActivity}">
 										<script>
-											market = {};
-											market.marketShortName = '${market.marketShortName}';
-											market.latestValue = (${market.latestValue}).toFixed(2);
-											market.latestChange = (${market.latestChange}*100).toFixed(2);
-											dailyMarketsActivity.push(market);
+											populatedIndex = {};
+											populatedIndex.name = '${index.name}';
+											populatedIndex.latestValue = (${index.latestValue}).toFixed(2);
+											populatedIndex.latestChange = (${index.latestChange}*100).toFixed(2);
+											dailyIndicesActivity.push(populatedIndex);
 										</script>
 								 	</c:forEach>
 								 
@@ -209,7 +209,7 @@
 											</thead>
 											<tbody>
 												<tr data-ng-repeat="value in financialMarkets">
-													<td>{{value.marketShortName}}</td>
+													<td>{{value.name}}</td>
 													<td style="text-align:right">{{value.latestValue}}</td>
 													<td class='{{value.style}}' style="text-align:right"><strong>{{value.latestChange}}%</strong></td>
 												</tr>

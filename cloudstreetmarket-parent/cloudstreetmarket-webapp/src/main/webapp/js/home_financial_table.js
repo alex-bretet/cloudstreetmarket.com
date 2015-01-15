@@ -6,16 +6,16 @@ cloudStreetMarketApp.factory("financialMarketsFactory", function () {
         },
         pull: function () {
         	
-        	$.each( dailyMarketsActivity, function(index, el ) {
+        	$.each( dailyIndicesActivity, function(index, el ) {
         		if(el.latestChange >=0){
-        			dailyMarketsActivity[index].style='text-success';
+        			dailyIndicesActivity[index].style='text-success';
         		}
         		else{
-        			dailyMarketsActivity[index].style='text-error';
+        			dailyIndicesActivity[index].style='text-error';
         		}
         	});
         	
-        	data = dailyMarketsActivity;
+        	data = dailyIndicesActivity;
         }
     }
 });
