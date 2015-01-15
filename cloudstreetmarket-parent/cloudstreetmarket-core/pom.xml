@@ -10,6 +10,11 @@
 
 		<dependencies>
 	
+			<dependency>
+				<groupId>edu.zipcloud</groupId>
+				<artifactId>zipcloud-core</artifactId>
+			</dependency>
+	
 			<!-- Loggging -->
 			<dependency>
 				<groupId>log4j</groupId>
@@ -41,7 +46,41 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-expression</artifactId>
 			</dependency>
-	
+			<dependency>
+		      <groupId>org.springframework.data</groupId>
+		      <artifactId>spring-data-jpa</artifactId>
+		    </dependency> 
+
+			<dependency>
+			    <groupId>javax</groupId>
+			    <artifactId>javaee-api</artifactId>
+			    <scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+			</dependency>
+		   	<dependency>
+		    	<groupId>org.hibernate</groupId>
+		    	<artifactId>hibernate-core</artifactId>
+		   	</dependency>
+		   	<dependency>
+		    	<groupId>org.hibernate</groupId>
+		    	<artifactId>hibernate-entitymanager</artifactId>
+		   	</dependency>
+			<dependency>
+			    <groupId>org.jboss.logging</groupId>
+			    <artifactId>jboss-logging</artifactId>
+			</dependency>
+		   <dependency>
+		        <groupId>org.javassist</groupId>
+		        <artifactId>javassist</artifactId>
+		    </dependency>
+		    
 			<!-- Tests -->
 			<dependency>
 				<groupId>junit</groupId>
