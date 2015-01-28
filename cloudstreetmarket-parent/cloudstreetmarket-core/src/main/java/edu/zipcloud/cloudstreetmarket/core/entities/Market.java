@@ -26,7 +26,7 @@ public class Market implements Serializable {
 	private String name;
 	
 	@OneToMany(mappedBy = "market", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<StockProduct> stocks = new LinkedHashSet<StockProduct>();
+	private Set<Index> indices = new LinkedHashSet<>();
 
 	public String getId() {
 		return id;
@@ -44,13 +44,11 @@ public class Market implements Serializable {
 		this.name = name;
 	}
 
-	public Set<StockProduct> getStocks() {
-		return stocks;
+	public Set<Index> getIndices() {
+		return indices;
 	}
 
-	public void setStocks(Set<StockProduct> stocks) {
-		this.stocks = stocks;
+	public void setIndices(Set<Index> indices) {
+		this.indices = indices;
 	}
-	
-	
 }

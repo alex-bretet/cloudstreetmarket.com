@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -12,6 +14,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -35,14 +39,24 @@ public abstract class Historic {
 	
 	private double volume;
 	
+	@Column(name="adj_close")
 	private double adjClose;
 
 	@Column(name="change_percent")
 	private double changePercent;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	@Column(name="from_date")
+	private Date fromDate;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="to_date")
+	private Date toDate;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="interval")
+	private QuotesInterval interval;
+	
 	public int getId() {
 		return id;
 	}
@@ -99,12 +113,28 @@ public abstract class Historic {
 		this.adjClose = adjClose;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getFromDate() {
+		return fromDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public QuotesInterval getInterval() {
+		return interval;
+	}
+
+	public void setInterval(QuotesInterval interval) {
+		this.interval = interval;
 	}
 
 	public double getChangePercent() {

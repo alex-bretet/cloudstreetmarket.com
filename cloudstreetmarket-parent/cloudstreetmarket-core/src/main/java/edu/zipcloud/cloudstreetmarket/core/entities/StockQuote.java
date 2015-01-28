@@ -2,29 +2,29 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("stk")
-public class HistoricalStock extends Historic implements Serializable {
-
+@Table(name="stock_quote")
+public class StockQuote extends Quote implements Serializable{
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -802306391915956578L;
+	private static final long serialVersionUID = -8175317254623555447L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_code")
 	private StockProduct stock;
-
+	
 	private double bid;
 	
 	private double ask;
-	
+
 	public StockProduct getStock() {
 		return stock;
 	}
@@ -48,4 +48,5 @@ public class HistoricalStock extends Historic implements Serializable {
 	public void setAsk(double ask) {
 		this.ask = ask;
 	}
+	
 }

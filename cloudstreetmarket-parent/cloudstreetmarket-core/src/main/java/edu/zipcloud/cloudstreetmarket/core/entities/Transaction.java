@@ -37,8 +37,8 @@ public class Transaction implements Serializable
 	private Action type;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "stock_snapshot_id")
-	private StockSnapshot stockSnapshot;
+	@JoinColumn(name = "stock_quote_id")
+	private StockQuote quote;
 
 	private int quantity;
 
@@ -74,12 +74,11 @@ public class Transaction implements Serializable
 		this.quantity = quantity;
 	}
 
-	public StockSnapshot getStockSnapshot() {
-		return stockSnapshot;
+	public StockQuote getQuote() {
+		return quote;
 	}
 
-	public void setStockSnapshot(StockSnapshot stockSnapshot) {
-		this.stockSnapshot = stockSnapshot;
+	public void setQuote(StockQuote quote) {
+		this.quote = quote;
 	}
-
 }
