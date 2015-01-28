@@ -80,6 +80,11 @@
 		        <groupId>org.javassist</groupId>
 		        <artifactId>javassist</artifactId>
 		    </dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-dbcp2</artifactId>
+			</dependency>
+		    
 		    
 			<!-- Tests -->
 			<dependency>
