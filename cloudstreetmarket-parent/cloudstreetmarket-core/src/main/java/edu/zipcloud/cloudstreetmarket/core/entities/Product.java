@@ -1,9 +1,12 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -16,6 +19,9 @@ public abstract class Product {
 	
 	private String name;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "market_id")
+	private Market market;
 	
 	public String getCode() {
 		return code;
@@ -31,6 +37,14 @@ public abstract class Product {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Market getMarket() {
+		return market;
+	}
+
+	public void setMarket(Market market) {
+		this.market = market;
 	}
 	
 }

@@ -2,20 +2,20 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("idx")
-public class HistoricalIndex extends Historic implements Serializable {
-
+@Table(name="index_quote")
+public class IndexQuote extends Quote implements Serializable{
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -802306391915956578L;
+	private static final long serialVersionUID = -8175317254623555447L;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "index_code")
