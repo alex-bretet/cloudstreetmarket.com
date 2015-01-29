@@ -22,7 +22,7 @@
  
 	<jpa:repositories base-package="edu.zipcloud.cloudstreetmarket.core.daos" />
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName">
             <value>org.hsqldb.jdbcDriver</value>
         </property>
@@ -33,15 +33,10 @@
             <value>sa</value>
         </property>
     </bean>
-    
-	<jdbc:initialize-database data-source="dataSource">
-	    <jdbc:script location="classpath:/META-INF/db/init.sql"/>
-	</jdbc:initialize-database>
 
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="jpaData"/>
 		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceXmlLocation" value="classpath*:/META-INF/persistence.xml"/>
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
 		</property>
@@ -54,6 +49,10 @@
                 <prop key="hibernate.default_schema">public</prop>
             </props>
         </property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <property name="dataSource" ref="dataSource"/>
 	</bean>
 
 </beans>
