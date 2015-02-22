@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
 	xmlns:util="http://www.springframework.org/schema/util" 
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
@@ -12,27 +13,66 @@
 	http://www.springframework.org/schema/mvc 
 	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 	http://www.springframework.org/schema/util 
-	http://www.springframework.org/schema/util/spring-util-4.0.xsd">
-	
+	http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/oxm 
+	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd">
+
 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api"/>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="synchronizeOnSession" value="true"/>
+	    <property name="messageConverters">
+	        <list>
+               <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                    <property name="marshaller">
+                        <bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+                        	<property name="autodetectAnnotations" value="true"/>
+                        </bean>
+                    </property>
+                </bean>
+	            <ref bean="jsonConverter"/>
+	        </list>
+	    </property>
+		<property name="customArgumentResolvers">
+			<list>
+				<bean class="net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver" />
+			</list>
+		</property>
+	    <property name="requireSession" value="false"/>
+	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+	</bean>
+	
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	    <property name="favorPathExtension" value="true" />
+	    <property name="favorParameter" value="false" />
+	    <property name="ignoreAcceptHeader" value="false"/>
+	    
+	    <property name="parameterName" value="format" />
+	    <property name="useJaf" value="false"/>
+	    <property name="defaultContentType" value="application/json" />
+	 
+	    <property name="mediaTypes">
+	        <map>
+	            <entry key="json" value="application/json" />
+	            <entry key="xml" value="application/xml" />
+	       </map>
+	    </property>
+	</bean>
+	
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	    <property name="supportedMediaTypes" value="application/json"/>
 	</bean>
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
+	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
+	<bean class="edu.zipcloud.cloudstreetmarket.api.swagger.SwaggerConfig"/>
 
-	<mvc:annotation-driven />
-	<mvc:resources mapping="/css/**" location="/css/" />
-	<mvc:resources mapping="/img/**" location="/img/" />
-	<mvc:resources mapping="/js/**" location="/js/" />
+	<context:property-placeholder location="classpath*:/META-INF/properties/swagger.properties" />
 
 	<mvc:interceptors>
 		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
 	</mvc:interceptors>
 
+	<!-- Serve static content-->
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven/>
+	
 </beans>

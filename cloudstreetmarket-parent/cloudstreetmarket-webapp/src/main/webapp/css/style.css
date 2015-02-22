@@ -1223,6 +1223,103 @@ vertical-align: super;
 	margin-left: 23%;
 	margin-top:-10px;
 }
+#divRss3{
+	height: 320px;
+}
+.block-pagination{
+	position:relative;
+	height:0px;
+	margin-top: -28px;
+	margin-bottom: 20px;
+}
+
+.btn-margin-right{
+	margin-right:2px;
+	position:relative;
+	float:left;
+}
+.form-section{
+	width: 100%;
+	padding: 0;
+	margin-bottom: 20px;
+	color: #333333;
+	border: 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+.form-panel [class*="span"]{
+	padding:0 0 0 0;
+	margin-top:2px;
+}
+.form-panel .sep{
+	height:20px; 
+	border-bottom: solid 1.5px #d9d9d9;
+	margin-bottom:10px;
+}
+.form-panel #stockSearch{
+	margin-right:6px;
+}
+.form-panel label{
+	padding-top:3px;
+}
+#startWithSection{
+	padding-top:15px;
+}
+#startWithSection > .descr{
+	margin-bottom:10px;
+}
+.mainController{
+	padding-bottom:20px;
+}
+
+table th a:link {
+    color: #777 !important;
+    text-decoration: none;  !important;
+}
+table th a:visited {
+    color: #777 !important;
+    text-decoration: none;  !important;
+}
+table th a:active {
+    color: #777 !important;
+    text-decoration: none;  !important;
+}
+table th a:hover {
+    color: #999 !important;
+    text-decoration: none;  !important;
+}
+table th a {
+    color: #777 !important;
+    text-decoration: none; !important;
+}
+
+table a:link {
+    color: #555 !important;
+    text-decoration: underline;  !important;
+}
+table a:visited {
+    color: #555 !important;
+    text-decoration: underline;  !important;
+}
+table a:active {
+    color: #555 !important;
+    text-decoration: underline;  !important;
+}
+table a:hover {
+    color: #888 !important;
+    text-decoration: underline;  !important;
+}
+table a {
+    color: #555 !important;
+    text-decoration: underline;  !important;
+}
+table .fa{
+	color:#666;
+	font-weight:bold;
+}
+table .fa:hover{
+	color:#333;
+	font-weight:bold;
+}
 
 /* Higher than 960 (desktop devices)
 ====================================================================== */

@@ -2,6 +2,9 @@ package edu.zipcloud.cloudstreetmarket.core.dtos;
 
 import java.math.BigDecimal;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("market")
 public class MarketOverviewDTO {
 
 	private String marketShortName;

@@ -2,14 +2,17 @@ package edu.zipcloud.cloudstreetmarket.core.daos;
 
 import java.util.Date;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 
 public interface TransactionRepository {
 	
-	Iterable<Transaction> findAll();
+	Page<Transaction> findAll(Pageable pageable);
 	Iterable<Transaction> findByUser(User user);
-	Iterable<Transaction> findRecentTransactions(Date from);
-	Iterable<Transaction> findRecentTransactions(int nb);
+	Iterable<Transaction> findTransactions(Date from);
+	Iterable<Transaction> findTransactions(int nb);
 
 }

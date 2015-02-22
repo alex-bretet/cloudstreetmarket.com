@@ -1,6 +1,11 @@
 package edu.zipcloud.cloudstreetmarket.core.enums;
 
-public enum Action {
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum Action implements Serializable{
 	BUY("buys"), SELL("sells");
 	
 	private String presentTense;
@@ -8,8 +13,12 @@ public enum Action {
 	Action(String present){
 		presentTense = present;
 	}
-	
+
 	public String getPresentTense(){
 		return presentTense;
+	}
+	
+	public String getType(){
+		return this.name();
 	}
 }

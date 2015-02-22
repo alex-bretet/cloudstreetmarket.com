@@ -1,0 +1,93 @@
+<!-- start: Row -->
+<div class="mainController row" ng-controller="indicesByMarketsMainController">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li>> Prices and markets</li>
+		  <li>> Indices by market</li>
+		</ol>
+	</div>
+	
+	<div class="span9" ng-controller="indicesByMarketTableController">
+	
+		<div class="title"><h3>INDICES BY MARKET</h3></div>
+		<br/>
+		<ul class="tabs-nav">
+			<li ng-class="(market === 'EUROPE') ? 'active': ''"><a showtab="" href="/portal/indices-EUROPE"> EUROPE</a></li>
+			<li ng-class="(market === 'US') ? 'active': ''"><a showtab="" href="/portal/indices-US"> US</a></li>
+			<li ng-class="(market === 'ASIA_PACIFIC') ? 'active': ''"><a showtab="" href="/portal/indices-ASIA_PACIFIC"> ASIA & PACIFIC</a></li>
+			<li ng-class="(market === 'AMERICAS') ? 'active': ''"><a showtab="" href="/portal/indices-AMERICAS"> AMERICAS</a></li>
+			<li ng-class="(market === 'AFRICA_MIDDLE_EAST') ? 'active': ''"><a showtab="" href="/portal/indices-AFRICA_MIDDLE_EAST"> AFRICA & MIDDLE-EAST</a></li>
+		</ul>
+		
+		<br/>
+		<div class="calendarNav tab-pane fade in active" >
+			
+			<table class="table table-condensed table-striped" >
+		
+				<tr>
+					<th><a href="" ng-click="setSort('name')">Name</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'name'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('code')">Symbol</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'code'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestValue')">Value 
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestValue'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th ><a href="" ng-click="setSort('dailyLatestChange')">+/- 
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestChange'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestChangePercent')">%+/- 
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestChangePercent'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('high')">High 
+						<li class="mini-color" 
+							ng-show="sortedField === 'high'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th ><a href="" ng-click="setSort('low')">Low 
+						<li class="mini-color" 
+							ng-show="sortedField === 'low'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('previousClose')">Prev Close 
+						<li class="mini-color" 
+							ng-show="sortedField === 'previousClose'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th/>
+				</tr>
+		
+				<tr data-ng-repeat="value in indicesForMarket">
+					<td><a href=""><strong>{{value.name}}</strong></a></td>
+					<td>{{value.code}}</td>
+					<td><strong>{{value.latestValue}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
+					<td>{{value.high}}</td>
+					<td>{{value.low}}</td>
+					<td>{{value.prevClose}}</td>
+					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
+				</tr>
+		
+			</table>
+			
+			<div class="pagination pagination-right pagination-mini block-pagination" >
+				<pagination page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
+			</div>
+	
+	
+		</div>
+
+	</div>
+		
+		<div class="span3">
+	
+		</div>
+
+</div>
+<!-- end: Row -->

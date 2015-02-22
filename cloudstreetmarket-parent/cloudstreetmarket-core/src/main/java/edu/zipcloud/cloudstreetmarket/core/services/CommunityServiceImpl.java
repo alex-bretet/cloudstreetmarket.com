@@ -5,10 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.zipcloud.cloudstreetmarket.core.daos.TransactionRepository;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
+import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.enums.Action;
 
 @Service(value="communityServiceImpl")
@@ -18,10 +22,11 @@ public class CommunityServiceImpl implements ICommunityService {
 	private TransactionRepository transactionRepository;
 
 	@Override
-	public List<UserActivityDTO> getLastUserPublicActivity(int number){
-		
+	public Page<UserActivityDTO> getPublicActivity(Pageable pageable) {
 		List<UserActivityDTO> result = new LinkedList<UserActivityDTO>();
-		transactionRepository.findRecentTransactions(number).forEach(
+		Page<Transaction> transactions = transactionRepository.findAll(pageable);
+		
+		transactions.forEach(
 			transaction -> result.add(
 				new UserActivityDTO(
 							transaction.getUser().getLoginName(),
@@ -36,7 +41,6 @@ public class CommunityServiceImpl implements ICommunityService {
 				))
 		);
 
-		return result;
+		return new PageImpl<>(result, pageable, transactions.getTotalElements());
 	}
-
 }

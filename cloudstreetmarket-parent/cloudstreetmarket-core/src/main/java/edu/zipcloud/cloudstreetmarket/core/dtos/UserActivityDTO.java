@@ -1,11 +1,15 @@
 package edu.zipcloud.cloudstreetmarket.core.dtos;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import edu.zipcloud.cloudstreetmarket.core.enums.Action;
 
+@XStreamAlias("activity")
 public class UserActivityDTO {
 	
 	private String userName;
@@ -14,7 +18,8 @@ public class UserActivityDTO {
 	private String valueShortId;
 	private int amount;
 	private BigDecimal price;
-	private Date date;
+	private String date;
+	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
 	
 	public UserActivityDTO(String userName, String urlProfilePicture, Action userAction,
 			String valueShortId, int amount, BigDecimal price, Date date) {
@@ -24,7 +29,7 @@ public class UserActivityDTO {
 		this.valueShortId = valueShortId;
 		this.amount = amount;
 		this.price = price;
-		this.date = date;
+		this.date = dateFormatter.format(date);
 	}
 	
 	public UserActivityDTO(String userName, String urlProfilePicture, Action userAction,
@@ -35,7 +40,7 @@ public class UserActivityDTO {
 		this.valueShortId = valueShortId;
 		this.amount = amount;
 		this.price = price;
-		this.date = Date.from(date.toInstant(ZoneOffset.UTC));
+		this.date = dateFormatter.format(date);
 	}
 	
 	public String getUserName() {
@@ -74,11 +79,12 @@ public class UserActivityDTO {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	public Date getDate() {
+
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+
+	public void setDate(String date) {
 		this.date = date;
 	}
-
 }

@@ -1,0 +1,82 @@
+<!-- start: Row -->
+<div class="mainController row" ng-controller="stocksRisersFallersMainController">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li>> Prices and markets</li>
+		  <li>> Risers and fallers</li>
+		</ol>
+	</div>
+
+	<div class="span9" ng-controller="stocksRisersController">
+		<div class="title"><h3>TOP 10 RISERS</h3></div>
+		<br/>
+		<table class="table table-condensed table-striped">
+
+			<tr>
+				<th>Name</th>
+				<th>Symbol</th>
+				<th>Currency</th>
+				<th>Value</th>
+				<th>+/-</th>
+				<th>%+/-</th>
+				<th>High</th>
+				<th>Low</th>
+				<th>Prev Close</th>
+				<th/>
+			</tr>
+
+			<tr data-ng-repeat="value in risers">
+				<td><a href=""><strong>{{value.name}}</strong></a></td>
+				<td>{{value.code}}</td>
+				<td>{{value.currency}}</td>
+				<td><strong>{{value.latestValue}}</strong></td>
+				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
+				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
+				<td>{{value.high}}</td>
+				<td>{{value.low}}</td>
+				<td>{{value.prevClose}}</td>
+				<td><a href=""><i class="fa fa-area-chart"></i></a></td>
+			</tr>
+
+		</table>
+
+	</div>
+	<div class="span9" ng-controller="stocksFallersController">
+		<div class="title"><h3>TOP 10 FALLERS</h3></div>
+		<br/>
+		<table class="table table-condensed table-striped">
+			<tr>
+				<th>Name</th>
+				<th>Symbol</th>
+				<th>Currency</th>
+				<th>Value</th>
+				<th>+/-</th>
+				<th>%+/-</th>
+				<th>High</th>
+				<th>Low</th>
+				<th>Prev Close</th>
+				<th/>
+			</tr>
+			<tr data-ng-repeat="value in fallers">
+				<td><a href=""><strong>{{value.name}}</strong></a></td>
+				<td>{{value.code}}</td>
+				<td>{{value.currency}}</td>
+				<td><strong>{{value.latestValue}}</strong></td>
+				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
+				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
+				<td>{{value.high}}</td>
+				<td>{{value.low}}</td>
+				<td>{{value.prevClose}}</td>
+				<td><a href=""><i class="fa fa-area-chart"></i></a></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="span3">
+
+	</div>
+
+</div>
+<!-- end: Row -->

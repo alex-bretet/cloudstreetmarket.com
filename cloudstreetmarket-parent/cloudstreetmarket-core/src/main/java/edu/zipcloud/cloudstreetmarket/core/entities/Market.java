@@ -6,10 +6,14 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import edu.zipcloud.cloudstreetmarket.core.enums.MarketCode;
 
 @Entity
 @Table(name="market")
@@ -21,19 +25,20 @@ public class Market implements Serializable {
 	private static final long serialVersionUID = -6433721069248439324L;
 
 	@Id
-	private String id;
-	
+	@Enumerated(EnumType.STRING)
+	private MarketCode code;
+
 	private String name;
 	
 	@OneToMany(mappedBy = "market", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<Index> indices = new LinkedHashSet<>();
 
-	public String getId() {
-		return id;
+	public MarketCode getCode() {
+		return code;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCode(MarketCode code) {
+		this.code = code;
 	}
 
 	public String getName() {

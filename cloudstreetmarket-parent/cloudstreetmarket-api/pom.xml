@@ -37,6 +37,11 @@
 			<groupId>edu.zipcloud</groupId>
 			<artifactId>zipcloud-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
+			<artifactId>cloudstreetmarket-core</artifactId>
+			<version>${csm.version}</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -49,6 +54,10 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.mangofactory</groupId>
+		    <artifactId>swagger-springmvc</artifactId>
 		</dependency>
 		
 		<!-- Spring core -->
@@ -77,7 +86,41 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
 
+		<dependency>
+		    <groupId>net.kaczmarzyk</groupId>
+		    <artifactId>specification-arg-resolver</artifactId>
+		</dependency>
+		
+		<!-- jackson so spring mvc handle json responses out of the box -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
+
+			
+ 		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+			
 		<!-- Tests -->
 		<dependency>
 			<groupId>junit</groupId>

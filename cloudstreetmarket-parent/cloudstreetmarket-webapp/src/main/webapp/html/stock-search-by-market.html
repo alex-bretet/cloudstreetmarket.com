@@ -1,0 +1,113 @@
+<!-- start: Row -->
+<div class="mainController row" ng-controller="stockSearchByMarketMainController">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li>> Prices and markets</li>
+		  <li>> Stock search by market</li>
+		</ol>
+	</div>
+	
+	<div ng-controller="stockSearchByMarketController">
+		<div class="span9" >
+			<h2>SEARCH BY MARKET</h2>
+			<div class="hero-unit form-panel">
+				<form ng-submit="setContains()">
+					<fieldset>
+						<div class="span2" >
+							<label>Name / code</label>
+						</div>
+						<div class="span7 form-inline" >
+						  <input type="text" ng-model="stockSearch" class="input pull-left" placeholder="Type here...">
+						  <button ng-class="{'disabled': stockSearch === containsSubmitted}" type="submit" class="btn btn-success">Search</button>
+						</div>
+						<div class="span2" >
+							<label>Market</label>
+						</div>
+						<div class="span7 form-inline" >
+							<select ng-model="selectedMarket" class="span4" ng-change="loadPage()">
+								 <option ng-selected="true" value="EUROPE">EUROPE</option>
+								 <option value="US">US</option>
+								 <option value="ASIA_PACIFIC">ASIA & PACIFIC</option>
+								 <option value="AMERICAS">AMERICAS</option>
+								 <option value="AFRICA_MIDDLE_EAST">AFRICA & MIDDLE-EAST</option>
+							</select>
+						</div>
+						<div class="span9" id="startWithSection">
+							 <h4>List companies starting with:</h4>
+							  <div class="btn-group" data-ng-repeat="letter in letters">
+							    <button class="btn btn-mini btn-margin-right" ng-class="{'btn-success': startWith !== letter}" ng-click="setStartWith(letter)">{{letter}}</button>
+							  </div>
+						</div> 
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		
+		<div class="span3">
+	
+		</div>
+		
+		<div class="span9" >
+			<table class="table table-condensed table-striped">
+				<tr>
+					<th><a href="" ng-click="setSort('name')">Name</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'name'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('code')">Symbol</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'code'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestValue')">Currency 
+						<li class="mini-color" 
+							ng-show="sortedField === 'currency'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestValue')">Value 
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestValue'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th ><a href="" ng-click="setSort('dailyLatestChange')">+/- 
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestChange'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestChangePercent')">%+/- 
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestChangePercent'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('high')">High 
+						<li class="mini-color" 
+							ng-show="sortedField === 'high'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th ><a href="" ng-click="setSort('low')">Low 
+						<li class="mini-color" 
+							ng-show="sortedField === 'low'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th><a href="" ng-click="setSort('previousClose')">Prev Close 
+						<li class="mini-color" 
+							ng-show="sortedField === 'previousClose'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+					<th/>
+				</tr>
+				<tr data-ng-repeat="value in stocks">
+					<td><a href=""><strong>{{value.name}}</strong></a></td>
+					<td>{{value.code}}</td>
+					<td>{{value.currency}}</td>
+					<td><strong>{{value.latestValue}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
+					<td>{{value.high}}</td>
+					<td>{{value.low}}</td>
+					<td>{{value.prevClose}}</td>
+					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
+				</tr>
+			</table>
+			
+			<div class="pagination pagination-right pagination-mini block-pagination" >
+				<pagination page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
+			</div>
+	
+		</div>
+	</div>
+</div>

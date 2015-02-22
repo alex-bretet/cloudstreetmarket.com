@@ -9,33 +9,28 @@
 
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>FreeME:BOOTSTRAP THEME by BootstrapMaster</title> 
-	<meta name="description" content="FreeME:Bootstrap Theme"/>
-	<meta name="keywords" content="Template, Theme, web, html5, css3" />
-	<meta name="author" content="Ãï¿½ukasz Holeczek from creativeLabs"/>
+	<title>Cloudstreet Market! The financial and community portal</title> 
+	<meta name="description" content="Developed with Spring MVC Cookbook [PACKT Publishing] 2015"/>
+	<meta name="keywords" content="Cloudstreet market, Spring, Spring MVC, educational, tutorial, Spring MVC Cookbook, PACKT Publishing" />
+	<meta name="author" content="Alex Bretet"/>
 	<!-- end: Meta -->
 	
 	<!-- start: Mobile Specific -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<!-- end: Mobile Specific -->
-	
-	<!-- start: Facebook Open Graph -->
-	<meta property="og:title" content=""/>
-	<meta property="og:description" content=""/>
-	<meta property="og:type" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:image" content=""/>
-	<!-- end: Facebook Open Graph -->
 
     <!-- start: CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap-2.3.2.patch.css" rel="stylesheet">
+   
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/FeedEk.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Boogaloo">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Economica:700,400italic">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 	<!-- end: CSS -->
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -146,8 +141,19 @@
           				</a>
           				<div class="nav-collapse collapse">
 							<ul class="nav">
-								<li class="active"><a href="index">Home</a></li>
-								<li><a href="markets">Prices and markets</a></li>
+								<li class="active"><a href="/portal/index">Home</a></li>
+              					<li class="dropdown">
+                					<a href="markets" class="dropdown-toggle"  data-toggle="dropdown">Prices and markets <b class="caret"></b></a>
+                					<ul class="dropdown-menu">
+                						<li class="nav-header">Indices</li>
+                						<li><a href="/portal/indices-EUROPE">Indices by markets</a></li>
+                  						<li class="divider"></li>
+                  						<li class="nav-header">Stocks</li>
+                  						<li><a href="/portal/stock-search">All prices search</a></li>
+                  						<li><a href="/portal/stock-search-by-market">Search by markets</a></li>
+                  						<li><a href="/portal/stocks-risers-fallers">Risers and fallers</a></li>
+                					</ul>
+              					</li>
 								<li><a href="community">Community</a></li>
 								<li><a href="sources">Sources</a></li>
 								<li><a href="about">About</a></li>
@@ -163,132 +169,28 @@
 		<!--end: Container-->
 				
 		<!--start: Container -->
-    	<div class="container">
+    	<div class="container" id="mainContainer" ng-view>
 
-			<!-- start: Row -->
-			<div class="row">
-				<div class="span12">
-					<div class="hero-unit hidden-phone">
-						<p>Welcome to CloudStreet Market, the educational platform.</p>
-					</div>
-				</div>
-				<div class="span5">
-			
-			
-					<div id="landingGraphContainerAndTools">
-							<div id='landingGraphContainer' ng-controller="homeFinancialGraphController">
-								<select class="form-control centeredElementBox">
-									<option value="${dailyMarketActivity.marketId}"> ${dailyMarketActivity.marketShortName}</option>
-								</select> 
-							</div>
-	
-							<div id='tableMarketPrices'>		
-									<script>
-										var dailyIndicesActivity = [];
-										var populatedIndex;
-									</script>
-							
-									<c:forEach var="index" items="${dailyIndicesActivity}">
-										<script>
-											populatedIndex = {};
-											populatedIndex.name = '${index.name}';
-											populatedIndex.latestValue = (${index.latestValue}).toFixed(2);
-											populatedIndex.latestChange = (${index.latestChange}*100).toFixed(2);
-											dailyIndicesActivity.push(populatedIndex);
-										</script>
-								 	</c:forEach>
-								 
-									<div>
-										<table class="table table-hover table-condensed table-bordered table-striped" data-ng-controller='homeFinancialTableController'>
-											<thead>
-												<tr>
-													<th>Index</th>
-													<th>Value</th>
-													<th>Change</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr data-ng-repeat="value in financialMarkets">
-													<td>{{value.name}}</td>
-													<td style="text-align:right">{{value.latestValue}}</td>
-													<td class='{{value.style}}' style="text-align:right"><strong>{{value.latestChange}}%</strong></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-							</div>	
-	
-					</div>
-				</div>
-				<div class="span7">
-
-					<div id="divRss3">
-						<ul class="feedEkList" data-ng-controller='homeCommunityActivityController'>
-					
-							  <script>
-									var userActivities = [];
-									var userActivity;
-							  </script>
-									
-						      <c:forEach var="activity" items="${recentUserActivity}">
-								  <script>
-										userActivity = {};
-										userActivity.userAction = '${activity.userAction}';
-										userActivity.urlProfilePicture = '${activity.urlProfilePicture}';
-										userActivity.userName = '${activity.userName}';
-										userActivity.urlProfilePicture = '${activity.urlProfilePicture}';
-										userActivity.date = '<fmt:formatDate value="${activity.date}" pattern="dd/MM/yyyy hh:mm aaa"/>';
-										userActivity.userActionPresentTense = '${activity.userAction.presentTense}';
-										userActivity.amount = ${activity.amount};
-										userActivity.valueShortId = '${activity.valueShortId}';
-										userActivity.price = (${activity.price}).toFixed(2);
-										userActivities.push(userActivity);
-								  </script>
-						      </c:forEach>
-							      
-							  <li data-ng-repeat="value in communityActivities">
-									<div class="itemTitle">
-										<div class="listUserIco {{value.defaultProfileImage}}">
-											<img ng-if="value.urlProfilePicture" src='{{value.urlProfilePicture}}'>
-										</div>
-										<span class="ico-white {{value.iconDirection}} listActionIco"></span>
-						
-										<a href="#">{{value.userName}}</a> 
-										{{value.userActionPresentTense}} {{value.amount}} 
-										<a href="#">{{value.valueShortId}}</a> at {{value.price}}
-										<p class="itemDate">{{value.date}}</p>
-									</div>
-							  </li>
-						</ul>
-					</div>
-
-				</div>
-
-			</div>
-			<!-- end: Row -->
-      		
-			<hr class="hidden-phone">
-		
-			<!-- start Clients List -->	
-			<div class="clients-carousel hidden-phone">
-		
-				<ul class="slides clients">
-					<li><img src="img/logos/1.png" alt=""/></li>
-					<li><img src="img/logos/2.png" alt=""/></li>
-					<li><img src="img/logos/3.png" alt=""/></li>	
-					<li><img src="img/logos/4.png" alt=""/></li>
-					<li><img src="img/logos/5.png" alt=""/></li>
-					<li><img src="img/logos/6.png" alt=""/></li>
-				</ul>
-		
-			</div>
-			<!-- end Clients List -->
-		
-			<hr>
-			
 		</div>
 		<!--end: Container-->
-				
+		
+		<hr class="hidden-phone">
+		
+		<!-- start Clients List -->	
+		<div class="clients-carousel hidden-phone">
+		
+			<ul class="slides clients">
+				<li><img src="img/logos/1.png" alt=""/></li>
+				<li><img src="img/logos/2.png" alt=""/></li>
+				<li><img src="img/logos/3.png" alt=""/></li>	
+				<li><img src="img/logos/4.png" alt=""/></li>
+				<li><img src="img/logos/5.png" alt=""/></li>
+				<li><img src="img/logos/6.png" alt=""/></li>
+			</ul>
+		
+		</div>
+		<!-- end Clients List -->
+
 		<!--start: Container -->
     	<div class="container">		
 
@@ -465,7 +367,7 @@
 	<div id="copyright">
 		<!-- start: Container -->
 		<div class="container">
-	<p><a href="http://bootstrapmaster.com" alt="Bootstrap Themes">Bootstrap Themes</a> by BootstrapMaster, thanks</p>
+			<p><a href="http://bootstrapmaster.com" alt="Bootstrap Themes">Bootstrap Themes</a> by BootstrapMaster, thanks</p>
 		</div>
 		<!-- end: Container  -->
 	</div>	
@@ -473,32 +375,32 @@
 	
 	<!-- start: Javascript -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/jquery-1.8.2.js"></script>
-	<script src="js/bootstrap.js"></script>
-	<script src="js/flexslider.js"></script>
-	<script src="js/carousel.js"></script>
+	<script src="js/util/jquery-1.8.2.js"></script>
+	<script src="js/util/date.js"></script>
+	<script src="js/util/bootstrap.js"></script>
+	<script src="js/util/flexslider.js"></script>
+	<script src="js/util/carousel.js"></script>
 	<script def src="js/custom.js"></script>
-	<script src="js/FeedEk.js"></script>
-	<script src="js/raphael.js"></script>
-	<script src="js/morris.min.js"></script>
-	<script src="js/angular.min.js"></script>
+	<script src="js/util/jquery.slimscroll.min.js"></script>
+	<script src="js/util/raphael.js"></script>
+	<script src="js/util/morris.min.js"></script>
+	<script src="js/angular/angular.min.js"></script>
+	<script src="js/angular/angular-route.min.js"></script>
+	<script src="js/util/ui-bootstrap-tpls-0.11.0.min.js"></script>
 	
 	<script>
-		var financial_data = [];
-		<c:forEach var="dailySnapshot" items="${dailyMarketActivity.values}">
-			financial_data.push({"period": '<c:out value="${dailySnapshot.key}"/>', "index": <c:out value='${dailySnapshot.value}'/>});
-		</c:forEach>
+		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap']);
 	</script>
+	
+	<script src="js/global_routes.js"></script>
 
-	<script>
-		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', []);
-		var tmpYmax = <c:out value="${dailyMarketActivity.maxValue}"/>;
-		var tmpYmin = <c:out value="${dailyMarketActivity.minValue}"/>;
-	</script>
-	
-	<script src="js/home_financial_graph.js"></script>
-	<script src="js/home_financial_table.js"></script>
-	<script src="js/home_community_activity.js"></script>
+	<script src="js/home/home_financial_graph.js"></script>
+	<script src="js/home/home_financial_table.js"></script>
+	<script src="js/home/home_community_activity.js"></script>
+	<script src="js/indices/indices_by_markets.js"></script>
+	<script src="js/stocks/stock_search.js"></script>
+	<script src="js/stocks/stock_search_by_market.js"></script>
+	<script src="js/stocks/stocks_risers_fallers.js"></script>
 	<!-- end: Javascript -->
 
 </body>
