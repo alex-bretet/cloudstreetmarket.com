@@ -7,8 +7,8 @@ import org.springframework.data.jpa.domain.Specification;
 import edu.zipcloud.cloudstreetmarket.core.dtos.ProductOverviewDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.Product;
 
-public interface IProductService<T extends Product> {
+public interface IProductService<T extends Product, U extends ProductOverviewDTO> {
 	
-	Page<ProductOverviewDTO> getProductsOverview(String startWith, Specification<T> spec, Pageable pageable);
+	Page<U> getProductsOverview(String startWith, Specification<T> spec, Pageable pageable);
 	
 }

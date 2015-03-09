@@ -1,0 +1,23 @@
+
+ <div class="modal-header">
+   <button type="button" class="close" aria-hidden="true" data-ng-click="modalOptions.close()">&times;</button>
+   <h3>{{modalOptions.headerText}}</h3>
+ </div>
+ <div class="modal-body center_div centered " align="center">
+	
+	   <a href="oauth" class=""><div class="social-yahoo-connect"></div></a>
+	   <h4>OR</h4>
+	   <hr/>
+	   <div ng-controller="LoginByUsernameAndPasswordController">
+		   <form name="loginForm">
+			    <h4>Log in to your Cloustreet Market account</h4>
+			   <input type="text" name="username" ng-model="form.username" placeholder="Username">
+			    <br/>
+			   <input type="password" name="password" ng-model="form.password" placeholder="Password">
+			   <button class="btn btn-success" ng-click="login()">Sign in</button>
+			</form>
+	   </div>
+ </div>
+ <div class="modal-footer">
+ 	<a href="">forgot password ?</a>&nbsp;<a href="" ng-click="modalOptions.reloadFor('create_account')">create new account</a>
+ </div>

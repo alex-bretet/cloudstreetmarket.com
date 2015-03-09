@@ -133,7 +133,7 @@
 			<!--start: Navigation-->	
 			<div class="navbar navbar-inverse">
     			<div class="navbar-inner">
-        			<div class="container">
+        			<div class="container" ng-controller="menuController">
           				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             				<span class="icon-bar"></span>
             				<span class="icon-bar"></span>
@@ -158,6 +158,15 @@
 								<li><a href="sources">Sources</a></li>
 								<li><a href="about">About</a></li>
 								<li><a href="contact">Contact</a></li>
+								<li ng-if="!userAuthenticated()"><a data-toggle="modal" href="" ng-click="menuModal('auth')">
+										<i class="fa fa-lock" style="margin-right:5px;"></i>
+										Login
+									</a>
+								</li>
+								<li ng-if="userAuthenticated()"><a href="" ng-click="logout()">
+										Logout
+									</a>
+								</li>
 							</ul>
           				</div>
         			</div>
@@ -173,7 +182,7 @@
 
 		</div>
 		<!--end: Container-->
-		
+
 		<hr class="hidden-phone">
 		
 		<!-- start Clients List -->	
@@ -221,6 +230,7 @@
 										<li><a href="sources">Sources</a></li>
 										<li><a href="about">About</a></li>
 										<li><a href="contact">Contact</a></li>
+										<li><a data-toggle="modal" href="#authModal"><i class="fa fa-lock" style="margin-right:5px;"></i>Login</a></li>
 									</ul>
 								</div>
 						</div>
@@ -387,13 +397,17 @@
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular/angular-route.min.js"></script>
 	<script src="js/util/ui-bootstrap-tpls-0.11.0.min.js"></script>
-	
+
 	<script>
 		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap']);
 	</script>
 	
 	<script src="js/global_routes.js"></script>
-
+	
+	<script src="js/auth/http_authorized.js"></script>
+	<script src="js/auth/account_management.js"></script>
+	<script src="js/modals.js"></script>
+	<script src="js/main_menu.js"></script>
 	<script src="js/home/home_financial_graph.js"></script>
 	<script src="js/home/home_financial_table.js"></script>
 	<script src="js/home/home_community_activity.js"></script>

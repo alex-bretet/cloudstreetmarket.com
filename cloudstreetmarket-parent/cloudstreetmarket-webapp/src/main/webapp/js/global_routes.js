@@ -30,4 +30,3 @@ cloudStreetMarketApp.controller("indicesByMarketsMainController", function($scop
 cloudStreetMarketApp.controller("stockSearchMainController", function($scope) {})
 cloudStreetMarketApp.controller("stockSearchByMarketMainController", function($scope) {})
 cloudStreetMarketApp.controller("stocksRisersFallersMainController", function($scope) {})
-

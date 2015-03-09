@@ -7,8 +7,5 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
-
-	User findByUserName(String username);
-	User findByUserNameAndPassword(String username, String password);
-
+	User findByUsernameAndPassword(String username, String password);
 }

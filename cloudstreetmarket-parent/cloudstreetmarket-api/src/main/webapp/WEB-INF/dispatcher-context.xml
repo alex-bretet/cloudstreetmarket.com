@@ -6,6 +6,7 @@
 	xmlns:util="http://www.springframework.org/schema/util" 
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context 
@@ -15,37 +16,48 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util-4.0.xsd
 	http://www.springframework.org/schema/oxm 
-	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd">
+	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
 
 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api"/>
-
+	<context:property-placeholder location="classpath:application.properties" />
+	<context:property-placeholder location="classpath*:/META-INF/properties/swagger.properties" />
+	
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<property name="conversionService" ref="conversionService"></property>
+			</bean>
+		</property>
 	    <property name="messageConverters">
 	        <list>
-               <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-                    <property name="marshaller">
-                        <bean class="org.springframework.oxm.xstream.XStreamMarshaller">
-                        	<property name="autodetectAnnotations" value="true"/>
-                        </bean>
-                    </property>
-                </bean>
-	            <ref bean="jsonConverter"/>
+	        	<ref bean="jsonConverter"/>
+                <ref bean="xmlConverter"/>
+                <ref bean="resourceConverter"/>
 	        </list>
 	    </property>
 		<property name="customArgumentResolvers">
 			<list>
-				<bean class="net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver" />
+				<bean class="net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver"/>
+		        <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
 			</list>
 		</property>
 	    <property name="requireSession" value="false"/>
 	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
 	</bean>
 	
+	<bean id="multipartResolver"
+	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	
+	    <!-- one of the properties available; the maximum file size in bytes -->
+	    <property name="maxUploadSize" value="3000000"/>
+	</bean>
+
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 	    <property name="favorPathExtension" value="true" />
 	    <property name="favorParameter" value="false" />
 	    <property name="ignoreAcceptHeader" value="false"/>
-	    
 	    <property name="parameterName" value="format" />
 	    <property name="useJaf" value="false"/>
 	    <property name="defaultContentType" value="application/json" />
@@ -60,13 +72,45 @@
 	
 	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	    <property name="supportedMediaTypes" value="application/json"/>
+	    <property name="objectMapper">
+	   		<!-- Automatically parses the Dates of the response object into a default string format-->
+           <bean class="com.fasterxml.jackson.databind.ObjectMapper" >
+               <property name="dateFormat">
+	                <bean class="java.text.SimpleDateFormat">
+	                	<constructor-arg value="yyyy-MM-dd" />
+	                </bean>
+	                
+               </property>
+           </bean>
+        </property>
 	</bean>
+
+	<bean id="xmlConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+   		<property name="marshaller">
+   			<ref bean="xStreamMarshaller"/>
+       	</property>
+   		<property name="unmarshaller">
+	    	<ref bean="xStreamMarshaller"/>
+       	</property>
+	</bean>
+	
+	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+
+
+	<bean id="conversionService"
+	      class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    <property name="converters">
+	        <list>
+	            <bean class="edu.zipcloud.cloudstreetmarket.core.converters.StringToStockProduct"/>
+	        </list>
+	    </property>
+	</bean>
+	
+    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
 
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 	<bean class="edu.zipcloud.cloudstreetmarket.api.swagger.SwaggerConfig"/>
-
-	<context:property-placeholder location="classpath*:/META-INF/properties/swagger.properties" />
-
+    
 	<mvc:interceptors>
 		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
 	</mvc:interceptors>
@@ -74,5 +118,5 @@
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven/>
-	
+
 </beans>

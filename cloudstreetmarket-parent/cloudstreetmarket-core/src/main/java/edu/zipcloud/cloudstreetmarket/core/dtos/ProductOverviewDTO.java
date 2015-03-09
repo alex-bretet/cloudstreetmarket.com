@@ -12,17 +12,20 @@ public class ProductOverviewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String code;
-	private String name;
-	private String market;
-	private String currency;
-	private BigDecimal latestValue;
-	private BigDecimal latestChange;
-	private BigDecimal latestChangePercent;
-	private BigDecimal prevClose;
-	private BigDecimal high;
-	private BigDecimal low;
+	private String code= null;
+	private String name= null;
+	private String market= null;
+	private String currency= null;
+	private BigDecimal latestValue= null;
+	private BigDecimal latestChange= null;
+	private BigDecimal latestChangePercent= null;
+	private BigDecimal prevClose= null;
+	private BigDecimal high= null;
+	private BigDecimal low= null;
 	
+	public ProductOverviewDTO(){
+	}
+
 	public ProductOverviewDTO(String name, String code, String market, String currency, BigDecimal latestValue, BigDecimal latestChange, BigDecimal latestChangePercent, BigDecimal prevClose, BigDecimal high, BigDecimal low){
 		this.name = name;
 		this.code = code;
@@ -120,7 +123,7 @@ public class ProductOverviewDTO implements Serializable {
 		return new ProductOverviewDTO(
 				product.getName(), 
 				product.getCode(),
-				product.getMarket().getName(), 
+				(product.getMarket()!=null)? product.getMarket().getName(): null, 
 				product.getCurrency(), 
 				product.getDailyLatestValue(), 
 				product.getDailyLatestChange(), 
@@ -129,5 +132,4 @@ public class ProductOverviewDTO implements Serializable {
 				product.getHigh(), 
 				product.getLow());
 	}
-	
 }

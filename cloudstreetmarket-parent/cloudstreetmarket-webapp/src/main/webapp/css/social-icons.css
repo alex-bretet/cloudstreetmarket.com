@@ -983,3 +983,9 @@
 .social-small-youtube-hover { 
 	background: #f45750 url(../img/icons/social_small/youtube_white.png) no-repeat;
 }
+
+.social-yahoo-connect{
+	background: #f45750 url(../img/icons/social_big/yahoo.png) no-repeat;
+	width:190px;
+	height:35px;
+}

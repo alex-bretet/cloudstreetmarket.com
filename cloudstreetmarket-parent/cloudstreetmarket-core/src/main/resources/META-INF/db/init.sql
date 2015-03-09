@@ -5,7 +5,6 @@ INSERT INTO market (code, name) values ('ASIA_PACIFIC', 'Asia / Pacific');
 INSERT INTO market (code, name) values ('AMERICAS', 'Americas');
 INSERT INTO market (code, name) values ('AFRICA_MIDDLE_EAST', 'Africas / Middle East');
 
-
 INSERT INTO index_value (code, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
 values ('^FTSE','FTSE 100','EUROPE', 18684.58, -610, -3.27, 19295.58, 19295.58, 18554.32);
 INSERT INTO index_value (code, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
@@ -85,19 +84,31 @@ values ('idx',22, 4179.07, 4179.07,   TIMESTAMP '2014-11-15 17:00:00', TIMESTAMP
 INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
 values ('idx',23, 3042.90, 3042.90, TIMESTAMP '2014-11-15 17:00:00', TIMESTAMP '2014-11-15 17:30:00', 'MINUTE_30', 3042.90, 3128.42, 3128.42, 0, -2.94, '^STOXX50E');
 
-insert into user(loginName, password, profileImg) values ('happyFace8', '123456', 'img/young-lad.jpg');
-insert into user(loginName, password, profileImg) values ('actionMan9', '123456', '');
-insert into user(loginName, password, profileImg) values ('other9', '123456', 'img/santa.jpg');
-insert into user(loginName, password, profileImg) values ('randomGuy34', '123456', '');
-insert into user(loginName, password, profileImg) values ('traderXX', '123456', '');
-insert into user(loginName, password, profileImg) values ('userB', '123456', '');
-insert into user(loginName, password, profileImg) values ('happyFace9', '123456', '');
-insert into user(loginName, password, profileImg) values ('actionMan10', '123456', '');
-insert into user(loginName, password, profileImg) values ('other10', '123456', '');
-insert into user(loginName, password, profileImg) values ('randomGuy35', '123456', '');
-insert into user(loginName, password, profileImg) values ('traderYY', '123456', '');
-insert into user(loginName, password, profileImg) values ('userC', '123456', '');
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('happyFace8', '', 'fake1@fake.com', '123456', 'img/young-lad.jpg', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('actionMan9', '', 'fake2@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('other9', '', 'fake3@fake.com', '123456', 'img/santa.jpg', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('randomGuy34', '', 'fake4@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('traderXX', '', 'fake5@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('userB', '', 'fake6@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('happyFace9', '', 'fake7@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('actionMan10', '', 'fake8@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('other10', '', 'fake9@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('randomGuy35', '', 'fake10@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('traderYY', '', 'fake11@fake.com', '123456', '', true, true, true);
+insert into users(username, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('userC', '', 'fake12@fake.com', '123456', '', true, true, true);
 
+insert into authorities(username, authority) values ('happyFace8', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('actionMan9', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('other9', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('randomGuy34', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('traderXX', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('userB', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('happyFace9', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('actionMan10', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('other10', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('randomGuy35', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('traderYY', 'ROLE_BASIC');
+insert into authorities(username, authority) values ('userC', 'ROLE_BASIC');
 
 insert into stock_product(code, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
 values ('ABF.L', 'Associated British Foods PLC','GBP', 'EUROPE', 2.948, -22, -0.75, 2.970, 2.970, 2.948);

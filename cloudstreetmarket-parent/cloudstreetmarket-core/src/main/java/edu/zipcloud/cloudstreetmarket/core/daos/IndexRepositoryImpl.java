@@ -15,13 +15,13 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketCode;
 
 @Repository
-public class IndexProductRepositoryImpl implements IndexProductRepository{
+public class IndexRepositoryImpl implements IndexRepository{
 
 	@PersistenceContext 
 	private EntityManager em;
 	
 	@Autowired
-	private IndexProductRepositoryJpa repo;
+	private IndexRepositoryJpa repo;
 
 	@Override
 	public List<Index> findByMarket(Market market) {

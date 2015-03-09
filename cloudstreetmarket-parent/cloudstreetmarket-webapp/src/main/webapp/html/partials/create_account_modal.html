@@ -1,0 +1,41 @@
+
+ 
+ <div class="modal-header">
+   <button type="button" class="close" aria-hidden="true" ng-click="modalOptions.close()">&times;</button>
+   <h3>Join Cloudstreet Market today.</h3>
+ </div>
+
+ <div class="modal-body" ng-controller="createNewAccountController">
+	<form method="POST" enctype="multipart/form-data">
+	   	 <label style="position:relative; float:left;background-repeat:no-repeat;background-position: center; background-image: url('{{form.profileImg}}');height:72px;width:72px;cursor:pointer;" class="img-polaroid" for="my-file-selector">
+		 	<input id="my-file-selector" type="file" multiple style="display:none;" onchange="angular.element(this).scope().setFiles(this)"/>
+	        <div ng-show="progressVisible" style="margin-top:80px;display:block;width:72px;">
+	        	<progressbar class="progress-striped" animate="false" value="progress" type="{{progressType}}"><b>{{progress}}%</b></progressbar>
+	        </div>
+		 </label>
+	</form>
+	<form name="createAccount" action="#" >
+		 <div class="center_div centered " align="center" >
+		 		<input type="text" name="username" placeholder="Username" ng-model="form.username" ng-minlength="4" ng-maxlength="9"/>
+			   	<input type="text" name="email" placeholder="Email" ng-model="form.email"/>
+			   	<input type="password" name="password" placeholder="Password" ng-model="form.password"/>
+			   	<label for="currencySelector">
+				   	Prefered currency
+				   	<select class="input-small" style="margin-left:5px" id="currencySelector" ng-model="form.currency" ng-init="form.currency='USD'" ng-selected="USD">
+				   		<option>USD</option>
+				   		<option>GBP</option>
+				   		<option>EUR</option>
+				   		<option>INR</option>
+				   		<option>SGD</option>
+				   		<option>CNY</option>
+				   	</select>
+				</label>
+			   	<div class="span3" style="margin-top:5px;margin-bottom:15px;background-repeat: no-repeat;background-image: url('img/icon-finder/1428187092_coins_add.png');height:44px;margin-left:-15px;padding-left:40px;padding-top:4px;"><span>You will be given virtually {{form.currency}}20.000</span></div>
+			   	<button class="btn btn-large btn-block btn-success" type="button" ng-click="create()">Sign up</button>
+		 </div>
+ 	</form>
+ </div>
+
+  <div style="padding:0px 40px 10px 40px">
+ 	<p>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use. You understand that <i>cloudstreetmarket.com</i> is a game where no real money is involved.</p>
+ </div>

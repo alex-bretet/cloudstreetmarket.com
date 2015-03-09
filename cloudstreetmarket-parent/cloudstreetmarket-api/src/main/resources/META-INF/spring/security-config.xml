@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/oxm 
+	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
+
+    <bean id="authenticationEntryPoint" 
+        class="edu.zipcloud.cloudstreetmarket.api.authentication.CustomBasicAuthenticationEntryPoint">
+        <property name="realmName" value="cloudstreetmarket.com" />
+    </bean> 
+    
+    <security:http create-session="stateless" 
+        entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager">
+        <!-- <security:http-basic />  -->
+        <security:custom-filter ref="basicAuthenticationFilter" after="BASIC_AUTH_FILTER" />
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <bean id="basicAuthenticationFilter"
+        class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+        <constructor-arg name="authenticationManager" ref="authenticationManager" />
+        <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+    </bean>
+
+	<security:authentication-manager alias="authenticationManager" >
+		<security:authentication-provider >
+			<security:jdbc-user-service data-source-ref="dataSource" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<security:global-method-security secured-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+
+</beans>

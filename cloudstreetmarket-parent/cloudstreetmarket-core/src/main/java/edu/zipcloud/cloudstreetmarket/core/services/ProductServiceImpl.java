@@ -19,7 +19,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Product;
 import edu.zipcloud.cloudstreetmarket.core.specifications.ProductSpecifications;
 
 @Service
-public class ProductServiceImpl<T extends Product> implements IProductService<T> {
+public class ProductServiceImpl<T extends Product, U extends ProductOverviewDTO> implements IProductService<T, U> {
 	
 	@Autowired
 	private ProductRepository<T> productRepository;
@@ -28,17 +28,23 @@ public class ProductServiceImpl<T extends Product> implements IProductService<T>
 	private MarketRepository marketRepository;
 	
 	@Override
-	public Page<ProductOverviewDTO> getProductsOverview(String startWith, Specification<T> spec, Pageable pageable) {
+	public Page<U> getProductsOverview(String startWith, Specification<T> spec, Pageable pageable) {
 		
 		if(StringUtils.isNotBlank(startWith)){
 			spec = Specifications.where(spec).and(new ProductSpecifications<T>().nameStartsWith(startWith));
 		}
 		
 		Page<T> products = productRepository.findAll(spec, pageable);
-		List<ProductOverviewDTO> result = new LinkedList<>();
+
+		return new PageImpl<>(transformTypedProductsInDTOs(products), pageable, products.getTotalElements());
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<U> transformTypedProductsInDTOs(Iterable<T> products){
+		List<U> results = new LinkedList<>();
 		for (T product : products) {
-			result.add(ProductOverviewDTO.build(product));
+			results.add((U) U.build(product));
 		}
-		return new PageImpl<>(result, pageable, products.getTotalElements());
+		return results;
 	}
 }

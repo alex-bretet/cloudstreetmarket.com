@@ -10,7 +10,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketCode;
 
-public interface IndexProductRepositoryJpa extends JpaRepository<Index, String>{
+public interface IndexRepositoryJpa extends JpaRepository<Index, String>{
 
 	List<Index> findByMarket(Market market);
 	Page<Index> findByMarket(Market market, Pageable pageable);

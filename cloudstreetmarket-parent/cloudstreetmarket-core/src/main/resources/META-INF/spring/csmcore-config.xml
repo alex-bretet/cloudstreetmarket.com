@@ -6,6 +6,7 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/jdbc 
@@ -15,11 +16,13 @@
         http://www.springframework.org/schema/tx 
         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/context  
-		http://www.springframework.org/schema/context/spring-context-4.0.xsd" >  
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
  
  	<context:annotation-config/>
  	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core" />  
- 
+
 	<jpa:repositories base-package="edu.zipcloud.cloudstreetmarket.core.daos" />
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
@@ -51,12 +54,15 @@
         </property>
 	</bean>
 	
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-	    <property name="dataSource" ref="dataSource"/>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
+	    <property name="dataSource" ref="dataSource" />
 	</bean>
-	
+
 	<jdbc:initialize-database data-source="dataSource">
 	    <jdbc:script location="classpath:/META-INF/db/init.sql"/>
 	</jdbc:initialize-database>
 
+    <tx:annotation-driven transaction-manager="transactionManager"
+        proxy-target-class="true" />
+        
 </beans>
