@@ -17,19 +17,25 @@
 	http://www.springframework.org/schema/util/spring-util-4.0.xsd
 	http://www.springframework.org/schema/oxm 
 	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
-		http://www.springframework.org/schema/security 
-		http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
+
+	<context:property-placeholder location="classpath:application.properties" />
 
     <bean id="authenticationEntryPoint" 
-        class="edu.zipcloud.cloudstreetmarket.api.authentication.CustomBasicAuthenticationEntryPoint">
-        <property name="realmName" value="cloudstreetmarket.com" />
-    </bean> 
+        class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+        <property name="realmName" value="${realm.name}" />
+    </bean>
     
     <security:http create-session="stateless" 
         entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager">
-        <!-- <security:http-basic />  -->
         <security:custom-filter ref="basicAuthenticationFilter" after="BASIC_AUTH_FILTER" />
         <security:csrf disabled="true"/>
+         <!--<security:access-denied-handler ref="oauthAccessDeniedHandler"/>-->
+        <security:intercept-url pattern="/signup*" access="permitAll"/>
+        <security:intercept-url pattern="/signin/**" access="permitAll"/>
+        <security:intercept-url pattern="/basic.html" access="hasRole('ROLE_BASIC')"/>
+        <security:intercept-url pattern="/**" access="permitAll"/>
     </security:http>
 
     <bean id="basicAuthenticationFilter"
@@ -40,10 +46,11 @@
 
 	<security:authentication-manager alias="authenticationManager" >
 		<security:authentication-provider >
+			<security:password-encoder ref="passwordEncoder"/>
 			<security:jdbc-user-service data-source-ref="dataSource" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 
-	<security:global-method-security secured-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
 </beans>

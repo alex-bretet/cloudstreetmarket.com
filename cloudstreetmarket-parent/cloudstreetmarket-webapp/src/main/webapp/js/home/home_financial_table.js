@@ -9,7 +9,6 @@ cloudStreetMarketApp.factory("indicesTableFactory", function (httpAuth) {
 cloudStreetMarketApp.controller('homeFinancialTableController', function ($scope, indicesTableFactory){
 	
 	$scope.init = function () {
-
 		indicesTableFactory.get($scope.preferedMarket).success(function(data, status, headers, config) {
     		dailyIndicesActivity = data.content;
     		if(dailyIndicesActivity){
@@ -22,7 +21,6 @@ cloudStreetMarketApp.controller('homeFinancialTableController', function ($scope
             		}
             	});
     		}
-
         	$scope.indicesForTable = dailyIndicesActivity;
         });
 	}

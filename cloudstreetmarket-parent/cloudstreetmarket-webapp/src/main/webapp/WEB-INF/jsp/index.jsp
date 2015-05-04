@@ -169,6 +169,7 @@
 								</li>
 							</ul>
           				</div>
+          				<div id="spi" class="hide">${spi}</div>
         			</div>
       			</div>
     		</div>
@@ -382,7 +383,7 @@
 		<!-- end: Container  -->
 	</div>	
 	<!-- end: Copyright -->
-	
+
 	<!-- start: Javascript -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="js/util/jquery-1.8.2.js"></script>
@@ -396,6 +397,7 @@
 	<script src="js/util/morris.min.js"></script>
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular/angular-route.min.js"></script>
+	<script src="js/angular/angular-cookies.min.js"></script>
 	<script src="js/util/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
 	<script>

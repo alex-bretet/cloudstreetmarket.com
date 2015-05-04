@@ -1,10 +1,14 @@
-cloudStreetMarketApp.factory("accountManagementFactory", function ($http) {
+cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAuth) {
     return {
         login: function (body) {
-        	return $http.post('/api/users/login', body);
+        	return httpAuth.post('/api/users/login', body);
         },
-        createAccount: function (body) {
-        	return $http.post('/api/users', body);
+        createAccount: function (body, spi) {
+        	if(spi){
+            	httpAuth.setSession('Spi', spi);
+            	httpAuth.setSession('OAuthProvider', 'yahoo');
+        	}
+        	return httpAuth.post('/api/users', body);
         },
         saveImage: function (formData) {
         	return $http.post('/api/users/file', formData, {
@@ -24,11 +28,21 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
     		profileImg: "img/anon.png"
       };
 
-	  $scope.create = function () {
-		  accountManagementFactory.createAccount(JSON.stringify($scope.form)).success(
-				  function(data, status, headers, config) {
-					httpAuth.set($scope.form.username, $scope.form.password);
-					angular.element($('.modal')[0]).scope().modalOptions.close();	
+	  $scope.create = function (forOAuth) {
+		  var oAuthSpiItem = null;
+		  if(forOAuth){
+	  		  oAuthSpiItem = httpAuth.getSession('oAuthSpiCSM');
+		  }
+		  
+		  accountManagementFactory.createAccount(JSON.stringify($scope.form), oAuthSpiItem).success(
+			  function(data, status, headers, config) {
+				httpAuth.setCredentials($scope.form.username, $scope.form.password);
+				angular.element($('.modal')[0]).scope().modalOptions.close();	
+		  }).then(function(response){
+				if(response.headers('Authenticated')){
+					httpAuth.setSession('authenticatedCSM', "true");
+				}
+				window.location="../portal/index";
 		  });
 	  }
 	  
@@ -63,14 +77,26 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 cloudStreetMarketApp.controller('LoginByUsernameAndPasswordController', function ($scope, accountManagementFactory, httpAuth){
       $scope.form = {
     	username: "",
-  		password: ""
+  		password: "",
       };
 
 	  $scope.login = function () {
-		  accountManagementFactory.login(JSON.stringify($scope.form)).success(
+		  accountManagementFactory.login(JSON.stringify($scope.form))
+		  	.success(
 				  function(data, status, headers, config) {
-					httpAuth.set($scope.form.username, $scope.form.password);
-					angular.element($('.modal')[0]).scope().modalOptions.close();	
-		  });
+					httpAuth.setCredentials($scope.form.username, $scope.form.password);
+					angular.element($('.modal')[0]).scope().modalOptions.close();
+			}).then(function(response){
+				if(response.headers('Authenticated')){
+					httpAuth.setSession('authenticatedCSM', "true");
+				}
+				window.location="../portal/index";
+			});
+	  }
+});
+
+cloudStreetMarketApp.controller('OAuth2Controller', function ($scope, accountManagementFactory, httpAuth){
+	  $scope.signin = function () {
+		  accountManagementFactory.oauthSignIn();
 	  }
 });

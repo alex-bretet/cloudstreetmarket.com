@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.zipcloud.cloudstreetmarket.core.entities.HistoricalIndex;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketCode;
 import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
-import edu.zipcloud.util.DateUtil;
+import edu.zipcloud.core.util.DateUtil;
 
 @Repository
 public class HistoricalIndexRepositoryImpl implements HistoricalIndexRepository{

@@ -16,11 +16,11 @@
 	</form>
 	<form name="createAccount" action="#" >
 		 <div class="center_div centered " align="center" >
-		 		<input type="text" name="username" placeholder="Username" ng-model="form.username" ng-minlength="4" ng-maxlength="9"/>
+		 		<input type="text" name="username" placeholder="Username" ng-model="form.username" ng-minlength="4" ng-maxlength="15"/>
 			   	<input type="text" name="email" placeholder="Email" ng-model="form.email"/>
 			   	<input type="password" name="password" placeholder="Password" ng-model="form.password"/>
 			   	<label for="currencySelector">
-				   	Prefered currency
+				   	Preferred currency
 				   	<select class="input-small" style="margin-left:5px" id="currencySelector" ng-model="form.currency" ng-init="form.currency='USD'" ng-selected="USD">
 				   		<option>USD</option>
 				   		<option>GBP</option>
@@ -31,7 +31,7 @@
 				   	</select>
 				</label>
 			   	<div class="span3" style="margin-top:5px;margin-bottom:15px;background-repeat: no-repeat;background-image: url('img/icon-finder/1428187092_coins_add.png');height:44px;margin-left:-15px;padding-left:40px;padding-top:4px;"><span>You will be given virtually {{form.currency}}20.000</span></div>
-			   	<button class="btn btn-large btn-block btn-success" type="button" ng-click="create()">Sign up</button>
+			   	<button class="btn btn-large btn-block btn-success" type="button" ng-click="create(false)">Sign up</button>
 		 </div>
  	</form>
  </div>

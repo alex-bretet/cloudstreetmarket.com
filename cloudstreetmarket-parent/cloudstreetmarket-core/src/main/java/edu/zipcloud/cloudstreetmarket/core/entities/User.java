@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -53,11 +55,39 @@ public class User implements UserDetails{
 	private SupportedCurrency currency;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OrderBy("id desc")
-	private Set<Transaction> transactions = new LinkedHashSet<Transaction>();
+	private Set<Action> actions = new LinkedHashSet<Action>();
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<Authority> authorities = new LinkedHashSet<Authority>();
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Set<SocialUser> socialUsers = new LinkedHashSet<SocialUser>();
+	
+	public User(){
+		
+	}
+	
+	public User(String username, String password, String email, boolean enabled, boolean accountNonExpired,
+			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.enabled = enabled;
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.authorities = auth;
+	}
+
+	public User(User user, Set<Authority> authorities) {
+		this(user.getUsername(), user.getPassword(), user.getEmail(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities);
+	}
+
+	public User(String userId) {
+		this.username = userId;
+	}
 
 	@Override
 	public String getPassword() {
@@ -81,15 +111,15 @@ public class User implements UserDetails{
 	}
 
 	public void setProfileImg(String profileImg) {
-		this.profileImg = profileImg;
+		this.profileImg = !profileImg.equals("img/anon.png") ? profileImg : null;
 	}
 
-	public Set<Transaction> getTransactions() {
-		return transactions;
+	public Set<Action> getActions() {
+		return actions;
 	}
 
-	public void setTransactions(Set<Transaction> transactions) {
-		this.transactions = transactions;
+	public void setActions(Set<Action> actions) {
+		this.actions = actions;
 	}
 
 	public void setUsername(String userName) {
@@ -133,6 +163,10 @@ public class User implements UserDetails{
 	public void addAuthority(Authority authority){
 		authorities.add(authority);
 	}
+	
+	public void addAction(Action action){
+		actions.add(action);
+	}
 
 	@Override
 	public String getUsername() {
@@ -151,6 +185,35 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (enabled != other.enabled)
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
 		return true;
 	}
 }

@@ -4,6 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:oxm="http://www.springframework.org/schema/oxm"
 	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:security="http://www.springframework.org/schema/security"
@@ -15,14 +16,22 @@
 	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 	http://www.springframework.org/schema/oxm 
 	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
-		http://www.springframework.org/schema/security 
-		http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
 
 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api"/>
 	<context:property-placeholder location="classpath:application.properties" />
 	<context:property-placeholder location="classpath*:/META-INF/properties/swagger.properties" />
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 	
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
@@ -46,12 +55,21 @@
 	    <property name="requireSession" value="false"/>
 	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
 	</bean>
+
+	<bean id="conversionService"
+	      class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    <property name="converters">
+	        <list>
+	            <bean class="edu.zipcloud.cloudstreetmarket.core.converters.StringToStockProduct"/>
+	        </list>
+	    </property>
+	</bean>
 	
 	<bean id="multipartResolver"
 	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	
 	    <!-- one of the properties available; the maximum file size in bytes -->
-	    <property name="maxUploadSize" value="3000000"/>
+	    <property name="maxUploadSize" value="${pictures.max.upload.size}"/>
 	</bean>
 
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
@@ -61,7 +79,7 @@
 	    <property name="parameterName" value="format" />
 	    <property name="useJaf" value="false"/>
 	    <property name="defaultContentType" value="application/json" />
-	 
+
 	    <property name="mediaTypes">
 	        <map>
 	            <entry key="json" value="application/json" />
@@ -79,13 +97,13 @@
 	                <bean class="java.text.SimpleDateFormat">
 	                	<constructor-arg value="yyyy-MM-dd" />
 	                </bean>
-	                
                </property>
            </bean>
         </property>
 	</bean>
 
 	<bean id="xmlConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/xml"/>
    		<property name="marshaller">
    			<ref bean="xStreamMarshaller"/>
        	</property>
@@ -96,20 +114,40 @@
 	
 	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
 
-
-	<bean id="conversionService"
-	      class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-	    <property name="converters">
-	        <list>
-	            <bean class="edu.zipcloud.cloudstreetmarket.core.converters.StringToStockProduct"/>
-	        </list>
-	    </property>
-	</bean>
-	
     <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
 
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 	<bean class="edu.zipcloud.cloudstreetmarket.api.swagger.SwaggerConfig"/>
+    
+	<bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
+	    <constructor-arg value="#{request.userPrincipal.name}" />
+	    <aop:scoped-proxy proxy-target-class="false" />
+	</bean>
+
+	<bean id="connectionFactoryLocator" 
+	      class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
+	    <property name="connectionFactories">
+	        <list>
+	            <bean class="org.springframework.social.yahoo.connect.YahooOAuth2ConnectionFactory">
+	                <constructor-arg value="${yahoo.client.token}" />
+	                <constructor-arg value="${yahoo.client.secret}" />				
+	                <constructor-arg value="${yahoo.signin.url}" />			
+	            </bean>
+	        </list>
+	    </property>
+	</bean>
+	
+	<bean id="usersConnectionRepository" class="edu.zipcloud.cloudstreetmarket.core.services.SocialUserServiceImpl"/>
+
+    <bean class="org.springframework.social.connect.web.ProviderSignInController">
+	    <constructor-arg ref="connectionFactoryLocator"/>
+	    <constructor-arg ref="usersConnectionRepository"/>
+	    <constructor-arg ref="signInAdapter"/>
+	    <property name="signUpUrl" value="/signup"/>
+	    <property name="postSignInUrl" value="${frontend.home.page.url}"/>
+    </bean>
+
+	<bean id="signInAdapter" class="edu.zipcloud.cloudstreetmarket.api.signin.SignInAdapterImpl"/>
     
 	<mvc:interceptors>
 		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>

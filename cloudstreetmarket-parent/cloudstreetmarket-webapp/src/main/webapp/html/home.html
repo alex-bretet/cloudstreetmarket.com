@@ -47,15 +47,22 @@
 				      
 				  <li data-ng-repeat="value in communityActivities">
 						<div class="itemTitle">
-							<div class="listUserIco" ng-class="(!value.urlProfilePicture) ? 'ico-user': ''">
-								<img ng-if="value.urlProfilePicture" src='{{value.urlProfilePicture}}'>
+							<div ng-class="(!value.urlProfilePicture) ? 'listUserIco ico-user': 'listUserIcoNonBG'">
+								<img ng-if="value.urlProfilePicture" style="position: relative;top: 50%;transform: translateY(-50%);" src='{{value.urlProfileMiniPicture}}' >
 							</div>
-							<span class="ico-white listActionIco" ng-class="(value.userAction.type =='BUY') ? 'ico-up-arrow actionBuy': 'ico-down-arrow actionSell'"></span>
-			
-							<a href="#">{{value.userName}}</a> 
-							{{value.userAction.presentTense}} {{value.amount}} 
-							<a href="#">{{value.valueShortId}}</a> at ${{value.price}}
-							<p class="itemDate">{{value.date}}</p>
+							<div ng-if="(value.userAction.type =='REGISTER')">
+								<span class="ico-white listActionIco actionRegister"></span>
+								<a href="#">{{value.userName}}</a> 
+								{{value.userAction.presentTense}} a new account
+								<p class="itemDate">{{value.date}}</p>
+							</div>
+							<div ng-if="value.userAction.type =='BUY' || value.userAction.type =='SELL'">
+								<span class="ico-white listActionIco" ng-class="(value.userAction.type =='BUY') ? 'ico-up-arrow actionBuy': 'ico-down-arrow actionSell'"></span>
+								<a href="#">{{value.userName}}</a> 
+								{{value.userAction.presentTense}} {{value.amount}} 
+								<a href="#">{{value.valueShortId}}</a> at ${{value.price}}
+								<p class="itemDate">{{value.date}}</p>
+							</div>
 						</div>
 				  </li>
 			</ul>

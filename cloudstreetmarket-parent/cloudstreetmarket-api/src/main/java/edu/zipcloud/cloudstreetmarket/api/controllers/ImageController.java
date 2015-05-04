@@ -27,7 +27,7 @@ public class ImageController extends CloudstreetApiWCI{
 	@RequestMapping(value="/users/{fileName}.{extension}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get uploaded images for users")
-	public InputStreamResource getPublicActivities(@PathVariable String fileName, @PathVariable String extension, HttpServletResponse response) throws IOException{
+	public InputStreamResource getUploadedImages(@PathVariable String fileName, @PathVariable String extension, HttpServletResponse response) throws IOException{
     	String pathToUserPictures = env.getProperty("pictures.user.path").concat("\\");
     	Path URI = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));
     	

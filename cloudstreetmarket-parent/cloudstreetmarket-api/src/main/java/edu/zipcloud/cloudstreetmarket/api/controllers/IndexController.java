@@ -51,7 +51,6 @@ public class IndexController extends CloudstreetApiWCI {
 	public Page<IndexOverviewDTO> getIndicesPerMarket(
 			@PathVariable MarketCode market,
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){
-		
 		return marketService.getLastDayIndicesOverview(market, pageable);
 	}
 	
