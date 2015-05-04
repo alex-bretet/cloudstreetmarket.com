@@ -5,7 +5,11 @@
  </div>
  <div class="modal-body center_div centered " align="center">
 	
-	   <a href="oauth" class=""><div class="social-yahoo-connect"></div></a>
+	   <div ng-controller="OAuth2Controller">
+		   <form name="oAuthForm" method="POST" action="/api/signin/yahoo">
+		   		<button id="mysubmitbutton" type="submit" class="social-yahoo-connect" style="padding: 0;border: none;">
+			</form>
+	   	</div>
 	   <h4>OR</h4>
 	   <hr/>
 	   <div ng-controller="LoginByUsernameAndPasswordController">

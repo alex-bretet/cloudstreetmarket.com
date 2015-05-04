@@ -57,9 +57,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, "The request parameters were not valid!", new HttpHeaders(), BAD_REQUEST, request);
     }
 
-    @ExceptionHandler({ BadCredentialsException.class, AuthenticationException.class })
+    @ExceptionHandler({ BadCredentialsException.class, AuthenticationException.class, AccessDeniedException.class})
     protected ResponseEntity<Object> handleBadCredentials(final RuntimeException ex, final WebRequest request) {
-        return handleExceptionInternal(ex, "The request parameters were not valid!", new HttpHeaders(), FORBIDDEN, request);
+        return handleExceptionInternal(ex, "The attempted operation has been denied!", new HttpHeaders(), FORBIDDEN, request);
     }
     
     // 403

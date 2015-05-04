@@ -1200,6 +1200,12 @@ vertical-align: super;
 		background-color:#bbb;
 		float:left;
 		margin:0 7px 0 0;
+		height:48px;
+}
+.listUserIcoNonBG {
+		float:left;
+		margin:0 7px 0 0;
+		height:48px;
 }
 .listActionIco {
 		float:right; 
@@ -1209,6 +1215,12 @@ vertical-align: super;
 }
 .actionBuy {
 		background-color:#8CDBA0;
+}
+.actionRegister {
+		background-image: url(../img/anon.png);
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: 48px 48px;
 }
 #landingGraphContainer{
 		height:160px;

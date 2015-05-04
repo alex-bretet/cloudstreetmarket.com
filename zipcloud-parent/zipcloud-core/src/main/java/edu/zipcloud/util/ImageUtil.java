@@ -30,5 +30,10 @@ public class ImageUtil {
 		  ImageIO.write(thumbImg,extension.toLowerCase(),os);
 		  ImageIO.write(thumbImg, extension.toLowerCase(), sourceImage);
 	}
+	
+	public static String renameToMini(String fileName){
+		String ext = "."+getExtension(fileName);
+		return fileName = fileName.substring(0, fileName.lastIndexOf(ext))+"-mini"+ext;
+	}
 
 }

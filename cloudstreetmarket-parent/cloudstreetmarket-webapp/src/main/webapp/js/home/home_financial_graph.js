@@ -12,13 +12,14 @@ cloudStreetMarketApp.factory("indicesGraphFactory", function (httpAuth) {
 cloudStreetMarketApp.controller('homeFinancialGraphController', function ($scope, indicesGraphFactory){
 	
 	$scope.init = function () {
+
 		var indicesPromise = indicesGraphFactory.getIndices($scope.preferedMarket);
 		indicesPromise.success(function(dataIndices, status, headers, config) {
 			$scope.indicesForGraph = dataIndices.content;
 			if($scope.indicesForGraph){
 				$scope.drawGraph();
 			}
-	    });
+	    })
 
 		$('.form-control').on('change', function () {
 			$('#landingGraphContainer svg').remove();

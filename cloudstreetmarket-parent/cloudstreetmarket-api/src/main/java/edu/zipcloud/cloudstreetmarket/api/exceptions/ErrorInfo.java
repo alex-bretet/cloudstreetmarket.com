@@ -3,10 +3,7 @@ package edu.zipcloud.cloudstreetmarket.api.exceptions;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
-
 import edu.zipcloud.util.ExceptionUtil;
 
 public class ErrorInfo {
@@ -28,5 +25,4 @@ public class ErrorInfo {
 	public String toString() {
 		return "ErrorInfo [status="+status+", error=" + error + ", date=" + date + "]";
 	}
-
 }

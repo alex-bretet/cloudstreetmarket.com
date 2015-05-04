@@ -15,7 +15,6 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.security.core.GrantedAuthority;
 
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
-import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 
 @Entity
 @Table(name="authorities", uniqueConstraints={@UniqueConstraint(columnNames = {"username" , "authority"})})
@@ -32,6 +31,10 @@ public class Authority implements GrantedAuthority{
 	public Authority(User user, Role authority) {
 		this.user = user;
 		this.authority = authority;
+	}
+
+	public Authority(String string) {
+		this.authority = Role.valueOf(string);
 	}
 
 	@Id

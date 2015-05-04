@@ -9,6 +9,13 @@ cloudStreetMarketApp.controller('menuController',  function ($scope, modalServic
     }
 	$scope.logout = function () {
         httpAuth.clearSession();
+        window.document.location="../portal/index";
+    }
+	$scope.init = function () {
+		if($('#spi').text()){
+			httpAuth.setSession('oAuthSpiCSM', $('#spi').text());
+		}
     }
 
+	$scope.init();
 });
