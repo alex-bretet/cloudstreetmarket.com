@@ -41,10 +41,9 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Authority;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
-import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
-
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 
+import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Service(value="communityServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -67,7 +66,7 @@ public class CommunityServiceImpl implements CommunityService {
 	public Page<UserActivityDTO> getPublicActivity(Pageable pageable) {
 		List<UserActivityDTO> result = new LinkedList<UserActivityDTO>();
 		Page<Action> actions = actionRepository.findAll(pageable);
-		
+
 		actions.forEach(
 				a -> {
 					if(a instanceof AccountActivity){
@@ -138,7 +137,6 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	@Secured(ADMIN)
 	public User findOne(String username) {
 		return userRepository.findOne(username);
 	}
@@ -146,6 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	@Secured({ADMIN, SYSTEM})
 	public void delete(String userName) {
+		SecurityContextHolder  s;
 		userRepository.delete(userName);
 	}
 	

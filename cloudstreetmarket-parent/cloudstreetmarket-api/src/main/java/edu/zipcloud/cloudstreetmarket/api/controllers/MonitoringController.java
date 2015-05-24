@@ -24,6 +24,7 @@ import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 @Api(value = "monitoring", description = "Cloudstreet Market administration console") // Swagger annotation
 @RestController
 @RequestMapping(value="/monitoring", produces={"application/xml", "application/json"})
+@PreAuthorize("hasRole('ADMIN')")
 public class MonitoringController extends CloudstreetApiWCI{
 
 	@Autowired
@@ -35,23 +36,20 @@ public class MonitoringController extends CloudstreetApiWCI{
 	@RequestMapping(value="/users/{username}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Details one account", notes = "")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User getUserDetails(@PathVariable String username){
 		return communityService.findOne(username);
 	}
 	
 	@RequestMapping(value="/users/{username}", method=DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Delete user account", notes = "")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@ApiOperation(value = "Delete user-account", notes = "")
 	public void deleteUser(@PathVariable String username){
 		communityService.delete(username);
 	}
 	
 	@RequestMapping(value="/users", method=GET)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "List user accounts", notes = "")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@ApiOperation(value = "List user-accounts", notes = "")
 	public Page<User> getUsers(@ApiIgnore @PageableDefault(size=10, page=0) Pageable pageable){
 		return communityService.findAll(pageable);
 	}

@@ -25,4 +25,11 @@ public class DateUtil {
 	    return calendar.getTime();
 	}
 	
+	public static Date getXMinPriorDate(Date date, int nbMinutes) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    calendar.set(Calendar.MINUTE, -nbMinutes);
+	    return calendar.getTime();
+	}
+	
 }

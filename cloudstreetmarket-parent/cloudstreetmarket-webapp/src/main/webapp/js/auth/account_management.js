@@ -96,7 +96,7 @@ cloudStreetMarketApp.controller('LoginByUsernameAndPasswordController', function
 });
 
 cloudStreetMarketApp.controller('OAuth2Controller', function ($scope, accountManagementFactory, httpAuth){
-	  $scope.signin = function () {
-		  accountManagementFactory.oauthSignIn();
+	  $scope.socialLogin = function () {
+		 	$('#oAuthForm').submit();
 	  }
 });

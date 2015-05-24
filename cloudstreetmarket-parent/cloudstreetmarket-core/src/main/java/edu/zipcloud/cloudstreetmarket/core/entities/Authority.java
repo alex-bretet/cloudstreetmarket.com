@@ -41,7 +41,7 @@ public class Authority implements GrantedAuthority{
 	@GeneratedValue
 	private Long  id;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "username", nullable=false)
 	private User user;
 	

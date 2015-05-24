@@ -40,6 +40,7 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
     private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     
     protected static final String LOCATION_HEADER = "Location";
+    protected static final String BASIC_TOKEN = "Basic-Token";
     protected static final String MUST_REGISTER_HEADER = "Must-Register";
     private static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
     private static final String AUTHENTICATED_HEADER = "Authenticated";

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 import edu.zipcloud.cloudstreetmarket.core.services.IMarketService;
 
-
 @Controller
 public class DefaultController extends CloudstreetWebAppWCI {
 	
@@ -32,5 +31,4 @@ public class DefaultController extends CloudstreetWebAppWCI {
 
 		return "index";
 	}	
-	
 }

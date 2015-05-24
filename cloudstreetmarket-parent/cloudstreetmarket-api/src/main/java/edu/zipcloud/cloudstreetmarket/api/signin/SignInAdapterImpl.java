@@ -52,7 +52,6 @@ public class SignInAdapterImpl implements SignInAdapter{
 	public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
 	    User user = userRepository.findOne(userId);
 	    String view = null;
-	    
 		if(user == null){
 			//temporary user for Spring Security
 			//won't be persisted

@@ -6,8 +6,9 @@
  <div class="modal-body center_div centered " align="center">
 	
 	   <div ng-controller="OAuth2Controller">
-		   <form name="oAuthForm" method="POST" action="/api/signin/yahoo">
-		   		<button id="mysubmitbutton" type="submit" class="social-yahoo-connect" style="padding: 0;border: none;">
+		   <form name="oAuthForm" id="oAuthForm" method="POST" action="/api/signin/yahoo">
+		   		<input type="hidden" id="csrfParams" name="paramName" value="paramName"/> 
+		   		<button  class="social-yahoo-connect" type='button' ng-click="socialLogin()" style="padding: 0;border: none;" onclick='return false;'/>
 			</form>
 	   	</div>
 	   <h4>OR</h4>

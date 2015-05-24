@@ -35,5 +35,4 @@ public class ImageUtil {
 		String ext = "."+getExtension(fileName);
 		return fileName = fileName.substring(0, fileName.lastIndexOf(ext))+"-mini"+ext;
 	}
-
 }

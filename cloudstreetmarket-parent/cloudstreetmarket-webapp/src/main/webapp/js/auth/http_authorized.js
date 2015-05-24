@@ -30,6 +30,9 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
         	sessionStorage.setItem('basicHeaderCSM', JSON.stringify(header));
         	$http.defaults.headers.common.Authorization = basicAuthToken;
         },
+    	setCsrfToken: function (token) {
+        	$http.defaults.headers.common.Authorization = basicAuthToken;
+        },
     	setSession: function (attributeName, attributeValue) {
     		sessionStorage.setItem(attributeName, attributeValue);
         },

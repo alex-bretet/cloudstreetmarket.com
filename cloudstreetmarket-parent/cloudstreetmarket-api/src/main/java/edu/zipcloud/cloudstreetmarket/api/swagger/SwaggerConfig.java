@@ -35,8 +35,7 @@ public class SwaggerConfig{
             		  "The Rest API developed with Spring MVC Cookbook [PACKT]",
             		  "",
             		  "alex.bretet@gmail.com",
-            		  "MIT",
-            		  "http://opensource.org/licenses/MIT"));
+            		  "GNU GENERAL PUBLIC LICENSE v2",
+            		  "http://www.gnu.org/licenses/gpl-2.0.html"));
    }
-
 }

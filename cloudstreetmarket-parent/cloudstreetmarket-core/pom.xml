@@ -9,13 +9,12 @@
   <name>CloudStreetMarket Core</name>
 
 		<dependencies>
-	
 			<dependency>
 				<groupId>edu.zipcloud</groupId>
 				<artifactId>zipcloud-core</artifactId>
 			</dependency>
 	
-			<!-- Loggging -->
+			<!-- Logging -->
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
@@ -58,13 +57,9 @@
 			</dependency>
 			<dependency>
 			    <groupId>org.springframework.social</groupId>
-			    <artifactId>spring-social-web</artifactId>
-			</dependency>
-			<dependency>
-			    <groupId>org.springframework.social</groupId>
 			    <artifactId>spring-social-config</artifactId>
 			</dependency>
-		
+
 			<!-- Spring Security -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>

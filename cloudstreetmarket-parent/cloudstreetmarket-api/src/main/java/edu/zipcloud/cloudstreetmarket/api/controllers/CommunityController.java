@@ -1,11 +1,9 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_BASIC;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_OAUTH2;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -81,7 +79,7 @@ public class CommunityController extends CloudstreetApiWCI{
 			socialUserService.bindSocialUserToUser(guid, user, provider);
 		}
 		else{
-			user = communityService.createUser(user, ROLE_BASIC);			
+			user = communityService.createUser(user, ROLE_BASIC);
 		}
 		communityService.signInUser(user);
 		response.setHeader(MUST_REGISTER_HEADER, FALSE);
@@ -115,7 +113,7 @@ public class CommunityController extends CloudstreetApiWCI{
 		return communityService.getUser(username);
 	}
 	
-	@RequestMapping(value="/users/{username}", method=DELETE)
+	@RequestMapping(value="/{username}", method=DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Delete user account", notes = "")
 	public void deleteUser(@PathVariable String username){
