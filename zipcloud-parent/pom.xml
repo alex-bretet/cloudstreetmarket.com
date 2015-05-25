@@ -238,6 +238,7 @@
 		<artifactId>maven-compiler-plugin</artifactId>
 		<version>3.1</version>
 		<configuration>
+			<debug>true</debug>
 			<source>1.8</source>
 			<target>1.8</target>
 	        <verbose>true</verbose>
