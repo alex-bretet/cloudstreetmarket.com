@@ -5,10 +5,6 @@ jdk:
 
 sudo: false
 
-before_install:
-  - sudo apt-get sudo apt-get update -qq
-  - sudo apt-get install --only-upgrade -y oracle-java8-installer
-
 # Build everything in 'script' phase
 install: /bin/true
 
