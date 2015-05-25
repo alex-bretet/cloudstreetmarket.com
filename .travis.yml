@@ -1,2 +1,10 @@
 language: java
-before_install: clean
+
+jdk:
+  - oraclejdk8
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.m2
