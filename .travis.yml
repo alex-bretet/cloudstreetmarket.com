@@ -5,8 +5,11 @@ jdk:
 
 sudo: false
 
-before_script:
-  - mvn clean
+# Build everything in 'script' phase
+install: /bin/true
+
+script:
+  - mvn clean install 
 
 cache:
   directories:
