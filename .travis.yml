@@ -5,8 +5,9 @@ jdk:
 
 sudo: false
 
+before_script:
+  - mvn clean
+
 cache:
   directories:
     - $HOME/.m2
-
-script: mvn clean install
