@@ -2,9 +2,7 @@
 
 ![Build Status](https://travis-ci.org/alex-bretet/cloudstreetmarket.com.svg?branch=master)
 
-This project is the implementation of the application developed with the book [[PACKT] Spring MVC Cookbook (2015)](https://www.packtpub.com/) 
-
-![alt tag](https://github.com/alex-bretet/cloudstreetmarket.com/blob/master/cloudstreetmarket-parent/cloudstreetmarket-webapp/src/main/webapp/img/book-early-cover.jpg?raw=true)
+This project is the implementation of the application developed with the book [Spring MVC Cookbook]
 
 ## Quickstart
 
