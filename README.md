@@ -2,11 +2,12 @@
 
 ![Build Status](https://travis-ci.org/alex-bretet/cloudstreetmarket.com.svg?branch=master)
 
-This project is the implementation of the application developed with the book [Spring MVC Cookbook]
+This project is the application developed with the book [Spring MVC Cookbook]
 
 ## Quickstart
 
-From the command line do:
+1. Define a %JDK_HOME% environment variable pointing to the root directory of a JDK8.
+2. From the command line do:
 
 ```
 git clone https://github.com/alex-bretet/cloudstreetmarket.com.git
