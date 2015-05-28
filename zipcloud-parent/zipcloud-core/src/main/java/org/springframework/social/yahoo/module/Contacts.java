@@ -23,9 +23,12 @@ import org.scribe.up.profile.yahoo.YahooProfile;
 /**
  * @author Ruiu Gabriel Mihai (gabriel.ruiu@mail.com)
  */
+@SuppressWarnings("unused")
 public class Contacts extends YahooProfile {
 
-    private int count;
+	private static final long serialVersionUID = -6992734244311600461L;
+	
+	private int count;
     private String gender;
     private String guid;
     private int height;
@@ -35,6 +38,5 @@ public class Contacts extends YahooProfile {
     private String profileUrl;
     private String size;
     private int start;
-    private int total;
-    
+	private int total;
 }

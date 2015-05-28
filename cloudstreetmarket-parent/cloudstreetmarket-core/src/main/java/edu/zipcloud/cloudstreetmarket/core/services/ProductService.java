@@ -4,11 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import edu.zipcloud.cloudstreetmarket.core.dtos.ProductOverviewDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.Product;
+import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
-public interface IProductService<T extends Product, U extends ProductOverviewDTO> {
+public interface ProductService<T extends Product> {
 	
-	Page<U> getProductsOverview(String startWith, Specification<T> spec, Pageable pageable);
+	Page<T> get(MarketId marketId, String startWith, Specification<T> spec, Pageable pageable);
 	
 }

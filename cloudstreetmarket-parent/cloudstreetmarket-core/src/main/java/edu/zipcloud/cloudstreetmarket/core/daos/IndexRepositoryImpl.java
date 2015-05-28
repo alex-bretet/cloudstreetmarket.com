@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
-import edu.zipcloud.cloudstreetmarket.core.enums.MarketCode;
 
 @Repository
 public class IndexRepositoryImpl implements IndexRepository{
@@ -34,11 +33,6 @@ public class IndexRepositoryImpl implements IndexRepository{
 	}
 
 	@Override
-	public Index findByCode(MarketCode code) {
-		return repo.findByCode(code);
-	}
-
-	@Override
 	public List<Index> findAll() {
 		return repo.findAll();
 	}
@@ -48,4 +42,8 @@ public class IndexRepositoryImpl implements IndexRepository{
 		return repo.findAll(pageable);
 	}
 
+	@Override
+	public Index findOne(String id) {
+		return repo.findOne(id);
+	}
 }

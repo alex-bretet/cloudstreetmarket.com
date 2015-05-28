@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAuth) {
     return {
         login: function (body) {
-        	return httpAuth.post('/api/users/login', body);
+        	return httpAuth.post('/api/login', body);
         },
         createAccount: function (body, spi) {
         	if(spi){
@@ -11,7 +11,7 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
         	return httpAuth.post('/api/users', body);
         },
         saveImage: function (formData) {
-        	return $http.post('/api/users/file', formData, {
+        	return $http.post('/api/users', formData, {
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
             });

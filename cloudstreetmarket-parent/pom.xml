@@ -12,6 +12,8 @@
 		<csm.group.id>edu.zipcloud.cloudstreetmarket</csm.group.id>
 		<spring.version>4.1.0.RELEASE</spring.version>
 		<spring.security.version>4.0.0.RELEASE</spring.security.version>
+		<spring.hateoas.version>0.17.0.RELEASE</spring.hateoas.version>
+		<spring.data.rest.version>2.3.0.RELEASE</spring.data.rest.version>
 		<log4j.version>1.2.17</log4j.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<jstl.version>1.2</jstl.version>
@@ -24,12 +26,13 @@
 		<commons-collections.version>3.2</commons-collections.version>
 		<persistence.api>1.0.2</persistence.api>
 		<jee.version>7.0</jee.version>
-		<hibernate.version>4.1.5.SP1</hibernate.version>
+		<hibernate.version>4.3.10.Final</hibernate.version>
 		<javassist.version>3.18.2-GA</javassist.version>
 		<commons-dbcp2.version>2.0.1</commons-dbcp2.version>
-		<spring-data-jpa.version>1.4.1.RELEASE</spring-data-jpa.version>
+		<spring-data-jpa.version>1.8.0.RELEASE</spring-data-jpa.version>
 		<spring-social.version>1.1.0.RELEASE</spring-social.version>
-		<hibernate-jpa.version>1.0.1.Final</hibernate-jpa.version>
+		<hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
+		
 		<jboss-logging.version>3.1.0.CR1</jboss-logging.version>
 		<hsqldb.version>2.3.2</hsqldb.version>
 		<jackson.version>2.5.1</jackson.version>
@@ -122,7 +125,17 @@
 				<artifactId>spring-webmvc-portlet</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+		    <dependency>
+		        <groupId>org.springframework.hateoas</groupId>
+		        <artifactId>spring-hateoas</artifactId>
+		        <version>${spring.hateoas.version}</version>
+		    </dependency>
+			<dependency>
+			  <groupId>org.springframework.data</groupId>
+			  <artifactId>spring-data-rest-webmvc</artifactId>
+			  <version>${spring.data.rest.version}</version>
+			</dependency>
+
 			<!-- Spring Social -->
 			<dependency>
 				<groupId>org.springframework.social</groupId>
@@ -192,7 +205,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
-				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<artifactId>hibernate-jpa-2.1-api</artifactId>
 				<version>${hibernate-jpa.version}</version>
 			</dependency>
 		   <dependency>
@@ -206,6 +219,11 @@
 		        </exclusion>
 	        </exclusions>
 		   </dependency>
+			<dependency>
+				<groupId>org.hibernate.common</groupId>
+				<artifactId>hibernate-commons-annotations</artifactId>
+				<version>5.0.0.Final</version>
+			</dependency>
 		   <dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-entitymanager</artifactId>
@@ -241,6 +259,12 @@
 			    <groupId>net.kaczmarzyk</groupId>
 			    <artifactId>specification-arg-resolver</artifactId>
 			    <version>${specification-arg-resolver.version}</version>
+			    <exclusions>
+			    	<exclusion>
+						<groupId>org.hibernate.javax.persistence</groupId>
+						<artifactId>hibernate-jpa-2.0-api</artifactId>
+			        </exclusion>
+			    </exclusions> 
 			</dependency>
 
 			<!-- Jackson so spring mvc handles Json responses out of the box -->

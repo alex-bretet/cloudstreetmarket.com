@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
-import edu.zipcloud.cloudstreetmarket.core.services.IMarketService;
+import edu.zipcloud.cloudstreetmarket.core.services.MarketService;
 
 @Controller
 public class DefaultController extends CloudstreetWebAppWCI {
 	
 	@Autowired
 	@Qualifier("marketServiceImpl")
-	private IMarketService marketService;
+	private MarketService marketService;
 	
 	@Autowired
 	private CommunityService communityService;

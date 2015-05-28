@@ -10,5 +10,4 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
 	Set<User> findByEmail(String email);
-	User findByUsername(String username);
 }

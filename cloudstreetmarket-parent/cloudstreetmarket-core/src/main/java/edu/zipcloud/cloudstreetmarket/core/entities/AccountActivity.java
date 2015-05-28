@@ -9,11 +9,8 @@ import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Entity
 @DiscriminatorValue(AccountActivity.DISCR)
-public class AccountActivity  extends Action{
+public class AccountActivity extends Action{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2984429385316174465L;
 	public static final String DISCR = "acc";
 
@@ -25,5 +22,4 @@ public class AccountActivity  extends Action{
 		setType(register);
 		setDate(date);
 	}
-
 }

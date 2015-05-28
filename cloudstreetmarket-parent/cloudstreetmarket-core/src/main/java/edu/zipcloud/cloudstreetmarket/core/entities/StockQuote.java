@@ -11,10 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="stock_quote")
 public class StockQuote extends Quote implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -8175317254623555447L;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -48,5 +45,4 @@ public class StockQuote extends Quote implements Serializable{
 	public void setAsk(double ask) {
 		this.ask = ask;
 	}
-	
 }

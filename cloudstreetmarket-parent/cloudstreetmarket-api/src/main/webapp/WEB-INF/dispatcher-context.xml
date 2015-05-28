@@ -35,9 +35,7 @@
 	
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
-			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-				<property name="conversionService" ref="conversionService"></property>
-			</bean>
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"/>
 		</property>
 	    <property name="messageConverters">
 	        <list>
@@ -54,15 +52,6 @@
 		</property>
 	    <property name="requireSession" value="false"/>
 	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
-	</bean>
-
-	<bean id="conversionService"
-	      class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-	    <property name="converters">
-	        <list>
-	            <bean class="edu.zipcloud.cloudstreetmarket.core.converters.StringToStockProduct"/>
-	        </list>
-	    </property>
 	</bean>
 	
 	<bean id="multipartResolver"
@@ -117,7 +106,7 @@
     <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
 
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
-	<bean class="edu.zipcloud.cloudstreetmarket.api.swagger.SwaggerConfig"/>
+	<bean class="edu.zipcloud.cloudstreetmarket.api.config.AnnotationConfig"/>
     
 	<bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
 	    <constructor-arg value="#{request.userPrincipal.name}" />
@@ -143,7 +132,7 @@
 	    <constructor-arg ref="connectionFactoryLocator"/>
 	    <constructor-arg ref="usersConnectionRepository"/>
 	    <constructor-arg ref="signInAdapter"/>
-	    <property name="signUpUrl" value="/signup"/>
+	    <property name="signUpUrl" value="/oauth2/signup"/>
 	    <property name="postSignInUrl" value="${frontend.home.page.url}"/>
     </bean>
 

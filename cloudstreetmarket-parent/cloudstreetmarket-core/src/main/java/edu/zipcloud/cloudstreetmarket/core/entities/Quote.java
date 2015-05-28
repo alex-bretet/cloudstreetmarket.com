@@ -4,20 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import static javax.persistence.InheritanceType.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Quote {
+@Inheritance(strategy = TABLE_PER_CLASS)
+public abstract class Quote extends AbstractTableGeneratedId<Long>{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	protected Integer id;
-	
 	private Date date;
 	
 	private double open;
@@ -30,14 +23,6 @@ public abstract class Quote {
 	private double high;
 	
 	private double low;
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public double getOpen() {
 		return open;

@@ -84,7 +84,7 @@ public class CommunityServiceImpl implements CommunityService {
 											a.getUser().getUsername(),
 											a.getUser().getProfileImg(),
 											((Transaction)a).getType(),
-											((Transaction)a).getQuote().getStock().getCode(),
+											((Transaction)a).getQuote().getStock().getId(),
 											((Transaction)a).getQuantity(),
 											((Transaction)a).getType().equals(UserActivityType.BUY) ? 
 													new BigDecimal(((Transaction)a).getQuote().getAsk()) 
@@ -144,7 +144,6 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	@Secured({ADMIN, SYSTEM})
 	public void delete(String userName) {
-		SecurityContextHolder  s;
 		userRepository.delete(userName);
 	}
 	
@@ -164,7 +163,7 @@ public class CommunityServiceImpl implements CommunityService {
 		Preconditions.checkArgument(user.getPassword() != null, "The provided password cannot be null!");
 		Preconditions.checkArgument(StringUtils.isNotEmpty(user.getPassword()), "The provided password cannot be empty!");
 		
-		User retreivedUser = userRepository.findByUsername(user.getUsername());
+		User retreivedUser = userRepository.findOne(user.getUsername());
 		if(!passwordEncoder.matches(user.getPassword(), retreivedUser.getPassword())){
 			throw new BadCredentialsException("No match has been found with the provided credentials!");
 		}

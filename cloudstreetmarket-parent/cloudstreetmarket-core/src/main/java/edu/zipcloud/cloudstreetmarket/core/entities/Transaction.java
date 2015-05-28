@@ -5,17 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import static edu.zipcloud.cloudstreetmarket.core.entities.Transaction.*;
 
 @Entity
-@DiscriminatorValue(Transaction.DISCR)
+@DiscriminatorValue(DISCR)
 public class Transaction extends Action 
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1376900532071997330L;
-	
 	public static final String DISCR = "trans";
 	
 	@OneToOne(fetch = FetchType.EAGER)

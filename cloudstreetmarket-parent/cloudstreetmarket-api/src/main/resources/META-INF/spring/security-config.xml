@@ -32,8 +32,7 @@
         <security:custom-filter ref="basicAuthenticationFilter" after="BASIC_AUTH_FILTER" />
         <security:csrf disabled="true"/>
          <!--<security:access-denied-handler ref="oauthAccessDeniedHandler"/>-->
-        <security:intercept-url pattern="/signup*" access="permitAll"/>
-        <security:intercept-url pattern="/signin/**" access="permitAll"/>
+        <security:intercept-url pattern="/oauth2/**" access="permitAll"/>
         <security:intercept-url pattern="/basic.html" access="hasRole('ROLE_BASIC')"/>
         <security:intercept-url pattern="/**" access="permitAll"/>
     </security:http>

@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("communityFactory", function (httpAuth) {
     return {
         getUsersActivity: function (pn) {
-        	return httpAuth.get("/api/users/activity.json?page="+pn+"&size=10");
+        	return httpAuth.get("/api/users/feed.json?page="+pn+"&size=10");
         }
     }
 });

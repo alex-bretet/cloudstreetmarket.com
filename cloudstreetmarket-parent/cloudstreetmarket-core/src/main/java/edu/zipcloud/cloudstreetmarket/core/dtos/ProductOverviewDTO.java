@@ -3,12 +3,14 @@ package edu.zipcloud.cloudstreetmarket.core.dtos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.Product;
 
 @XStreamAlias("product")
-public class ProductOverviewDTO implements Serializable {
+public class ProductOverviewDTO extends ResourceSupport implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -38,7 +40,7 @@ public class ProductOverviewDTO implements Serializable {
 		this.low = low;
 		this.currency = currency;
 	}
-	
+
 	public String getCode() {
 		return code;
 	}
@@ -122,7 +124,7 @@ public class ProductOverviewDTO implements Serializable {
 	public static ProductOverviewDTO build(Product product){
 		return new ProductOverviewDTO(
 				product.getName(), 
-				product.getCode(),
+				product.getId(),
 				(product.getMarket()!=null)? product.getMarket().getName(): null, 
 				product.getCurrency(), 
 				product.getDailyLatestValue(), 

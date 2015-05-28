@@ -100,11 +100,6 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 		</dependency>
-
-		<dependency>
-		    <groupId>net.kaczmarzyk</groupId>
-		    <artifactId>specification-arg-resolver</artifactId>
-		</dependency>
 		
 		<!-- jackson so spring mvc handle json responses out of the box -->
 		<dependency>

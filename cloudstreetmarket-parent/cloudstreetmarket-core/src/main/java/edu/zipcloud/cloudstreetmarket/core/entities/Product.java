@@ -5,52 +5,45 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+
+import static javax.persistence.InheritanceType.*;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Product {
+@Inheritance(strategy = TABLE_PER_CLASS)
+public class Product extends AbstractId<String>{
 	
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = -802306391915956578L;
 
-	@Id
-	private String code;
-	
-	private String name;
+	protected String name;
 
 	@Column(name="daily_latest_value")
-	private BigDecimal dailyLatestValue;
+	protected BigDecimal dailyLatestValue;
 	
 	@Column(name="daily_latest_change")
-	private BigDecimal dailyLatestChange;
+	protected BigDecimal dailyLatestChange;
 	
 	@Column(name="daily_latest_change_pc")
-	private BigDecimal dailyLatestChangePercent;
+	protected BigDecimal dailyLatestChangePercent;
 
 	@Column(name = "previous_close")
-	private BigDecimal previousClose;
+	protected BigDecimal previousClose;
 	
-	private BigDecimal high;
+	protected BigDecimal high;
 	
-	private BigDecimal low;
+	protected BigDecimal low;
 	
-	private String currency;
+	protected String currency;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "market_id")
-	private Market market;
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
+	@JsonIgnore
+	protected Market market;
 
 	public String getName() {
 		return name;
@@ -58,14 +51,6 @@ public abstract class Product {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Market getMarket() {
-		return market;
-	}
-
-	public void setMarket(Market market) {
-		this.market = market;
 	}
 
 	public BigDecimal getDailyLatestValue() {
@@ -115,12 +100,52 @@ public abstract class Product {
 	public void setLow(BigDecimal low) {
 		this.low = low;
 	}
-	
+
 	public String getCurrency() {
 		return currency;
 	}
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public Market getMarket() {
+		return market;
+	}
+
+	public void setMarket(Market market) {
+		this.market = market;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (getId() != other.getId())
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return "Product [id=" + getId() + ", name=" + name + ", dailyLatestValue="
+				+ dailyLatestValue + ", dailyLatestChange=" + dailyLatestChange
+				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
+				+ ", previousClose=" + previousClose + ", high=" + high
+				+ ", low=" + low + ", currency=" + currency + ", market="
+				+ market + "]";
 	}
 }

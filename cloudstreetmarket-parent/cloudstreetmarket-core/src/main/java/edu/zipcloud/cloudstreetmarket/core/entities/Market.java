@@ -6,40 +6,22 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-import edu.zipcloud.cloudstreetmarket.core.enums.MarketCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
 @Entity
-@Table(name="market")
-public class Market implements Serializable {
+public class Market extends AbstractEnumId<MarketId> implements Serializable  {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6433721069248439324L;
-
-	@Id
-	@Enumerated(EnumType.STRING)
-	private MarketCode code;
-
-	private String name;
 	
-	@OneToMany(mappedBy = "market", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private String name;
+
+	@OneToMany(mappedBy = "market", cascade = { CascadeType.ALL }, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private Set<Index> indices = new LinkedHashSet<>();
-
-	public MarketCode getCode() {
-		return code;
-	}
-
-	public void setCode(MarketCode code) {
-		this.code = code;
-	}
 
 	public String getName() {
 		return name;
@@ -56,4 +38,33 @@ public class Market implements Serializable {
 	public void setIndices(Set<Index> indices) {
 		this.indices = indices;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Market other = (Market) obj;
+		if (getId() != other.getId())
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+
+	//Avoid fetching lazy collections at this stage (session may be closed)
+	@Override
+	public String toString() {
+		return "Market [id="+getId().toString()+", name=" + name + "]";
+	}
+
 }

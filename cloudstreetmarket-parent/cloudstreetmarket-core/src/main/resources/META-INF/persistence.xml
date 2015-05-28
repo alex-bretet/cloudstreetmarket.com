@@ -6,5 +6,5 @@
 	version="2.1">
 
   <persistence-unit name="jpaData" />
-    
+
 </persistence>

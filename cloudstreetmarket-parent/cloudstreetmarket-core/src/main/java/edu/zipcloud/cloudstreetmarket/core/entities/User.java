@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -24,17 +23,10 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 
 @Entity
 @Table(name="users")
-public class User implements UserDetails{
+public class User extends AbstractId<String> implements UserDetails{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1990856213905768044L;
 
-	@Id
-	@Column(nullable = false)
-	private String username;
-	
 	private String fullname;
 	
 	private String email;
@@ -70,9 +62,9 @@ public class User implements UserDetails{
 		
 	}
 	
-	public User(String username, String password, String email, boolean enabled, boolean accountNonExpired,
+	public User(String id, String password, String email, boolean enabled, boolean accountNonExpired,
 			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth) {
-		this.username = username;
+		setId(id);
 		this.password = password;
 		this.email = email;
 		this.enabled = enabled;
@@ -85,8 +77,9 @@ public class User implements UserDetails{
 		this(user.getUsername(), user.getPassword(), user.getEmail(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities);
 	}
 
-	public User(String userId) {
-		this.username = userId;
+	@Override
+	public String getUsername() {
+		return getId();
 	}
 
 	@Override
@@ -120,10 +113,6 @@ public class User implements UserDetails{
 
 	public void setActions(Set<Action> actions) {
 		this.actions = actions;
-	}
-
-	public void setUsername(String userName) {
-		this.username = userName;
 	}
 
 	@Override
@@ -169,11 +158,6 @@ public class User implements UserDetails{
 	}
 
 	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
@@ -189,16 +173,6 @@ public class User implements UserDetails{
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (enabled ? 1231 : 1237);
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -207,13 +181,27 @@ public class User implements UserDetails{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (enabled != other.enabled)
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
+		if (getId() != other.getId())
 			return false;
 		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + getId() + ", fullname=" + fullname + ", email=" + email
+				+ ", password=" + password + ", enabled=" + enabled
+				+ ", profileImg=" + profileImg + ", accountNonExpired="
+				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
+				+ ", currency=" + currency + ", actions=" + actions
+				+ ", authorities=" + authorities + ", socialUsers="
+				+ socialUsers + "]";
 	}
 }

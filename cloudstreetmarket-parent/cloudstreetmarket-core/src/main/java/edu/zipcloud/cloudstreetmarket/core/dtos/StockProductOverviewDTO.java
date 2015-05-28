@@ -26,7 +26,7 @@ public class StockProductOverviewDTO extends ProductOverviewDTO {
 	public static StockProductOverviewDTO build(StockProduct stock){
 		return new StockProductOverviewDTO(
 				stock.getName(), 
-				stock.getCode(),
+				stock.getId(),
 				(stock.getMarket()!=null)? stock.getMarket().getName(): null, 
 				stock.getCurrency(), 
 				stock.getDailyLatestValue(), 

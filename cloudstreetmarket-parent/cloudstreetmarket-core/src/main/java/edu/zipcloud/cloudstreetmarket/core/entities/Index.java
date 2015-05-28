@@ -8,25 +8,20 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="index_value")
-public class Index implements Serializable{
+public class Index extends AbstractId<String> implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2919348303931939346L;
 
-	@Id
-	private String code;
-	
 	private String name;
 	
 	@Column(name="daily_latest_value")
@@ -45,37 +40,21 @@ public class Index implements Serializable{
 	
 	private BigDecimal low;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "market_id", nullable=true)
 	private Market market;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "stock_indices", joinColumns = { @JoinColumn(name = "index_code") },
 			inverseJoinColumns = { @JoinColumn(name = "stock_code") })
 	private Set<StockProduct> stocks = new LinkedHashSet<>();
-
-	public Market getMarket() {
-		return market;
-	}
-
-	public void setMarket(Market market) {
-		this.market = market;
-	}
-
-	public Set<StockProduct> getStocks() {
-		return stocks;
-	}
-
-	public void setStocks(Set<StockProduct> stocks) {
-		this.stocks = stocks;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
+	
+	public Index(){}
+	
+	public Index(String indexId) {
+		setId(indexId);
 	}
 
 	public String getName() {
@@ -94,20 +73,20 @@ public class Index implements Serializable{
 		this.dailyLatestValue = dailyLatestValue;
 	}
 
-	public BigDecimal getDailyLatestChangePercent() {
-		return dailyLatestChangePercent;
-	}
-
-	public void setDailyLatestChangePercent(BigDecimal dailyLatestChangePercent) {
-		this.dailyLatestChangePercent = dailyLatestChangePercent;
-	}
-
 	public BigDecimal getDailyLatestChange() {
 		return dailyLatestChange;
 	}
 
 	public void setDailyLatestChange(BigDecimal dailyLatestChange) {
 		this.dailyLatestChange = dailyLatestChange;
+	}
+
+	public BigDecimal getDailyLatestChangePercent() {
+		return dailyLatestChangePercent;
+	}
+
+	public void setDailyLatestChangePercent(BigDecimal dailyLatestChangePercent) {
+		this.dailyLatestChangePercent = dailyLatestChangePercent;
 	}
 
 	public BigDecimal getPreviousClose() {
@@ -132,5 +111,53 @@ public class Index implements Serializable{
 
 	public void setLow(BigDecimal low) {
 		this.low = low;
+	}
+
+	public Market getMarket() {
+		return market;
+	}
+
+	public void setMarket(Market market) {
+		this.market = market;
+	}
+
+	public Set<StockProduct> getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(Set<StockProduct> stocks) {
+		this.stocks = stocks;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Index other = (Index) obj;
+		if (getId() != other.getId())
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+
+	//Avoid fetching lazy collections at this stage (session may be closed)
+	@Override
+	public String toString() {
+		return "Index [id="+getId().toString()+", name=" + name + ", dailyLatestValue=" + dailyLatestValue
+				+ ", dailyLatestChange=" + dailyLatestChange
+				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
+				+ ", previousClose=" + previousClose + ", high=" + high
+				+ ", low=" + low + ", market=" + market + "]";
 	}
 }

@@ -7,8 +7,8 @@ import com.wordnik.swagger.annotations.Api;
 
 @Api(value = "products", description = "Financial products") // Swagger annotation
 @RestController
-@RequestMapping(ProductController.PRODUCT_PATH)
-public class ProductController extends CloudstreetApiWCI{
+@RequestMapping(AbstractProductController.PRODUCT_PATH)
+public abstract class AbstractProductController extends CloudstreetApiWCI{
 	
 	public static final String PRODUCT_PATH = "/products";
 	

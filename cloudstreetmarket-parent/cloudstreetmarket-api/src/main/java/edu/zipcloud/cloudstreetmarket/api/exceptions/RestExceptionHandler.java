@@ -4,10 +4,10 @@ import javax.naming.AuthenticationException;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.TypeMismatchException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
@@ -67,21 +67,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     
     // 404
 
-    @ExceptionHandler(value = { EntityNotFoundException.class})
+    @ExceptionHandler(value = { EntityNotFoundException.class, ResourceNotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, "Required / requested resource not found!", new HttpHeaders(), NOT_FOUND, request);
     }
 
     // 409
 
-    @ExceptionHandler({ ConstraintViolationException.class })
-    public ResponseEntity<Object> handleBadRequest(final ConstraintViolationException ex, final WebRequest request) {
-        return handleExceptionInternal(ex, "The resource already exists!", new HttpHeaders(), CONFLICT, request);
-    }
-    
     @ExceptionHandler({ DataIntegrityViolationException.class })
     public ResponseEntity<Object> handleBadRequest(final DataIntegrityViolationException ex, final WebRequest request) {
-        return handleExceptionInternal(ex, "The resource is used in another model!", new HttpHeaders(), CONFLICT, request);
+        return handleExceptionInternal(ex, "The resource already exists!", new HttpHeaders(), CONFLICT, request);
     }
 
     // 412
