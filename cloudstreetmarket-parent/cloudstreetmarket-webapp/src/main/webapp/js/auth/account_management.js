@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAuth) {
     return {
         login: function (body) {
-        	return httpAuth.post('/api/login', body);
+        	return httpAuth.post('/api/oauth2/login', body);
         },
         createAccount: function (body, spi) {
         	if(spi){
@@ -21,7 +21,7 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
 
 cloudStreetMarketApp.controller('createNewAccountController', function ($scope, accountManagementFactory, httpAuth){
       $scope.form = {
-      		username: "",
+      		id: "",
     		email: "",
     		password: "",
     		currency: "",
@@ -36,7 +36,7 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 		  
 		  accountManagementFactory.createAccount(JSON.stringify($scope.form), oAuthSpiItem).success(
 			  function(data, status, headers, config) {
-				httpAuth.setCredentials($scope.form.username, $scope.form.password);
+				httpAuth.setCredentials($scope.form.id, $scope.form.password);
 				angular.element($('.modal')[0]).scope().modalOptions.close();	
 		  }).then(function(response){
 				if(response.headers('Authenticated')){
@@ -76,7 +76,7 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 
 cloudStreetMarketApp.controller('LoginByUsernameAndPasswordController', function ($scope, accountManagementFactory, httpAuth){
       $scope.form = {
-    	username: "",
+    	id: "",
   		password: "",
       };
 
@@ -84,7 +84,7 @@ cloudStreetMarketApp.controller('LoginByUsernameAndPasswordController', function
 		  accountManagementFactory.login(JSON.stringify($scope.form))
 		  	.success(
 				  function(data, status, headers, config) {
-					httpAuth.setCredentials($scope.form.username, $scope.form.password);
+					httpAuth.setCredentials($scope.form.id, $scope.form.password);
 					angular.element($('.modal')[0]).scope().modalOptions.close();
 			}).then(function(response){
 				if(response.headers('Authenticated')){

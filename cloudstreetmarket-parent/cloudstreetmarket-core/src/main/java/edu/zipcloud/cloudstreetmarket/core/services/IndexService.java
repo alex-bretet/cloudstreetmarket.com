@@ -12,8 +12,8 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 
 public interface IndexService{
-	Page<Index> getIndicesByMarket(MarketId marketId, Pageable pageable);
+	Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable);
 	Page<Index> getIndices(Pageable pageable);
-	Set<HistoricalIndex> getHistoricalIndexData(String id, MarketId marketId, Date fromDate, Date toDate, QuotesInterval interval);
+	Set<HistoricalIndex> getHistoricalIndexData(String id, Date fromDate, Date toDate, QuotesInterval interval);
 	Index getIndex(String id);
 }

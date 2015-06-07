@@ -20,6 +20,7 @@ import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.social.yahoo.api.ContactsOperations;
+import org.springframework.social.yahoo.api.FinancialOperations;
 import org.springframework.social.yahoo.api.ProfilesOperations;
 import org.springframework.social.yahoo.api.Yahoo2;
 import org.springframework.social.yahoo.module.YahooModule;
@@ -37,7 +38,8 @@ public class Yahoo2Template extends AbstractOAuth2ApiBinding implements Yahoo2{
 	
 	 private ProfilesOperations profilesOperations;
 	 private ContactsOperations contactsOperations;
-	 
+	 private FinancialOperations financialOperations;
+
 	@Override
 	protected OAuth2Version getOAuth2Version() {
 		return OAuth2Version.BEARER;
@@ -121,6 +123,7 @@ public class Yahoo2Template extends AbstractOAuth2ApiBinding implements Yahoo2{
     protected void initSubApis(String clientId, String accessToken, String guid) {
         this.contactsOperations = new ContactsTemplate(getRestTemplate(), isAuthorized(), guid);
         this.profilesOperations = new ProfileTemplate(getRestTemplate(), isAuthorized(), guid);
+        this.financialOperations = new FinancialTemplate(getRestTemplate(), isAuthorized(), guid);
     }
 
     protected ObjectMapper createObjectMapper() {
@@ -128,4 +131,9 @@ public class Yahoo2Template extends AbstractOAuth2ApiBinding implements Yahoo2{
         mapper.registerModule(new YahooModule());
         return mapper;
     }
+
+	@Override
+	public FinancialOperations financialOperations() {
+		return financialOperations;
+	}
 }

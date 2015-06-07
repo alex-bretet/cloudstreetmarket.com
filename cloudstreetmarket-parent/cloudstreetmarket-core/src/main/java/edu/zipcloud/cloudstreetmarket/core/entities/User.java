@@ -1,6 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -58,8 +61,12 @@ public class User extends AbstractId<String> implements UserDetails{
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<SocialUser> socialUsers = new LinkedHashSet<SocialUser>();
 	
+	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdate;
+
 	public User(){
-		
+	
 	}
 	
 	public User(String id, String password, String email, boolean enabled, boolean accountNonExpired,
@@ -171,6 +178,14 @@ public class User extends AbstractId<String> implements UserDetails{
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+	
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -201,7 +216,7 @@ public class User extends AbstractId<String> implements UserDetails{
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
 				+ ", currency=" + currency + ", actions=" + actions
-				+ ", authorities=" + authorities + ", socialUsers="
+				+ ", socialUsers="
 				+ socialUsers + "]";
 	}
 }

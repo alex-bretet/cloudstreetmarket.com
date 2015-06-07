@@ -3,6 +3,8 @@ package edu.zipcloud.core.util;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 public class DateUtil {
 	
 	public static Date getEndOfDay(Date date) {
@@ -26,10 +28,13 @@ public class DateUtil {
 	}
 	
 	public static Date getXMinPriorDate(Date date, int nbMinutes) {
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTime(date);
-	    calendar.set(Calendar.MINUTE, -nbMinutes);
-	    return calendar.getTime();
+	    return DateUtils.addMinutes(date, -1*nbMinutes);
 	}
-	
+
+	public static boolean isRecent(Date date, int nbMinutes) {
+		if(date==null){
+			throw new IllegalArgumentException("date parameter cannot be null!");
+		}
+		return date.after(getXMinPriorDate(new Date(), nbMinutes));
+	}
 }

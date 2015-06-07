@@ -8,13 +8,16 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 
-@XStreamAlias("stock")
+@XStreamAlias("resource")
 public class StockProductResource extends ResourceSupport implements Serializable  {
 
+	public static final String COMPONENTS = "components";
 	public static final String STOCKS = "stocks";
 	public static final String STOCKS_PATH = "/stocks";
 	
 	private static final long serialVersionUID = 3681041931966104346L;
+	
+	@XStreamAlias("stock")
 	private StockProduct product;
 
 	public StockProductResource(StockProduct product) {

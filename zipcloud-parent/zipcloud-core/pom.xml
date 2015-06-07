@@ -46,6 +46,11 @@
 				<groupId>org.scribe</groupId>
 				<artifactId>scribe-up</artifactId>
 			</dependency>
+			<dependency>
+				<groupId>net.sf.opencsv</groupId>
+				<artifactId>opencsv</artifactId>
+			</dependency>
+
 
 	</dependencies>
 

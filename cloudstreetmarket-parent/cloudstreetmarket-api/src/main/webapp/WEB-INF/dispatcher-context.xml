@@ -103,11 +103,48 @@
 	
 	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
 
-    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+    	<property name="autodetectAnnotations" value="true"/>
+	    <property name="aliasesByType">
+	        <map>
+	            <entry key="page" value="org.springframework.data.domain.Slice"/>
+	            <entry key="pageInfo" value="org.springframework.data.domain.Pageable"/>
+	            <entry key="sort" value="org.springframework.data.domain.Sort"/>
+	            <entry key="order" value="org.springframework.data.domain.Sort.Order"/>
+	            <entry key="link" value="org.springframework.hateoas.Link"/>
+	        </map>
+	    </property>
+	    <property name="omittedFields">
+	        <map>
+	            <entry key="org.springframework.hateoas.Link" value="template"/>
+	        </map>
+	    </property>
+	    <property name="converters">
+	    	<list>
+	    		<bean class="com.thoughtworks.xstream.converters.basic.DateConverter"/>
+	    	</list>
+	    </property>
+    </bean>
 
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 	<bean class="edu.zipcloud.cloudstreetmarket.api.config.AnnotationConfig"/>
-    
+
+    <bean class="org.springframework.social.connect.web.ProviderSignInController">
+	    <constructor-arg ref="connectionFactoryLocator"/>
+	    <constructor-arg ref="usersConnectionRepository"/>
+	    <constructor-arg ref="signInAdapter"/>
+	    <property name="signUpUrl" value="/oauth2/signup"/>
+	    <property name="postSignInUrl" value="${frontend.home.page.url}"/>
+    </bean>
+
+	<bean id="signInAdapter" class="edu.zipcloud.cloudstreetmarket.api.signin.SignInAdapterImpl"/>
+
+	<mvc:interceptors>
+		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
+	</mvc:interceptors>
+
+	<bean id="usersConnectionRepository" class="edu.zipcloud.cloudstreetmarket.core.services.SocialUserServiceImpl"/>
+
 	<bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
 	    <constructor-arg value="#{request.userPrincipal.name}" />
 	    <aop:scoped-proxy proxy-target-class="false" />
@@ -125,22 +162,6 @@
 	        </list>
 	    </property>
 	</bean>
-	
-	<bean id="usersConnectionRepository" class="edu.zipcloud.cloudstreetmarket.core.services.SocialUserServiceImpl"/>
-
-    <bean class="org.springframework.social.connect.web.ProviderSignInController">
-	    <constructor-arg ref="connectionFactoryLocator"/>
-	    <constructor-arg ref="usersConnectionRepository"/>
-	    <constructor-arg ref="signInAdapter"/>
-	    <property name="signUpUrl" value="/oauth2/signup"/>
-	    <property name="postSignInUrl" value="${frontend.home.page.url}"/>
-    </bean>
-
-	<bean id="signInAdapter" class="edu.zipcloud.cloudstreetmarket.api.signin.SignInAdapterImpl"/>
-    
-	<mvc:interceptors>
-		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
-	</mvc:interceptors>
 
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler/>

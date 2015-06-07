@@ -31,9 +31,9 @@
 						<li class="mini-color" 
 							ng-show="sortedField === 'name'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
-					<th><a href="" ng-click="setSort('code')">Symbol</a> 
+					<th><a href="" ng-click="setSort('id')">Symbol</a> 
 						<li class="mini-color" 
-							ng-show="sortedField === 'code'" 
+							ng-show="sortedField === 'id'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
 					<th><a href="" ng-click="setSort('dailyLatestValue')">Value</a>  
 						<li class="mini-color" 
@@ -57,30 +57,29 @@
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
 					<th><a href="" ng-click="setSort('previousClose')">Prev Close</a>  
 						<li class="mini-color" 
-							ng-show="sortedField === 'previousClose'" 
+							ng-show="sortedField === 'exchangeId'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
 					<th/>
 				</tr>
 		
 				<tr data-ng-repeat="value in indicesForMarket">
-					<td><a href=""><strong>{{value.name}}</strong></a></td>
-					<td>{{value.code}}</td>
-					<td><strong>{{value.latestValue}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
-					<td>{{value.high}}</td>
-					<td>{{value.low}}</td>
-					<td>{{value.prevClose}}</td>
+					<td><a href=""><strong>{{value.index.name}}</strong></a></td>
+					<td>{{value.index.id}}</td>
+					<td><strong>{{value.index.dailyLatestValue}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.index.dailyLatestChange}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.index.dailyLatestChangePercent}}%</strong></td>
+					<td>{{value.index.high}}</td>
+					<td>{{value.index.low}}</td>
+					<td>{{value.index.exchangeId}}</td>
 					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 				</tr>
 		
 			</table>
 			
 			<div class="pagination pagination-right pagination-mini block-pagination" >
-				<pagination page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
+				<pagination max-size="12" boundary-links="true"  page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
 			</div>
-	
-	
+
 		</div>
 
 	</div>

@@ -70,7 +70,7 @@ public class SocialUserServiceImpl implements SocialUserService {
 	public boolean isSocialUserAlreadyRegistered(String guid) {
 		return findSocialUserRegistered(guid).isPresent();
 	}
-	
+
 	private Optional<SocialUser> findSocialUserRegistered(String guid){
 		return socialUserRepository.findByProviderUserIdOrUserId(guid, guid).stream()
 				.filter(su -> userRepository.findOne(su.getUserId())!=null)

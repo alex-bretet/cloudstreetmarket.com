@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,45 +13,68 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableSerializer;
+import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 
 @Entity
 @Table(name="index_value")
+@XStreamAlias("index")
+@NamedEntityGraph(name="Index.exchange", attributeNodes={
+	    @NamedAttributeNode("exchange")
+	})
 public class Index extends AbstractId<String> implements Serializable{
 
 	private static final long serialVersionUID = -2919348303931939346L;
 
 	private String name;
-	
+
 	@Column(name="daily_latest_value")
 	private BigDecimal dailyLatestValue;
-	
+
 	@Column(name="daily_latest_change")
 	private BigDecimal dailyLatestChange;
-	
+
 	@Column(name="daily_latest_change_pc")
 	private BigDecimal dailyLatestChangePercent;
 
 	@Column(name = "previous_close")
 	private BigDecimal previousClose;
-	
+
 	private BigDecimal high;
-	
+
 	private BigDecimal low;
-	
-	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "market_id", nullable=true)
-	private Market market;
-	
+	@JsonSerialize(using=IdentifiableSerializer.class)
+	@JsonProperty("exchangeId")
+	@XStreamConverter(value=IdentifiableToIdConverter.class, strings={"id"})
+	@XStreamAlias("exchangeId")
+    private Exchange exchange;
+
 	@JsonIgnore
+	@XStreamOmitField
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "stock_indices", joinColumns = { @JoinColumn(name = "index_code") },
 			inverseJoinColumns = { @JoinColumn(name = "stock_code") })
-	private Set<StockProduct> stocks = new LinkedHashSet<>();
-	
+	private Set<StockProduct> components = new LinkedHashSet<>();
+
+	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdate;
+
 	public Index(){}
 	
 	public Index(String indexId) {
@@ -113,22 +137,30 @@ public class Index extends AbstractId<String> implements Serializable{
 		this.low = low;
 	}
 
-	public Market getMarket() {
-		return market;
+	public Set<StockProduct> getComponents() {
+		return components;
 	}
 
-	public void setMarket(Market market) {
-		this.market = market;
+	public void setComponents(Set<StockProduct> components) {
+		this.components = components;
 	}
 
-	public Set<StockProduct> getStocks() {
-		return stocks;
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
 
-	public void setStocks(Set<StockProduct> stocks) {
-		this.stocks = stocks;
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
-	
+
+	public Exchange getExchange() {
+		return exchange;
+	}
+
+	public void setExchange(Exchange exchange) {
+		this.exchange = exchange;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -158,6 +190,6 @@ public class Index extends AbstractId<String> implements Serializable{
 				+ ", dailyLatestChange=" + dailyLatestChange
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
 				+ ", previousClose=" + previousClose + ", high=" + high
-				+ ", low=" + low + ", market=" + market + "]";
+				+ ", low=" + low + ", exchange=" + exchange!= null ? exchange.getId() : null + "]";
 	}
 }

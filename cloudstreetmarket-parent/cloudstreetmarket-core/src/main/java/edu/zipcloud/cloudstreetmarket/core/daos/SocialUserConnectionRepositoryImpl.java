@@ -173,6 +173,7 @@ public class SocialUserConnectionRepositoryImpl implements ConnectionRepository 
 	
 	private Connection<?> findPrimaryConnection(String providerId) {
 		List<Connection<?>> connections = connectionMapper.mapEntities(socialUserRepository.getPrimary(userId,providerId));
+		
 		if (connections.size() > 0) {
 			return connections.get(0);
 		} else {

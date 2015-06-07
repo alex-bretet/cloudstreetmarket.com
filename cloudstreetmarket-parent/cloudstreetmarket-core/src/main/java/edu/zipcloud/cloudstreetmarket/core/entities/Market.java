@@ -1,28 +1,29 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
 @Entity
+@XStreamAlias("market")
 public class Market extends AbstractEnumId<MarketId> implements Serializable  {
 
 	private static final long serialVersionUID = -6433721069248439324L;
 	
 	private String name;
 
-	@OneToMany(mappedBy = "market", cascade = { CascadeType.ALL }, fetch=FetchType.LAZY)
-	@JsonIgnore
-	private Set<Index> indices = new LinkedHashSet<>();
-
+	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdate;
+	
 	public String getName() {
 		return name;
 	}
@@ -31,12 +32,12 @@ public class Market extends AbstractEnumId<MarketId> implements Serializable  {
 		this.name = name;
 	}
 
-	public Set<Index> getIndices() {
-		return indices;
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
 
-	public void setIndices(Set<Index> indices) {
-		this.indices = indices;
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
 	@Override

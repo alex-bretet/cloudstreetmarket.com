@@ -30,5 +30,5 @@ public interface ProfilesOperations {
      * Retrieves the tinyUserCard of the logged in user
      */
 	TinyUsercard getTinyUsercard();
-
+	
 }

@@ -4,20 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.GeneratedValue;
 
-import static javax.persistence.GenerationType.*;
-
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
 import org.springframework.hateoas.Identifiable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @MappedSuperclass
 @SuppressWarnings("rawtypes")
 public class AbstractTableGeneratedId<ID extends Serializable> implements Identifiable<ID> {
 
-	@Id 
-	@GeneratedValue(strategy = TABLE) 
-	@JsonIgnore 
+	@Id
+	@GeneratedValue(strategy=GenerationType.TABLE)
 	private ID id;
 	
 	@Override

@@ -4,15 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
 import org.springframework.hateoas.Identifiable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @MappedSuperclass
 @SuppressWarnings("rawtypes")
 public class AbstractId<ID extends Serializable> implements Identifiable<ID> {
 
 	@Id 
-	@JsonIgnore 
 	private ID id;
 
 	@Override

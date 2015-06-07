@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 
-@XStreamAlias("market")
+@XStreamAlias("resource")
 public class MarketResource extends ResourceSupport implements Serializable{
 
 	public static final String MARKET = "market";

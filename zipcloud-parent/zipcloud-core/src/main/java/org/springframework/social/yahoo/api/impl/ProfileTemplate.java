@@ -19,6 +19,8 @@ import org.springframework.social.yahoo.api.ProfilesOperations;
 import org.springframework.social.yahoo.module.TinyUsercard;
 import org.springframework.web.client.RestTemplate;
 
+import static org.springframework.social.yahoo.api.YahooAPIType.*;
+
 /**
  * Base class for all Profile operations performed against the Yahoo Social API.
  *
@@ -36,6 +38,6 @@ public class ProfileTemplate extends AbstractYahooOperations implements Profiles
 	@Override
 	public TinyUsercard getTinyUsercard() {
         requiresAuthorization();
-        return restTemplate.getForObject(buildUri("/profile/tinyusercard"), TinyUsercard.class);
+        return restTemplate.getForObject(buildUri(SOCIAL, "/profile/tinyusercard"), TinyUsercard.class);
 	}
 }

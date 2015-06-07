@@ -19,7 +19,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
-import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 
 @Api(value = "monitoring", description = "Cloudstreet Market administration console") // Swagger annotation
 @RestController
@@ -29,9 +28,6 @@ public class MonitoringController extends CloudstreetApiWCI{
 
 	@Autowired
 	private CommunityService communityService;
-
-	@Autowired
-	private SocialUserService socialUserService;
 	
 	@RequestMapping(value="/users/{username}", method=GET)
 	@ResponseStatus(HttpStatus.OK)

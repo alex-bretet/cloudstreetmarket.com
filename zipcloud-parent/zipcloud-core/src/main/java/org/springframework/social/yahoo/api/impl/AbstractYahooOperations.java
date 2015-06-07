@@ -15,13 +15,14 @@
  */
 package org.springframework.social.yahoo.api.impl;
 
-import org.springframework.social.NotAuthorizedException;
-import org.springframework.social.support.URIBuilder;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
 import java.net.URI;
 import java.util.Arrays;
+
+import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.support.URIBuilder;
+import org.springframework.social.yahoo.api.YahooAPIType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 /**
  * Base class for all operations performed against the Yahoo Social API.
@@ -31,6 +32,9 @@ import java.util.Arrays;
 abstract class AbstractYahooOperations {
 
     private static final String API_URL_BASE = "https://social.yahooapis.com/v1/user/%s";
+    private static final String FINANCIAL_API_URL_BASE = "http://finance.yahoo.com/d/";
+    private static final String FINANCIAL_CHARTS_API_URL_BASE = "http://real-chart.finance.yahoo.com/";
+    
     private static final LinkedMultiValueMap<String, String> EMPTY_PARAMETERS = new LinkedMultiValueMap<String, String>();
 
     private boolean isAuthorized;
@@ -47,22 +51,41 @@ abstract class AbstractYahooOperations {
         }
     }
 
-    protected String getApiUrlBase() {
-        return API_URL_BASE;
+    protected String getApiUrlBase(YahooAPIType apiType) {
+    	if(apiType.equals(YahooAPIType.FINANCIAL)){
+    		return FINANCIAL_API_URL_BASE;
+    	}
+    	else if(apiType.equals(YahooAPIType.FINANCIAL_CHARTS)){
+    		return FINANCIAL_CHARTS_API_URL_BASE;
+    	}
+    	else{
+    		return API_URL_BASE;
+    	}
     }
 
-    protected URI buildUri(String path) {
-        return buildUri(path, EMPTY_PARAMETERS);
+    protected URI buildUri(YahooAPIType api, String path) {
+        return buildUri(api, path, EMPTY_PARAMETERS);
     }
 
-    protected URI buildUri(String path, String parameterName, String parameterValue) {
+    protected URI buildUri(YahooAPIType api, String path, String parameterName, String parameterValue) {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.set(parameterName, parameterValue);
-        return buildUri(path, parameters);
+        return buildUri(api, path, parameters);
     }
 
-    protected URI buildUri(String path, MultiValueMap<String, String> parameters) {
-        parameters.put("format", Arrays.asList("json"));
-        return URIBuilder.fromUri(String.format(getApiUrlBase() + path, guid)).queryParams(parameters).build();
+    protected URI buildUri(YahooAPIType api, String path, MultiValueMap<String, String> parameters) {
+    	
+    	if(api.equals(YahooAPIType.FINANCIAL) || api.equals(YahooAPIType.FINANCIAL_CHARTS)){
+    		try {
+				return new URI(getApiUrlBase(api) + path.replaceAll("\\^", "%5E"));
+			} catch (Exception e) {
+				throw new RuntimeException(e.getCause());
+			}
+    	}
+    	else{
+    		parameters.put("format", Arrays.asList("json"));
+    		return URIBuilder.fromUri(String.format(getApiUrlBase(api) + path, guid)).queryParams(parameters).build();
+    	}
     }
+
 }

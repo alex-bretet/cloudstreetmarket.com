@@ -7,12 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 import edu.zipcloud.cloudstreetmarket.core.entities.Product;
 
 @Repository
 public interface ProductRepository<T extends Product> extends JpaRepository<T, String>, JpaSpecificationExecutor<T> {
-	Page<T> findByMarket(Market marketEntity, Pageable pageable);
 	Page<T> findByNameStartingWith(String param, Pageable pageable);
 	Page<T> findByNameStartingWith(String param, Specification<T> spec, Pageable pageable);
 }

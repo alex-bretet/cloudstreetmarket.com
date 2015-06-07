@@ -1,7 +1,12 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
-import static javax.ws.rs.HttpMethod.*;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_BASIC;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_OAUTH2;
+import static javax.ws.rs.HttpMethod.DELETE;
+import static javax.ws.rs.HttpMethod.GET;
+import static javax.ws.rs.HttpMethod.HEAD;
+import static javax.ws.rs.HttpMethod.OPTIONS;
+import static javax.ws.rs.HttpMethod.POST;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,8 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -28,9 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
-import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
+import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.cloudstreetmarket.core.util.UserDetailsUtil;
 
 @Component
@@ -61,7 +64,7 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
     private CommunityService communityService;
     
     @Autowired
-    private SocialUserService socialUserService;
+    private SocialUserService usersConnectionRepository;
 
 	public CloudstreetApiWCI(){
 		setRequireSession(false);
@@ -94,7 +97,7 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
 		String oAuthGuid = request.getHeader(SPI_HEADER);
 		UserDetails user = getPrincipal();
 		if(!StringUtils.isEmpty(oAuthGuid) || UserDetailsUtil.hasRole(user, ROLE_OAUTH2)){
-			SocialUser socialUser = socialUserService.getRegisteredSocialUser(oAuthGuid);
+			SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(oAuthGuid);
 			if(socialUser == null){
 				response.setHeader(MUST_REGISTER_HEADER, oAuthGuid);
 			}
@@ -125,17 +128,7 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
 	}
 
 	public UserDetails getPrincipal(){
-       SecurityContext securityContext = SecurityContextHolder.getContext();
-        if (securityContext != null) {
-            Authentication auth = securityContext.getAuthentication();
-	        if (auth != null) {
-	            Object principal = auth.getPrincipal();
-	            if (principal instanceof UserDetails) {
-	            	return (UserDetails) principal;
-	            }
-	        }
-        }
-        return new User();
+	   return AuthenticationUtil.getPrincipal();
 	}
 
 	@InitBinder

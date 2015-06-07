@@ -4,85 +4,309 @@ INSERT INTO market (id, name) values ('US', 'US');
 INSERT INTO market (id, name) values ('ASIA_PACIFIC', 'Asia / Pacific');
 INSERT INTO market (id, name) values ('AMERICAS', 'Americas');
 INSERT INTO market (id, name) values ('AFRICA_MIDDLE_EAST', 'Africas / Middle East');
+INSERT INTO market (id, name) values ('INTERNATIONAL', 'International');
 
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('^FTSE','FTSE 100','EUROPE', 18684.58, -610, -3.27, 19295.58, 19295.58, 18554.32);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('^GDAXI','DAX','EUROPE', 9622.43, -481.12, -0.05, 10103.55, 10103.55, 9622.43);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('^FCHI','CAC 40','EUROPE', 4179.07, -79.4, -1.90, 4258.47, 4258.47, 4179.07);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('^STOXX50E','EURO STOXX 50','EUROPE', 3128.42, -91.97, -2.94, 3220.39, 3220.39, 3128.42);
+insert into exchange (id, name, market_id) values('ASX','ASX','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('AMS','Amsterdam','EUROPE');
+insert into exchange (id, name, market_id) values('ASE','NYSE MKT','US');
+insert into exchange (id, name, market_id) values('ASQ','NYSE MKT','US');
+insert into exchange (id, name, market_id) values('ATH','Athens','EUROPE');
+insert into exchange (id, name, market_id) values('BAR','Barcelona','EUROPE');
+insert into exchange (id, name, market_id) values('BER','Berlin','EUROPE');
+insert into exchange (id, name, market_id) values('BRU','Brussels','EUROPE');
+insert into exchange (id, name, market_id) values('BSE','BSE','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('BTS','BATS','INTERNATIONAL');
+insert into exchange (id, name, market_id) values('BUE','Buenos Aires','AMERICAS');
+insert into exchange (id, name, market_id) values('CAI','EGX','AFRICA_MIDDLE_EAST');
+insert into exchange (id, name, market_id) values('CBT','CBOT','US');
+insert into exchange (id, name, market_id) values('CME','CME','AFRICA_MIDDLE_EAST');
+insert into exchange (id, name, market_id) values('CPH','Copenhagen','EUROPE');
+insert into exchange (id, name, market_id) values('CSE','Colombo','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('DJI','DJI','US');
+insert into exchange (id, name, market_id) values('DUS','Dusseldorf','EUROPE');
+insert into exchange (id, name, market_id) values('EBS','Swiss','EUROPE');
+insert into exchange (id, name, market_id) values('ENX','Euronext','EUROPE');
+insert into exchange (id, name, market_id) values('EUX','EUREX','EUROPE');
+insert into exchange (id, name, market_id) values('FGI','FTSE Index','EUROPE');
+insert into exchange (id, name, market_id) values('FRA','Frankfurt','EUROPE');
+insert into exchange (id, name, market_id) values('FSI','FTSE','EUROPE');
+insert into exchange (id, name, market_id) values('GER','XETRA','EUROPE');
+insert into exchange (id, name, market_id) values('HAM','Hamburg','EUROPE');
+insert into exchange (id, name, market_id) values('HAN','Hanover','EUROPE');
+insert into exchange (id, name, market_id) values('HKG','HKSE','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('IOB','IOB','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('ISE','Irish','EUROPE');
+insert into exchange (id, name, market_id) values('JKT','Jakarta','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('KBT','KBT','AFRICA_MIDDLE_EAST');
+insert into exchange (id, name, market_id) values('KLS','Kuala Lumpur','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('KOE','KOSDAQ','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('KSC','KSE','AFRICA_MIDDLE_EAST');
+insert into exchange (id, name, market_id) values('LIS','Lisbon','EUROPE');
+insert into exchange (id, name, market_id) values('LSE','London','EUROPE');
+insert into exchange (id, name, market_id) values('MAD','Madrid','EUROPE');
+insert into exchange (id, name, market_id) values('MCE','MCE','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('MCX','MCX','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('MDD','MDD','EUROPE');
+insert into exchange (id, name, market_id) values('MEX','Mexico','AMERICAS');
+insert into exchange (id, name, market_id) values('MIL','Milan','EUROPE');
+insert into exchange (id, name, market_id) values('MUN','Munich','EUROPE');
+insert into exchange (id, name, market_id) values('NAS','NasdaqGM','EUROPE');
+insert into exchange (id, name, market_id) values('NCM','NasdaqCM','US');
+insert into exchange (id, name, market_id) values('NGM','NasdaqCM','US');
+insert into exchange (id, name, market_id) values('NIM','Nasdaq GIDS','US');
+insert into exchange (id, name, market_id) values('NMS','NasdaqGS','US');
+insert into exchange (id, name, market_id) values('NSI','NSE','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('NYB','NYBOT','US');
+insert into exchange (id, name, market_id) values('NYQ','NYSE','US');
+insert into exchange (id, name, market_id) values('NYS','NYSE','US');
+insert into exchange (id, name, market_id) values('NZE','NZSE','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('OBB','OTC BB','US');
+insert into exchange (id, name, market_id) values('OSA','Osaka','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('OSL','Oslo','EUROPE');
+insert into exchange (id, name, market_id) values('PAR','Paris','EUROPE');
+insert into exchange (id, name, market_id) values('PCX','NYSEArca','US');
+insert into exchange (id, name, market_id) values('PHS','Philippine','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('PNK','Other OTC','INTERNATIONAL');
+insert into exchange (id, name, market_id) values('PRA','Prague','EUROPE');
+insert into exchange (id, name, market_id) values('RUS','RUS','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('SAO','Sao Paolo','AMERICAS');
+insert into exchange (id, name, market_id) values('SES','SES','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('SGO','Santiago','AMERICAS');
+insert into exchange (id, name, market_id) values('SHH','Shanghai','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('SHZ','Shenzhen','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('SNP','SNP','US');
+insert into exchange (id, name, market_id) values('STO','Stockholm','EUROPE');
+insert into exchange (id, name, market_id) values('STU','Stuttgart','EUROPE');
+insert into exchange (id, name, market_id) values('TAI','Taiwan','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('TLO','TLO','INTERNATIONAL');
+insert into exchange (id, name, market_id) values('TLV','Tel Aviv','AFRICA_MIDDLE_EAST');
+insert into exchange (id, name, market_id) values('TOR','Toronto','AMERICAS');
+insert into exchange (id, name, market_id) values('TSI','Toronto','AMERICAS');
+insert into exchange (id, name, market_id) values('TWO','Taiwan OTC','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('VAN','TSXV','AMERICAS');
+insert into exchange (id, name, market_id) values('VIE','Vienna','EUROPE');
+insert into exchange (id, name, market_id) values('VTX','VTX','EUROPE');
+insert into exchange (id, name, market_id) values('WCB','Chicago Options','US');
+insert into exchange (id, name, market_id) values('XPH','Philadelphia','US');
+insert into exchange (id, name, market_id) values('YHI','YHI','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('YHO','YHO','INTERNATIONAL');
+insert into exchange (id, name, market_id) values('ZRH','Zurich','EUROPE');
 
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^DJI','30 Industrials','US', 			17985.77, 			-44.08, 				-0.24, 				 18029.85, 			18028.67, 	17924.60);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^OEX','S&P 100 INDEX','US', 			921.34, 			-1.83, 				-0.20, 				 923.17, 			923.41, 	918.45);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^NDX','NASDAQ-100','US', 				4411.86, 			20.95, 				 0.48, 				 	 4390.91, 			4415.79, 	4388.44);
-
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^N225','Nikkei 225','ASIA_PACIFIC', 				18332.30, 			 67.51, 				0.37, 				 18029.85, 			18360.92, 	18297.67);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^HSI','Hang Seng','ASIA_PACIFIC', 					24832.08, 			 47.20, 				0.19, 				 24784.88, 			24871.79, 	24806.06);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^STI','STI Index','ASIA_PACIFIC', 					3435.66, 			 19.75, 				0.58, 				 3415.91, 			3443.05, 	3425.89);
-
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^MERV','MERVAL BUENOS AIRES','AMERICAS', 				9388.58, 			 -124.58, 				-1.31, 				 9513.16, 			9508.79, 9233.48);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^BVSP','IBOVESPA','AMERICAS', 				51294.03, 			 13.67, 				0.03, 				 51280.36, 		51638.40,	50869.51);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, 	high, 		low) 
-values ('^GSPTSE','S&P/TSX Composite index','AMERICAS', 				15180.33, 			 -32.42, 				-0.21, 				 15212.75, 			 15211.81, 15099.91);
-
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, 						previous_close, 	high, 		low) 
-values ('^CCSI','EGX 70 PRICE INDEX','AFRICA_MIDDLE_EAST', 				574.03, 			 -3.62, 				-0.63, 				 574.03, 			581.07, 	573.98);
-INSERT INTO index_value (id, name, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, 						previous_close, 	high, 		low) 
-values ('^TA100','TEL AVIV TA-100 IND','AFRICA_MIDDLE_EAST', 				1310.82, 			 3.21, 				0.25, 				 1310.82, 			1315.06, 1305.01);
-
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',3, 3042.90, 9813.99, TIMESTAMP '2014-11-15 08:30:00', TIMESTAMP '2014-11-15 09:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -2.37, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',4, 3042.90, 9823.65, TIMESTAMP '2014-11-15 09:00:00', TIMESTAMP '2014-11-15 09:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.24, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',5, 3042.90, 9832.74, TIMESTAMP '2014-11-15 09:30:00', TIMESTAMP '2014-11-15 10:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.15, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',6, 3042.90, 9841.89, TIMESTAMP '2014-11-15 10:00:00', TIMESTAMP '2014-11-15 10:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.05, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',7, 3042.90, 9816.16, TIMESTAMP '2014-11-15 10:30:00', TIMESTAMP '2014-11-15 11:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.33, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',8, 3042.90, 9812.43, TIMESTAMP '2014-11-15 11:00:00', TIMESTAMP '2014-11-15 11:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.35, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',9, 3042.90, 9783.31, TIMESTAMP '2014-11-15 11:30:00', TIMESTAMP '2014-11-15 12:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.65, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',10, 3042.90, 9794.27, TIMESTAMP '2014-11-15 12:00:00', TIMESTAMP '2014-11-15 12:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.54, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',11, 3042.90, 9782.48, TIMESTAMP '2014-11-15 12:30:00', TIMESTAMP '2014-11-15 13:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.66, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',12, 3042.90, 9779.11, TIMESTAMP '2014-11-15 13:00:00', TIMESTAMP '2014-11-15 13:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.67, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',13, 3042.90, 9785.61, TIMESTAMP '2014-11-15 13:30:00', TIMESTAMP '2014-11-15 14:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.63, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',14, 3042.90, 9785.82, TIMESTAMP '2014-11-15 14:00:00', TIMESTAMP '2014-11-15 14:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.62, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',15, 3042.90, 9819.03, TIMESTAMP '2014-11-15 14:30:00', TIMESTAMP '2014-11-15 15:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.29, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',16, 3042.90, 9823.62, TIMESTAMP '2014-11-15 15:00:00', TIMESTAMP '2014-11-15 15:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -0.24, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',17, 3042.90, 9724.61, TIMESTAMP '2014-11-15 15:30:00', TIMESTAMP '2014-11-15 16:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -1.25, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',18, 3042.90, 9684.22, TIMESTAMP '2014-11-15 16:00:00', TIMESTAMP '2014-11-15 16:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -1.66, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',19, 3042.90, 9675.03, TIMESTAMP '2014-11-15 16:30:00', TIMESTAMP '2014-11-15 17:00:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -1.75, '^GDAXI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',20, 3042.90, 9622.43, TIMESTAMP '2014-11-15 17:00:00', TIMESTAMP '2014-11-15 17:30:00', 'MINUTE_30', 3042.90, 3042.90, 3042.90, 0, -2.32, '^GDAXI');
-
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',21, 18177.09, 18177.09, TIMESTAMP '2014-11-15 17:00:00', TIMESTAMP '2014-11-15 17:30:00', 'MINUTE_30', 18684.58, 18684.58, 18684.58, 0, -3.27, '^FTSE');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',22, 4179.07, 4179.07,   TIMESTAMP '2014-11-15 17:00:00', TIMESTAMP '2014-11-15 17:30:00', 'MINUTE_30', 4179.07,  4249.26, 4179.07,  0, -1.90, '^FCHI');
-INSERT INTO historic (historic_type, id, adj_close, close, from_date, to_date, interval, high, low, open, volume, change_percent, index_code)
-values ('idx',23, 3042.90, 3042.90, TIMESTAMP '2014-11-15 17:00:00', TIMESTAMP '2014-11-15 17:30:00', 'MINUTE_30', 3042.90, 3128.42, 3128.42, 0, -2.94, '^STOXX50E');
+insert into industry(label,id) values ('N/A',0);
+insert into industry(label,id) values ('Advertising Agencies',720);
+insert into industry(label,id) values ('Aerospace/Defense - Major Diversified',610);
+insert into industry(label,id) values ('Aerospace/Defense Products & Services',611);
+insert into industry(label,id) values ('Air Delivery & Freight Services',773);
+insert into industry(label,id) values ('Application Software',821);
+insert into industry(label,id) values ('Asset Management',422);
+insert into industry(label,id) values ('Auto Parts',333);
+insert into industry(label,id) values ('Auto Parts Wholesale',750);
+insert into industry(label,id) values ('Basic Materials Wholesale',758);
+insert into industry(label,id) values ('Beverages - Soft Drinks',348);
+insert into industry(label,id) values ('Beverages - Wineries & Distillers',347);
+insert into industry(label,id) values ('Biotechnology',515);
+insert into industry(label,id) values ('Broadcasting - Radio',724);
+insert into industry(label,id) values ('Broadcasting - TV',723);
+insert into industry(label,id) values ('Business Services',760);
+insert into industry(label,id) values ('Business Software & Services',826);
+insert into industry(label,id) values ('Cigarettes',350);
+insert into industry(label,id) values ('Cleaning Products',326);
+insert into industry(label,id) values ('Communication Equipment',841);
+insert into industry(label,id) values ('Computer Peripherals',815);
+insert into industry(label,id) values ('Conglomerates',210);
+insert into industry(label,id) values ('Consumer Services',763);
+insert into industry(label,id) values ('Copper',131);
+insert into industry(label,id) values ('Diagnostic Substances',516);
+insert into industry(label,id) values ('Diversified Communication Services',846);
+insert into industry(label,id) values ('Diversified Electronics',836);
+insert into industry(label,id) values ('Diversified Machinery',622);
+insert into industry(label,id) values ('Diversified Utilities',913);
+insert into industry(label,id) values ('Drug Manufacturers - Major',510);
+insert into industry(label,id) values ('Drug Manufacturers - Other',511);
+insert into industry(label,id) values ('Electric Utilities',911);
+insert into industry(label,id) values ('Electronic Equipment',314);
+insert into industry(label,id) values ('Food - Major Diversified',340);
+insert into industry(label,id) values ('Food Wholesale',757);
+insert into industry(label,id) values ('Gas Utilities',912);
+insert into industry(label,id) values ('Gold',134);
+insert into industry(label,id) values ('Heavy Construction',635);
+insert into industry(label,id) values ('Home Furnishings & Fixtures',311);
+insert into industry(label,id) values ('Hospitals',524);
+insert into industry(label,id) values ('Housewares & Accessories',312);
+insert into industry(label,id) values ('Independent Oil & Gas',121);
+insert into industry(label,id) values ('Industrial Electrical Equipment',627);
+insert into industry(label,id) values ('Industrial Equipment & Components',621);
+insert into industry(label,id) values ('Industrial Metals & Minerals',133);
+insert into industry(label,id) values ('Information Technology Services',824);
+insert into industry(label,id) values ('Internet Service Providers',850);
+insert into industry(label,id) values ('Internet Software & Services',852);
+insert into industry(label,id) values ('Investment Brokerage - National',420);
+insert into industry(label,id) values ('Jewelry Stores',742);
+insert into industry(label,id) values ('Long Distance Carriers',843);
+insert into industry(label,id) values ('Long-Term Care Facilities',523);
+insert into industry(label,id) values ('Machine Tools & Accessories',624);
+insert into industry(label,id) values ('Major Integrated Oil & Gas',120);
+insert into industry(label,id) values ('Manufactured Housing',631);
+insert into industry(label,id) values ('Medical Appliances & Equipment',521);
+insert into industry(label,id) values ('Medical Instruments & Supplies',520);
+insert into industry(label,id) values ('Medical Laboratories & Research',525);
+insert into industry(label,id) values ('Metal Fabrication',626);
+insert into industry(label,id) values ('Mortgage Investment',447);
+insert into industry(label,id) values ('Multimedia & Graphics Software',820);
+insert into industry(label,id) values ('Nonmetallic Mineral Mining',136);
+insert into industry(label,id) values ('Oil & Gas Drilling & Exploration',123);
+insert into industry(label,id) values ('Oil & Gas Equipment & Services',124);
+insert into industry(label,id) values ('Oil & Gas Pipelines',125);
+insert into industry(label,id) values ('Oil & Gas Refining & Marketing',122);
+insert into industry(label,id) values ('Paper & Paper Products',324);
+insert into industry(label,id) values ('Photographic Equipment & Supplies',318);
+insert into industry(label,id) values ('Pollution & Treatment Controls',623);
+insert into industry(label,id) values ('Printed Circuit Boards',835);
+insert into industry(label,id) values ('Processed & Packaged Goods',342);
+insert into industry(label,id) values ('Property Management',448);
+insert into industry(label,id) values ('Real Estate Development',449);
+insert into industry(label,id) values ('Regional - Mid-Atlantic Banks',412);
+insert into industry(label,id) values ('Regional - Midwest Banks',414);
+insert into industry(label,id) values ('Regional - Northeast Banks',411);
+insert into industry(label,id) values ('REIT - Diversified',440);
+insert into industry(label,id) values ('REIT - Hotel/Motel',443)
+insert into industry(label,id) values ('REIT - Office',441);
+insert into industry(label,id) values ('REIT - Retail',446);
+insert into industry(label,id) values ('Rental & Leasing Services',761);
+insert into industry(label,id) values ('Resorts & Casinos',711);
+insert into industry(label,id) values ('Restaurants',712);
+insert into industry(label,id) values ('Rubber & Plastics',322);
+insert into industry(label,id) values ('Savings & Loans',419);
+insert into industry(label,id) values ('Security & Protection Services',765);
+insert into industry(label,id) values ('Security Software & Services',823);
+insert into industry(label,id) values ('Semiconductor - Integrated Circuits',833);
+insert into industry(label,id) values ('Semiconductor Equipment & Materials',834);
+insert into industry(label,id) values ('Shipping',775);
+insert into industry(label,id) values ('Silver',135);
+insert into industry(label,id) values ('Specialized Health Services',528);
+insert into industry(label,id) values ('Specialty Chemicals',113);
+insert into industry(label,id) values ('Specialty Eateries',713);
+insert into industry(label,id) values ('Staffing & Outsourcing Services',764);
+insert into industry(label,id) values ('Steel & Iron',130);
+insert into industry(label,id) values ('Technical Services',767);
+insert into industry(label,id) values ('Telecom Services - Domestic',844);
+insert into industry(label,id) values ('Textile - Apparel Clothing',320);
+insert into industry(label,id) values ('Trucks & Other Vehicles',331);
+insert into industry(label,id) values ('Waste Management',637);
+insert into industry(label,id) values ('Wireless Communications',840);
+insert into industry(label,id) values ('Accident & Health Insurance',431);
+insert into industry(label,id) values ('Agricultural Chemicals',112);
+insert into industry(label,id) values ('Apparel Stores',730);
+insert into industry(label,id) values ('Auto Dealerships',744);
+insert into industry(label,id) values ('Chemicals - Major Diversified',110);
+insert into industry(label,id) values ('Confectioners',345);
+insert into industry(label,id) values ('Credit Services',424);
+insert into industry(label,id) values ('Department Stores',731);
+insert into industry(label,id) values ('Discount, Variety Stores',732);
+insert into industry(label,id) values ('Drugs - Generic',512);
+insert into industry(label,id) values ('Education & Training Services',766);
+insert into industry(label,id) values ('Entertainment - Diversified',722);
+insert into industry(label,id) values ('Farm Products',341);
+insert into industry(label,id) values ('Gaming Activities',714);
+insert into industry(label,id) values ('General Building Materials',634);
+insert into industry(label,id) values ('General Contractors',636);
+insert into industry(label,id) values ('Grocery Stores',734);
+insert into industry(label,id) values ('Healthcare Information Services',825);
+insert into industry(label,id) values ('Insurance Brokers',434);
+insert into industry(label,id) values ('Internet Information Providers',851);
+insert into industry(label,id) values ('Lodging',710);
+insert into industry(label,id) values ('Major Airlines',770);
+insert into industry(label,id) values ('Money Center Banks',410);
+insert into industry(label,id) values ('Packaging & Containers',325);
+insert into industry(label,id) values ('Personal Services',762);
+insert into industry(label,id) values ('Property & Casualty Insurance',432);
+insert into industry(label,id) values ('Publishing - Newspapers',727);
+insert into industry(label,id) values ('Recreational Goods, Other',317);
+insert into industry(label,id) values ('Recreational Vehicles',332);
+insert into industry(label,id) values ('Scientific & Technical Instruments',837);
+insert into industry(label,id) values ('Semiconductor - Broad Line',830);
+insert into industry(label,id) values ('Specialty Retail, Other',745);
+insert into industry(label,id) values ('Technical & System Software',822);
+insert into industry(label,id) values ('Air Services, Other',772);
+insert into industry(label,id) values ('Aluminum',132);
+insert into industry(label,id) values ('Auto Manufacturers - Major',330);
+insert into industry(label,id) values ('Beverages - Brewers',346);
+insert into industry(label,id) values ('Business Equipment',313);
+insert into industry(label,id) values ('CATV Systems',725);
+insert into industry(label,id) values ('Computer Based Systems',812);
+insert into industry(label,id) values ('Data Storage Devices',813);
+insert into industry(label,id) values ('Drug Delivery',513);
+insert into industry(label,id) values ('Electronics Wholesale',753);
+insert into industry(label,id) values ('Farm & Construction Machinery',620);
+insert into industry(label,id) values ('Health Care Plans',522);
+insert into industry(label,id) values ('Home Improvement Stores',736);
+insert into industry(label,id) values ('Industrial Equipment Wholesale',752);
+insert into industry(label,id) values ('Life Insurance',430);
+insert into industry(label,id) values ('Marketing Services',721);
+insert into industry(label,id) values ('Medical Equipment Wholesale',754);
+insert into industry(label,id) values ('Personal Products',323);
+insert into industry(label,id) values ('Railroads',776);
+insert into industry(label,id) values ('Semiconductor- Memory Chips',831);
+insert into industry(label,id) values ('Textile - Apparel Footwear & Accessories',321);
+insert into industry(label,id) values ('Textile Industrial',628);
+insert into industry(label,id) values ('REIT - Industrial',444);
+insert into industry(label,id) values ('Residential Construction',630);
+insert into industry(label,id) values ('Lumber, Wood Production',632);
+insert into industry(label,id) values ('Tobacco Products, Other',351);
+insert into industry(label,id) values ('Trucking',774);
+insert into industry(label,id) values ('REIT - Healthcare Facilities',442);
+insert into industry(label,id) values ('Water Utilities',914);
+insert into industry(label,id) values ('Building Materials Wholesale',751);
+insert into industry(label,id) values ('Catalog & Mail Order Houses',739);
+insert into industry(label,id) values ('Diversified Computer Systems',810);
+insert into industry(label,id) values ('Diversified Investments',423);
+insert into industry(label,id) values ('Drug Stores',733);
+insert into industry(label,id) values ('Electronics Stores',735);
+insert into industry(label,id) values ('Foreign Regional Banks',418);
+insert into industry(label,id) values ('General Entertainment',716);
+insert into industry(label,id) values ('Investment Brokerage - Regional',421);
+insert into industry(label,id) values ('Management Services',769);
+insert into industry(label,id) values ('Movie Production, Theaters',726);
+insert into industry(label,id) values ('Networking & Communication Devices',814);
+insert into industry(label,id) values ('Processing Systems & Products',842);
+insert into industry(label,id) values ('Regional - Pacific Banks',416);
+insert into industry(label,id) values ('Regional - Southeast Banks',413);
+insert into industry(label,id) values ('Regional - Southwest  Banks',415);
+insert into industry(label,id) values ('Research Services',768);
+insert into industry(label,id) values ('Semiconductor - Specialized',832);
+insert into industry(label,id) values ('Sporting Goods Stores',740);
+insert into industry(label,id) values ('Synthetics',111);
+insert into industry(label,id) values ('Computers Wholesale',755);
+insert into industry(label,id) values ('Drug Related Products',514);
+insert into industry(label,id) values ('Meat Products',343);
+insert into industry(label,id) values ('Music & Video Stores',743);
+insert into industry(label,id) values ('Publishing - Books',729);
+insert into industry(label,id) values ('Publishing - Periodicals',728);
+insert into industry(label,id) values ('Small Tools & Accessories',625);
+insert into industry(label,id) values ('Sporting Activities',715);
+insert into industry(label,id) values ('Sporting Goods',316);
+insert into industry(label,id) values ('Surety & Title Insurance',433);
+insert into industry(label,id) values ('Toys & Games',315);
+insert into industry(label,id) values ('Appliances',310);
+insert into industry(label,id) values ('Auto Parts Stores',738);
+insert into industry(label,id) values ('Closed-End Fund - Debt',425);
+insert into industry(label,id) values ('Dairy Products',344);
+insert into industry(label,id) values ('Foreign Money Center Banks',417);
+insert into industry(label,id) values ('Home Furnishing Stores',737);
+insert into industry(label,id) values ('Home Health Care',526);
+insert into industry(label,id) values ('Information & Delivery Services',827);
+insert into industry(label,id) values ('Regional Airlines',771);
+insert into industry(label,id) values ('REIT - Residential',445);
+insert into industry(label,id) values ('Telecom Services - Foreign',845);
+insert into industry(label,id) values ('Cement',633);
+insert into industry(label,id) values ('Closed-End Fund - Equity',426);
+insert into industry(label,id) values ('Drugs Wholesale',756);
+insert into industry(label,id) values ('Foreign Utilities',910);
+insert into industry(label,id) values ('Office Supplies',327);
+insert into industry(label,id) values ('Toy & Hobby Stores',741);
+insert into industry(label,id) values ('Medical Practitioners',527);
+insert into industry(label,id) values ('Wholesale, Other',759);
+insert into industry(label,id) values ('Closed-End Fund - Foreign',427);
 
 insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('happyFace8', '', 'fake1@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', 'img/young-lad.jpg', true, true, true);
 insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('actionMan9', '', 'fake2@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
@@ -98,104 +322,18 @@ insert into users(id, fullname, email, password, profileImg, enabled, not_expire
 insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('userC', '', 'fake12@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
 insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('admin', '', 'admin@fake.com', '$2a$10$VLKFFxRChNwxyciHMKYcvOsrCzy4HcucDen2aTS7oQO84ZhN96.0G', '', true, true, true);
 
-insert into authorities(userid, authority) values ('happyFace8', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('actionMan9', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('other9', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('randomGuy34', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('traderXX', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('userB', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('happyFace9', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('actionMan10', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('other10', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('randomGuy35', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('traderYY', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('userC', 'ROLE_BASIC');
-insert into authorities(userid, authority) values ('admin', 'ROLE_ADMIN');
-insert into authorities(userid, authority) values ('admin', 'ROLE_BASIC');
-
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('ABF.L', 'Associated British Foods PLC','GBP', 'EUROPE', 2.948, -22, -0.75, 2.970, 2.970, 2.948);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('III.L', '3i Group PLC','GBP', 'EUROPE', 472.50, 1.90, 0.40, 470.6, 472.50, 470.6);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('DGE.L', 'Diageo PLC','GBP', 'EUROPE', 1.885, 46, 2.5, 1839, 1885, 1839);
-
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('NXT.L', 'Next Plc','EUR', 'EUROPE', 10.12, 0.248, 2.45, 9.87, 10.12, 9.87);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('CCH.L', 'COCA-COLA HBC N','USD', 'US', 6.45, 0.1, 1.55, 6.35, 6.45, 6.35);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('C6L.SI', 'SIA','SGD', 'ASIA_PACIFIC', 3.25, 0.04, 1.23, 3.21, 3.25, 3.21);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('ALV.DE', 'Allianz SE','EUR', 'EUROPE', 147.2, 2.78, 1.89, 144.42, 147.2, 144.42);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('MM.IN', 'Mahindra & Mahindra Ltd','INR', 'ASIA_PACIFIC', 23.48, -0.06, -0.25, 23.54, 23.54, 23.48);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('000917.CH', 'Hunan TV & Broadcast Intermediary Co Ltd','CNY', 'ASIA_PACIFIC', 12.09, -0.296, -2.45, 12.386, 12.386, 12.09);
-
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('H78.SI', 'Hongkong Land Holdings Limited','USD', 'ASIA_PACIFIC', 7.81, 0.182, 2.34, 7.62, 7.81, 7.62);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('N21.SI', 'Noble Group Limited','SGD', 'ASIA_PACIFIC', 1.05, 0.036, 3.42, 1.01, 1.05, 1.01);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('CSCO', 'Cisco Systems, Inc.','USD', 'US', 55.12, 1.21, 2.1, 53.91, 55.12, 53.91);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('MCD', 'McDonald''s Corp.','USD', 'US', 32.68, -2.25, -6.68, 34.93, 34.93, 32.68);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('600660.CH', 'Fuyao Glass Industry Group Co Ltd','CNY', 'ASIA_PACIFIC', 45.89, -1.25, -2.7, 45.89, 47.14, 45.89);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('V', 'Visa Inc.', 'USD', 'US', 98.14, 2.25, 2.3, 98.14, 100.39, 98.14);
-
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('2802.JP', 'Ajinomoto Co Inc', 'JPY', 'ASIA_PACIFIC', 2243.5, -36.5, -1.6, 2290.0, 2290.0, 2243.5);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('4568.JP', 'Daiichi Sankyo Co Ltd', 'JPY', 'ASIA_PACIFIC', 1841.5, -12.5, -0.67, 1859.5, 1859.5, 1841.5);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('WPRO.IN', 'Wipro Ltd', 'INR', 'ASIA_PACIFIC', 650.55, -8.95, -1.36, 659.50, 659.50, 650.55);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('SSABA.SS', 'SSAB AB', 'SEK', 'EUROPE', 50.0000, -0.4000, -0.79, 50.5000, 50.5000, 50.0000);
-insert into stock_product(id, name, currency, market_id, daily_latest_value, daily_latest_change, daily_latest_change_pc, previous_close, high, low) 
-values ('NDA.SS', 'Nordea Bank AB', 'SEK', 'EUROPE', 110.2000, -0.4000, -0.36, 110.5000, 110.5000, 110.2000);
-
-insert into stock_indices(index_code, stock_code) values ('^NDX', 'CCH.L');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (1, TIMESTAMP '2014-11-15 11:12:00', 3, 2.9, 2.8, 3, 2.9, 3, 2.9, 'NXT.L');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (1, 6, 'BUY', 1 , 'happyFace8', TIMESTAMP '2014-11-15 11:12:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (2, TIMESTAMP '2014-11-15 10:46:00', 13, 12, 12, 13, 12, 13, 12, 'ABF.L');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (2, 6, 'SELL', 2 , 'actionMan9', TIMESTAMP '2014-11-15 10:46:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (3, TIMESTAMP '2014-11-15 10:46:00', 9.5, 9, 9, 9.5, 9, 9.5, 9, 'CCH.L');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (3, 6, 'BUY', 3 , 'other9', TIMESTAMP '2014-11-15 10:46:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (4, TIMESTAMP '2014-11-15 09:55:00', 32, 30, 30, 32, 30,32, 30, 'ALV.DE');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (4, 6, 'BUY', 4 , 'randomGuy34', TIMESTAMP '2014-11-15 09:55:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (5, TIMESTAMP '2014-11-15 09:50:00', 15, 14, 14, 15, 14, 15, 14, 'H78.SI');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (5, 6, 'BUY', 5 , 'traderXX', TIMESTAMP '2014-11-15 09:50:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (6, TIMESTAMP '2014-11-15 09:46:00', 7, 6, 6, 7, 6,7, 6, 'N21.SI');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (6, 6, 'BUY', 6 , 'userB', TIMESTAMP '2014-11-15 09:46:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (7, TIMESTAMP '2014-11-14 11:12:00', 3, 2.9, 2.8, 3, 2.9,3, 2.9, 'CCH.L');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (7, 6, 'BUY', 7 , 'happyFace9', TIMESTAMP '2014-11-14 11:12:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (8, TIMESTAMP '2014-11-14 10:46:00', 13, 12, 12, 13, 12,13, 12, '600660.CH');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (8, 6, 'SELL', 8 , 'actionMan10', TIMESTAMP '2014-11-14 10:46:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (9, TIMESTAMP '2014-11-14 10:46:00', 9.5, 9, 9, 9.5, 9, 9.5, 9, 'MM.IN');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (9, 6, 'BUY', 9 , 'other10', TIMESTAMP '2014-11-14 10:46:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (10, TIMESTAMP '2014-11-14 09:55:00', 32, 30, 30, 32, 30,32, 30, 'V');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (10, 6, 'BUY', 10 , 'randomGuy35', TIMESTAMP '2014-11-14 09:55:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (11, TIMESTAMP '2014-11-14 09:50:00', 15, 14, 14, 15, 14,15, 14, 'MCD');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (11, 6, 'BUY', 11 , 'traderYY', TIMESTAMP '2014-11-14 09:50:00', 'trans');
-
-insert into stock_quote(id, date, last, open, previous_close, ask, bid, high, low, stock_code) values (12, TIMESTAMP '2014-11-14 09:46:00', 7, 6, 6, 7, 6, 7, 6, 'N21.SI');
-insert into user_action(id, quantity, type, stock_quote_id, user_name, date, action_type) values (12, 6, 'BUY', 12 , 'userC', TIMESTAMP '2014-11-14 09:46:00', 'trans');
-
-insert into index_quote(id, date, last, open, previous_close, high, low, index_code) values (1, TIMESTAMP '2014-11-15 09:46:00', 6796.63, 6796.63, 6796.63, 6796.63, 6796.63, '^FTSE');
-insert into index_quote(id, date, last, open, previous_close, high, low, index_code) values (2, TIMESTAMP '2014-11-15 10:46:00', 6547.80, 6547.80, 6547.80, 6796.63, 6796.63, '^GDAXI');
-
+insert into authorities(user_id, authority) values ('happyFace8', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('actionMan9', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('other9', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('randomGuy34', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('traderXX', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('userB', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('happyFace9', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('actionMan10', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('other10', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('randomGuy35', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('traderYY', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('userC', 'ROLE_BASIC');
+insert into authorities(user_id, authority) values ('admin', 'ROLE_ADMIN');
+insert into authorities(user_id, authority) values ('admin', 'ROLE_BASIC');
 

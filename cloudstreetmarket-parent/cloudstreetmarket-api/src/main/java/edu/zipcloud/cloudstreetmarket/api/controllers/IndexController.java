@@ -19,9 +19,9 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 import edu.zipcloud.cloudstreetmarket.api.converters.IndexResourceConverter;
 import edu.zipcloud.cloudstreetmarket.api.resources.IndexResource;
+import edu.zipcloud.cloudstreetmarket.api.services.IndexService;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
-import edu.zipcloud.cloudstreetmarket.core.services.IndexService;
 import static edu.zipcloud.cloudstreetmarket.api.resources.IndexResource.*;
 
 @Api(value = INDICES, description = "Financial indices") // Swagger annotation
@@ -39,14 +39,15 @@ public class IndexController extends CloudstreetApiWCI {
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get overviews of indices", notes = "Return a page of index-overviews")
 	public Page<IndexResource> getSeveral(
+			@RequestParam(value="exchange", required=false) String exchangeId,
 			@RequestParam(value="market", required=false) MarketId marketId,
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){
-		return indexService.getIndicesByMarket(marketId, pageable).map(converter);
+		return indexService.gather(exchangeId, marketId, pageable).map(converter);
 	}
 	
 	@RequestMapping(value="/{index}", method=GET)
 	@ApiOperation(value = "Get an overviews of one index", notes = "Return an index-overview")
 	public IndexResource get(@PathVariable(value="index") String indexId){
-		return converter.convert(indexService.getIndex(indexId));
+		return converter.convert(indexService.gather(indexId));
 	}
 }

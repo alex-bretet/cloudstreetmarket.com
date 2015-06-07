@@ -5,6 +5,7 @@
  	xmlns:context="http://www.springframework.org/schema/context"  
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
@@ -15,6 +16,8 @@
 		http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
         http://www.springframework.org/schema/tx 
         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/context  
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/security 
@@ -62,9 +65,17 @@
 
 	<jdbc:initialize-database data-source="dataSource">
 	    <jdbc:script location="classpath:/META-INF/db/init.sql"/>
+	    <jdbc:script location="classpath:/META-INF/db/indices.sql"/>
+	    <jdbc:script location="classpath:/META-INF/db/stocks.sql"/>
+	    <jdbc:script location="classpath:/META-INF/db/histo.sql"/>
 	</jdbc:initialize-database>
 
     <tx:annotation-driven transaction-manager="transactionManager"
         proxy-target-class="true" />
+
+	<bean id="yahooTemplate" class="org.springframework.social.yahoo.api.impl.Yahoo2Template">
+          <constructor-arg value="${yahoo.client.token}" />
+          <constructor-arg value="${yahoo.client.secret}" />	
+	</bean>
 
 </beans>

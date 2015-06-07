@@ -23,20 +23,20 @@
 				<th>%+/-</th>
 				<th>High</th>
 				<th>Low</th>
-				<th>Prev Close</th>
+				<th>Exchange</th>
 				<th/>
 			</tr>
 
 			<tr data-ng-repeat="value in risers">
-				<td><a href=""><strong>{{value.name}}</strong></a></td>
-				<td>{{value.code}}</td>
-				<td>{{value.currency}}</td>
-				<td><strong>{{value.latestValue}}</strong></td>
-				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
-				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
-				<td>{{value.high}}</td>
-				<td>{{value.low}}</td>
-				<td>{{value.prevClose}}</td>
+				<td><a href=""><strong>{{value.product.name}}</strong></a></td>
+				<td>{{value.product.id}}</td>
+				<td>{{value.product.currency}}</td>
+				<td><strong>{{value.product.dailyLatestValue}}</strong></td>
+				<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChange}}</strong></td>
+				<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChangePercent}}%</strong></td>
+				<td>{{value.product.high}}</td>
+				<td>{{value.product.low}}</td>
+				<td>{{value.product.exchangeId}}</td>
 				<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 			</tr>
 
@@ -56,19 +56,19 @@
 				<th>%+/-</th>
 				<th>High</th>
 				<th>Low</th>
-				<th>Prev Close</th>
+				<th>Exchange</th>
 				<th/>
 			</tr>
 			<tr data-ng-repeat="value in fallers">
-				<td><a href=""><strong>{{value.name}}</strong></a></td>
-				<td>{{value.code}}</td>
-				<td>{{value.currency}}</td>
-				<td><strong>{{value.latestValue}}</strong></td>
-				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
-				<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
-				<td>{{value.high}}</td>
-				<td>{{value.low}}</td>
-				<td>{{value.prevClose}}</td>
+				<td><a href=""><strong>{{value.product.name}}</strong></a></td>
+				<td>{{value.product.id}}</td>
+				<td>{{value.product.currency}}</td>
+				<td><strong>{{value.product.dailyLatestValue}}</strong></td>
+				<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChange}}</strong></td>
+				<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChangePercent}}%</strong></td>
+				<td>{{value.product.high}}</td>
+				<td>{{value.product.low}}</td>
+				<td>{{value.product.exchangeId}}</td>
 				<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 			</tr>
 		</table>
