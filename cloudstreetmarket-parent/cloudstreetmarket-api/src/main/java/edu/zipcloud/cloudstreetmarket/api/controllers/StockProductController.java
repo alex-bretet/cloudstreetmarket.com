@@ -29,6 +29,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 import edu.zipcloud.cloudstreetmarket.api.converters.StockProductResourceConverter;
 import edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
+import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.services.StockProductService;
 
 @Api(value = STOCKS, description = "Financial stocks") // Swagger annotation
@@ -51,11 +52,13 @@ public class StockProductController extends AbstractProductController{
                 @Spec(params="cn", path="id", spec=LikeIgnoreCase.class),
                 @Spec(params="cn", path="name", spec=LikeIgnoreCase.class)}	
 			) @ApiIgnore Specification<StockProduct> spec,
+			@ApiParam(value="Exchange ID") @RequestParam(value="exchange", required=false) String exchangeId,
 			@ApiParam(value="Index ID") @RequestParam(value="index", required=false) String indexId, 
+			@ApiParam(value="Market ID") @RequestParam(value="market", required=false) MarketId marketId, 
             @ApiParam(value="Starts with filter") @RequestParam(value="sw", defaultValue="", required=false) String startWith, 
             @ApiParam(value="Contains filter") @RequestParam(value="cn", defaultValue="", required=false) String contain, 
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){
-		return stockProductService.get(indexId, startWith, spec, pageable).map(converter);
+		return stockProductService.get(indexId, exchangeId, marketId, startWith, spec, pageable).map(converter);
 	}
 	
 	@RequestMapping(value="/{id}", method=GET)

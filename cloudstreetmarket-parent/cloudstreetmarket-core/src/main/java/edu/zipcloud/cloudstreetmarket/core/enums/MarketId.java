@@ -7,5 +7,6 @@ public enum MarketId implements Serializable{
 	US,
 	AFRICA_MIDDLE_EAST,
 	AMERICAS,
-	ASIA_PACIFIC;
+	ASIA_PACIFIC,
+	INTERNATIONAL;
 }

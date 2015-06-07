@@ -8,14 +8,15 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.HistoricalIndex;
 
-@XStreamAlias("histo")
+@XStreamAlias("resource")
 public class HistoricalIndexResource extends ResourceSupport implements Serializable{
 
 	public static final String HISTO = "histo";
 	public static final String HISTO_PATH = "/histo";
 	
 	private static final long serialVersionUID = 1L;
-	
+
+	@XStreamAlias("histoIndex")
 	private HistoricalIndex historicalIndex;
 
 	public HistoricalIndexResource(HistoricalIndex historicalIndex) {

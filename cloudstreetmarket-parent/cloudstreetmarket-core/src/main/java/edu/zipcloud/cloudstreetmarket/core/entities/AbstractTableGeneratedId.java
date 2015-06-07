@@ -8,8 +8,8 @@ import static javax.persistence.GenerationType.*;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
 import org.springframework.hateoas.Identifiable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @MappedSuperclass
 @SuppressWarnings("rawtypes")
@@ -17,7 +17,6 @@ public class AbstractTableGeneratedId<ID extends Serializable> implements Identi
 
 	@Id 
 	@GeneratedValue(strategy = TABLE) 
-	@JsonIgnore 
 	private ID id;
 	
 	@Override

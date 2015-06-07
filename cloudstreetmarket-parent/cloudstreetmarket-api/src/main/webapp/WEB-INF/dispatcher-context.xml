@@ -103,7 +103,28 @@
 	
 	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
 
-    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+    	<property name="autodetectAnnotations" value="true"/>
+	    <property name="aliasesByType">
+	        <map>
+	            <entry key="page" value="org.springframework.data.domain.Slice"/>
+	            <entry key="pageInfo" value="org.springframework.data.domain.Pageable"/>
+	            <entry key="sort" value="org.springframework.data.domain.Sort"/>
+	            <entry key="order" value="org.springframework.data.domain.Sort.Order"/>
+	            <entry key="link" value="org.springframework.hateoas.Link"/>
+	        </map>
+	    </property>
+	    <property name="omittedFields">
+	        <map>
+	            <entry key="org.springframework.hateoas.Link" value="template"/>
+	        </map>
+	    </property>
+	    <property name="converters">
+	    	<list>
+	    		<bean class="com.thoughtworks.xstream.converters.basic.DateConverter"/>
+	    	</list>
+	    </property>
+    </bean>
 
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 	<bean class="edu.zipcloud.cloudstreetmarket.api.config.AnnotationConfig"/>
@@ -137,7 +158,7 @@
     </bean>
 
 	<bean id="signInAdapter" class="edu.zipcloud.cloudstreetmarket.api.signin.SignInAdapterImpl"/>
-    
+
 	<mvc:interceptors>
 		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
 	</mvc:interceptors>

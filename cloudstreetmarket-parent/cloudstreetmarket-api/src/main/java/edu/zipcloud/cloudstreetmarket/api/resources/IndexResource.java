@@ -8,13 +8,14 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 
-@XStreamAlias("index")
+@XStreamAlias("resource")
 public class IndexResource extends ResourceSupport implements Serializable{
 
+	public static final String INDEX = "index";
 	public static final String INDICES = "indices";
 	public static final String INDICES_PATH = "/indices";
-	
 	private static final long serialVersionUID = 1L;
+	
 	private Index index;
 
 	public IndexResource(Index index) {

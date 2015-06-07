@@ -11,14 +11,14 @@ import static javax.persistence.EnumType.*;
 import org.springframework.hateoas.Identifiable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @MappedSuperclass
 public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID> {
 
 	@Id 
-	@JsonIgnore 
 	@Enumerated(STRING)
-	private ID id;
+	protected ID id;
 
 	@Override
 	public ID getId() {

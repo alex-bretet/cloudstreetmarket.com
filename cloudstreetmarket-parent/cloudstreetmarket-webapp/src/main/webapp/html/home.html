@@ -10,10 +10,10 @@
 		<div id="landingGraphContainerAndTools">
 				<div id='landingGraphContainer' ng-controller="homeFinancialGraphController">
 					<select class="form-control centeredElementBox">
-					    <option ng-repeat="idx in indicesForGraph"
-					    		ng-selected="{{idx.code == currentIndex}}"
-					            value="{{idx.code}}">
-					      {{idx.name}}
+					    <option ng-repeat="value in indicesForGraph"
+					    		ng-selected="{{value.index.id == currentIndex}}"
+					            value="{{value.index.id}}">
+					      {{idx.index.name}}
 					    </option>
 					</select>
 				</div>
@@ -30,9 +30,9 @@
 							</thead>
 							<tbody>
 								<tr data-ng-repeat="value in indicesForTable">
-									<td>{{value.name}}</td>
-									<td style="text-align:right">{{value.latestValue}}</td>
-									<td class='{{value.style}}' style="text-align:right"><strong>{{value.latestChangePercent}}%</strong></td>
+									<td>{{value.index.name}}</td>
+									<td style="text-align:right">{{value.index.dailyLatestValue}}</td>
+									<td class='{{value.style}}' style="text-align:right"><strong>{{value.index.dailyLatestChangePercent}}%</strong></td>
 								</tr>
 							</tbody>
 						</table>

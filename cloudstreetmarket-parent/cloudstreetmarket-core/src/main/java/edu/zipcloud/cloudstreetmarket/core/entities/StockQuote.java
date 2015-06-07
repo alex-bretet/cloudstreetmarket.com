@@ -8,14 +8,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 @Entity
 @Table(name="stock_quote")
+@XStreamAlias("stock_quote")
 public class StockQuote extends Quote implements Serializable{
 
 	private static final long serialVersionUID = -8175317254623555447L;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_code")
+	@XStreamOmitField
+	@JsonIgnore
 	private StockProduct stock;
 	
 	private double bid;

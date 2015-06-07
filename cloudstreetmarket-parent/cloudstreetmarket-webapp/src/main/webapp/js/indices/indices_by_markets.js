@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("indicesByMarketTableFactory", function (httpAuth) {
     return {
         get: function (market, ps, pn, sf, sd) {
-        	return httpAuth.get("/api/indices/"+market+".json?size="+ps+"&page="+pn+"&sort="+sf+","+sd);
+        	return httpAuth.get("/api/indices.json?market="+market+"&size="+ps+"&page="+pn+"&sort="+sf+","+sd);
         }
     }
 });
@@ -38,7 +38,7 @@ function updatePaginationIndicesBM ($scope, data){
 	$scope.indicesForMarket = data.content;
     $scope.currentPage = data.number;
     $scope.paginationCurrentPage = data.number+1;
-    $scope.paginationTotalItems =  data.totalElements;
+    $scope.paginationTotalItems =  data.totalElements;//number total of objects
 }
 
 function updateSortParamIndicesBM ($scope, field){
@@ -56,11 +56,11 @@ function initIndicesBM ($scope){
 	$scope.sortedField = "name";
 	$scope.sortDirection = "asc";
 	
-	$scope.maxSize = 6; //number of visible buttons for pages
+	$scope.maxSize = 6; 
 	$scope.currentPage = 0;
 	$scope.paginationTotalItems = 10;
 	$scope.paginationCurrentPage = 1;
-	$scope.pageSize = 5;
+	$scope.pageSize = 10;
 	$scope.indicesForMarket = [];
 	$scope.loadPage();
 }

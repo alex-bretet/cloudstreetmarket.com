@@ -1,10 +1,10 @@
 cloudStreetMarketApp.factory("indicesGraphFactory", function (httpAuth) {
     return {
         getHistoIndex: function (market, index) {
-        	return httpAuth.get("/api/indices/"+market+"/"+index+"/histo.json");
+        	return httpAuth.get("/api/indices/"+index+"/histo.json");
         },
         getIndices: function (market) {
-        	return httpAuth.get("/api/indices.json?market="+market+"&ps=6");
+        	return httpAuth.get("/api/indices.json?market="+market+"&size=6");
         }
     }
 });

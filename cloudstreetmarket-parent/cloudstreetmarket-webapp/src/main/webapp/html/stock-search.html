@@ -45,7 +45,7 @@
 						<li class="mini-color" 
 							ng-show="sortedField === 'name'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
-					<th><a href="" ng-click="setSort('code')">Symbol</a> 
+					<th><a href="" ng-click="setSort('id')">Symbol</a> 
 						<li class="mini-color" 
 							ng-show="sortedField === 'code'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
@@ -73,28 +73,28 @@
 						<li class="mini-color" 
 							ng-show="sortedField === 'low'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
-					<th><a href="" ng-click="setSort('previousClose')">Prev Close</a>  
+					<th><a href="" ng-click="setSort('previousClose')">Exchange</a>  
 						<li class="mini-color" 
-							ng-show="sortedField === 'previousClose'" 
+							ng-show="sortedField === 'exchangeId'" 
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
 					<th/>
 				</tr>
 				<tr data-ng-repeat="value in stocks">
-					<td><strong><a href="">{{value.name}}</a></strong></td>
-					<td>{{value.code}}</td>
-					<td>{{value.currency}}</td>
-					<td><strong>{{value.latestValue}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChange}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.latestChangePercent}}%</strong></td>
-					<td>{{value.high}}</td>
-					<td>{{value.low}}</td>
-					<td>{{value.prevClose}}</td>
+					<td><strong><a href="">{{value.product.name}}</a></strong></td>
+					<td>{{value.product.id}}</td>
+					<td>{{value.product.currency}}</td>
+					<td><strong>{{value.product.dailyLatestValue}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChange}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChangePercent}}%</strong></td>
+					<td>{{value.product.high}}</td>
+					<td>{{value.product.low}}</td>
+					<td>{{value.product.exchangeId}}</td>
 					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 				</tr>
 			</table>
 			
 			<div class="pagination pagination-right pagination-mini block-pagination" >
-				<pagination page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
+				<pagination max-size="12" boundary-links="true" page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
 			</div>
 	
 		</div>

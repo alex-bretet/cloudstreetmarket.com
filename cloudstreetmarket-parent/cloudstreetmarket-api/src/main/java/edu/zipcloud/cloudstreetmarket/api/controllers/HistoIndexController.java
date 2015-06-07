@@ -22,7 +22,6 @@ import edu.zipcloud.cloudstreetmarket.api.resources.HistoricalIndexResource;
 import edu.zipcloud.cloudstreetmarket.core.entities.HistoricalIndex;
 import static edu.zipcloud.cloudstreetmarket.api.resources.HistoricalIndexResource.*;
 import static edu.zipcloud.cloudstreetmarket.api.resources.IndexResource.*;
-import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 import edu.zipcloud.cloudstreetmarket.core.services.IndexService;
 
@@ -38,15 +37,14 @@ public class HistoIndexController extends CloudstreetApiWCI {
 	@Autowired
 	private HistoricalIndexResourceConverter converter;
 
-	@RequestMapping(value="/{market}/{index}"+HISTO_PATH, method=GET)
+	@RequestMapping(value="/{index}"+HISTO_PATH, method=GET)
 	@ApiOperation(value = "Get historical-data for one index", notes = "Return a set of historical-data from one index")
 	public Set<HistoricalIndexResource> getSeveral(
-			@ApiParam(value="Market id: EUROPE") @PathVariable("market") MarketId marketId, 
-			@ApiParam(value="Index id: ^OEX") @PathVariable("index") String indexId,
+			@ApiParam(value="Index ID: ^OEX") @PathVariable("index") String indexId,
 			@ApiParam(value="Start date: 2014-01-01") @RequestParam(value="fd", defaultValue="") Date fromDate,
 			@ApiParam(value="End date: 2020-12-12") @RequestParam(value="td", defaultValue="") Date toDate,
 			@ApiParam(value="Period between snapshots") @RequestParam(value="i", defaultValue="MINUTE_30") QuotesInterval interval){
-		return indexService.getHistoricalIndexData(indexId, marketId, fromDate, toDate, interval)
+		return indexService.getHistoricalIndexData(indexId, fromDate, toDate, interval)
 				.stream()
 				.map(h -> HistoricalIndexResource.build(h))
 				.collect(Collectors.toSet());

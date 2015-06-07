@@ -39,9 +39,10 @@ public class IndexController extends CloudstreetApiWCI {
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get overviews of indices", notes = "Return a page of index-overviews")
 	public Page<IndexResource> getSeveral(
+			@RequestParam(value="exchange", required=false) String exchangeId,
 			@RequestParam(value="market", required=false) MarketId marketId,
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){
-		return indexService.getIndicesByMarket(marketId, pageable).map(converter);
+		return indexService.getIndices(exchangeId, marketId, pageable).map(converter);
 	}
 	
 	@RequestMapping(value="/{index}", method=GET)

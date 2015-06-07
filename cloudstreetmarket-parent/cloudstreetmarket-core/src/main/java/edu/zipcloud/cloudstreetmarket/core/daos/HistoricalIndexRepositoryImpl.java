@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.HistoricalIndex;
-import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 import edu.zipcloud.core.util.DateUtil;
 
@@ -32,13 +31,12 @@ public class HistoricalIndexRepositoryImpl implements HistoricalIndexRepository{
 	}
 	
 	@Override
-	public List<HistoricalIndex> findSelection(String id, MarketId market, Date fromDate, Date toDate, QuotesInterval interval) {
-		TypedQuery<HistoricalIndex> sqlQuery = em.createQuery("from HistoricalIndex h where h.index.id = ? and h.index.market.id = ? and h.fromDate >= ? and h.toDate <= ? and h.interval = ? ORDER BY h.toDate asc", HistoricalIndex.class);
+	public List<HistoricalIndex> findSelection(String id, Date fromDate, Date toDate, QuotesInterval interval) {
+		TypedQuery<HistoricalIndex> sqlQuery = em.createQuery("from HistoricalIndex h where h.index.id = ? and h.fromDate >= ? and h.toDate <= ? and h.interval = ? ORDER BY h.toDate asc", HistoricalIndex.class);
 		sqlQuery.setParameter(1, id);
-		sqlQuery.setParameter(2, market);
-		sqlQuery.setParameter(3, fromDate);
-		sqlQuery.setParameter(4, toDate);
-		sqlQuery.setParameter(5, interval);
+		sqlQuery.setParameter(2, fromDate);
+		sqlQuery.setParameter(3, toDate);
+		sqlQuery.setParameter(4, interval);
 		return sqlQuery.getResultList();
 	}
 	

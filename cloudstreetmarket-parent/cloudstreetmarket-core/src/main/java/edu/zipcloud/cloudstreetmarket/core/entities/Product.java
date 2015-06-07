@@ -1,17 +1,15 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
+import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
+
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
-
-import static javax.persistence.InheritanceType.*;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
@@ -40,10 +38,17 @@ public class Product extends AbstractId<String>{
 	
 	protected String currency;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "market_id")
-	@JsonIgnore
-	protected Market market;
+	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdate;
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 
 	public String getName() {
 		return name;
@@ -109,14 +114,6 @@ public class Product extends AbstractId<String>{
 		this.currency = currency;
 	}
 
-	public Market getMarket() {
-		return market;
-	}
-
-	public void setMarket(Market market) {
-		this.market = market;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -145,7 +142,6 @@ public class Product extends AbstractId<String>{
 				+ dailyLatestValue + ", dailyLatestChange=" + dailyLatestChange
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
 				+ ", previousClose=" + previousClose + ", high=" + high
-				+ ", low=" + low + ", currency=" + currency + ", market="
-				+ market + "]";
+				+ ", low=" + low + ", currency=" + currency + "]";
 	}
 }

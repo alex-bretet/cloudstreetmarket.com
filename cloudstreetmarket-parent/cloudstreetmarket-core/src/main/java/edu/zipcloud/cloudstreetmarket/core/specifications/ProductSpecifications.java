@@ -34,7 +34,27 @@ public class ProductSpecifications<T extends Product> {
 				@Override
 				public Predicate toPredicate(Root<T> root,
 						CriteriaQuery<?> query, CriteriaBuilder cb) {
-	                return cb.equal(root.<String>get("market").get("id"), marketId);
+	                return cb.equal(root.<String>get("exchange").get("market").get("id"), marketId);
+				}
+	        };
+	  }
+	  
+	  public Specification<T> exchangeIdEquals(final String exchangeId) {
+	    	return new Specification<T>() {
+				@Override
+				public Predicate toPredicate(Root<T> root,
+						CriteriaQuery<?> query, CriteriaBuilder cb) {
+	                return cb.equal(root.<String>get("exchange").get("id"), exchangeId);
+				}
+	        };
+	  }
+	  
+	  public Specification<T> nameNotNull() {
+	    	return new Specification<T>() {
+				@Override
+				public Predicate toPredicate(Root<T> root,
+						CriteriaQuery<?> query, CriteriaBuilder cb) {
+	                return cb.isNotNull(root.<String>get("name"));
 				}
 	        };
 	  }
