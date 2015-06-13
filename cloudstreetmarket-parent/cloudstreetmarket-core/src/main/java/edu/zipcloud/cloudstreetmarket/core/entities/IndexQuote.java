@@ -20,6 +20,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 @Entity
 @Table(name="index_quote")
 @XStreamAlias("index_quote")

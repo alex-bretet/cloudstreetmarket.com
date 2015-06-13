@@ -26,6 +26,7 @@ public class StockProductResourceConverter implements Converter<StockProduct, St
 		StockProductResource resource = new StockProductResource(stock);
 		
 		resource.add(entityLinks.linkToSingleResource(stock));
+
 		if(stock.getIndustry() != null){
 			resource.add(entityLinks.linkToSingleResource(stock.getIndustry()).withRel(INDUSTRY));
 		}
@@ -34,6 +35,7 @@ public class StockProductResourceConverter implements Converter<StockProduct, St
 			resource.add(entityLinks.linkToSingleResource(stock.getExchange()).withRel(EXCHANGE));
 			resource.add(linkTo(methodOn(IndexController.class).getSeveral(stock.getExchange().getId(), null, null)).withRel(INDICES));
 		}
+
 		return resource;
 	}
 }
