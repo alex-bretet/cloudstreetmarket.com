@@ -43,6 +43,15 @@ public class Exchange extends AbstractId<String> {
 	@XStreamOmitField
 	private Set<StockProduct> stocks = new LinkedHashSet<>();
 
+	public Exchange(){
+		super();
+	}
+	
+	public Exchange(String exchange) {
+		this();
+		setId(exchange);
+	}
+
 	public String getName() {
 		return name;
 	}

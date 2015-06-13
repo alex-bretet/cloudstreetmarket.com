@@ -14,7 +14,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 	@Autowired
 	private ExchangeRepository exchangeRepository;
-
+	
 	@Override
 	public Exchange get(String exchangeId) {
 		return exchangeRepository.findOne(exchangeId);

@@ -27,7 +27,7 @@ import edu.zipcloud.core.util.ImageUtil;
 
 @Api(value = "user images", description = "Cloudstreet Market user-uploaded images") // Swagger annotation
 @RestController
-@RequestMapping(value="/images/users/")
+@RequestMapping(value="/images/users")
 public class UserImageController extends CloudstreetApiWCI{
 
 	@RequestMapping(value="/{fileName}.{extension}", method=GET)

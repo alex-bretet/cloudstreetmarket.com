@@ -80,12 +80,12 @@
 					<th/>
 				</tr>
 				<tr data-ng-repeat="value in stocks">
-					<td><strong><a href="">{{value.product.name}}</a></strong></td>
+					<td><strong><a href="/portal/stock-{{value.product.id}}">{{value.product.name}}</a></strong></td>
 					<td>{{value.product.id}}</td>
 					<td>{{value.product.currency}}</td>
 					<td><strong>{{value.product.dailyLatestValue}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChange}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChangePercent}}%</strong></td>
+					<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChange}}</strong></td>
+					<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChangePercent}}%</strong></td>
 					<td>{{value.product.high}}</td>
 					<td>{{value.product.low}}</td>
 					<td>{{value.product.exchangeId}}</td>

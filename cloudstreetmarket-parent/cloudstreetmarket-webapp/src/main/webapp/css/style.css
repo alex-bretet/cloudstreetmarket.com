@@ -1238,6 +1238,9 @@ vertical-align: super;
 #divRss3{
 	height: 320px;
 }
+#detailChart{
+	margin-bottom:-25px;
+}
 .block-pagination{
 	position:relative;
 	height:0px;
@@ -1345,6 +1348,43 @@ table .fa:hover{
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.center_chart{
+	margin-left: 16%;
+	margin-bottom: 20px;
+}
+
+
+.ttitle {
+	font-family: "Boogaloo" !important;
+	font-weight: normal;
+	color: #666;
+}
+
+.t1 {
+  font-size: 36px;
+  line-height:30px;
+}
+
+.t2 {
+  font-size: 30px;
+  line-height:20px;
+}
+
+.t3 {
+  font-size: 24px;
+  line-height:20px;
+}
+
+.t4 {
+  font-size: 18px;
+  line-height:20px;
+}
+
+.t5 {
+  font-size: 14px;
+  line-height:20px;
 }
 
 /* Higher than 960 (desktop devices)

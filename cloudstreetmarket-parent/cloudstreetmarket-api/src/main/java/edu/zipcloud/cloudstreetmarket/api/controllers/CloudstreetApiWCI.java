@@ -92,6 +92,10 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
 			}
 		}
 	}
+	
+	public static boolean isAjax(HttpServletRequest request) {
+		   return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+	}
 
 	private void preAuthenticate(HttpServletRequest request, HttpServletResponse response){
 		String oAuthGuid = request.getHeader(SPI_HEADER);

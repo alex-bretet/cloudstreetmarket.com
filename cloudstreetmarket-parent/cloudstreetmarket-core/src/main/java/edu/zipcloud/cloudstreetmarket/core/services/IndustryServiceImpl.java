@@ -21,7 +21,7 @@ public class IndustryServiceImpl implements IndustryService {
 	}
 
 	@Override
-	public Industry get(String id) {
+	public Industry get(Long id) {
 		Industry industry = industryRepository.findOne(id);
 		if(industry == null){
 			throw new ResourceNotFoundException("No industry has been found for the provided industry ID: "+id);

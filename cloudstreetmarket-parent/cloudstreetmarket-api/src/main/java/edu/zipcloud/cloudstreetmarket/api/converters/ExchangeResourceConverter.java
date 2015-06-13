@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 import edu.zipcloud.cloudstreetmarket.api.controllers.IndexController;
 import edu.zipcloud.cloudstreetmarket.api.controllers.StockProductController;
-import edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource;
 import edu.zipcloud.cloudstreetmarket.core.entities.Exchange;
+import edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource;
 
 @Component
 public class ExchangeResourceConverter implements Converter<Exchange, ExchangeResource> {

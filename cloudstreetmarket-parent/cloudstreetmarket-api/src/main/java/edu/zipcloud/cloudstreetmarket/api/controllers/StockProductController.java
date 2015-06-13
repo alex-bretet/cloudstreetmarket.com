@@ -20,14 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.NativeWebRequest;
 
 import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
-import edu.zipcloud.cloudstreetmarket.api.converters.StockProductResourceConverter;
 import edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource;
 import edu.zipcloud.cloudstreetmarket.api.services.StockProductService;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
@@ -42,9 +40,6 @@ public class StockProductController extends AbstractProductController{
 	@Autowired
 	private StockProductService stockProductService;
 
-	@Autowired
-	private StockProductResourceConverter converter;
-	
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get overviews of stocks", notes = "Return a page of stock-overviews")
@@ -58,14 +53,14 @@ public class StockProductController extends AbstractProductController{
 			@ApiParam(value="Market ID") @RequestParam(value="market", required=false) MarketId marketId, 
             @ApiParam(value="Starts with filter") @RequestParam(value="sw", defaultValue="", required=false) String startWith, 
             @ApiParam(value="Contains filter") @RequestParam(value="cn", defaultValue="", required=false) String contain, 
-            @ApiIgnore @PageableDefault(size=10, page=0, sort={"date"}, direction=Direction.DESC) Pageable pageable){
-		return stockProductService.gather(indexId, exchangeId, marketId, startWith, spec, pageable).map(converter);
+            @ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){
+		return stockProductService.gather(indexId, exchangeId, marketId, startWith, spec, pageable);
 	}
 	
-	@RequestMapping(value="/{id}", method=GET)
+	@RequestMapping(value="/{id:[a-zA-Z0-9.-]+}{extension:\\.[a-z]+}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get one stock-overview", notes = "Return one stock-overview")
-	public StockProductResource get(@ApiParam(value="Stock id: CCH.L") @PathVariable(value="id") String stockProductId){
-		return converter.convert(stockProductService.gather(stockProductId));
+	public StockProductResource get(@ApiParam(value="Stock id: CCH.L") @PathVariable(value="id") String stockProductId, @PathVariable(value="extension") String extension){
+		return stockProductService.gather(stockProductId);
 	}
 }

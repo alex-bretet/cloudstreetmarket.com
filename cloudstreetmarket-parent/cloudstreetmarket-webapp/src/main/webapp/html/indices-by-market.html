@@ -9,7 +9,7 @@
 		</ol>
 	</div>
 	
-	<div class="span9" ng-controller="indicesByMarketTableController">
+	<div class="span9">
 	
 		<div class="title"><h3>INDICES BY MARKET</h3></div>
 		<br/>
@@ -63,7 +63,7 @@
 				</tr>
 		
 				<tr data-ng-repeat="value in indicesForMarket">
-					<td><a href=""><strong>{{value.index.name}}</strong></a></td>
+					<td><a href="/portal/index-{{value.index.id}}"><strong>{{value.index.name}}</strong></a></td>
 					<td>{{value.index.id}}</td>
 					<td><strong>{{value.index.dailyLatestValue}}</strong></td>
 					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.index.dailyLatestChange}}</strong></td>

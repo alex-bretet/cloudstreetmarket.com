@@ -393,8 +393,7 @@
 	<script src="js/util/carousel.js"></script>
 	<script def src="js/custom.js"></script>
 	<script src="js/util/jquery.slimscroll.min.js"></script>
-	<script src="js/util/raphael.js"></script>
-	<script src="js/util/morris.min.js"></script>
+
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular/angular-route.min.js"></script>
 	<script src="js/angular/angular-cookies.min.js"></script>
@@ -414,6 +413,8 @@
 	<script src="js/home/home_financial_table.js"></script>
 	<script src="js/home/home_community_activity.js"></script>
 	<script src="js/indices/indices_by_markets.js"></script>
+	<script src="js/indices/index_detail.js"></script>
+	<script src="js/stocks/stock_detail.js"></script>
 	<script src="js/stocks/stock_search.js"></script>
 	<script src="js/stocks/stock_search_by_market.js"></script>
 	<script src="js/stocks/stocks_risers_fallers.js"></script>

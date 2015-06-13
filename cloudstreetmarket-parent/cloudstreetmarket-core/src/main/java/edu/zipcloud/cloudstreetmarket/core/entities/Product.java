@@ -32,6 +32,8 @@ public class Product extends AbstractId<String>{
 	@Column(name = "previous_close")
 	protected BigDecimal previousClose;
 	
+	private BigDecimal open;
+	
 	protected BigDecimal high;
 	
 	protected BigDecimal low;
@@ -114,6 +116,14 @@ public class Product extends AbstractId<String>{
 		this.currency = currency;
 	}
 
+	public BigDecimal getOpen() {
+		return open;
+	}
+
+	public void setOpen(BigDecimal open) {
+		this.open = open;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -140,6 +150,7 @@ public class Product extends AbstractId<String>{
 	public String toString() {
 		return "Product [id=" + getId() + ", name=" + name + ", dailyLatestValue="
 				+ dailyLatestValue + ", dailyLatestChange=" + dailyLatestChange
+				+ ", open=" + open
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
 				+ ", previousClose=" + previousClose + ", high=" + high
 				+ ", low=" + low + ", currency=" + currency + "]";

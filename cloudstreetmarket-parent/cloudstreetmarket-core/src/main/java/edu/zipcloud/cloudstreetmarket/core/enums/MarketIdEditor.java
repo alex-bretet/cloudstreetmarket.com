@@ -4,7 +4,7 @@ import java.beans.PropertyEditorSupport;
 
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
-public class MarketCodeEditor extends PropertyEditorSupport {
+public class MarketIdEditor extends PropertyEditorSupport {
     public void setAsText(String text) {
 		try{
 			 setValue(MarketId.valueOf(text));

@@ -44,7 +44,7 @@ public class IndustryController extends CloudstreetApiWCI {
 	
 	@RequestMapping(value="/{industry}", method=GET)
 	@ApiOperation(value = "Get an industry", notes = "Return an industry")
-	public IndustryResource get(@PathVariable(value="industry") String industryId){
+	public IndustryResource get(@PathVariable(value="industry") Long industryId){
 		return converter.convert(industryService.get(industryId));
 	}
 }

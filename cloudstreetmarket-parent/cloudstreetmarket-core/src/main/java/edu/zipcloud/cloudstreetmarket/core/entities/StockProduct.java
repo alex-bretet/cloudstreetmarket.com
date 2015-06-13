@@ -105,12 +105,11 @@ public class StockProduct extends Product implements Serializable{
 
 	@Override
 	public String toString() {
-		return "StockProduct [id=" + getId() + ", name=" + getName()
-				+ ", dailyLatestValue()=" + getDailyLatestValue()
-				+ ", dailyLatestChange()=" + getDailyLatestChange() + ", lastUpdate = "+ getLastUpdate() 
-				+ ", dailyLatestChangePercent()="
-				+ getDailyLatestChangePercent() + ", previousClose()="
-				+ getPreviousClose() + ", high()=" + getHigh()
-				+ ", low()=" + getLow() + ", industry=" + industry.getLabel() + ", currency()=" + getCurrency() + "]";
+		return "StockProduct [industry=" + industry + ", exchange=" + exchange
+				+ ", name=" + name +", dailyLatestValue=" + dailyLatestValue
+				+ ", dailyLatestChange=" + dailyLatestChange
+				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
+				+ ", previousClose=" + previousClose + ", high=" + high
+				+ ", low=" + low + ", currency=" + currency + "]";
 	}
 }

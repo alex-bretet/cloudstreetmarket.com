@@ -11,7 +11,7 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
         	return httpAuth.post('/api/users', body);
         },
         saveImage: function (formData) {
-        	return $http.post('/api/users', formData, {
+        	return $http.post('/api/images/users', formData, {
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
             });

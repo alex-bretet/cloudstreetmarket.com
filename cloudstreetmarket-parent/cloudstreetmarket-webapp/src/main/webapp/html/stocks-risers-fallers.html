@@ -28,7 +28,7 @@
 			</tr>
 
 			<tr data-ng-repeat="value in risers">
-				<td><a href=""><strong>{{value.product.name}}</strong></a></td>
+				<td><a href="/portal/stock-{{value.product.id}}"><strong>{{value.product.name}}</strong></a></td>
 				<td>{{value.product.id}}</td>
 				<td>{{value.product.currency}}</td>
 				<td><strong>{{value.product.dailyLatestValue}}</strong></td>
@@ -60,7 +60,7 @@
 				<th/>
 			</tr>
 			<tr data-ng-repeat="value in fallers">
-				<td><a href=""><strong>{{value.product.name}}</strong></a></td>
+				<td><a href="/portal/stock-{{value.product.id}}"><strong>{{value.product.name}}</strong></a></td>
 				<td>{{value.product.id}}</td>
 				<td>{{value.product.currency}}</td>
 				<td><strong>{{value.product.dailyLatestValue}}</strong></td>

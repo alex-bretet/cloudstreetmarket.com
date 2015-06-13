@@ -17,7 +17,6 @@ import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-import edu.zipcloud.cloudstreetmarket.api.converters.IndexResourceConverter;
 import edu.zipcloud.cloudstreetmarket.api.resources.IndexResource;
 import edu.zipcloud.cloudstreetmarket.api.services.IndexService;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
@@ -32,22 +31,19 @@ public class IndexController extends CloudstreetApiWCI {
 	
 	@Autowired
 	private IndexService indexService;
-
-	@Autowired
-	private IndexResourceConverter converter;
 	
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get overviews of indices", notes = "Return a page of index-overviews")
 	public Page<IndexResource> getSeveral(
 			@RequestParam(value="exchange", required=false) String exchangeId,
 			@RequestParam(value="market", required=false) MarketId marketId,
-			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){
-		return indexService.gather(exchangeId, marketId, pageable).map(converter);
+			@ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){
+		return indexService.gather(exchangeId, marketId, pageable);
 	}
 	
-	@RequestMapping(value="/{index}", method=GET)
+	@RequestMapping(value="/{index:[a-zA-Z0-9^.-]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get an overviews of one index", notes = "Return an index-overview")
-	public IndexResource get(@PathVariable(value="index") String indexId){
-		return converter.convert(indexService.gather(indexId));
+	public IndexResource get(@PathVariable(value="index") String indexId, @PathVariable(value="extension") String extension){
+		return indexService.gather(indexId);
 	}
 }

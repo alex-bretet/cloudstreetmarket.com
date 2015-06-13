@@ -1,0 +1,59 @@
+<!-- start: Row -->
+<div class="mainController row">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li>> Stock: {{stock.name}}</li>
+		</ol>
+	</div>
+	
+	<div class="span10">
+		<div class="title"><h3>{{stock.name}} ( {{stock.id}} )</h3></div>
+		
+			<div class="span4" style="margin-right:-5px;">
+				<h1>
+					<li ng-class="stock.dailyLatestChange > 0 ? 'ico-up-arrow' : 'ico-down-arrow'"></li>
+					<span style="margin-left:-15px;">{{stock.dailyLatestValue | number }}</span>
+				</h1>
+				<div style="margin-top:-10px;">
+					<h3 ng-class="stock.dailyLatestChange > 0 ? 'text-success' : 'text-error'">{{stock.dailyLatestChange | number}} ({{stock.dailyLatestChangePercent}}%)</h3>
+				</div>
+			</div>
+			<div class="span5">
+				<img id="detailChart"/>
+			</div>
+
+			<div class="calendarNav tab-pane fade in active" >
+				<div class="span4">
+					<div ng-show="industry" style="margin-bottom:5px;">Industry:   <strong>{{industry.label}}</strong></div>
+					<table class="table table-condensed table-striped" >
+						<tr>
+							<td>Prev. Close:</strong></td>
+							<td><strong>{{stock.previousClose | number}}</strong></td>
+							<td>Open:</td>
+							<td><strong>{{stock.open | number}}</strong></td>
+						</tr>
+						<tr>
+							<td>High:</td>
+							<td><strong>{{stock.high | number}}</strong></td>
+							<td>Low:</td>
+							<td><strong>{{stock.low | number}}</strong></td>
+						</tr>
+						<tr>
+							<td><span ng-show="exchange">Exchange:</span></td>
+							<td><span ng-show="exchange"><strong>{{exchange.name}}</strong> ({{exchange.id}})</span></td>
+							<td><span>Currency:</span></td>
+							<td><span><strong>{{stock.currency}}</strong></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+	</div>
+		
+	<div class="span3">
+	
+	</div>
+	
+</div>
+<!-- end: Row -->

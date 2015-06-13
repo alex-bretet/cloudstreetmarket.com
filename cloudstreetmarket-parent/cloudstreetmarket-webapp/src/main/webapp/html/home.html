@@ -8,19 +8,22 @@
 	<div class="span5">
 
 		<div id="landingGraphContainerAndTools">
-				<div id='landingGraphContainer' ng-controller="homeFinancialGraphController">
+				<div class="center_chart">
+					<img id="homeChart"/>
+				</div>
+				<div ng-controller="homeFinancialGraphController">
 					<select class="form-control centeredElementBox">
 					    <option ng-repeat="value in indicesForGraph"
 					    		ng-selected="{{value.index.id == currentIndex}}"
 					            value="{{value.index.id}}">
-					      {{idx.index.name}}
+					      {{value.index.name}}
 					    </option>
 					</select>
 				</div>
 
 				<div id='tableMarketPrices'>		
 					<div>
-						<table class="table table-hover table-condensed table-bordered table-striped" data-ng-controller='homeFinancialTableController'>
+						<table class="table table-hover table-condensed table-bordered table-striped" ng-controller="homeFinancialTableController">
 							<thead>
 								<tr>
 									<th>Index</th>
@@ -30,7 +33,7 @@
 							</thead>
 							<tbody>
 								<tr data-ng-repeat="value in indicesForTable">
-									<td>{{value.index.name}}</td>
+									<td><a href="/portal/index-{{value.index.id}}"><b>{{value.index.name}}</b></a></td>
 									<td style="text-align:right">{{value.index.dailyLatestValue}}</td>
 									<td class='{{value.style}}' style="text-align:right"><strong>{{value.index.dailyLatestChangePercent}}%</strong></td>
 								</tr>

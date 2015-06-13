@@ -22,6 +22,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.social.yahoo.api.FinancialOperations;
+import org.springframework.social.yahoo.api.YahooAPIType;
+import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
+import org.springframework.social.yahoo.module.ChartHistoSize;
+import org.springframework.social.yahoo.module.ChartHistoTimeSpan;
+import org.springframework.social.yahoo.module.ChartType;
 import org.springframework.social.yahoo.module.YahooQuote;
 import org.springframework.social.yahoo.module.QuoteWrapper;
 import org.springframework.web.client.RestTemplate;
@@ -65,22 +70,40 @@ public class FinancialTemplate extends AbstractYahooOperations implements Financ
 
         return restTemplate.exchange(buildUri(FINANCIAL, url.concat(strTickers).concat("&f=snopl1c1p2hgbavxc4")), HttpMethod.GET, entity , QuoteWrapper.class).getBody();
 	}
-	
+
 	@Override
-	public List<YahooQuote> getYahooHistos(String ticker, String token)  {
-        requiresAuthorization();
-        
-        final StringBuilder sb = new StringBuilder("table.csv?s=");
-        sb.append(ticker);
-        String url = null;
-        String strTickers = "";
-        //&a=0&b=1&c=2000%20&d=1&e=08&f=2012&g=d&ignore=.csv
+	public byte[] getYahooChart(String ticker, ChartType type,
+			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
+			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
+			Integer intradayHeight, String token) {
+		
+	        requiresAuthorization();
+	        final StringBuilder sb = new StringBuilder("?s="+ticker);
+	        YahooAPIType apiType = null;
+	        if(type.equals(ChartType.HISTO)){
+	        	if(histoSize!=null){
+	        		sb.append("&z="+histoSize.getTag());
+	        	}
+	        	if(histoAverage!=null){
+	        		sb.append("&p="+histoAverage.getTag());
+	        	}
+	        	if(histoPeriod!=null){
+	        		sb.append("&t="+histoPeriod.getTag());
+	        	}
+	        	apiType = YahooAPIType.FINANCIAL_CHARTS_HISTO;
+	        }
+	        else{
+	        	if(intradayWidth!=null){
+	        		sb.append("&width="+intradayWidth);
+	        	}
+	        	if(intradayHeight!=null){
+	        		sb.append("&height="+intradayHeight);
+	        	}
+	        	apiType = YahooAPIType.FINANCIAL_CHARTS_INTRA;
+	        }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+token);
-        
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        return restTemplate.exchange(buildUri(FINANCIAL_CHARTS, url.concat(strTickers).concat("&f=snopl1c1p2hgbavxc4")), HttpMethod.GET, entity , QuoteWrapper.class).getBody();
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("Authorization", "Bearer "+token);
+	        return restTemplate.exchange(buildUri(apiType, sb.toString()), HttpMethod.GET, new HttpEntity<>(headers) , byte[].class).getBody();
 	}
 }

@@ -12,6 +12,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 public class StockProductResource extends ResourceSupport implements Serializable  {
 
 	public static final String COMPONENTS = "components";
+	public static final String STOCK = "stock";
 	public static final String STOCKS = "stocks";
 	public static final String STOCKS_PATH = "/stocks";
 	

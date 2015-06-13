@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.Industry;
 
-public interface IndustryRepository extends JpaRepository<Industry, String>{
+public interface IndustryRepository extends JpaRepository<Industry, Long>{
 
 }

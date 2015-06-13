@@ -23,6 +23,18 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
     			$http.defaults.headers.common.OAuthProvider = "yahoo";
     		}
     	},
+    	setHeaders: function(xmlHTTP){
+    		this.refresh();
+    		var authBasicItem = sessionStorage.getItem('basicHeaderCSM');
+    		var oAuthSpiItem = sessionStorage.getItem('oAuthSpiCSM');
+    		if(authBasicItem){
+    			xmlHTTP.setRequestHeader("Authorization", $.parseJSON(authBasicItem).Authorization);
+    		}
+    		if(oAuthSpiItem){
+    			xmlHTTP.setRequestHeader("Spi", oAuthSpiItem);
+    			xmlHTTP.setRequestHeader("OAuthProvider", "yahoo");
+    		}
+    	},
     	setCredentials: function (login, password) {
     		var encodedData = window.btoa(login+":"+password);
     		var basicAuthToken = 'Basic '+encodedData;
@@ -50,6 +62,12 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
         get: function (url) {
         	this.refresh();
         	return $http.get(url);
+        },
+        get: function (url, headers) {
+        	this.refresh();
+        	return $http.get(url, {
+        	    headers: headers
+        	});
         },
         isUserAuthenticated: function () {
     		var authBasicItem = sessionStorage.getItem('authenticatedCSM');

@@ -1,6 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
-import static edu.zipcloud.cloudstreetmarket.core.entities.HistoricalStock.DISCR;
+import static edu.zipcloud.cloudstreetmarket.core.entities.ChartStock.DISCR;
 
 import java.io.Serializable;
 
@@ -9,6 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
+import org.springframework.social.yahoo.module.ChartHistoSize;
+import org.springframework.social.yahoo.module.ChartHistoTimeSpan;
+import org.springframework.social.yahoo.module.ChartType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -20,8 +25,8 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 
 @Entity
 @DiscriminatorValue(DISCR)
-@XStreamAlias("histo_stock")
-public class HistoricalStock extends Historic implements Serializable {
+@XStreamAlias("chart_stock")
+public class ChartStock extends Chart implements Serializable {
 
 	private static final long serialVersionUID = -802306391915956578L;
 	public static final String DISCR = "stk";
@@ -34,10 +39,6 @@ public class HistoricalStock extends Historic implements Serializable {
 	@XStreamAlias("stockId")
 	private StockProduct stock;
 
-	private double bid;
-	
-	private double ask;
-	
 	public StockProduct getStock() {
 		return stock;
 	}
@@ -45,20 +46,13 @@ public class HistoricalStock extends Historic implements Serializable {
 	public void setStock(StockProduct stock) {
 		this.stock = stock;
 	}
-
-	public double getBid() {
-		return bid;
+	
+	public ChartStock(){
 	}
 
-	public void setBid(double bid) {
-		this.bid = bid;
-	}
-
-	public double getAsk() {
-		return ask;
-	}
-
-	public void setAsk(double ask) {
-		this.ask = ask;
+	public ChartStock(StockProduct stock, ChartType type, ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage, 
+						ChartHistoTimeSpan histoPeriod, Integer intradayWidth, Integer intradayHeight, String path) {
+		super(type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, path);
+		this.stock= stock;
 	}
 }

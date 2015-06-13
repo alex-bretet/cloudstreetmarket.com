@@ -10,6 +10,10 @@ cloudStreetMarketApp.config(function($locationProvider, $routeProvider) {
 	    templateUrl: '/portal/html/indices-by-market.html', 
 	    controller: 'indicesByMarketTableController' 
 	})
+	.when('/portal/index-:ticker', {
+	    templateUrl: '/portal/html/index-detail.html', 
+	    controller: 'indexDetailController' 
+	})
     .when('/portal/stock-search', {
       templateUrl: '/portal/html/stock-search.html', 
       controller:  'stockSearchMainController'
@@ -22,6 +26,10 @@ cloudStreetMarketApp.config(function($locationProvider, $routeProvider) {
       templateUrl: '/portal/html/stocks-risers-fallers.html', 
       controller:  'stocksRisersFallersMainController'
     })
+	.when('/portal/stock-:ticker', {
+	    templateUrl: '/portal/html/stock-detail.html', 
+	    controller: 'stockDetailController' 
+	})
     .otherwise({ redirectTo: '/' });
 });
 

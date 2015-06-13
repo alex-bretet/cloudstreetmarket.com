@@ -53,6 +53,8 @@ public class Index extends AbstractId<String> implements Serializable{
 	@Column(name = "previous_close")
 	private BigDecimal previousClose;
 
+	private BigDecimal open;
+	
 	private BigDecimal high;
 
 	private BigDecimal low;
@@ -161,6 +163,14 @@ public class Index extends AbstractId<String> implements Serializable{
 		this.exchange = exchange;
 	}
 
+	public BigDecimal getOpen() {
+		return open;
+	}
+
+	public void setOpen(BigDecimal open) {
+		this.open = open;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -188,8 +198,9 @@ public class Index extends AbstractId<String> implements Serializable{
 	public String toString() {
 		return "Index [id="+getId().toString()+", name=" + name + ", dailyLatestValue=" + dailyLatestValue
 				+ ", dailyLatestChange=" + dailyLatestChange
+				+ ", open=" + open
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
 				+ ", previousClose=" + previousClose + ", high=" + high
-				+ ", low=" + low + ", exchange=" + exchange!= null ? exchange.getId() : null + "]";
+				+ ", low=" + low + "]";
 	}
 }

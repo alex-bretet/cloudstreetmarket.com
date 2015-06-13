@@ -1,13 +1,10 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
-
 import javax.persistence.GeneratedValue;
-
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
 import org.springframework.hateoas.Identifiable;
 
 @MappedSuperclass
@@ -54,6 +51,6 @@ public class AbstractTableGeneratedId<ID extends Serializable> implements Identi
 
 	@Override
 	public String toString() {
-		return  id.toString();
+		return id.toString();
 	}
 }

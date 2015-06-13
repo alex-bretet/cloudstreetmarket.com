@@ -31,4 +31,5 @@ public class DefaultController extends CloudstreetWebAppWCI {
 
 		return "index";
 	}	
+
 }

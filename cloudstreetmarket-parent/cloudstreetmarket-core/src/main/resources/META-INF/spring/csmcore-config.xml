@@ -67,7 +67,6 @@
 	    <jdbc:script location="classpath:/META-INF/db/init.sql"/>
 	    <jdbc:script location="classpath:/META-INF/db/indices.sql"/>
 	    <jdbc:script location="classpath:/META-INF/db/stocks.sql"/>
-	    <jdbc:script location="classpath:/META-INF/db/histo.sql"/>
 	</jdbc:initialize-database>
 
     <tx:annotation-driven transaction-manager="transactionManager"

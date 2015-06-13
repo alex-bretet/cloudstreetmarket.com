@@ -33,7 +33,7 @@ public class ExchangeController extends CloudstreetApiWCI {
 	
 	@Autowired
 	private ExchangeService exchangeService;
-	
+
 	@Autowired
 	private ExchangeResourceConverter converter;
 	

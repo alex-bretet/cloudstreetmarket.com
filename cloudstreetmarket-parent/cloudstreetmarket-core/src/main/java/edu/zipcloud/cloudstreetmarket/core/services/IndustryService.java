@@ -7,5 +7,5 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Industry;
 
 public interface IndustryService{
 	Page<Industry> getAll(Pageable pageable);
-	Industry get(String id);
+	Industry get(Long id);
 }

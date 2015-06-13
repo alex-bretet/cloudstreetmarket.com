@@ -1,7 +1,12 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
-import java.util.Date;
-import java.util.LinkedHashSet;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,29 +15,39 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.yahoo.api.Yahoo2;
+import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
+import org.springframework.social.yahoo.module.ChartHistoSize;
+import org.springframework.social.yahoo.module.ChartHistoTimeSpan;
+import org.springframework.social.yahoo.module.ChartType;
 import org.springframework.social.yahoo.module.YahooQuote;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
+import edu.zipcloud.cloudstreetmarket.api.converters.IndexResourceConverter;
+import edu.zipcloud.cloudstreetmarket.api.resources.IndexResource;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToIndexConverter;
+import edu.zipcloud.cloudstreetmarket.core.daos.ChartIndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.ExchangeRepository;
-import edu.zipcloud.cloudstreetmarket.core.daos.HistoricalIndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.IndexQuoteRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.IndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
-import edu.zipcloud.cloudstreetmarket.core.entities.HistoricalIndex;
+import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.IndexQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
-import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
+import edu.zipcloud.cloudstreetmarket.core.specifications.ChartSpecifications;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.core.util.DateUtil;
 
@@ -46,7 +61,7 @@ public class IndexServiceImpl implements IndexService {
 	private ExchangeRepository exchangeRepository;
 	
 	@Autowired
-	private HistoricalIndexRepository historicalIndexRepository;
+	private ChartIndexRepository historicalIndexRepository;
 	
 	@Autowired
 	private IndexRepository indexRepository;
@@ -60,29 +75,15 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private IndexQuoteRepository indexQuoteRepository;
 	
-	@Override
-	public Set<HistoricalIndex> gatherHisto(String id, Date fromDate, Date toDate, QuotesInterval interval){
-		Set<HistoricalIndex> histoSet = getHisto(id, fromDate, toDate, interval);
+	@Autowired
+	private ChartIndexRepository chartIndexRepository;
+	
+    @Autowired
+	public Environment env;
 
-		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
-			updateHistoFromYahoo(histoSet, id, fromDate, toDate, interval);
-			return getHisto(id, fromDate, toDate, interval);
-		}
-
-		return histoSet;
-	}
-
-	private Set<HistoricalIndex> getHisto(String id, Date fromDate, Date toDate, QuotesInterval interval){
-		Set<HistoricalIndex> histoSet = new LinkedHashSet<>();
-		if(fromDate==null){
-			histoSet.addAll(historicalIndexRepository.findOnLastIntraDay(id).stream().collect(Collectors.toSet()));
-		}
-		else{
-			histoSet.addAll(historicalIndexRepository.findSelection(id, fromDate, toDate, interval));
-		}
-		return histoSet;
-	}
-
+	@Autowired
+	private IndexResourceConverter converter;
+	
 	@Override
 	public Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable) {
 		if(!StringUtils.isEmpty(exchangeId)){
@@ -109,44 +110,39 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	@Override
-	public Page<Index> gather(String exchangeId, MarketId marketId,
+	public Page<IndexResource> gather(String exchangeId, MarketId marketId,
 			Pageable pageable) {
 		
 		Page<Index> indices = getIndices(exchangeId, marketId, pageable);
 		
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateIndexAndQuotesFromYahoo(indices.getContent().stream().collect(Collectors.toSet()));
-			return getIndices(exchangeId, marketId, pageable);
+			return getIndices(exchangeId, marketId, pageable).map(converter);
 		}
 		
-		return indices;
+		return indices.map(converter);
 	}
 
 	@Override
-	public Index gather(String indexId) {
+	public IndexResource gather(String indexId) {
+		return converter.convert(gatherNonResource(indexId));
+	}
+
+	private Index gatherNonResource(String indexId) {
 		Index index = indexRepository.findOne(indexId);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
-			updateIndexAndQuotesFromYahoo(Sets.newHashSet(index));
+			updateIndexAndQuotesFromYahoo(index != null ? Sets.newHashSet(index) : Sets.newHashSet(new Index(indexId)));
 			return indexRepository.findOne(indexId);
 		}
 		return index;
 	}
-
-	private void updateHistoFromYahoo(Set<HistoricalIndex> askedContent, String id, Date fromDate, Date toDate, QuotesInterval interval) {
-		if(askedContent.isEmpty()){
-			return;
-		}
-	}
 	
 	private void updateIndexAndQuotesFromYahoo(Set<Index> askedContent) {
-		if(askedContent.isEmpty()){
-			return;
-		}
 		
 		Set<Index> recentlyUpdated = askedContent.stream()
-			.filter(t -> t.getLastUpdate() != null && DateUtil.isRecent(t.getLastUpdate(), 1))
-			.collect(Collectors.toSet());
-
+					.filter(t -> t.getLastUpdate() != null && DateUtil.isRecent(t.getLastUpdate(), 1))
+					.collect(Collectors.toSet());
+		
 		if(askedContent.size() != recentlyUpdated.size()){
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
@@ -180,4 +176,93 @@ public class IndexServiceImpl implements IndexService {
 		}
 	}
 
+	@Override
+	public ChartIndex gather(String indexId, ChartType type,
+			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
+			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
+			Integer intradayHeight) throws ResourceNotFoundException {
+		
+		Preconditions.checkNotNull(type, "ChartType must not be null!");
+		
+		Index index = gatherNonResource(indexId);
+		ChartIndex chartIndex = getChartIndex(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
+		Integer ttl = Integer.parseInt(env.getProperty("yahoo.graphs."+type.name().toLowerCase()+".ttl.minutes"));
+
+		if(chartIndex!=null && !chartIndex.isExpired(ttl)){
+			return chartIndex;
+		}
+		else if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
+			updateChartIndexFromYahoo(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
+			return getChartIndex(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
+		}
+		else if(chartIndex != null){
+			return chartIndex;
+		}
+		throw new ResourceNotFoundException();
+	}
+	
+	private void updateChartIndexFromYahoo(Index index, ChartType type, ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
+			ChartHistoTimeSpan histoPeriod, Integer intradayWidth, Integer intradayHeight) {
+		
+		Preconditions.checkNotNull(index, "index must not be null!");
+		Preconditions.checkNotNull(type, "ChartType must not be null!");
+		
+		String guid = AuthenticationUtil.getPrincipal().getUsername();
+		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+		Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid)
+											.getPrimaryConnection(Yahoo2.class);
+		
+        if (connection != null) {
+			Yahoo2 api = ((Yahoo2) connection.getApi());
+			byte[] yahooChart = api.financialOperations().getYahooChart(index.getId(), type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, token);
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmm");
+			LocalDateTime dateTime = LocalDateTime.now();
+			String formattedDateTime = dateTime.format(formatter); // "1986-04-08_1230"
+			String imageName = index.getId().toLowerCase()+"_"+type.name().toLowerCase()+"_"+formattedDateTime+".png";
+	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat("\\").concat(imageName);
+	    	
+            try {
+                Path newPath = Paths.get(pathToYahooPicture);
+                Files.write(newPath, yahooChart, StandardOpenOption.CREATE);
+            } catch (IOException e) {
+                throw new Error("Storage of " + pathToYahooPicture+ " failed", e);
+            }
+            
+            ChartIndex chartIndex = new ChartIndex(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, pathToYahooPicture);
+            chartIndexRepository.save(chartIndex);
+        }
+	}
+	
+	@Override
+	public ChartIndex getChartIndex(Index index, ChartType type,
+			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
+			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
+			Integer intradayHeight) {
+		
+		Specification<ChartIndex> spec = new ChartSpecifications<ChartIndex>().typeEquals(type);
+		
+		if(type.equals(ChartType.HISTO)){
+			if(histoSize != null){
+				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().sizeEquals(histoSize));
+			}
+			if(histoAverage != null){
+				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().histoMovingAverageEquals(histoAverage));
+			}
+			if(histoPeriod != null){
+				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().histoTimeSpanEquals(histoPeriod));
+			}
+		}
+		else{
+			if(intradayWidth != null){
+				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().intradayWidthEquals(intradayWidth));
+			}
+			if(intradayHeight != null){
+				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().intradayHeightEquals(intradayHeight));
+			}
+		}
+		
+		spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().indexEquals(index));
+		return chartIndexRepository.findAll(spec).stream().findFirst().orElse(null);
+	}
 }

@@ -31,10 +31,6 @@ import org.springframework.util.MultiValueMap;
  */
 abstract class AbstractYahooOperations {
 
-    private static final String API_URL_BASE = "https://social.yahooapis.com/v1/user/%s";
-    private static final String FINANCIAL_API_URL_BASE = "http://finance.yahoo.com/d/";
-    private static final String FINANCIAL_CHARTS_API_URL_BASE = "http://real-chart.finance.yahoo.com/";
-    
     private static final LinkedMultiValueMap<String, String> EMPTY_PARAMETERS = new LinkedMultiValueMap<String, String>();
 
     private boolean isAuthorized;
@@ -52,15 +48,7 @@ abstract class AbstractYahooOperations {
     }
 
     protected String getApiUrlBase(YahooAPIType apiType) {
-    	if(apiType.equals(YahooAPIType.FINANCIAL)){
-    		return FINANCIAL_API_URL_BASE;
-    	}
-    	else if(apiType.equals(YahooAPIType.FINANCIAL_CHARTS)){
-    		return FINANCIAL_CHARTS_API_URL_BASE;
-    	}
-    	else{
-    		return API_URL_BASE;
-    	}
+    	return apiType.getBaseUrl();
     }
 
     protected URI buildUri(YahooAPIType api, String path) {
@@ -74,12 +62,11 @@ abstract class AbstractYahooOperations {
     }
 
     protected URI buildUri(YahooAPIType api, String path, MultiValueMap<String, String> parameters) {
-    	
-    	if(api.equals(YahooAPIType.FINANCIAL) || api.equals(YahooAPIType.FINANCIAL_CHARTS)){
+    	if(api.equals(YahooAPIType.FINANCIAL) || api.equals(YahooAPIType.FINANCIAL_CHARTS_HISTO) || api.equals(YahooAPIType.FINANCIAL_CHARTS_INTRA)){
     		try {
 				return new URI(getApiUrlBase(api) + path.replaceAll("\\^", "%5E"));
 			} catch (Exception e) {
-				throw new RuntimeException(e.getCause());
+				throw new IllegalArgumentException("The following url failed to build! "+ getApiUrlBase(api) + path.replaceAll("\\^", "%5E"));
 			}
     	}
     	else{

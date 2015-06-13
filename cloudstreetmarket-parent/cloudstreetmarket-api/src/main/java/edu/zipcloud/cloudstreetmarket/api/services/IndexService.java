@@ -1,21 +1,33 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
-import java.util.Date;
-import java.util.Set;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
+import org.springframework.social.yahoo.module.ChartHistoSize;
+import org.springframework.social.yahoo.module.ChartHistoTimeSpan;
+import org.springframework.social.yahoo.module.ChartType;
 
-import edu.zipcloud.cloudstreetmarket.core.entities.HistoricalIndex;
+import edu.zipcloud.cloudstreetmarket.api.resources.IndexResource;
+import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
-import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 
 public interface IndexService{
 	Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable);
 	Page<Index> getIndices(Pageable pageable);
-	Set<HistoricalIndex> gatherHisto(String id, Date fromDate, Date toDate, QuotesInterval interval);
-	Page<Index> gather(String exchangeId, MarketId marketId, Pageable pageable);
-	Index gather(String indexId);
 	Index getIndex(String id);
+	
+	Page<IndexResource> gather(String exchangeId, MarketId marketId, Pageable pageable);
+	
+	IndexResource gather(String indexId);
+	
+	ChartIndex gather(String indexId, ChartType type, ChartHistoSize histoSize,
+			ChartHistoMovingAverage histoAverage, ChartHistoTimeSpan histoPeriod, 
+			Integer intradayWidth, Integer intradayHeight) throws ResourceNotFoundException;
+
+	ChartIndex getChartIndex(Index index, ChartType type,
+			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
+			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
+			Integer intradayHeight);
 }
