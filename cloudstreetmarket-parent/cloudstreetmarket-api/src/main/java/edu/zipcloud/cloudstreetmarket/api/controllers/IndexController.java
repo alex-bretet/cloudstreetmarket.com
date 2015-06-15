@@ -39,8 +39,7 @@ public class IndexController extends CloudstreetApiWCI {
 			@RequestParam(value="market", required=false) MarketId marketId,
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){
 		return indexService.gather(exchangeId, marketId, pageable);
-	}
-	
+
 	@RequestMapping(value="/{index:[a-zA-Z0-9^.-]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get an overviews of one index", notes = "Return an index-overview")
 	public IndexResource get(@PathVariable(value="index") String indexId, @PathVariable(value="extension") String extension){

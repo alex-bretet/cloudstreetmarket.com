@@ -55,7 +55,6 @@ public class StockProductController extends AbstractProductController{
             @ApiParam(value="Contains filter") @RequestParam(value="cn", defaultValue="", required=false) String contain, 
             @ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){
 		return stockProductService.gather(indexId, exchangeId, marketId, startWith, spec, pageable);
-	}
 	
 	@RequestMapping(value="/{id:[a-zA-Z0-9.-]+}{extension:\\.[a-z]+}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
