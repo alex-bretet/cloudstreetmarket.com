@@ -33,8 +33,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import edu.zipcloud.cloudstreetmarket.api.converters.IndexResourceConverter;
-import edu.zipcloud.cloudstreetmarket.api.resources.IndexResource;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToIndexConverter;
 import edu.zipcloud.cloudstreetmarket.core.daos.ChartIndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.ExchangeRepository;
@@ -81,9 +79,6 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
 	public Environment env;
 
-	@Autowired
-	private IndexResourceConverter converter;
-	
 	@Override
 	public Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable) {
 		if(!StringUtils.isEmpty(exchangeId)){
@@ -110,25 +105,20 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	@Override
-	public Page<IndexResource> gather(String exchangeId, MarketId marketId,
-			Pageable pageable) {
+	public Page<Index> gather(String exchangeId, MarketId marketId, Pageable pageable) {
 		
 		Page<Index> indices = getIndices(exchangeId, marketId, pageable);
 		
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateIndexAndQuotesFromYahoo(indices.getContent().stream().collect(Collectors.toSet()));
-			return getIndices(exchangeId, marketId, pageable).map(converter);
+			return getIndices(exchangeId, marketId, pageable);
 		}
 		
-		return indices.map(converter);
+		return indices;
 	}
 
 	@Override
-	public IndexResource gather(String indexId) {
-		return converter.convert(gatherNonResource(indexId));
-	}
-
-	private Index gatherNonResource(String indexId) {
+	public Index gather(String indexId) {
 		Index index = indexRepository.findOne(indexId);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateIndexAndQuotesFromYahoo(index != null ? Sets.newHashSet(index) : Sets.newHashSet(new Index(indexId)));
@@ -136,7 +126,7 @@ public class IndexServiceImpl implements IndexService {
 		}
 		return index;
 	}
-	
+
 	private void updateIndexAndQuotesFromYahoo(Set<Index> askedContent) {
 		
 		Set<Index> recentlyUpdated = askedContent.stream()
@@ -147,9 +137,8 @@ public class IndexServiceImpl implements IndexService {
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
 			String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
-			Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid)
-												.getPrimaryConnection(Yahoo2.class);
-			
+	        Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid).findPrimaryConnection(Yahoo2.class);
+
 	        if (connection != null) {
 				askedContent.removeAll(recentlyUpdated);
 			
@@ -184,7 +173,7 @@ public class IndexServiceImpl implements IndexService {
 		
 		Preconditions.checkNotNull(type, "ChartType must not be null!");
 		
-		Index index = gatherNonResource(indexId);
+		Index index = gather(indexId);
 		ChartIndex chartIndex = getChartIndex(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 		Integer ttl = Integer.parseInt(env.getProperty("yahoo.graphs."+type.name().toLowerCase()+".ttl.minutes"));
 
@@ -209,8 +198,8 @@ public class IndexServiceImpl implements IndexService {
 		
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
 		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
-		Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid)
-											.getPrimaryConnection(Yahoo2.class);
+
+        Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid).findPrimaryConnection(Yahoo2.class);
 		
         if (connection != null) {
 			Yahoo2 api = ((Yahoo2) connection.getApi());

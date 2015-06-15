@@ -1,6 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
@@ -9,9 +10,6 @@ import javax.persistence.MappedSuperclass;
 import static javax.persistence.EnumType.*;
 
 import org.springframework.hateoas.Identifiable;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @MappedSuperclass
 public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID> {
@@ -33,13 +31,10 @@ public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID>
 	public String toString() {
 		return id.toString();
 	}
-
+	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -50,12 +45,8 @@ public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID>
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractEnumId other = (AbstractEnumId) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		
+		AbstractEnumId<?> other = (AbstractEnumId<?>) obj;
+		return Objects.equals(this.id, other.id);
 	}
 }

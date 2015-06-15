@@ -1,6 +1,5 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,24 +15,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 @Entity
 @Table(name="index_quote")
 @XStreamAlias("index_quote")
-public class IndexQuote extends Quote implements Serializable{
-
-	private static final long serialVersionUID = -8175317254623555447L;
+public class IndexQuote extends Quote {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "index_code")
@@ -77,26 +62,14 @@ public class IndexQuote extends Quote implements Serializable{
 		this(q);
 		setIndex(index);
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Quote other = (Quote) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
 
+	//Avoid fetching lazy collections (session may be closed depending upon where toString is called from)
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
+	public String toString() {
+		return "IndexQuote [index=" + index + ", symbol=" + symbol + ", id="
+				+ id + ", getLastUpdate()=" + getLastUpdate() + ", getOpen()="
+				+ getOpen() + ", getPreviousClose()=" + getPreviousClose()
+				+ ", getLast()=" + getLast() + ", getDate()=" + getDate()
+				+ ", getHigh()=" + getHigh() + ", getLow()=" + getLow() + "]";
 	}
 }

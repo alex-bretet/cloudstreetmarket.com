@@ -15,9 +15,6 @@ import javax.persistence.TemporalType;
 @Inheritance(strategy = TABLE_PER_CLASS)
 public class Product extends AbstractId<String>{
 	
-	@SuppressWarnings("unused")
-	private static final long serialVersionUID = -802306391915956578L;
-
 	protected String name;
 
 	@Column(name="daily_latest_value")
@@ -124,35 +121,14 @@ public class Product extends AbstractId<String>{
 		this.open = open;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
-	}
-	
+	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
-		return "Product [id=" + getId() + ", name=" + name + ", dailyLatestValue="
+		return "Product [name=" + name + ", dailyLatestValue="
 				+ dailyLatestValue + ", dailyLatestChange=" + dailyLatestChange
-				+ ", open=" + open
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
-				+ ", previousClose=" + previousClose + ", high=" + high
-				+ ", low=" + low + ", currency=" + currency + "]";
+				+ ", previousClose=" + previousClose + ", open=" + open
+				+ ", high=" + high + ", low=" + low + ", currency=" + currency
+				+ ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
 	}
 }

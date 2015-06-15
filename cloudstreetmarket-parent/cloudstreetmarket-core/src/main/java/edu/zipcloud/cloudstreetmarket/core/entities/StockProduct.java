@@ -1,6 +1,5 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -27,9 +26,7 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @NamedEntityGraph(name="StockProduct.indices", attributeNodes={
     @NamedAttributeNode("indices")
 })
-public class StockProduct extends Product implements Serializable{
-
-	private static final long serialVersionUID = 1620238240796817290L;
+public class StockProduct extends Product{
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonSerialize(using=IdentifiableSerializer.class)
@@ -81,35 +78,15 @@ public class StockProduct extends Product implements Serializable{
 		this.indices = indices;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StockProduct other = (StockProduct) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
-	}
-
+	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "StockProduct [industry=" + industry + ", exchange=" + exchange
-				+ ", name=" + name +", dailyLatestValue=" + dailyLatestValue
+				+ ", name=" + name + ", dailyLatestValue=" + dailyLatestValue
 				+ ", dailyLatestChange=" + dailyLatestChange
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
 				+ ", previousClose=" + previousClose + ", high=" + high
-				+ ", low=" + low + ", currency=" + currency + "]";
+				+ ", low=" + low + ", currency=" + currency + ", id=" + id
+				+ "]";
 	}
 }

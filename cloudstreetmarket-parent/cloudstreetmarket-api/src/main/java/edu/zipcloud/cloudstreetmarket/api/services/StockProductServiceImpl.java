@@ -36,17 +36,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import edu.zipcloud.cloudstreetmarket.api.converters.StockProductResourceConverter;
 import edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource;
-import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToStockProductConverter;
-import edu.zipcloud.cloudstreetmarket.core.daos.ChartIndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.ChartStockRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.IndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.StockProductRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.StockQuoteRepository;
-import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartStock;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
@@ -54,6 +50,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.specifications.ChartSpecifications;
 import edu.zipcloud.cloudstreetmarket.core.specifications.ProductSpecifications;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
@@ -81,9 +78,6 @@ public class StockProductServiceImpl implements StockProductService {
 	@Autowired
 	private YahooQuoteToStockProductConverter yahooStockProductConverter;
 
-	@Autowired
-	private StockProductResourceConverter converter;
-	
 	@Autowired
 	private ChartStockRepository chartStockRepository;
 	
@@ -127,7 +121,7 @@ public class StockProductServiceImpl implements StockProductService {
 	}
 
 	@Override
-	public Page<StockProductResource> gather(String indexId, String exchangeId,
+	public Page<StockProduct> gather(String indexId, String exchangeId,
 			MarketId marketId, String startWith,
 			Specification<StockProduct> spec, Pageable pageable) {
 
@@ -135,11 +129,10 @@ public class StockProductServiceImpl implements StockProductService {
 		
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateStocksAndQuotesFromYahoo(stocks.getContent().stream().collect(Collectors.toSet()));
-			
-			return get(indexId, exchangeId, marketId, startWith, spec, pageable).map(converter);
+			return get(indexId, exchangeId, marketId, startWith, spec, pageable);
 		}
 		
-		return stocks.map(converter);
+		return stocks;
 	}
 
 	private void updateStocksAndQuotesFromYahoo(Set<StockProduct> askedContent) {
@@ -188,13 +181,7 @@ public class StockProductServiceImpl implements StockProductService {
 	}
 
 	@Override
-	@Transactional
-	public StockProductResource gather(String stockProductId) {
-		return converter.convert(gatherNonResource(stockProductId));
-	}
-	
-	@Transactional
-	private StockProduct gatherNonResource(String stockProductId) {
+	public StockProduct gather(String stockProductId) {
 		StockProduct stock = stockProductRepository.findOne(stockProductId);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateStocksAndQuotesFromYahoo(stock != null ? Sets.newHashSet(stock) : Sets.newHashSet(new StockProduct(stockProductId)));
@@ -204,13 +191,13 @@ public class StockProductServiceImpl implements StockProductService {
 	}
 
 	@Override
-	public ChartStock gather(String ticker, ChartType type,
+	public ChartStock gather(String stockProductId, ChartType type,
 			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
 			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
 			Integer intradayHeight) throws ResourceNotFoundException {
 		Preconditions.checkNotNull(type, "ChartType must not be null!");
 		
-		StockProduct stock = gatherNonResource(ticker);
+		StockProduct stock = gather(stockProductId);
 
 		ChartStock chartStock = getChartStock(stock, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 
@@ -288,4 +275,6 @@ public class StockProductServiceImpl implements StockProductService {
 		spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().indexEquals(index));
 		return chartStockRepository.findAll(spec).stream().findFirst().orElse(null);
 	}
+
+
 }

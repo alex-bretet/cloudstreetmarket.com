@@ -44,11 +44,9 @@ public class Exchange extends AbstractId<String> {
 	private Set<StockProduct> stocks = new LinkedHashSet<>();
 
 	public Exchange(){
-		super();
 	}
 	
 	public Exchange(String exchange) {
-		this();
 		setId(exchange);
 	}
 
@@ -82,5 +80,11 @@ public class Exchange extends AbstractId<String> {
 
 	public void setStocks(Set<StockProduct> stocks) {
 		this.stocks = stocks;
+	}
+
+	//Avoid fetching lazy collections at this stage (session may be closed)
+	@Override
+	public String toString() {
+		return "Exchange [name=" + name + ", market=" + market + ", id=" + id+ "]";
 	}
 }

@@ -187,36 +187,14 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.lastUpdate = lastUpdate;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
-	}
-
+	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
-		return "User [id=" + getId() + ", fullname=" + fullname + ", email=" + email
+		return "User [fullname=" + fullname + ", email=" + email
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
-				+ ", currency=" + currency + ", actions=" + actions
-				+ ", socialUsers="
-				+ socialUsers + "]";
+				+ ", currency=" + currency + ", authorities=" + authorities
+				+ ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
 	}
 }

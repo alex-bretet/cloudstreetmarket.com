@@ -4,11 +4,12 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.ExposesResourceFor;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,7 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
-import edu.zipcloud.cloudstreetmarket.api.converters.ExchangeResourceConverter;
+import edu.zipcloud.cloudstreetmarket.api.assemblers.ExchangeResourceAssembler;
 import edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource;
 import edu.zipcloud.cloudstreetmarket.core.entities.Exchange;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
@@ -35,14 +36,17 @@ public class ExchangeController extends CloudstreetApiWCI {
 	private ExchangeService exchangeService;
 
 	@Autowired
-	private ExchangeResourceConverter converter;
+	private ExchangeResourceAssembler assembler;
 	
+    @Autowired
+    private PagedResourcesAssembler<Exchange> pagedAssembler;
+    
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get list of exchanges", notes = "Returns a page of exchanges")
-	public Page<ExchangeResource> getSeveral(
+	public PagedResources<ExchangeResource> getSeveral(
 			@ApiParam(value="Market code: EUROPE") @RequestParam(value="market") MarketId marketId,
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){
-		return exchangeService.getSeveral(marketId, pageable).map(converter);
+		return pagedAssembler.toResource(exchangeService.getSeveral(marketId, pageable), assembler);
 	}
 	
 	@RequestMapping(value="/{exchange}", method=GET)
@@ -50,6 +54,6 @@ public class ExchangeController extends CloudstreetApiWCI {
 	public ExchangeResource get(
 			@ApiParam(value="Exchange id: LSE") @PathVariable(value="exchange") String exchangeId,
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){
-		return converter.convert(exchangeService.get(exchangeId));
+		return assembler.toResource(exchangeService.get(exchangeId));
 	}
 }

@@ -1,14 +1,12 @@
 package edu.zipcloud.cloudstreetmarket.core.daos;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.Exchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
-import edu.zipcloud.cloudstreetmarket.core.entities.IndexQuote;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 
 public interface IndexRepository{

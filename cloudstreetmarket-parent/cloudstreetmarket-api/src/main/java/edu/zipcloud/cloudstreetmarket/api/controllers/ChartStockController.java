@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class ChartStockController extends CloudstreetApiWCI {
 			@ApiParam(value="Chart-type INTRADAY / HISTO") @RequestParam(value="type", defaultValue="INTRADAY", required=false) ChartType type,
 			@ApiParam(value="Intraday chart width: 300") @RequestParam(value="width", defaultValue="300", required=false) Integer intradayWidth,
 			@ApiParam(value="Intraday chart height: 160") @RequestParam(value="height", defaultValue="160", required=false) Integer intradayHeight,
-			HttpServletRequest request, HttpServletResponse response) throws IOException{
+			HttpServletResponse response) throws IOException{
 		
 		HttpHeaders headers = new HttpHeaders();
 		byte[] bytes = null;

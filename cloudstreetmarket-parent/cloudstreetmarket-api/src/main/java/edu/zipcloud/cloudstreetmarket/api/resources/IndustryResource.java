@@ -18,6 +18,9 @@ public class IndustryResource extends ResourceSupport implements Serializable{
 	
 	private Industry industry;
 
+	public IndustryResource() {
+	}
+	
 	public IndustryResource(Industry industry) {
 		super();
 		this.industry = industry;
@@ -32,32 +35,7 @@ public class IndustryResource extends ResourceSupport implements Serializable{
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((industry == null) ? 0 : industry.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		IndustryResource other = (IndustryResource) obj;
-		if (industry == null) {
-			if (other.industry != null)
-				return false;
-		} else if (!industry.equals(other.industry))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString() {
-		return "IndustryResource [industry=" + industry.toString() + "]";
+		return "IndustryResource [industry=" + industry + "]";
 	}
 }

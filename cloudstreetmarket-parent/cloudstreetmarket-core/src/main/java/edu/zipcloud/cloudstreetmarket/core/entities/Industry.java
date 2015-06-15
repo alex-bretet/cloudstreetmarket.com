@@ -14,4 +14,9 @@ public class Industry extends AbstractId<Long> {
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
+	@Override
+	public String toString() {
+		return "Industry [id="+id+", label=" + label + "]";
+	}
 }

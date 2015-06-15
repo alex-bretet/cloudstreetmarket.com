@@ -2,8 +2,6 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import static edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex.DISCR;
 
-import java.io.Serializable;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,9 +23,8 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 
 @Entity
 @DiscriminatorValue(DISCR)
-public class ChartIndex extends Chart implements Serializable {
+public class ChartIndex extends Chart {
 
-	private static final long serialVersionUID = -802306391915956578L;
 	public static final String DISCR = "idx";
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -55,25 +52,17 @@ public class ChartIndex extends Chart implements Serializable {
 		this.index= index;
 	}
 
+	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Quote other = (Quote) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
+	public String toString() {
+		return "ChartIndex [index=" + index + ", id=" + id + ", getType()="
+				+ getType() + ", getHistoTimeSpan()=" + getHistoTimeSpan()
+				+ ", getHistoMovingAverage()=" + getHistoMovingAverage()
+				+ ", getHistoSize()=" + getHistoSize()
+				+ ", getIntradayWidth()=" + getIntradayWidth()
+				+ ", getIntradayHeight()=" + getIntradayHeight()
+				+ ", getInternalPath()=" + getInternalPath()
+				+ ", getLastUpdate()=" + getLastUpdate() + ", getPath()="
+				+ getPath() + "]";
 	}
 }

@@ -1,6 +1,5 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -13,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,12 +29,7 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @Entity
 @Table(name="index_value")
 @XStreamAlias("index")
-@NamedEntityGraph(name="Index.exchange", attributeNodes={
-	    @NamedAttributeNode("exchange")
-	})
-public class Index extends AbstractId<String> implements Serializable{
-
-	private static final long serialVersionUID = -2919348303931939346L;
+public class Index extends AbstractId<String> {
 
 	private String name;
 
@@ -171,36 +163,14 @@ public class Index extends AbstractId<String> implements Serializable{
 		this.open = open;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Index other = (Index) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
-	}
-
-	//Avoid fetching lazy collections at this stage (session may be closed)
+	//Avoid fetching lazy collections (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
-		return "Index [id="+getId().toString()+", name=" + name + ", dailyLatestValue=" + dailyLatestValue
+		return "Index [name=" + name + ", dailyLatestValue=" + dailyLatestValue
 				+ ", dailyLatestChange=" + dailyLatestChange
-				+ ", open=" + open
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
-				+ ", previousClose=" + previousClose + ", high=" + high
-				+ ", low=" + low + "]";
+				+ ", previousClose=" + previousClose + ", open=" + open
+				+ ", high=" + high + ", low=" + low + ", exchange=" + exchange
+				+ ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
 	}
 }

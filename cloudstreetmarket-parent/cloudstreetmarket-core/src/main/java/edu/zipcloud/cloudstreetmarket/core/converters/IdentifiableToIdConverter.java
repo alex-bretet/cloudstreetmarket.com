@@ -14,7 +14,7 @@ import com.thoughtworks.xstream.mapper.Mapper;
 
 public class IdentifiableToIdConverter implements Converter {
 	
-	    private final Class type;
+	    private final Class<Identifiable<?>> type;
 
 	    /**
 	     * Creates a new ToAttributedValueConverter instance.
@@ -25,7 +25,7 @@ public class IdentifiableToIdConverter implements Converter {
 	     * @param valueFieldName the field defining the tag's value (may be null)
 	     */
 	    public IdentifiableToIdConverter(
-	        final Class type, final Mapper mapper, final ReflectionProvider reflectionProvider,
+	        final Class<Identifiable<?>> type, final Mapper mapper, final ReflectionProvider reflectionProvider,
 	        final ConverterLookup lookup, final String valueFieldName) {
 	        this(type, mapper, reflectionProvider, lookup, valueFieldName, null);
 	    }
@@ -41,7 +41,7 @@ public class IdentifiableToIdConverter implements Converter {
 	     */
 	    public IdentifiableToIdConverter(
 	        final Class<Identifiable<?>> type, final Mapper mapper, final ReflectionProvider reflectionProvider,
-	        final ConverterLookup lookup, final String valueFieldName, Class valueDefinedIn) {
+	        final ConverterLookup lookup, final String valueFieldName, Class<?> valueDefinedIn) {
 	        this.type = type;
 
             Field field = null;
@@ -55,7 +55,6 @@ public class IdentifiableToIdConverter implements Converter {
             } catch (NoSuchFieldException e) {
                 throw new IllegalArgumentException(e.getMessage() + ": " + valueFieldName);
             }
-	        
 	    }
 
 	    public boolean canConvert(final Class type) {

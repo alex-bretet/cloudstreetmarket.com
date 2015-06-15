@@ -18,6 +18,9 @@ public class StockProductResource extends ResourceSupport implements Serializabl
 	
 	private static final long serialVersionUID = 3681041931966104346L;
 	
+	public StockProductResource() {
+	}
+	
 	@XStreamAlias("stock")
 	private StockProduct product;
 
@@ -35,32 +38,7 @@ public class StockProductResource extends ResourceSupport implements Serializabl
 	}
 	
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
-		return result;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StockProductResource other = (StockProductResource) obj;
-		if (product == null) {
-			if (other.product != null)
-				return false;
-		} else if (!product.equals(other.product))
-			return false;
-		return true;
-	}
-	
-	@Override
 	public String toString() {
-		return "StockProductResource [product=" + product.toString() + "]";
+		return "StockProductResource [product=" + product + "]";
 	}
 }

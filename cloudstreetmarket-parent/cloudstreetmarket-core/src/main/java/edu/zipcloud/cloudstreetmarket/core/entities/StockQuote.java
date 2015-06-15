@@ -1,6 +1,5 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,17 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -28,9 +16,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @Entity
 @Table(name="stock_quote")
 @XStreamAlias("stock_quote")
-public class StockQuote extends Quote implements Serializable{
-
-	private static final long serialVersionUID = -8175317254623555447L;
+public class StockQuote extends Quote{
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_code")
@@ -97,36 +83,10 @@ public class StockQuote extends Quote implements Serializable{
 		setStock(stockProduct);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StockQuote other = (StockQuote) obj;
-		if (getId() != other.getId())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
-	}
-
+	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "StockQuote [stock=" + stock + ", bid=" + bid + ", ask=" + ask
-				+ ", getOpen()=" + getOpen() + ", getPreviousClose()="
-				+ getPreviousClose() + ", getLast()=" + getLast()
-				+ ", getHigh()=" + getHigh() + ", getLow()=" + getLow()
-				+ ", getId()=" + getId() + "]";
+				+ ", symbol=" + symbol + ", id=" + id + "]";
 	}
-	
-	
 }

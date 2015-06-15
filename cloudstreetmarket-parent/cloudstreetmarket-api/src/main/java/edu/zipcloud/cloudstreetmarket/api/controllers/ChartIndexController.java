@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -36,7 +36,9 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
 @ExposesResourceFor(ChartIndex.class)
 @RequestMapping(value=CHART_PATH)
 public class ChartIndexController extends CloudstreetApiWCI {
-
+	
+	private static final Logger log = Logger.getLogger(ChartIndexController.class);
+	
 	@Autowired
 	private IndexService indexService;
 	
@@ -50,19 +52,28 @@ public class ChartIndexController extends CloudstreetApiWCI {
 			@ApiParam(value="Chart-type INTRADAY / HISTO") @RequestParam(value="type", defaultValue="INTRADAY", required=false) ChartType type,
 			@ApiParam(value="Intraday chart width: 300") @RequestParam(value="width", defaultValue="300", required=false) Integer intradayWidth,
 			@ApiParam(value="Intraday chart height: 160") @RequestParam(value="height", defaultValue="160", required=false) Integer intradayHeight,
-			HttpServletRequest request, HttpServletResponse response) throws IOException{
+			HttpServletResponse response) {
 		
 		HttpHeaders headers = new HttpHeaders();
 		byte[] bytes = null;
+		ChartIndex chartIndex = null;
 		
 		try{
-			ChartIndex chartIndex = indexService.gather(indexId, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
+			chartIndex = indexService.gather(indexId, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 			bytes = Files.readAllBytes(Paths.get(chartIndex.getPath()));
 		}
 		catch(ResourceNotFoundException e){
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat("\\").concat("graph_not_found.png");
-			bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
+			try {
+				bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
+			} catch (IOException ioEx) {
+				log.error("Failed to load image: "+pathToYahooPicture, ioEx);
+			}
+		}
+		catch(IOException e){
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			log.error("Failed to load image: "+chartIndex.getPath(), e);
 		}
 
 		return new HttpEntity<>(bytes, headers);

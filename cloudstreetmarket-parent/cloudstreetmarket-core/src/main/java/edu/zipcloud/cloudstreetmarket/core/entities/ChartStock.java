@@ -2,8 +2,6 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import static edu.zipcloud.cloudstreetmarket.core.entities.ChartStock.DISCR;
 
-import java.io.Serializable;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,9 +24,8 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @Entity
 @DiscriminatorValue(DISCR)
 @XStreamAlias("chart_stock")
-public class ChartStock extends Chart implements Serializable {
+public class ChartStock extends Chart {
 
-	private static final long serialVersionUID = -802306391915956578L;
 	public static final String DISCR = "stk";
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -54,5 +51,19 @@ public class ChartStock extends Chart implements Serializable {
 						ChartHistoTimeSpan histoPeriod, Integer intradayWidth, Integer intradayHeight, String path) {
 		super(type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, path);
 		this.stock= stock;
+	}
+
+	//Avoid fetching lazy collections at this stage (session may be closed)
+	@Override
+	public String toString() {
+		return "ChartStock [id=" + id + ", getType()=" + getType()
+				+ ", getHistoTimeSpan()=" + getHistoTimeSpan()
+				+ ", getHistoMovingAverage()=" + getHistoMovingAverage()
+				+ ", getHistoSize()=" + getHistoSize()
+				+ ", getIntradayWidth()=" + getIntradayWidth()
+				+ ", getIntradayHeight()=" + getIntradayHeight()
+				+ ", getInternalPath()=" + getInternalPath()
+				+ ", getLastUpdate()=" + getLastUpdate() + ", getPath()="
+				+ getPath() + "]";
 	}
 }

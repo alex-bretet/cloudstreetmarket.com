@@ -23,7 +23,6 @@ import static edu.zipcloud.cloudstreetmarket.core.entities.Transaction.*;
 public class Transaction extends Action 
 {
 
-	private static final long serialVersionUID = 1376900532071997330L;
 	public static final String DISCR = "trans";
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -60,5 +59,13 @@ public class Transaction extends Action
 
 	public void setQuote(StockQuote quote) {
 		this.quote = quote;
+	}
+
+	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
+	@Override
+	public String toString() {
+		return "Transaction [quote=" + quote + ", quantity=" + quantity
+				+ ", lastUpdate=" + lastUpdate + ", id=" + id + ", getType()="
+				+ getType() + ", getDate()=" + getDate() + "]";
 	}
 }

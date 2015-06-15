@@ -72,9 +72,4 @@
     <tx:annotation-driven transaction-manager="transactionManager"
         proxy-target-class="true" />
 
-	<bean id="yahooTemplate" class="org.springframework.social.yahoo.api.impl.Yahoo2Template">
-          <constructor-arg value="${yahoo.client.token}" />
-          <constructor-arg value="${yahoo.client.secret}" />	
-	</bean>
-
 </beans>
