@@ -1,10 +1,10 @@
 package edu.zipcloud.cloudstreetmarket.api.assemblers;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.CHART;
 import static edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource.EXCHANGE;
 import static edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource.COMPONENTS;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
@@ -30,10 +30,13 @@ public class IndexResourceAssembler extends ResourceAssemblerSupport<Index, Inde
 	@Override
 	public IndexResource toResource(Index index) {
 		IndexResource resource = createResourceWithId(index.getId(), index);
-		resource.setIndex(index);
 		resource.add(entityLinks.linkToSingleResource(index.getExchange()).withRel(EXCHANGE));
 		resource.add(linkTo(methodOn(ChartIndexController.class).get(index.getId(), null, null, null, null, null, null, null)).withRel(CHART));
 		resource.add(linkTo(methodOn(StockProductController.class).getSeveral(null, null, index.getId(), null, null, null, null)).withRel(COMPONENTS));
 	    return resource;
+	}
+	
+	protected IndexResource instantiateResource(Index entity) {
+		return new IndexResource(entity);
 	}
 }

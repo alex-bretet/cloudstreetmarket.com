@@ -21,8 +21,10 @@ public class MarketResourceAssembler extends ResourceAssemblerSupport<Market, Ma
 	
 	@Override
 	public MarketResource toResource(Market market) {
-		MarketResource marketResource = createResourceWithId(market.getId(), market);
-		marketResource.setMarket(market);
-		return marketResource;
+		return createResourceWithId(market.getId(), market);
+	}
+	
+	protected MarketResource instantiateResource(Market entity) {
+		return new MarketResource(entity);
 	}
 }

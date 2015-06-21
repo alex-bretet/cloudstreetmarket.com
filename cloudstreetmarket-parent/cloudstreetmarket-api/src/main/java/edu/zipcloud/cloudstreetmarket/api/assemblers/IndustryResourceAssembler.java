@@ -21,8 +21,10 @@ public class IndustryResourceAssembler extends ResourceAssemblerSupport<Industry
 	
 	@Override
 	public IndustryResource toResource(Industry industry) {
-		IndustryResource industryResource = createResourceWithId(industry.getId(), industry);
-		industryResource.setIndustry(industry);
-		return industryResource;
+		return createResourceWithId(industry.getId(), industry);
+	}
+	
+	protected IndustryResource instantiateResource(Industry entity) {
+		return new IndustryResource(entity);
 	}
 }

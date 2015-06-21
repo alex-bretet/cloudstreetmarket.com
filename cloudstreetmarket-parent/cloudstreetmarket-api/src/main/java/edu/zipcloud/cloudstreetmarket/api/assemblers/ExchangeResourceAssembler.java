@@ -1,7 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.api.assemblers;
 
-import static edu.zipcloud.cloudstreetmarket.api.resources.IndexResource.INDICES;
-import static edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource.STOCKS;
+import static edu.zipcloud.cloudstreetmarket.api.resources.IndexResource.*;
+import static edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -29,10 +29,13 @@ public class ExchangeResourceAssembler extends ResourceAssemblerSupport<Exchange
 	@Override
 	public ExchangeResource toResource(Exchange exchange) {
 		ExchangeResource resource = createResourceWithId(exchange.getId(), exchange);
-		resource.setExchange(exchange);
 		resource.add(entityLinks.linkToSingleResource(exchange.getMarket()));
 		resource.add(linkTo(methodOn(IndexController.class).getSeveral(exchange.getId(), null, null)).withRel(INDICES));
 		resource.add(linkTo(methodOn(StockProductController.class).getSeveral(null, exchange.getId(), null, null, null, null, null)).withRel(STOCKS));
 		return resource;
+	}
+	
+	protected ExchangeResource instantiateResource(Exchange entity) {
+		return new ExchangeResource(entity);
 	}
 }

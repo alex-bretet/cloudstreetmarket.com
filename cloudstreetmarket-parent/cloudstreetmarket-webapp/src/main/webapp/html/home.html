@@ -14,9 +14,9 @@
 				<div ng-controller="homeFinancialGraphController">
 					<select class="form-control centeredElementBox">
 					    <option ng-repeat="value in indicesForGraph"
-					    		ng-selected="{{value.index.id == currentIndex}}"
-					            value="{{value.index.id}}">
-					      {{value.index.name}}
+					    		ng-selected="{{value.id == currentIndex}}"
+					            value="{{value.id}}">
+					      {{value.name}}
 					    </option>
 					</select>
 				</div>
@@ -33,9 +33,9 @@
 							</thead>
 							<tbody>
 								<tr data-ng-repeat="value in indicesForTable">
-									<td><a href="/portal/index-{{value.index.id}}"><b>{{value.index.name}}</b></a></td>
-									<td style="text-align:right">{{value.index.dailyLatestValue}}</td>
-									<td class='{{value.style}}' style="text-align:right"><strong>{{value.index.dailyLatestChangePercent}}%</strong></td>
+									<td><a href="/portal/index-{{value.id}}"><b>{{value.name}}</b></a></td>
+									<td style="text-align:right">{{value.dailyLatestValue}}</td>
+									<td class='{{value.style}}' style="text-align:right"><strong>{{value.dailyLatestChangePercent}}%</strong></td>
 								</tr>
 							</tbody>
 						</table>

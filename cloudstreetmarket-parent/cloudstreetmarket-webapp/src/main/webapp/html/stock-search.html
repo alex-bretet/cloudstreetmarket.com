@@ -80,15 +80,15 @@
 					<th/>
 				</tr>
 				<tr data-ng-repeat="value in stocks">
-					<td><strong><a href="/portal/stock-{{value.product.id}}">{{value.product.name}}</a></strong></td>
-					<td>{{value.product.id}}</td>
-					<td>{{value.product.currency}}</td>
-					<td><strong>{{value.product.dailyLatestValue}}</strong></td>
-					<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChange}}</strong></td>
-					<td ng-class="(value.product.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.product.dailyLatestChangePercent}}%</strong></td>
-					<td>{{value.product.high}}</td>
-					<td>{{value.product.low}}</td>
-					<td>{{value.product.exchangeId}}</td>
+					<td><strong><a href="/portal/stock-{{value.id}}">{{value.name}}</a></strong></td>
+					<td>{{value.id}}</td>
+					<td>{{value.currency}}</td>
+					<td><strong>{{value.dailyLatestValue}}</strong></td>
+					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange}}</strong></td>
+					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent}}%</strong></td>
+					<td>{{value.high}}</td>
+					<td>{{value.low}}</td>
+					<td>{{value.exchangeId}}</td>
 					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 				</tr>
 			</table>

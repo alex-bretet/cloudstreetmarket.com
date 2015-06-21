@@ -63,14 +63,14 @@
 				</tr>
 		
 				<tr data-ng-repeat="value in indicesForMarket">
-					<td><a href="/portal/index-{{value.index.id}}"><strong>{{value.index.name}}</strong></a></td>
-					<td>{{value.index.id}}</td>
-					<td><strong>{{value.index.dailyLatestValue}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.index.dailyLatestChange}}</strong></td>
-					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.index.dailyLatestChangePercent}}%</strong></td>
-					<td>{{value.index.high}}</td>
-					<td>{{value.index.low}}</td>
-					<td>{{value.index.exchangeId}}</td>
+					<td><a href="/portal/index-{{value.id}}"><strong>{{value.name}}</strong></a></td>
+					<td>{{value.id}}</td>
+					<td><strong>{{value.dailyLatestValue}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent}}%</strong></td>
+					<td>{{value.high}}</td>
+					<td>{{value.low}}</td>
+					<td>{{value.exchangeId}}</td>
 					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 				</tr>
 		

@@ -26,7 +26,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 	  $scope.init = function () {
 		  stockDetailFactory.get($routeParams.ticker)
 			.success(function(data, status, headers, config) {
-				$scope.stock = data.product;
+				$scope.stock = data;
 				$(data.links).each(function(index, value) { 
 					if(value.rel){
 						if(value.rel=="chart"){

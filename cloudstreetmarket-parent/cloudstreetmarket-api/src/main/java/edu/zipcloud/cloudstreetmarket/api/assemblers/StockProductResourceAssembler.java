@@ -1,8 +1,8 @@
 package edu.zipcloud.cloudstreetmarket.api.assemblers;
 
-import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
-import static edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource.*;
-import static edu.zipcloud.cloudstreetmarket.api.resources.IndustryResource.*;
+import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.CHART;
+import static edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource.EXCHANGE;
+import static edu.zipcloud.cloudstreetmarket.api.resources.IndustryResource.INDUSTRY;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -29,7 +29,6 @@ public class StockProductResourceAssembler extends ResourceAssemblerSupport<Stoc
 	@Override
 	public StockProductResource toResource(StockProduct stock) {
 		StockProductResource resource = createResourceWithId(stock.getId(), stock);
-		resource.setProduct(stock);
 		if(stock.getIndustry() != null){
 			resource.add(entityLinks.linkToSingleResource(stock.getIndustry()).withRel(INDUSTRY));
 		}
@@ -41,5 +40,9 @@ public class StockProductResourceAssembler extends ResourceAssemblerSupport<Stoc
 		resource.add(linkTo(methodOn(ChartIndexController.class).get(stock.getId(), null, null, null, null, null, null, null)).withRel(CHART));
 
 		return resource;
+	}
+	
+	protected StockProductResource instantiateResource(StockProduct entity) {
+		return new StockProductResource(entity);
 	}
 }
