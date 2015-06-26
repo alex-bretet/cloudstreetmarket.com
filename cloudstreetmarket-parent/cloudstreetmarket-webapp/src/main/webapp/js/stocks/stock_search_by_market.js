@@ -56,9 +56,9 @@ cloudStreetMarketApp.controller('stockSearchByMarketController', function Pagina
  */
 function updatePaginationStockS_BM ($scope, data){
 	$scope.stocks = data.content;
-    $scope.currentPage = data.number;
-    $scope.paginationCurrentPage = data.number+1;
-    $scope.paginationTotalItems =  data.totalElements;//number total of objects
+    $scope.currentPage = data.page.number;
+    $scope.paginationCurrentPage = data.page.number+1;
+    $scope.paginationTotalItems =  data.page.totalElements;//number total of objects
 }
 
 function updateSortParamStockS_BM ($scope, field){

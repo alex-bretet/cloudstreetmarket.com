@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +28,13 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 @RestController
 @ExposesResourceFor(Index.class)
 @RequestMapping(value=INDICES_PATH, produces={"application/xml", "application/json"})
-public class IndexController extends CloudstreetApiWCI {
+public class IndexController extends CloudstreetApiWCI<Index> {
 	
 	@Autowired
 	private IndexService indexService;
 	
 	@Autowired
 	private IndexResourceAssembler assembler;
-	
-    @Autowired
-    private PagedResourcesAssembler<Index> pagedAssembler;
 	
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get overviews of indices", notes = "Return a page of index-overviews")

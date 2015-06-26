@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,17 +28,14 @@ import edu.zipcloud.cloudstreetmarket.core.services.MarketService;
 @RestController
 @ExposesResourceFor(Market.class)
 @RequestMapping(value=MARKETS_PATH, produces={"application/xml", "application/json"})
-public class MarketController extends CloudstreetApiWCI {
+public class MarketController extends CloudstreetApiWCI<Market> {
 	
 	@Autowired
 	private MarketService marketService;
 
 	@Autowired
 	private MarketResourceAssembler assembler;
-	
-    @Autowired
-    private PagedResourcesAssembler<Market> pagedAssembler;
-    
+
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get list of markets", notes = "Return a page of markets")
 	public PagedResources<MarketResource> getSeveral(

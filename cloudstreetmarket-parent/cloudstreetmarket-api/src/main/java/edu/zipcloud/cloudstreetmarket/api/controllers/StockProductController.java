@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 @RestController
 @ExposesResourceFor(StockProduct.class)
 @RequestMapping(value=PRODUCT_PATH + STOCKS_PATH, produces={"application/xml", "application/json"})
-public class StockProductController extends AbstractProductController{
+public class StockProductController extends AbstractProductController<StockProduct>{
 	
 	@Autowired
 	private StockProductService stockProductService;
@@ -45,9 +44,6 @@ public class StockProductController extends AbstractProductController{
 	@Autowired
 	private StockProductResourceAssembler assembler;
 	
-    @Autowired
-    private PagedResourcesAssembler<StockProduct> pagedAssembler;
-    
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get overviews of stocks", notes = "Return a page of stock-overviews")

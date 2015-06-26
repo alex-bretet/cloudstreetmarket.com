@@ -1,12 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_BASIC;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_OAUTH2;
-import static javax.ws.rs.HttpMethod.DELETE;
-import static javax.ws.rs.HttpMethod.GET;
-import static javax.ws.rs.HttpMethod.HEAD;
-import static javax.ws.rs.HttpMethod.OPTIONS;
-import static javax.ws.rs.HttpMethod.POST;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
+import static javax.ws.rs.HttpMethod.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.Identifiable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -38,7 +35,7 @@ import edu.zipcloud.cloudstreetmarket.core.util.UserDetailsUtil;
 
 @Component
 @PropertySource("classpath:application.properties")
-public class CloudstreetApiWCI extends WebContentInterceptor {
+public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInterceptor {
 
     private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     
@@ -66,6 +63,9 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
     @Autowired
     private SocialUserService usersConnectionRepository;
 
+    @Autowired
+    protected PagedResourcesAssembler<T> pagedAssembler;
+    
 	public CloudstreetApiWCI(){
 		setRequireSession(false);
 		setCacheSeconds(0);

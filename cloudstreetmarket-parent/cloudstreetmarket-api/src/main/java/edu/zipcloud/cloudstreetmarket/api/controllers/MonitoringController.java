@@ -24,7 +24,7 @@ import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 @RestController
 @RequestMapping(value="/monitoring", produces={"application/xml", "application/json"})
 @PreAuthorize("hasRole('ADMIN')")
-public class MonitoringController extends CloudstreetApiWCI{
+public class MonitoringController extends CloudstreetApiWCI<User>{
 
 	@Autowired
 	private CommunityService communityService;

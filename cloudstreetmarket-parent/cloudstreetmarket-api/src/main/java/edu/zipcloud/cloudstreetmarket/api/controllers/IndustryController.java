@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ import edu.zipcloud.cloudstreetmarket.core.services.IndustryService;
 @RestController
 @ExposesResourceFor(Industry.class)
 @RequestMapping(value=INDUSTRIES_PATH, produces={"application/xml", "application/json"})
-public class IndustryController extends CloudstreetApiWCI {
+public class IndustryController extends CloudstreetApiWCI<Industry> {
 	
 	@Autowired
 	private IndustryService industryService;
@@ -35,9 +34,6 @@ public class IndustryController extends CloudstreetApiWCI {
 	@Autowired
 	private IndustryResourceAssembler assembler;
 	
-    @Autowired
-    private PagedResourcesAssembler<Industry> pagedAssembler;
-    
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get industries", notes = "Return a page of industries")
 	public PagedResources<IndustryResource> getSeveral(

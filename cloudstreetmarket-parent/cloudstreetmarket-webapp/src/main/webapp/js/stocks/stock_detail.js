@@ -30,7 +30,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 				$(data.links).each(function(index, value) { 
 					if(value.rel){
 						if(value.rel=="chart"){
-							stockDetailFactory.setGraph(value.href+".png?type=HISTO&average=m20");
+							stockDetailFactory.setGraph(value.href+"?type=HISTO&average=m20");
 						}
 						if(value.rel=="exchange"){
 							stockDetailFactory.getUrl(value.href)

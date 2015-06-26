@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +29,7 @@ import edu.zipcloud.cloudstreetmarket.core.services.ExchangeService;
 @RestController
 @ExposesResourceFor(Exchange.class)
 @RequestMapping(value=EXCHANGES_PATH, produces={"application/xml", "application/json"})
-public class ExchangeController extends CloudstreetApiWCI {
+public class ExchangeController extends CloudstreetApiWCI<Exchange> {
 	
 	@Autowired
 	private ExchangeService exchangeService;
@@ -38,9 +37,6 @@ public class ExchangeController extends CloudstreetApiWCI {
 	@Autowired
 	private ExchangeResourceAssembler assembler;
 	
-    @Autowired
-    private PagedResourcesAssembler<Exchange> pagedAssembler;
-    
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Get list of exchanges", notes = "Returns a page of exchanges")
 	public PagedResources<ExchangeResource> getSeveral(

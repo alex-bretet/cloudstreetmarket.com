@@ -22,6 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.yahoo.api.Yahoo2;
 import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
 import org.springframework.social.yahoo.module.ChartHistoSize;
@@ -68,6 +69,9 @@ public class IndexServiceImpl implements IndexService {
 	private SocialUserService usersConnectionRepository;
 	
 	@Autowired
+	private ConnectionRepository connectionRepository;
+	
+	@Autowired
 	private YahooQuoteToIndexConverter yahooIndexConverter;
 	
 	@Autowired
@@ -75,6 +79,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Autowired
 	private ChartIndexRepository chartIndexRepository;
+
 	
     @Autowired
 	public Environment env;
@@ -137,7 +142,7 @@ public class IndexServiceImpl implements IndexService {
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
 			String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
-	        Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid).findPrimaryConnection(Yahoo2.class);
+			Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 
 	        if (connection != null) {
 				askedContent.removeAll(recentlyUpdated);
@@ -146,8 +151,7 @@ public class IndexServiceImpl implements IndexService {
 						.map(Index::getId)
 						.collect(Collectors.toList());
 				
-				Yahoo2 api = ((Yahoo2) connection.getApi());
-				List<YahooQuote> yahooQuotes = api.financialOperations().getYahooQuotes(updatableTickers, token);
+				List<YahooQuote> yahooQuotes = connection.getApi().financialOperations().getYahooQuotes(updatableTickers, token);
 
 				Set<Index> upToDateIndex = yahooQuotes.stream()
 						.map(t -> yahooIndexConverter.convert(t))
@@ -198,12 +202,10 @@ public class IndexServiceImpl implements IndexService {
 		
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
 		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+        Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 
-        Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid).findPrimaryConnection(Yahoo2.class);
-		
         if (connection != null) {
-			Yahoo2 api = ((Yahoo2) connection.getApi());
-			byte[] yahooChart = api.financialOperations().getYahooChart(index.getId(), type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, token);
+			byte[] yahooChart = connection.getApi().financialOperations().getYahooChart(index.getId(), type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, token);
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmm");
 			LocalDateTime dateTime = LocalDateTime.now();

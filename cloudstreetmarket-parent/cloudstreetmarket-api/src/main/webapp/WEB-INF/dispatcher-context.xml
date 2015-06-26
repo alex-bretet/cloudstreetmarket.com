@@ -117,6 +117,7 @@
     	<property name="autodetectAnnotations" value="true"/>
 	    <property name="aliasesByType">
 	        <map>
+	        	<entry key="pagedResources" value="org.springframework.hateoas.PagedResources"/>
 	            <entry key="page" value="org.springframework.data.domain.Slice"/>
 	            <entry key="pageInfo" value="org.springframework.data.domain.Pageable"/>
 	            <entry key="sort" value="org.springframework.data.domain.Sort"/>
@@ -174,12 +175,8 @@
 	</bean>
 
 	<bean class="org.springframework.data.web.PagedResourcesAssembler">
-		<constructor-arg>
-			<bean class="org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver" />
-		</constructor-arg>
-		<constructor-arg>
-			<null />
-		</constructor-arg>
+		<constructor-arg><null/></constructor-arg>
+		<constructor-arg><null/></constructor-arg>
 	</bean>
 
 	<!-- Serve static content-->
