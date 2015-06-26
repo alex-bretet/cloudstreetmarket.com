@@ -37,7 +37,7 @@ public class StockProductResourceAssembler extends ResourceAssemblerSupport<Stoc
 			resource.add(entityLinks.linkToSingleResource(stock.getExchange()).withRel(EXCHANGE));
 		}
 
-		resource.add(linkTo(methodOn(ChartIndexController.class).get(stock.getId(), null, null, null, null, null, null, null)).withRel(CHART));
+		resource.add(linkTo(methodOn(ChartIndexController.class).get(stock.getId(), ".png", null, null, null, null, null, null, null)).withRel(CHART));
 
 		return resource;
 	}

@@ -34,18 +34,19 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
 @Api(value = "Charts for indices", description = "Financial charts for indices") // Swagger annotation
 @RestController
 @ExposesResourceFor(ChartIndex.class)
-@RequestMapping(value=CHART_PATH)
-public class ChartIndexController extends CloudstreetApiWCI {
+@RequestMapping(value=CHART_INDEX_PATH)
+public class ChartIndexController extends CloudstreetApiWCI<ChartIndex> {
 	
 	private static final Logger log = Logger.getLogger(ChartIndexController.class);
 	
 	@Autowired
 	private IndexService indexService;
 	
-	@RequestMapping(value="/{index}", method=GET)
+	@RequestMapping(value="/{index:[a-zA-Z0-9^.-]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get chart for one index", notes = "Return a chart from one index")
 	public HttpEntity<byte[]> get(
 			@ApiParam(value="Index ID: ^OEX") @PathVariable("index") String indexId,
+			@ApiParam(value="Extension: json") @PathVariable(value="extension") String extension,
 			@ApiParam(value="Histo chart period: 1y") @RequestParam(value="period", required=false) ChartHistoTimeSpan histoPeriod,
 			@ApiParam(value="Moving average line: m50") @RequestParam(value="average", required=false) ChartHistoMovingAverage histoAverage,
 			@ApiParam(value="Histo chart size: l/m/s") @RequestParam(value="size", required=false) ChartHistoSize histoSize,

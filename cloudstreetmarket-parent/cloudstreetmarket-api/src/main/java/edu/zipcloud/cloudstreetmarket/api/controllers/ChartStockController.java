@@ -33,8 +33,8 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
 @Api(value = "Charts for stocks", description = "Financial charts for stocks") // Swagger annotation
 @RestController
 @ExposesResourceFor(ChartStock.class)
-@RequestMapping(value=CHART_PATH)
-public class ChartStockController extends CloudstreetApiWCI {
+@RequestMapping(value=CHART_STOCK_PATH)
+public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 
 	@Autowired
 	private StockProductService stockProductService;
@@ -43,6 +43,7 @@ public class ChartStockController extends CloudstreetApiWCI {
 	@ApiOperation(value = "Get chart for one stock", notes = "Return a chart from one stock")
 	public HttpEntity<byte[]> get(
 			@ApiParam(value="StockProduct ID: QACL.HM") @PathVariable("ticker") String ticker,
+			@ApiParam(value="Extension: json") @PathVariable(value="extension") String extension,
 			@ApiParam(value="Histo chart period: 1y") @RequestParam(value="period", required=false) ChartHistoTimeSpan histoPeriod,
 			@ApiParam(value="Moving average line: m50") @RequestParam(value="average", required=false) ChartHistoMovingAverage histoAverage,
 			@ApiParam(value="Histo chart size: l/m/s") @RequestParam(value="size", required=false) ChartHistoSize histoSize,

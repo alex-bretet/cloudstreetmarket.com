@@ -36,9 +36,9 @@ cloudStreetMarketApp.controller('indicesByMarketTableController', function Pagin
  */
 function updatePaginationIndicesBM ($scope, data){
 	$scope.indicesForMarket = data.content;
-    $scope.currentPage = data.number;
-    $scope.paginationCurrentPage = data.number+1;
-    $scope.paginationTotalItems =  data.totalElements;//number total of objects
+    $scope.currentPage = data.page.number;
+    $scope.paginationCurrentPage = data.page.number+1;
+    $scope.paginationTotalItems =  data.page.totalElements;//number total of objects
 }
 
 function updateSortParamIndicesBM ($scope, field){

@@ -2,7 +2,7 @@ cloudStreetMarketApp.factory("indicesGraphFactory", function (httpAuth) {
     return {
         getGraph: function (index) {
         	var xmlHTTP = new XMLHttpRequest();
-            xmlHTTP.open('GET',"/api/charts/"+index+".png",true);
+            xmlHTTP.open('GET',"/api/charts/indices/"+index+".png",true);
             httpAuth.setHeaders(xmlHTTP);
             // Must include this line - specifies the response type we want
             xmlHTTP.responseType = 'arraybuffer';

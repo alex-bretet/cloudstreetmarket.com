@@ -24,6 +24,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.yahoo.api.Yahoo2;
 import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
 import org.springframework.social.yahoo.module.ChartHistoSize;
@@ -36,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToStockProductConverter;
 import edu.zipcloud.cloudstreetmarket.core.daos.ChartStockRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.IndexRepository;
@@ -76,10 +76,14 @@ public class StockProductServiceImpl implements StockProductService {
 	private SocialUserService usersConnectionRepository;
 	
 	@Autowired
+	private ConnectionRepository connectionRepository;
+	
+	@Autowired
 	private YahooQuoteToStockProductConverter yahooStockProductConverter;
 
 	@Autowired
 	private ChartStockRepository chartStockRepository;
+
 	
     @Autowired
 	public Environment env;
@@ -148,8 +152,7 @@ public class StockProductServiceImpl implements StockProductService {
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
 			String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
-			Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid)
-												.getPrimaryConnection(Yahoo2.class);
+			Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 			
 	        if (connection != null) {
 				askedContent.removeAll(recentlyUpdated);
@@ -158,11 +161,7 @@ public class StockProductServiceImpl implements StockProductService {
 						.map(StockProduct::getId)
 						.collect(Collectors.toList());
 				
-				Yahoo2 api = ((Yahoo2) connection.getApi());
-				List<YahooQuote> yahooQuotes = null;
-				
-	
-				yahooQuotes = api.financialOperations().getYahooQuotes(updatableTickers, token);
+				List<YahooQuote> yahooQuotes = connection.getApi().financialOperations().getYahooQuotes(updatableTickers, token);
 
 				Set<StockProduct> upToDateStocks = yahooQuotes.stream()
 						.map(t -> yahooStockProductConverter.convert(t))
@@ -219,12 +218,10 @@ public class StockProductServiceImpl implements StockProductService {
 		
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
 		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
-		Connection<Yahoo2> connection = usersConnectionRepository.createConnectionRepository(guid)
-											.getPrimaryConnection(Yahoo2.class);
+		Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 		
         if (connection != null) {
-			Yahoo2 api = ((Yahoo2) connection.getApi());
-			byte[] yahooChart = api.financialOperations().getYahooChart(stock.getId(), type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, token);
+			byte[] yahooChart = connection.getApi().financialOperations().getYahooChart(stock.getId(), type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, token);
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmm");
 			LocalDateTime dateTime = LocalDateTime.now();
