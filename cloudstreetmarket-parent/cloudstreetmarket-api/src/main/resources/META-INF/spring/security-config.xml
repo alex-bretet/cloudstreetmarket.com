@@ -20,8 +20,8 @@
 	http://www.springframework.org/schema/security 
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
 
-	<context:property-placeholder location="classpath:application.properties" />
-
+	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
+	
     <bean id="authenticationEntryPoint" 
         class="edu.zipcloud.cloudstreetmarket.api.authentication.CustomBasicAuthenticationEntryPoint">
         <property name="realmName" value="${realm.name}" />
