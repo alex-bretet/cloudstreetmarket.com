@@ -38,7 +38,7 @@ import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
  */
 @Controller
 @RequestMapping(value="/oauth2", produces={"application/xml", "application/json"})
-@PropertySource("classpath:application.properties")
+@PropertySource("file:${user.home}/app/cloudstreetmarket.properties")
 public class OAuth2CloudstreetController extends CloudstreetApiWCI{
 
     @Autowired

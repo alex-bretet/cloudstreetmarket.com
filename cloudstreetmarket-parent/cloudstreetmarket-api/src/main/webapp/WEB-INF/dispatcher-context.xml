@@ -25,7 +25,6 @@
 
 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api"/>
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
-	<context:property-placeholder location="classpath*:/META-INF/properties/swagger.properties" />
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

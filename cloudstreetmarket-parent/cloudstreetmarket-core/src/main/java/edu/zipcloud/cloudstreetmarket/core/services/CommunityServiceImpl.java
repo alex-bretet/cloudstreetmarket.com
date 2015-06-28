@@ -47,7 +47,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Service(value="communityServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED)
-@PropertySource(value="classpath:application.properties")
+@PropertySource(value="file:${user.home}/app/cloudstreetmarket.properties")
 public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired

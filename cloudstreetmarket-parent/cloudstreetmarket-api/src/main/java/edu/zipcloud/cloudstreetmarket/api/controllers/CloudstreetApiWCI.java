@@ -34,7 +34,7 @@ import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.cloudstreetmarket.core.util.UserDetailsUtil;
 
 @Component
-@PropertySource("classpath:application.properties")
+@PropertySource("file:${user.home}/app/cloudstreetmarket.properties")
 public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInterceptor {
 
     private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
