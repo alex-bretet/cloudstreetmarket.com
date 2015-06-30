@@ -6,7 +6,7 @@ This project is the application developed with the book [Spring MVC Cookbook]
 
 ## Quickstart
 
-1. Make sure you have a %JAVA_HOME% environment variable pointing to the root directory of a JDK8.
+1. You must have a %JAVA_HOME% environment variable pointing to the root directory of a JDK8.
 2. From the command line do:
 
 ```
