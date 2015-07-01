@@ -211,7 +211,7 @@ public class IndexServiceImpl implements IndexService {
 			LocalDateTime dateTime = LocalDateTime.now();
 			String formattedDateTime = dateTime.format(formatter); // "1986-04-08_1230"
 			String imageName = index.getId().toLowerCase()+"_"+type.name().toLowerCase()+"_"+formattedDateTime+".png";
-	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat("\\").concat(imageName);
+	    	String pathToYahooPicture = env.getProperty("user.home").concat(env.getProperty("pictures.yahoo.path")).concat("\\").concat(imageName);
 	    	
             try {
                 Path newPath = Paths.get(pathToYahooPicture);
