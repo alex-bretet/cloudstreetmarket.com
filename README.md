@@ -1,7 +1,7 @@
 # cloudstreetmarket.com
 
 ![Build Status](https://travis-ci.org/alex-bretet/cloudstreetmarket.com.svg?branch=master)
-[![Slack](https://cloudstreetmarket.herokuapp.com/badge.svg)](https://cloudstreetmarket.herokuapp.com)
+##[![Slack](https://cloudstreetmarket.herokuapp.com/badge.svg)](https://cloudstreetmarket.herokuapp.com)
 
 This project is the application developed with the book [Spring MVC Cookbook]
 
