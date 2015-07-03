@@ -15,6 +15,9 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
             });
+        },
+        getCurrencyX: function (pn) {
+        	return httpAuth.get("/api/currencyX/"+ pn +".json");
         }
     }
 });
@@ -44,11 +47,24 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 				}
 				window.location="../portal/index";
 		  });
-	  }
+	  };
 	  
+	  $scope.updateCredit = function(){
+		  if($scope.form.currency=="USD"){
+			  $scope.credit = 20000;
+		  }
+		  else{
+			  accountManagementFactory.getCurrencyX("USD"+$scope.form.currency+"=X").success(
+				  function(data, status) {
+					  $scope.credit = data.dailyLatestValue*20000;
+				  });
+		  }
+	  }
+
 	  $scope.progressVisible = false;
 	  $scope.progressType = "warning";
 	  $scope.progress = 0;
+	  $scope.credit = 20000;
 	  
 	  $scope.setFiles = function(element) {
 		  $scope.progressType = "warning";

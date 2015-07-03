@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -28,6 +29,16 @@ public class StockQuote extends Quote{
 	
 	private double ask;
 
+	@Column(name="last_change")
+	private double lastChange;
+	
+	@Column(name="last_change_pc")
+	private double lastChangePercent;
+	
+	private String exchange;
+	
+	private String currency;
+	
 	@Transient
 	private String symbol;
 	
@@ -63,6 +74,38 @@ public class StockQuote extends Quote{
 		this.symbol = symbol;
 	}
 
+	public double getLastChange() {
+		return lastChange;
+	}
+
+	public void setLastChange(double lastChange) {
+		this.lastChange = lastChange;
+	}
+
+	public double getLastChangePercent() {
+		return lastChangePercent;
+	}
+
+	public void setLastChangePercent(double lastChangePercent) {
+		this.lastChangePercent = lastChangePercent;
+	}
+
+	public String getExchange() {
+		return exchange;
+	}
+
+	public void setExchange(String exchange) {
+		this.exchange = exchange;
+	}
+	
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
 	public StockQuote(){
 	}
 
@@ -75,6 +118,10 @@ public class StockQuote extends Quote{
 		setLast(q.getLast());
 		setOpen(q.getOpen());
 		setSymbol(q.getId());
+		setLastChange(q.getLastChange());
+		setLastChangePercent(q.getLastChangePercent());
+		setExchange(q.getExchange());
+		setCurrency(q.getCurrency());
 		setPreviousClose(q.getPreviousClose());
 	}
 
@@ -86,7 +133,7 @@ public class StockQuote extends Quote{
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
-		return "StockQuote [stock=" + stock + ", bid=" + bid + ", ask=" + ask
+		return "StockQuote [bid=" + bid + ", ask=" + ask
 				+ ", symbol=" + symbol + ", id=" + id + "]";
 	}
 }

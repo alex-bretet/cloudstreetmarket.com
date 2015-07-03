@@ -80,7 +80,6 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private ChartIndexRepository chartIndexRepository;
 
-	
     @Autowired
 	public Environment env;
 

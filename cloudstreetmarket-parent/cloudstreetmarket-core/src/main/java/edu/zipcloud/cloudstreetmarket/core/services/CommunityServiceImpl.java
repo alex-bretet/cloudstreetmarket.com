@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 
 import com.google.common.base.Preconditions;
 
@@ -42,7 +43,6 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
-
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Service(value="communityServiceImpl")
@@ -126,6 +126,11 @@ public class CommunityServiceImpl implements CommunityService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
+	
+	public User createUserWithBalance(User user, Role[] roles, BigDecimal balance) {
+		user.setBalance(balance);
+		return createUser(user, roles);
+	}
 
 	@Override
 	public Page<UserDTO> getAll(Pageable pageable) {
@@ -178,7 +183,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public User createUser(String nickName, String email, String password) {
-		User user = new User(nickName, passwordEncoder.encode(password), email, true, true, true, true, null);
+		User user = new User(nickName, passwordEncoder.encode(password), email, true, true, true, true, null, null, null);
 		return userRepository.save(user);
 	}
 	
@@ -254,6 +259,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
 		
         //fallback
-		return new User(username, generatePassword(), "", true, true, true, true, createAuthorities(new Role[]{Role.ROLE_BASIC, Role.ROLE_OAUTH2}));
+        throw new ResourceAccessException("No found user for username: "+username);
 	}
 }

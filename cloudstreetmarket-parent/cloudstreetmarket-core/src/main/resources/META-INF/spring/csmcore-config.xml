@@ -66,6 +66,7 @@
 	<jdbc:initialize-database data-source="dataSource">
 	    <jdbc:script location="classpath:/META-INF/db/init.sql"/>
 	    <jdbc:script location="classpath:/META-INF/db/indices.sql"/>
+	    <jdbc:script location="classpath:/META-INF/db/currency_exchange.sql"/>
 	    <jdbc:script location="classpath:/META-INF/db/stocks.sql"/>
 	</jdbc:initialize-database>
 

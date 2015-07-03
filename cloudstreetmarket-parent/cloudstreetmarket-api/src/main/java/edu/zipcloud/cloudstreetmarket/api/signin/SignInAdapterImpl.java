@@ -55,7 +55,7 @@ public class SignInAdapterImpl implements SignInAdapter{
 		if(user == null){
 			//temporary user for Spring Security
 			//won't be persisted
-			user = new User(userId, communityService.generatePassword(), null, true, true, true, true, communityService.createAuthorities(new Role[]{Role.ROLE_BASIC, Role.ROLE_OAUTH2}));
+			user = new User(userId, communityService.generatePassword(), null, true, true, true, true, communityService.createAuthorities(new Role[]{Role.ROLE_BASIC, Role.ROLE_OAUTH2}), null, null);
 		}
 		else{
 			//Here we have a successful previous oAuth authentication

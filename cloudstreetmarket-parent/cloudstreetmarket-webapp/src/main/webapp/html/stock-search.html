@@ -44,50 +44,50 @@
 					<th><a href="" ng-click="setSort('name')">Name</a> 
 						<li class="mini-color" 
 							ng-show="sortedField === 'name'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th><a href="" ng-click="setSort('id')">Symbol</a> 
 						<li class="mini-color" 
 							ng-show="sortedField === 'code'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th><a href="" ng-click="setSort('dailyLatestValue')">Currency</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'currency'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th><a href="" ng-click="setSort('dailyLatestValue')">Value</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'dailyLatestValue'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th ><a href="" ng-click="setSort('dailyLatestChange')">+/-</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'dailyLatestChange'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th><a href="" ng-click="setSort('dailyLatestChangePercent')">%+/-</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'dailyLatestChangePercent'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th><a href="" ng-click="setSort('high')">High</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'high'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th ><a href="" ng-click="setSort('low')">Low</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'low'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th><a href="" ng-click="setSort('previousClose')">Exchange</a>  
 						<li class="mini-color" 
 							ng-show="sortedField === 'exchangeId'" 
-							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-down' : 'mini-ico-chevron-up'"/></th>
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th/>
 				</tr>
 				<tr data-ng-repeat="value in stocks">
 					<td><strong><a href="/portal/stock-{{value.id}}">{{value.name}}</a></strong></td>
 					<td>{{value.id}}</td>
-					<td>{{value.currency}}</td>
-					<td><strong>{{value.dailyLatestValue}}</strong></td>
-					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange}}</strong></td>
-					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent}}%</strong></td>
-					<td>{{value.high}}</td>
-					<td>{{value.low}}</td>
+					<td>{{value.currency | uppercase}}</td>
+					<td><strong>{{value.dailyLatestValue| number:2}}</strong></td>
+					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange | number:2}}</strong></td>
+					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent | number:2}}%</strong></td>
+					<td>{{value.high | number:2}}</td>
+					<td>{{value.low | number:2}}</td>
 					<td>{{value.exchangeId}}</td>
 					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 				</tr>

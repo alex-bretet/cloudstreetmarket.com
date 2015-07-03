@@ -13,14 +13,14 @@
 		
 			<div class="span4" style="margin-right:-5px;">
 				<h1>
-					<li ng-class="stock.dailyLatestChange > 0 ? 'ico-up-arrow' : 'ico-down-arrow'"></li>
-					<span style="margin-left:-15px;">{{stock.dailyLatestValue | number }}</span>
+					<li ng-show="stock.dailyLatestChange != 0" ng-class="stock.dailyLatestChange > 0 ? 'ico-up-arrow' : 'ico-down-arrow'"></li>
+					<span style="margin-left:-15px;">{{stock.dailyLatestValue | number }}</span> <span style="font-size: 30px;">{{stock.currency | uppercase}}</span>
 				</h1>
-				<div style="margin-top:-10px;">
-					<h3 ng-class="stock.dailyLatestChange > 0 ? 'text-success' : 'text-error'">{{stock.dailyLatestChange | number}} ({{stock.dailyLatestChangePercent}}%)</h3>
+				<div style="margin-top:-10px;" ng-if="stock.dailyLatestChange != 0">
+					<h3 ng-class="stock.dailyLatestChange >= 0 ? 'text-success' : 'text-error'">{{stock.dailyLatestChange > 0 ? '+' : ''}}{{stock.dailyLatestChange | number}} {{stock.currency | uppercase}} ({{stock.dailyLatestChange > 0 ? '+' : ''}}{{stock.dailyLatestChangePercent}}%)</h3>
 				</div>
 			</div>
-			<div class="span5">
+			<div style="margin-top:10px;" class="span5">
 				<img id="detailChart"/>
 			</div>
 
@@ -44,9 +44,37 @@
 							<td><span ng-show="exchange">Exchange:</span></td>
 							<td><span ng-show="exchange"><strong>{{exchange.name}}</strong> ({{exchange.id}})</span></td>
 							<td><span>Currency:</span></td>
-							<td><span><strong>{{stock.currency}}</strong></span></td>
+							<td><span><strong>{{stock.currency | uppercase}}</strong></span></td>
 						</tr>
 					</table>
+				</div>
+			</div>
+			<div  class="span5 ">
+				<div style="position:relative;margin-top:30px;left:30%">
+					<a class="btn btn-success" ng-class="(sell) ? 'disabled': ''" href="#" ng-click="buyButton()"><i class="mini-ico-plus-sign mini-white"></i> Buy</a>
+					<a class="btn btn-danger" ng-class="(buy) ? 'disabled': ''"  href="#" ng-click="sellButton()"><i class="mini-ico-minus-sign mini-white"></i> Sell</a>
+				</div>
+				<div ng-show="sell">
+					sell
+				</div>
+				<div ng-show="buy">
+				
+					<div class="input-group">
+			          <span class="input-group-btn">
+			              <button type="button" class="btn btn-small btn-danger btn-number" data-type="minus" data-field="quant[2]">
+			                <span class="mini-ico-arrow-down mini-white"></span>
+			              </button>
+			          </span>
+			          <input type="text" style="margin-top:10px;width:50px;" name="quant[2]" class="form-control input-number" value="0" min="0" max="99999">
+			          <span class="input-group-btn">
+			              <button type="button" class="btn btn-small btn-success btn-number" data-type="plus" data-field="quant[2]">
+			                  <span class="mini-ico-arrow-up mini-white"></span>
+			              </button>
+			          </span>
+			      	</div>
+			      
+			      	{{quantity}}
+			
 				</div>
 			</div>
 	</div>

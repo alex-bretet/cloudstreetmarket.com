@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.core.dtos;
 
+import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ public class UserDTO {
 	private String fullname;
 	private String profileImg;
 	private SupportedCurrency currency;
+	private BigDecimal balance;
 	private Set<ActionDTO> actions;
 	
 	public String getUsername() {
@@ -42,11 +44,15 @@ public class UserDTO {
 	public void setCurrency(SupportedCurrency currency) {
 		this.currency = currency;
 	}
-	
 	public Set<ActionDTO> getActions(Set<Action> actions) {
 		return this.actions;
 	}
-	
+	public BigDecimal getBalance() {
+		return balance;
+	}
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 	public void setActions(Set<Action> actions) {
 		this.actions = actions.stream()
 				.map(ActionDTO::new)
@@ -59,5 +65,6 @@ public class UserDTO {
 		this.setUsername(user.getUsername());
 		this.setCurrency(user.getCurrency());
 		this.setActions(user.getActions());
+		this.setBalance(user.getBalance());
 	}
 }

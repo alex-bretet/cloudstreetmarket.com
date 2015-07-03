@@ -1,12 +1,19 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import static javax.persistence.InheritanceType.*;
 
@@ -31,6 +38,11 @@ public class Quote extends AbstractTableGeneratedId<Long>{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdate;
 
+	@OneToMany(mappedBy = "quote")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OrderBy("date desc")
+	private Set<Transaction> transactions = new LinkedHashSet<Transaction>();
+	
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
@@ -85,6 +97,14 @@ public class Quote extends AbstractTableGeneratedId<Long>{
 
 	public void setLow(double low) {
 		this.low = low;
+	}
+	
+	public Set<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Set<Transaction> transactions) {
+		this.transactions = transactions;
 	}
 
 	//Avoid fetching lazy collections at this stage (session may be closed)

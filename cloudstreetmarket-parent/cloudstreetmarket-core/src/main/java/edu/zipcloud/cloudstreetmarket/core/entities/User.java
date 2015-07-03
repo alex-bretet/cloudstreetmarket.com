@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -49,6 +50,8 @@ public class User extends AbstractId<String> implements UserDetails{
 	@Enumerated(EnumType.STRING)
 	private SupportedCurrency currency;
 
+	private BigDecimal balance;
+	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OrderBy("id desc")
@@ -70,7 +73,7 @@ public class User extends AbstractId<String> implements UserDetails{
 	}
 	
 	public User(String id, String password, String email, boolean enabled, boolean accountNonExpired,
-			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth) {
+			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance) {
 		setId(id);
 		this.password = password;
 		this.email = email;
@@ -78,10 +81,12 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.accountNonExpired = accountNonExpired;
 		this.accountNonLocked = accountNonLocked;
 		this.authorities = auth;
+		this.currency = currency;
+		this.balance = balance;
 	}
 
 	public User(User user, Set<Authority> authorities) {
-		this(user.getUsername(), user.getPassword(), user.getEmail(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities);
+		this(user.getUsername(), user.getPassword(), user.getEmail(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance());
 	}
 
 	@Override
@@ -92,6 +97,14 @@ public class User extends AbstractId<String> implements UserDetails{
 	@Override
 	public String getPassword() {
 		return password;
+	}
+	
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
 	}
 
 	public void setPassword(String password) {
@@ -194,7 +207,7 @@ public class User extends AbstractId<String> implements UserDetails{
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
-				+ ", currency=" + currency + ", authorities=" + authorities
+				+ ", currency=" + currency + ", balance=" +balance +", authorities=" + authorities
 				+ ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
 	}
 }

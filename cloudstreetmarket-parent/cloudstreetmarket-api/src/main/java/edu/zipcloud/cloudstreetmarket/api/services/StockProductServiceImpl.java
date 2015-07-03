@@ -1,12 +1,14 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToStockProductConverter;
+import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToStockQuoteConverter;
 import edu.zipcloud.cloudstreetmarket.core.daos.ChartStockRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.IndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
@@ -50,6 +52,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.services.ExchangeService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.specifications.ChartSpecifications;
 import edu.zipcloud.cloudstreetmarket.core.specifications.ProductSpecifications;
@@ -79,11 +82,13 @@ public class StockProductServiceImpl implements StockProductService {
 	private ConnectionRepository connectionRepository;
 	
 	@Autowired
-	private YahooQuoteToStockProductConverter yahooStockProductConverter;
+	private YahooQuoteToStockQuoteConverter yahooStockQuoteConverter;
 
 	@Autowired
 	private ChartStockRepository chartStockRepository;
-
+	
+	@Autowired
+	private ExchangeService exchangeService;
 	
     @Autowired
 	public Environment env;
@@ -156,25 +161,20 @@ public class StockProductServiceImpl implements StockProductService {
 			
 	        if (connection != null) {
 				askedContent.removeAll(recentlyUpdated);
-			
-				List<String> updatableTickers = askedContent.stream()
-						.map(StockProduct::getId)
-						.collect(Collectors.toList());
-				
-				List<YahooQuote> yahooQuotes = connection.getApi().financialOperations().getYahooQuotes(updatableTickers, token);
 
-				Set<StockProduct> upToDateStocks = yahooQuotes.stream()
-						.map(t -> yahooStockProductConverter.convert(t))
-						.collect(Collectors.toSet());
-				
-				final Map<String, StockProduct> persistedStocks = stockProductRepository.save(upToDateStocks).stream()
+				Map<String, StockProduct> updatableTickers = askedContent.stream()
 						.collect(Collectors.toMap(StockProduct::getId, Function.identity()));
-
-				Set<StockQuote> updatableQuotes = yahooQuotes.stream()
-						.map(sq -> new StockQuote(sq, persistedStocks.get(sq.getId())))
-						.collect(Collectors.toSet());
-
-				stockQuoteRepository.save(updatableQuotes);
+				
+				List<YahooQuote> yahooQuotes = connection.getApi().financialOperations().getYahooQuotes(new ArrayList<String>(updatableTickers.keySet()), token);
+				
+				Set<StockProduct> updatableProducts = yahooQuotes.stream()
+					.map(yq -> {
+						StockQuote sq = new StockQuote(yq, updatableTickers.get((yq.getId())));
+						return syncProduct(updatableTickers.get((yq.getId())), sq);
+					})
+					.collect(Collectors.toSet());
+				
+				stockProductRepository.save(updatableProducts);
 	        }
 		}
 	}
@@ -271,6 +271,24 @@ public class StockProductServiceImpl implements StockProductService {
 		
 		spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().indexEquals(index));
 		return chartStockRepository.findAll(spec).stream().findFirst().orElse(null);
+	}
+	
+	private StockProduct syncProduct(StockProduct stockProduct, StockQuote quote){
+		stockProduct.setHigh(BigDecimal.valueOf(quote.getHigh()));
+		stockProduct.setLow(BigDecimal.valueOf(quote.getLow()));
+		stockProduct.setDailyLatestChange(BigDecimal.valueOf(quote.getLastChange()));
+		stockProduct.setDailyLatestChangePercent(BigDecimal.valueOf(quote.getLastChangePercent()));
+		stockProduct.setDailyLatestValue(BigDecimal.valueOf(quote.getLast()));
+		stockProduct.setPreviousClose(BigDecimal.valueOf(quote.getPreviousClose()));
+		stockProduct.setOpen(BigDecimal.valueOf(quote.getOpen()));
+		if(!StringUtils.isEmpty(quote.getExchange())){
+			stockProduct.setExchange(exchangeService.get(quote.getExchange()));
+		}
+		if(!StringUtils.isEmpty(quote.getCurrency())){
+			stockProduct.setCurrency(quote.getCurrency());
+		}
+		stockProduct.setQuote(quote);
+		return stockProduct;
 	}
 
 

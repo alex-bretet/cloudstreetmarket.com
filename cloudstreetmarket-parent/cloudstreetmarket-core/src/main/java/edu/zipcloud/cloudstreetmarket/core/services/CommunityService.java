@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.core.services;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ public interface CommunityService extends UserDetailsService{
 	Page<User> findAll(Pageable pageable);
 	User createUser(User user, Role role);
 	User createUser(User user, Role[] role);
+	User createUserWithBalance(User user, Role[] roles, BigDecimal balance);
 	User createUser(String nickName, String email, String password);
 	User findOne(String username);
 	UserDTO getUser(String username);

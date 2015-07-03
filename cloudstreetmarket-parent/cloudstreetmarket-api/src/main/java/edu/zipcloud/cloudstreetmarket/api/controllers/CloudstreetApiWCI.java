@@ -61,7 +61,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
     private CommunityService communityService;
     
     @Autowired
-    private SocialUserService usersConnectionRepository;
+    protected SocialUserService usersConnectionRepository;
 
     @Autowired
     protected PagedResourcesAssembler<T> pagedAssembler;

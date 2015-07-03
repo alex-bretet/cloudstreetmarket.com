@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.api.assemblers;
 
+import static edu.zipcloud.cloudstreetmarket.api.resources.StockQuoteResource.*;
 import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.CHART;
 import static edu.zipcloud.cloudstreetmarket.api.resources.ExchangeResource.EXCHANGE;
 import static edu.zipcloud.cloudstreetmarket.api.resources.IndustryResource.INDUSTRY;
@@ -39,6 +40,10 @@ public class StockProductResourceAssembler extends ResourceAssemblerSupport<Stoc
 
 		resource.add(linkTo(methodOn(ChartIndexController.class).get(stock.getId(), ".png", null, null, null, null, null, null, null)).withRel(CHART));
 
+		if(stock.getQuote() != null){
+			resource.add(entityLinks.linkToSingleResource(stock.getQuote()).withRel(STOCK_QUOTE));
+		}
+		
 		return resource;
 	}
 	

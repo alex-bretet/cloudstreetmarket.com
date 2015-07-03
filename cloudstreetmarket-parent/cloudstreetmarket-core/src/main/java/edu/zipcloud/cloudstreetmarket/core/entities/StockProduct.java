@@ -3,12 +3,15 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +50,14 @@ public class StockProduct extends Product{
 	@XStreamOmitField
 	private Set<Index> indices = new LinkedHashSet<>();
 
+	@OneToOne(fetch = FetchType.EAGER, optional=true, cascade=CascadeType.ALL)
+	@JoinColumn(name = "quote_id")
+	@JsonSerialize(using=IdentifiableSerializer.class)
+	@JsonProperty("quoteId")
+	@XStreamConverter(value=IdentifiableToIdConverter.class, strings={"id"})
+	@XStreamAlias("quoteId")
+	private StockQuote quote;
+	
 	public StockProduct() {
 	}
 	
@@ -76,6 +87,14 @@ public class StockProduct extends Product{
 
 	public void setIndices(Set<Index> indices) {
 		this.indices = indices;
+	}
+	
+	public StockQuote getQuote() {
+		return quote;
+	}
+
+	public void setQuote(StockQuote quote) {
+		this.quote = quote;
 	}
 
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)

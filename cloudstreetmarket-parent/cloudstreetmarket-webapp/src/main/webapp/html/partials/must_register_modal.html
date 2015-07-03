@@ -20,7 +20,7 @@
 			   	<input type="password" name="password" placeholder="Password" ng-model="form.password"/>
 			   	<label for="currencySelector">
 				   	Preferred currency
-				   	<select class="input-small" style="margin-left:5px" id="currencySelector" ng-model="form.currency" ng-init="form.currency='USD'" ng-selected="USD">
+				   	<select class="input-small" style="margin-left:5px" id="currencySelector" ng-model="form.currency" ng-init="form.currency='USD'" ng-selected="USD"  ng-change="updateCredit()">
 				   		<option>USD</option>
 				   		<option>GBP</option>
 				   		<option>EUR</option>
@@ -29,7 +29,7 @@
 				   		<option>CNY</option>
 				   	</select>
 				</label>
-			   	<div class="span3" style="margin-top:5px;margin-bottom:5px;background-repeat: no-repeat;background-image: url('img/icon-finder/1428187092_coins_add.png');height:44px;margin-left:-15px;padding-left:40px;padding-top:4px;"><span>You will be given virtually {{form.currency}}20.000</span></div>
+			   	<div class="span3" style="margin-top:5px;margin-bottom:5px;background-repeat: no-repeat;background-image: url('img/icon-finder/1428187092_coins_add.png');height:44px;margin-left:-15px;padding-left:40px;padding-top:4px;"><span>You will be given virtually {{form.currency}} <strong>{{credit | number}}</strong></span></div>
 			   	<button class="btn btn-large btn-block btn-success" type="button" ng-click="create(true)">Create account</button>
 		 	</form>
 			  <button class="btn btn-link" 
