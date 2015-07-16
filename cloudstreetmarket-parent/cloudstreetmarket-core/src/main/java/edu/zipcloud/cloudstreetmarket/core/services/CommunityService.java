@@ -11,8 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.Authority;
+import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
+import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 public interface CommunityService extends UserDetailsService{
 	Page<UserActivityDTO> getPublicActivity(Pageable pageable);
@@ -36,4 +39,7 @@ public interface CommunityService extends UserDetailsService{
 	void registerUser(User user);
 	Authentication signInUser(User user);
 	Page<UserDTO> getAll(Pageable pageable);
+	void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType userActivityType, CurrencyExchange currencyExchange);
+	boolean isAffordableToUser(int quantity, StockQuote quote, User user, CurrencyExchange currencyExchange);
+	
 }

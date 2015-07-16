@@ -45,7 +45,7 @@ public class IndexController extends CloudstreetApiWCI<Index> {
 		return pagedAssembler.toResource(indexService.gather(exchangeId, marketId, pageable), assembler);
 	}
 
-	@RequestMapping(value="/{index:[a-zA-Z0-9^.-]+}{extension:\\.[a-z]+}", method=GET)
+	@RequestMapping(value="/{index:[a-zA-Z0-9^.-:]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get an overviews of one index", notes = "Return an index-overview")
 	public IndexResource get(@PathVariable(value="index") String indexId, @PathVariable(value="extension") String extension){
 		return assembler.toResource(indexService.gather(indexId));

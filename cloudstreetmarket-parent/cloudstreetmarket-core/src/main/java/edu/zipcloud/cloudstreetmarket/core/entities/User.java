@@ -72,6 +72,10 @@ public class User extends AbstractId<String> implements UserDetails{
 	
 	}
 	
+	public User(String id){
+		setId(id);
+	}
+	
 	public User(String id, String password, String email, boolean enabled, boolean accountNonExpired,
 			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance) {
 		setId(id);

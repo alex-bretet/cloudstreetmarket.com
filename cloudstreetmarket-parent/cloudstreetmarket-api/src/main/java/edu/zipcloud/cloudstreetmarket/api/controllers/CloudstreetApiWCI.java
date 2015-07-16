@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
+import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
@@ -58,7 +59,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	public Environment env;
     
     @Autowired
-    private CommunityService communityService;
+    protected CommunityService communityService;
     
     @Autowired
     protected SocialUserService usersConnectionRepository;
@@ -123,7 +124,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	
 	protected void handlePostSignIn(HttpServletResponse response, String scheme){
 		response.setHeader(WWW_AUTHENTICATE_HEADER, scheme.concat(authenticationHeaderSequence));
-		response.setHeader(AUTHENTICATED_HEADER, TRUE);
+		response.setHeader(AUTHENTICATED_HEADER, SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 	
 	protected void handlePostSignIn(HttpServletResponse response, String scheme, String mustRegister){
@@ -133,6 +134,14 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 
 	public UserDetails getPrincipal(){
 	   return AuthenticationUtil.getPrincipal();
+	}
+	
+	public User getAuthenticated(){
+		UserDetails userDetail = getPrincipal();
+		if(userDetail != null){
+			return communityService.findByLogin(userDetail.getUsername());
+		}
+		return null;
 	}
 
 	@InitBinder

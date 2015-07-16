@@ -154,6 +154,14 @@
                   						<li><a href="/portal/stocks-risers-fallers">Risers and fallers</a></li>
                 					</ul>
               					</li>
+              					<li class="dropdown">
+                					<a href="markets" class="dropdown-toggle"  data-toggle="dropdown">My account <b class="caret"></b></a>
+                					<ul class="dropdown-menu">
+                						<li><a href="/portal/wallet">My wallet</a></li>
+                						<li><a href="/portal/transactions">My transactions</a></li>
+                					</ul>
+              					
+              					</li>
 								<li><a href="community">Community</a></li>
 								<li><a href="sources">Sources</a></li>
 								<li><a href="about">About</a></li>
@@ -418,6 +426,8 @@
 	<script src="js/stocks/stock_search.js"></script>
 	<script src="js/stocks/stock_search_by_market.js"></script>
 	<script src="js/stocks/stocks_risers_fallers.js"></script>
+	<script src="js/my-account/wallet.js"></script>
+	<script src="js/my-account/transactions.js"></script>
 	<!-- end: Javascript -->
 
 </body>

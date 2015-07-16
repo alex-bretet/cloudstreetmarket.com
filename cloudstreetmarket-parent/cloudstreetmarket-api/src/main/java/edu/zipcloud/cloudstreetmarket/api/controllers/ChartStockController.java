@@ -39,7 +39,7 @@ public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 	@Autowired
 	private StockProductService stockProductService;
 	
-	@RequestMapping(value="/{ticker:[a-zA-Z0-9.-]+}{extension:\\.[a-z]+}", method=GET)
+	@RequestMapping(value="/{ticker:[a-zA-Z0-9.:-]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get chart for one stock", notes = "Return a chart from one stock")
 	public HttpEntity<byte[]> get(
 			@ApiParam(value="StockProduct ID: QACL.HM") @PathVariable("ticker") String ticker,

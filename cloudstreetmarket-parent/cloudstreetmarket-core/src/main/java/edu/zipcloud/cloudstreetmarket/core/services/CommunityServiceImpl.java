@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,8 @@ import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.AccountActivity;
 import edu.zipcloud.cloudstreetmarket.core.entities.Action;
 import edu.zipcloud.cloudstreetmarket.core.entities.Authority;
+import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
+import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
@@ -260,5 +264,48 @@ public class CommunityServiceImpl implements CommunityService {
 		
         //fallback
         throw new ResourceAccessException("No found user for username: "+username);
+	}
+
+	@Override
+	public boolean isAffordableToUser(int quantity, StockQuote quote, User user, @Nullable CurrencyExchange currencyExchange) {
+		
+		BigDecimal priceInUserCurrency;
+		
+		if(user.getCurrency().equals(quote.getSupportedCurrency())){
+			priceInUserCurrency = BigDecimal.valueOf(quote.getAsk()*quantity);
+		}
+		else{
+			Preconditions.checkNotNull(currencyExchange);
+			Preconditions.checkArgument(currencyExchange.getDailyLatestValue() != null);
+			Preconditions.checkArgument(currencyExchange.getDailyLatestValue().doubleValue() > 0);
+			priceInUserCurrency = currencyExchange.getDailyLatestValue().multiply(BigDecimal.valueOf(quote.getAsk()*quantity));
+		}
+
+		return user.getBalance().compareTo(priceInUserCurrency) >= 0;
+	}
+
+	@Override
+	public void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType type, @Nullable CurrencyExchange currencyExchange) {
+		
+		BigDecimal priceInUserCurrency;
+		
+		if(user.getCurrency().equals(quote.getSupportedCurrency())){
+			priceInUserCurrency = BigDecimal.valueOf(quote.getAsk()*quantity);
+		}
+		else{
+			Preconditions.checkNotNull(currencyExchange);
+			Preconditions.checkArgument(currencyExchange.getDailyLatestValue() != null);
+			Preconditions.checkArgument(currencyExchange.getDailyLatestValue().doubleValue() > 0);
+			priceInUserCurrency = currencyExchange.getDailyLatestValue().multiply(BigDecimal.valueOf(quote.getAsk()*quantity));
+		}
+		
+		if(UserActivityType.BUY.equals(type)){
+			user.setBalance(user.getBalance().add(priceInUserCurrency.negate()));
+		}
+		else if(UserActivityType.SELL.equals(type)){
+			user.setBalance(user.getBalance().add(priceInUserCurrency));
+		}
+		
+		userRepository.save(user);
 	}
 }

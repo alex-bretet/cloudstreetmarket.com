@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
+
 @Entity
 @Table(name="stock_quote")
 @XStreamAlias("stock_quote")
@@ -67,7 +69,13 @@ public class StockQuote extends Quote{
 	}
 
 	public String getSymbol() {
-		return symbol;
+		if(symbol != null){
+			return symbol;
+		}
+		else{
+			symbol = stock.getId();
+			return symbol;
+		}
 	}
 
 	public void setSymbol(String symbol) {
@@ -102,6 +110,10 @@ public class StockQuote extends Quote{
 		return currency;
 	}
 
+	public SupportedCurrency getSupportedCurrency() {
+		return SupportedCurrency.valueOf(currency.toUpperCase());
+	}
+	
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
@@ -128,6 +140,10 @@ public class StockQuote extends Quote{
 	public StockQuote(org.springframework.social.yahoo.module.YahooQuote q, StockProduct stockProduct) {
 		this(q);
 		setStock(stockProduct);
+	}
+	
+	public StockQuote(int id) {
+		setId(Long.valueOf(id));
 	}
 
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)

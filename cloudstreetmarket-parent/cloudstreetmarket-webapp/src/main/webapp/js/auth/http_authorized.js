@@ -75,6 +75,9 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
     			return true;
     		}
     		return false;
+        },
+        getLoggedInUser: function () {
+        	return sessionStorage.getItem('authenticatedCSM');
         }
     }
 });

@@ -40,7 +40,7 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 						modalService.showModal({templateUrl:'/portal/html/partials/must_register_modal.html'}, {});
 					}
 					if(response.headers('Authenticated')){
-						httpAuth.setSession('authenticatedCSM', "true");
+						httpAuth.setSession('authenticatedCSM', response.headers('Authenticated'));
 					}
 				});
 	};

@@ -1,5 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,4 +30,5 @@ public interface StockProductService extends ProductService<StockProduct> {
 	ChartStock gather(String indexId, ChartType type, ChartHistoSize histoSize,
 			ChartHistoMovingAverage histoAverage, ChartHistoTimeSpan histoPeriod, 
 			Integer intradayWidth, Integer intradayHeight) throws ResourceNotFoundException;
+	List<StockProduct> gather(String[] stockProductId);
 }

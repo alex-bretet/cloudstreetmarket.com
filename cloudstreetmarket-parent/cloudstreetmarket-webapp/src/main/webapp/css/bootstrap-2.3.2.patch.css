@@ -144,3 +144,8 @@
   padding: 0 6px;
   font-size: 10.5px;
 }
+
+.label-danger,
+.badge-danger {
+  background-color: rgb(189, 63, 66);
+}

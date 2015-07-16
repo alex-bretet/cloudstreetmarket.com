@@ -61,7 +61,7 @@ public class StockProductController extends AbstractProductController<StockProdu
 		return pagedAssembler.toResource(stockProductService.gather(indexId, exchangeId, marketId, startWith, spec, pageable), assembler);
 	}
 	
-	@RequestMapping(value="/{id:[a-zA-Z0-9.-]+}{extension:\\.[a-z]+}", method=GET)
+	@RequestMapping(value="/{id:[a-zA-Z0-9.-:]+}{extension:\\.[a-z]+}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get one stock-overview", notes = "Return one stock-overview")
 	public StockProductResource get(@ApiParam(value="Stock id: CCH.L") @PathVariable(value="id") String stockProductId, @PathVariable(value="extension") String extension){

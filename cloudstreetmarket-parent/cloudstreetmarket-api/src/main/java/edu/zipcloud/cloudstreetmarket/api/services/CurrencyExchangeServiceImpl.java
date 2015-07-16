@@ -9,6 +9,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.yahoo.api.Yahoo2;
 import org.springframework.social.yahoo.module.YahooQuote;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -19,8 +20,10 @@ import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
+import edu.zipcloud.core.util.DateUtil;
 
 @Service
+@Transactional(readOnly = true)
 public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 
 	@Autowired
@@ -39,6 +42,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	public Environment env;
 
 	@Override
+	@Transactional
 	public CurrencyExchange gather(String ticker) {
 		Preconditions.checkNotNull(ticker, "The quote ticker is null before Yahoo call!");
 		if(ticker.length() == 0){
@@ -47,8 +51,10 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 		
 		CurrencyExchange currencyExchange = currencyExchangeRepository.findOne(ticker);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
-			updateCurrencyExchangeFromYahoo(ticker);
-			return currencyExchangeRepository.findOne(ticker);
+			if(currencyExchange == null || !DateUtil.isRecent(currencyExchange.getLastUpdate(), 60)){
+				updateCurrencyExchangeFromYahoo(ticker);
+				return currencyExchangeRepository.findOne(ticker);
+			}
 		}
 		return currencyExchange;
 	}

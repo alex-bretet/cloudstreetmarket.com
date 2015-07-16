@@ -1,5 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.core.daos;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,4 +23,5 @@ public interface StockProductRepository extends JpaRepository<StockProduct, Stri
 	Page<StockProduct> findByExchange(Exchange exchange, Pageable pageable);
 	@EntityGraph(value = "StockProduct.detail", type = EntityGraphType.LOAD)
 	Page<StockProduct> findByIndices(Index index, Pageable pageable);
+	List<StockProduct> findByIdIn(List<String> asList);
 }

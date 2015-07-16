@@ -19,3 +19,14 @@ cloudStreetMarketApp.controller('menuController',  function ($scope, modalServic
 
 	$scope.init();
 });
+
+cloudStreetMarketApp.factory("genericAPIFactory", function (httpAuth) {
+    return {
+        get: function (url) {
+        	return httpAuth.get(url);
+        },
+        post: function (url, body) {
+        	return httpAuth.post(url, body);
+        }
+    }
+});

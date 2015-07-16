@@ -1,6 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.api.assemblers;
 
-import static edu.zipcloud.cloudstreetmarket.api.resources.StockQuoteResource.*;
+import static edu.zipcloud.cloudstreetmarket.api.resources.StockQuoteResource.STOCK_QUOTE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
@@ -8,9 +8,7 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import edu.zipcloud.cloudstreetmarket.api.controllers.TransactionController;
-import edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource;
 import edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource;
-import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 
 @Component
@@ -30,7 +28,7 @@ public class TransactionResourceAssembler extends ResourceAssemblerSupport<Trans
 		return resource;
 	}
 	
-	protected StockProductResource instantiateResource(StockProduct entity) {
-		return new StockProductResource(entity);
+	protected TransactionResource instantiateResource(Transaction entity) {
+		return new TransactionResource(entity);
 	}
 }

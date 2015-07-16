@@ -30,6 +30,7 @@ import org.springframework.social.yahoo.module.ChartHistoTimeSpan;
 import org.springframework.social.yahoo.module.ChartType;
 import org.springframework.social.yahoo.module.YahooQuote;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
@@ -51,6 +52,7 @@ import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.core.util.DateUtil;
 
 @Service
+@Transactional(readOnly = true)
 public class IndexServiceImpl implements IndexService {
 
 	@Autowired
@@ -109,6 +111,7 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	@Override
+	@Transactional
 	public Page<Index> gather(String exchangeId, MarketId marketId, Pageable pageable) {
 		
 		Page<Index> indices = getIndices(exchangeId, marketId, pageable);
@@ -122,6 +125,7 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	@Override
+	@Transactional
 	public Index gather(String indexId) {
 		Index index = indexRepository.findOne(indexId);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
@@ -169,6 +173,7 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	@Override
+	@Transactional
 	public ChartIndex gather(String indexId, ChartType type,
 			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
 			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,

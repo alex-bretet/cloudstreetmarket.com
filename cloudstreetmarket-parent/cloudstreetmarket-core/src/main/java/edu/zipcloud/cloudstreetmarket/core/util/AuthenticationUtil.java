@@ -33,5 +33,4 @@ public class AuthenticationUtil {
         }
         return new User();
 	}
-	
 }

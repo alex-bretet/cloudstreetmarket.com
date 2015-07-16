@@ -42,7 +42,7 @@ public class ChartIndexController extends CloudstreetApiWCI<ChartIndex> {
 	@Autowired
 	private IndexService indexService;
 	
-	@RequestMapping(value="/{index:[a-zA-Z0-9^.-]+}{extension:\\.[a-z]+}", method=GET)
+	@RequestMapping(value="/{index:[a-zA-Z0-9^.-:]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get chart for one index", notes = "Return a chart from one index")
 	public HttpEntity<byte[]> get(
 			@ApiParam(value="Index ID: ^OEX") @PathVariable("index") String indexId,

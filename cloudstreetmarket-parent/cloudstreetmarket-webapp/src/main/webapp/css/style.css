@@ -1387,6 +1387,13 @@ table .fa:hover{
   line-height:20px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 /* Higher than 960 (desktop devices)
 ====================================================================== */
 @media only screen and (min-width: 960px) {

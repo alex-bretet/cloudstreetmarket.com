@@ -29,7 +29,7 @@ public class StockQuoteResourceAssembler extends ResourceAssemblerSupport<StockQ
 	public StockQuoteResource toResource(StockQuote quote) {
 		StockQuoteResource resource = createResourceWithId(quote.getId(), quote);
 		resource.add(entityLinks.linkToSingleResource(quote.getStock()).withRel(STOCK));
-		resource.add(linkTo(methodOn(TransactionController.class).search(null, quote.getId(), null)).withRel(TRANSACTIONS));
+		resource.add(linkTo(methodOn(TransactionController.class).search(null, quote.getId(), null, null)).withRel(TRANSACTIONS));
 		return resource;
 	}
 	

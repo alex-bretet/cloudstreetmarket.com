@@ -1,17 +1,22 @@
 package edu.zipcloud.cloudstreetmarket.core.daos;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import edu.zipcloud.cloudstreetmarket.core.entities.Exchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 
 @Repository
+@Transactional(readOnly = true)
 public class IndexRepositoryImpl implements IndexRepository{
 
 	@PersistenceContext 
@@ -46,11 +51,13 @@ public class IndexRepositoryImpl implements IndexRepository{
 	}
 
 	@Override
+	@Transactional
 	public Index save(Index index) {
 		return repo.save(index);
 	}
 
 	@Override
+	@Transactional
 	public List<Index> save(Iterable<Index> indices) {
 		return repo.save(indices);
 	}

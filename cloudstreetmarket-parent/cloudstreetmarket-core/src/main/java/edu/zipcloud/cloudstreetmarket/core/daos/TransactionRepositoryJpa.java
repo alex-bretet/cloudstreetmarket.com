@@ -15,6 +15,7 @@ public interface TransactionRepositoryJpa extends JpaRepository<Transaction, Lon
 	
 	List<Transaction> findAll();
 	Page<Transaction> findByQuote(Pageable pageable, Quote user);
+	List<Transaction> findByUser(User user);
 	Page<Transaction> findByUser(Pageable pageable, User user);
 	Page<Transaction> findByUserAndQuote(Pageable pageable, User user, Quote quote);
 	List<Transaction> findByUserAndQuote(User user, StockQuote quote);

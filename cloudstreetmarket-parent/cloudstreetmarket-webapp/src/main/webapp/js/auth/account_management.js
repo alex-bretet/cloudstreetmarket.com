@@ -43,7 +43,7 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 				angular.element($('.modal')[0]).scope().modalOptions.close();	
 		  }).then(function(response){
 				if(response.headers('Authenticated')){
-					httpAuth.setSession('authenticatedCSM', "true");
+					httpAuth.setSession('authenticatedCSM', response.headers('Authenticated'));
 				}
 				window.location="../portal/index";
 		  });
@@ -104,7 +104,7 @@ cloudStreetMarketApp.controller('LoginByUsernameAndPasswordController', function
 					angular.element($('.modal')[0]).scope().modalOptions.close();
 			}).then(function(response){
 				if(response.headers('Authenticated')){
-					httpAuth.setSession('authenticatedCSM', "true");
+					httpAuth.setSession('authenticatedCSM', response.headers('Authenticated'));
 				}
 				window.location="../portal/index";
 			});

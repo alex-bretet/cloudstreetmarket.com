@@ -9,6 +9,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +61,7 @@ import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.core.util.DateUtil;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class StockProductServiceImpl implements StockProductService {
 	
 	@Autowired
@@ -130,6 +131,7 @@ public class StockProductServiceImpl implements StockProductService {
 	}
 
 	@Override
+	@Transactional
 	public Page<StockProduct> gather(String indexId, String exchangeId,
 			MarketId marketId, String startWith,
 			Specification<StockProduct> spec, Pageable pageable) {
@@ -180,6 +182,7 @@ public class StockProductServiceImpl implements StockProductService {
 	}
 
 	@Override
+	@Transactional
 	public StockProduct gather(String stockProductId) {
 		StockProduct stock = stockProductRepository.findOne(stockProductId);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
@@ -188,8 +191,21 @@ public class StockProductServiceImpl implements StockProductService {
 		}
 		return stock;
 	}
+	
+	@Override
+	@Transactional
+	public List<StockProduct> gather(String[] stockProductId) {
+		List<StockProduct> stockProducts = stockProductRepository.findByIdIn(Arrays.asList(stockProductId));
+		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
+			Set<StockProduct> fallBack = Arrays.asList(stockProductId).stream().map(id -> new StockProduct(id)).collect(Collectors.toSet());
+			updateStocksAndQuotesFromYahoo(!stockProducts.isEmpty()? Sets.newHashSet(stockProducts) : fallBack);
+			return stockProductRepository.findByIdIn(Arrays.asList(stockProductId));
+		}
+		return stockProducts;
+	}
 
 	@Override
+	@Transactional
 	public ChartStock gather(String stockProductId, ChartType type,
 			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
 			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
@@ -290,6 +306,4 @@ public class StockProductServiceImpl implements StockProductService {
 		stockProduct.setQuote(quote);
 		return stockProduct;
 	}
-
-
 }

@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.zipcloud.cloudstreetmarket.core.daos.ExchangeRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.Exchange;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
 @Service
+@Transactional(readOnly = true)
 public class ExchangeServiceImpl implements ExchangeService {
 
 	@Autowired

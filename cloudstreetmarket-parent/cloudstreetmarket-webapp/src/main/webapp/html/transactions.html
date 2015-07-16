@@ -1,0 +1,50 @@
+<!-- start: Row -->
+<div class="mainController row">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li>> My account</li>
+		  <li>> Wallet</li>
+		</ol>
+	</div>
+
+	<div class="span12">
+		<div class="title"><h3>MY WALLET</h3></div>
+
+		<table class="table table-condensed table-striped">
+			<tr>
+				<th>Product</th>
+				<th>Company Name</th>
+				<th>Market</th>
+				<th>Quantity</th>
+				<th>Avg Cost Per Share</th>
+				<th>Latest Price</th>
+				<th>Book Cost</th>
+				<th>Valuation</th>
+				<th colspan="2">Profit/Loss</th>
+			</tr>
+
+			<tr ng-repeat="value in products">
+				
+				<td>{{value.symbol}}</td>
+				<td>{{value.company}}</td>
+				<td>{{value.exchange}}</td>
+				<td>{{value.totalQuantity}}</td>
+				<td>{{value.avgAsk | number:2}}</td>
+				<td>{{value.dailyLatestValue}}</td>
+				<td>{{value.avgAsk * value.totalQuantity | number:2}}</td>
+				<td>{{value.dailyLatestValue * value.totalQuantity | number:2}}</td>
+				<td>{{(value.avgAsk * value.totalQuantity - value.dailyLatestValue * value.totalQuantity) | number:2}}</td>
+				<td>{{(value.avgAsk * value.totalQuantity - value.dailyLatestValue * value.totalQuantity)*100/ (value.avgAsk * value.totalQuantity) | number:2}}%</td>
+
+			</tr>
+		</table>
+	</div>
+	
+	<div class="span3">
+
+	</div>
+
+</div>
+<!-- end: Row -->

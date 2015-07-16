@@ -5,12 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
 @Service
+@Transactional(readOnly = true)
 public class MarketServiceImpl implements MarketService {
 
 	@Autowired

@@ -7,8 +7,18 @@
 		  <li>> Stock: {{stock.name}}</li>
 		</ol>
 	</div>
-	
+
 	<div class="span10">
+	
+		<div class="alert" ng-class="(transactionSuccess) ?  'alert-success' : 'alert-danger'" ng-if="transactionComplete">
+			<div ng-if="transactionSuccess">
+				 <strong>Congratulations !</strong> <br/>You have {{data.type.type == 'BUY' ? 'bought' : 'sold'}} {{data.quantity}} {{stock.id}} {{data.type.type == 'BUY' ? 'at' : 'for'}} {{data.type == 'BUY' ? quote.ask : quote.bid | currency:stock.currency+" "| uppercase}} &nbsp;&nbsp;<a href="/portal/wallet">See your wallet</a>
+			</div>
+			<div ng-if="!transactionSuccess">
+				 <strong>Something happened!</strong> Your transaction didn't complete.
+			</div>
+	    </div>
+	
 		<div class="title"><h3>{{stock.name}} ( {{stock.id}} )</h3></div>
 		
 			<div class="span4" style="margin-right:-5px;">
@@ -26,10 +36,20 @@
 
 			<div class="calendarNav tab-pane fade in active" >
 				<div class="span4">
-					<div ng-show="industry" style="margin-bottom:5px;">Industry:   <strong>{{industry.label}}</strong></div>
-					<table class="table table-condensed table-striped" >
+					<div ng-show="industry" style="margin-bottom:5px">Industry:   <i>{{industry.label}}</i></div>
+					
+					<table ng-show="quote.bid" class="table table-condensed table-striped table-bordered" >
 						<tr>
-							<td>Prev. Close:</strong></td>
+							<td>Bid:</td>
+							<td><span class="label label-success">{{quote.bid | number:2}}</span></td>
+							<td>Ask:</td>
+							<td><span class="label label-danger">{{quote.ask | number:2}}</span></td>
+						</tr>
+					</table>
+					
+					<table ng-show="stock.open" class="table table-condensed table-striped" >
+						<tr>
+							<td>Prev. Close:</td>
 							<td><strong>{{stock.previousClose | number}}</strong></td>
 							<td>Open:</td>
 							<td><strong>{{stock.open | number}}</strong></td>
@@ -50,31 +70,123 @@
 				</div>
 			</div>
 			<div  class="span5 ">
-				<div style="position:relative;margin-top:30px;left:30%">
-					<a class="btn btn-success" ng-class="(sell) ? 'disabled': ''" href="#" ng-click="buyButton()"><i class="mini-ico-plus-sign mini-white"></i> Buy</a>
-					<a class="btn btn-danger" ng-class="(buy) ? 'disabled': ''"  href="#" ng-click="sellButton()"><i class="mini-ico-minus-sign mini-white"></i> Sell</a>
-				</div>
-				<div ng-show="sell">
-					sell
-				</div>
-				<div ng-show="buy">
-				
-					<div class="input-group">
-			          <span class="input-group-btn">
-			              <button type="button" class="btn btn-small btn-danger btn-number" data-type="minus" data-field="quant[2]">
-			                <span class="mini-ico-arrow-down mini-white"></span>
-			              </button>
-			          </span>
-			          <input type="text" style="margin-top:10px;width:50px;" name="quant[2]" class="form-control input-number" value="0" min="0" max="99999">
-			          <span class="input-group-btn">
-			              <button type="button" class="btn btn-small btn-success btn-number" data-type="plus" data-field="quant[2]">
-			                  <span class="mini-ico-arrow-up mini-white"></span>
-			              </button>
-			          </span>
-			      	</div>
-			      
-			      	{{quantity}}
 			
+				<table class="table table-condensed table-striped" >
+					<tr>
+						<td style="width:20%;vertical-align: middle;">Actions:</td>
+						
+						<td style="width:40%">
+							<button type="button" ng-if="user.balance >= currencyExchange*quote.ask" class="btn btn-success" href="#" ng-click="buyButton(buy)" ng-disabled="buy || transactionComplete" ng-class="(buy || transactionComplete) ? 'disabled': ''"><i class="mini-ico-plus-sign mini-white"></i> Buy</button>	
+						</td>
+						<td style="width:40%">
+							<button type="button" ng-if="totalOwned > 0" class="btn btn-danger" href="#" ng-click="sellButton(sell)" ng-disabled="sell || transactionComplete" ng-class="(sell || transactionComplete) ? 'disabled': ''"><i class="mini-ico-minus-sign mini-white"></i> Sell</button>
+						</td>
+					</tr>
+				</table>
+
+				<div ng-show="sell && !transactionComplete">
+				
+					<div style="background-color: #efefef">
+					<table ng-show="user.balance && totalOwned > 0" class="table table-condensed table-striped table-bordered" >
+						<tr>
+							<td style="width:30%;vertical-align: middle"><strong>Quantity:</strong></td>
+							<td style="width:45%;"">
+						          <span class="input-group-btn">
+						              <button type="button" class="btn btn-small btn-danger btn-number" ng-disabled="quantity <= minQuantity" ng-class="(quantity <= minQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) - 1">
+						                <span class="mini-ico-arrow-down mini-white"></span>
+						              </button>
+						          </span>
+						          <input type="number" ng-blur="assertAbsoluteValue()" style="margin-top:10px;width:40%;" name="inputFieldCount" ng-model="quantity" ng-value="quantity">
+						          <span class="input-group-btn">
+						              <button type="button" class="btn btn-small btn-success btn-number" ng-disabled="quantity >= totalOwned" ng-class="(quantity >= totalOwned) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) + 1">
+						                  <span class="mini-ico-arrow-up mini-white"></span>
+						              </button>
+						          </span>
+							</td>
+							<td style="width:25%;">
+								<button type="button" class="close" aria-hidden="true" ng-click="cancel()"><span class="ico-circle-remove"></span></button>
+							</td>
+						</tr>
+						<tr>
+							<td>Current balance:</td>
+							<td>{{user.balance | currency:user.currency+" " | uppercase}}</td>
+							<td style="width:35%">&nbsp;</td>
+						</tr>
+						<tr>
+							<td>Will be sold:</td>
+							<td ng-if="quantity && quantity <= maxQuantity"><strong>{{currencyExchange*quantity*quote.bid | currency:user.currency+" "| uppercase}}</strong></td>
+							<td ng-if="!quantity || quantity > maxQuantity">-</td>
+							<td><span ng-if="(user.currency != stock.currency) && quantity && quantity < maxQuantity">({{quantity*quote.bid | currency:stock.currency+" "| uppercase}})</span></td>
+						</tr>
+						<tr>
+							<td>Next balance:</td>
+							<td ng-if="quantity && quantity <= maxQuantity">{{(user.balance + currencyExchange*quantity*quote.bid) | currency:user.currency+" "| uppercase}}</td>
+							<td ng-if="!quantity || quantity > maxQuantity">-</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Will remain:</td>
+							<td>{{totalOwned - quantity}}</td>
+							<td></td>
+						</tr>
+					</table>
+					</div>
+
+	              	<button type="button" class="btn btn-danger btn-large" ng-disabled="!quantity || quantity > totalOwned" ng-class="(!quantity || quantity > totalOwned) ? 'disabled': ''" ng-click="createTransaction(quantity, 'SELL')">
+	                	<span class="mini-ico-shopping-cart mini-white"></span>  Sell {{quantity}}
+	              	</button>
+	              	
+				</div>
+				
+				<div ng-if="buy && !transactionComplete" style="margin-top:10px;">
+					
+					<div style="background-color: #efefef">
+					<table ng-show="user.balance" class="table table-condensed table-striped table-bordered" >
+						<tr>
+							<td style="width:30%;vertical-align: middle"><strong>Quantity:</strong></td>
+							<td style="width:45%;"">
+						          <span class="input-group-btn">
+						              <button type="button" class="btn btn-small btn-danger btn-number" ng-disabled="quantity <= minQuantity" ng-class="(quantity <= minQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) - 1">
+						                <span class="mini-ico-arrow-down mini-white"></span>
+						              </button>
+						          </span>
+						          <input type="number" ng-blur="assertAbsoluteValue()" style="margin-top:10px;width:40%;" name="inputFieldCount" ng-model="quantity" ng-value="quantity">
+						          <span class="input-group-btn">
+						              <button type="button" class="btn btn-small btn-success btn-number" ng-disabled="quantity >= maxQuantity" ng-class="(quantity >= maxQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) + 1">
+						                  <span class="mini-ico-arrow-up mini-white"></span>
+						              </button>
+						          </span>
+							</td>
+							<td style="width:25%;">
+								<button type="button" class="close" aria-hidden="true" ng-click="cancel()"><span class="ico-circle-remove"></span></button>
+							</td>
+						</tr>
+						<tr>
+							<td>Current balance:</td>
+							<td>{{user.balance | currency:user.currency+" " | uppercase}}</td>
+							<td style="width:35%">&nbsp;</td>
+						</tr>
+						<tr>
+							<td>To be paid:</td>
+							<td ng-if="quantity && quantity <= maxQuantity"><strong>{{currencyExchange*quantity*quote.ask | currency:user.currency+" "| uppercase}}</strong></td>
+							<td ng-if="!quantity || quantity > maxQuantity">-</td>
+							<td><span ng-if="(user.currency != stock.currency) && quantity && quantity < maxQuantity">({{quantity*quote.ask | currency:stock.currency+" "| uppercase}})</span></td>
+						</tr>
+						<tr>
+							<td>Next balance:</td>
+							<td ng-if="quantity && quantity <= maxQuantity">{{(user.balance - currencyExchange*quantity*quote.ask) | currency:user.currency+" "| uppercase}}</td>
+							<td ng-if="!quantity || quantity > maxQuantity">-</td>
+							<td></td>
+						</tr>
+					</table>
+					</div>
+
+	              	<button type="button" class="btn btn-success btn-large" ng-disabled="!quantity || quantity > maxQuantity" ng-class="(!quantity || quantity > maxQuantity) ? 'disabled': ''" ng-click="createTransaction(quantity, 'BUY')">
+	                	<span class="mini-ico-shopping-cart mini-white"></span>  
+	                	<span ng-if="quantity && quantity <= maxQuantity">{{currencyExchange*quantity*quote.ask | currency:user.currency+" "| uppercase}}</span>
+	                	<span ng-if="!quantity || quantity > maxQuantity">{{0 | currency:stock.currency+" "| uppercase}}</span>
+	              	</button>
+	              	
 				</div>
 			</div>
 	</div>
