@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.validation.annotation.Validated;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -23,6 +25,7 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableSerializer;
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 
+@Validated
 @Entity
 @DiscriminatorValue(DISCR)
 @XStreamAlias("transaction")

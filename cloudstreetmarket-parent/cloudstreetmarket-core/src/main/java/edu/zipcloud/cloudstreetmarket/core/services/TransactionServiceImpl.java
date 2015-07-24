@@ -125,4 +125,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 		return balanceOfProducts >= quantity;
 	}
+
+	@Override
+	@Transactional
+	public void delete(Long transactionId) {
+		transactionRepository.delete(transactionId);
+	}
 }

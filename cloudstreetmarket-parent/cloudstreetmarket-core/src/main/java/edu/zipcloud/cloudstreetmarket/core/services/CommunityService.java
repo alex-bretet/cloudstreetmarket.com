@@ -25,6 +25,7 @@ public interface CommunityService extends UserDetailsService{
 	Page<User> findAll(Pageable pageable);
 	User createUser(User user, Role role);
 	User createUser(User user, Role[] role);
+	User updateUser(User user);
 	User createUserWithBalance(User user, Role[] roles, BigDecimal balance);
 	User createUser(String nickName, String email, String password);
 	User findOne(String username);
@@ -41,5 +42,6 @@ public interface CommunityService extends UserDetailsService{
 	Page<UserDTO> getAll(Pageable pageable);
 	void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType userActivityType, CurrencyExchange currencyExchange);
 	boolean isAffordableToUser(int quantity, StockQuote quote, User user, CurrencyExchange currencyExchange);
+
 	
 }

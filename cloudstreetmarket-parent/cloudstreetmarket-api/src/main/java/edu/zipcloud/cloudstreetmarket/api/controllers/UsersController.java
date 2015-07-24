@@ -3,11 +3,13 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -36,6 +41,8 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
+import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
+import edu.zipcloud.cloudstreetmarket.core.validators.UserValidator;
 
 @Api(value = "users", description = "Cloudstreet Market users") // Swagger annotation
 @RestController
@@ -68,7 +75,7 @@ public class UsersController extends CloudstreetApiWCI{
 	@RequestMapping(method=POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Creates a user account")
-	public void createUser(@RequestBody User user, 
+	public void create(@Valid @RequestBody User user, 
 								@RequestHeader(value="Spi", required=false) String guid, 
 									@RequestHeader(value="OAuthProvider", required=false) String provider,
 										HttpServletResponse response) throws IllegalAccessException{
@@ -96,29 +103,42 @@ public class UsersController extends CloudstreetApiWCI{
 		response.setHeader(MUST_REGISTER_HEADER, FALSE);
 	}
 	
+	@RequestMapping(method=PUT)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Updates a user account")
+	public void update(@Valid @RequestBody User user, BindingResult result){
+		ValidatorUtil.raiseFirst(result);
+		user = communityService.updateUser(user);
+	}
+	
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "List user accounts", notes = "")
-	public Page<UserDTO> getUsers(@ApiIgnore @PageableDefault(size=10, page=0) Pageable pageable){
+	public Page<UserDTO> getAll(@ApiIgnore @PageableDefault(size=10, page=0) Pageable pageable){
 		return communityService.getAll(pageable);
 	}
 	
 	@RequestMapping(value="/{username}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Details one account", notes = "")
-	public UserDTO getUser(@PathVariable String username){
+	public UserDTO get(@PathVariable String username){
 		return communityService.getUser(username);
 	}
 	
 	@RequestMapping(value="/{username}", method=DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Delete user account", notes = "")
-	public void deleteUser(@PathVariable String username){
+	public void delete(@PathVariable String username){
 		communityService.delete(username);
 	}
+	
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new UserValidator());
+    }
 
 	private boolean isUnknownToProvider(String guid, String providerId) {
-		Preconditions.checkArgument(isNotBlank(providerId), "The OAuth2 provider is necessary!");
+		Preconditions.checkArgument(isNotBlank(providerId), bundle.get(I18N_USER_GUID_UNKNOWN_TO_PROVIDER));
 		
 		Set<String> results = usersConnectionRepository.findUserIdsConnectedTo(providerId, Sets.newHashSet(guid));
 		if(results==null || results.isEmpty()){

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,14 +18,24 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
+import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 
+
+@Validated
 @Entity
 @Table(name="users")
 public class User extends AbstractId<String> implements UserDetails{
@@ -33,11 +44,18 @@ public class User extends AbstractId<String> implements UserDetails{
 
 	private String fullname;
 	
+	@NotNull
+	@Size(min=4, max=30)
 	private String email;
 	
+	@NotNull
 	private String password;
 	
 	private boolean enabled = true;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private SupportedLanguage language;
 	
 	private String profileImg;
 	
@@ -47,6 +65,7 @@ public class User extends AbstractId<String> implements UserDetails{
 	@Column(name="not_locked")
 	private boolean accountNonLocked;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SupportedCurrency currency;
 
@@ -54,14 +73,20 @@ public class User extends AbstractId<String> implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
+	@XStreamOmitField
 	@OrderBy("id desc")
 	private Set<Action> actions = new LinkedHashSet<Action>();
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JsonIgnore
+	@XStreamOmitField
 	private Set<Authority> authorities = new LinkedHashSet<Authority>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
+	@XStreamOmitField
 	private Set<SocialUser> socialUsers = new LinkedHashSet<SocialUser>();
 	
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -76,8 +101,9 @@ public class User extends AbstractId<String> implements UserDetails{
 		setId(id);
 	}
 	
-	public User(String id, String password, String email, boolean enabled, boolean accountNonExpired,
-			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance) {
+	public User(String id, String password, String email, String fullname, boolean enabled, boolean accountNonExpired,
+			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance,
+			 SupportedLanguage language) {
 		setId(id);
 		this.password = password;
 		this.email = email;
@@ -87,10 +113,12 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.authorities = auth;
 		this.currency = currency;
 		this.balance = balance;
+		this.fullname = fullname;
+		this.language = language;
 	}
 
 	public User(User user, Set<Authority> authorities) {
-		this(user.getUsername(), user.getPassword(), user.getEmail(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance());
+		this(user.getId(), user.getPassword(), user.getEmail(), user.getFullname(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage());
 	}
 
 	@Override
@@ -202,6 +230,18 @@ public class User extends AbstractId<String> implements UserDetails{
 
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	public SupportedLanguage getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(SupportedLanguage language) {
+		this.language = language;
+	}
+	
+	public Locale getLocale(){
+		return new Locale.Builder().setLanguage((language ==  null ? SupportedLanguage.EN : language).name().toLowerCase()).build();
 	}
 
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)

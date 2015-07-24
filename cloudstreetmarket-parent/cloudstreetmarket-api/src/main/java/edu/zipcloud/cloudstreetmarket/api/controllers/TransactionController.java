@@ -1,10 +1,10 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.ACTIONS_PATH;
-import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.TRANSACTIONS;
-import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.TRANSACTIONS_PATH;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.*;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +14,9 @@ import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +36,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 import edu.zipcloud.cloudstreetmarket.core.services.TransactionService;
+import edu.zipcloud.cloudstreetmarket.core.validators.TransactionValidator;
 
 @Api(value = TRANSACTIONS, description = "Transactions") // Swagger annotation
 @RestController
@@ -63,7 +67,7 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	
 	@RequestMapping(value="/{id}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Get a transaction", notes = "Return one trannsaction")
+	@ApiOperation(value = "Get a transaction", notes = "Return one transaction")
 	public TransactionResource get(@ApiParam(value="Transaction id: 24") @PathVariable(value="id") Long transactionId){
 		return assembler.toResource(transactionService.get(transactionId));
 	}
@@ -71,12 +75,12 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	@RequestMapping(method=POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Processes a transaction")
-	public TransactionResource post(@RequestBody Transaction transaction) {
+	public TransactionResource post(@Valid @RequestBody Transaction transaction) {
 
 		transactionService.hydrate(transaction);
 		
 		if(!transaction.getUser().getUsername().equals(getPrincipal().getUsername())){
-			throw new AccessDeniedException("Wrong targetted user!");
+			throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_USER_FORBIDDEN));
 		}
 		
 		CurrencyExchange currencyExchange = null;
@@ -91,7 +95,7 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 				transaction = transactionService.save(transaction);
 			}
 			else{
-				throw new AccessDeniedException("You can't afford the transaction!");
+				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_CANT_AFFORD));
 			}
 		}
 		else if(transaction.getType().equals(UserActivityType.SELL)){
@@ -100,10 +104,23 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 				transaction = transactionService.save(transaction);
 			}
 			else{
-				throw new AccessDeniedException("You actually don't own enough products that you want to sell!");
+				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_DONT_OWN_QUANTITY));
 			}
 		}
 
 		return assembler.toResource(transaction);
 	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@RequestMapping(value="/{id}", method=DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Delete a transaction", notes = "Delete one transaction")
+	public void delete(@ApiParam(value="Transaction id: 24") @PathVariable(value="id") Long transactionId){
+		transactionService.delete(transactionId);
+	}
+	
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new TransactionValidator());
+    }
 }

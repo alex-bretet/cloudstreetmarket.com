@@ -3,7 +3,7 @@
 
 	<div class="span12">
 		<ol class="breadcrumb">
-		  <li><a href="#">Home</a></li>
+		  <li><a href="/portal/index">Home</a></li>
 		  <li>> Stock: {{stock.name}}</li>
 		</ol>
 	</div>
@@ -12,10 +12,10 @@
 	
 		<div class="alert" ng-class="(transactionSuccess) ?  'alert-success' : 'alert-danger'" ng-if="transactionComplete">
 			<div ng-if="transactionSuccess">
-				 <strong>Congratulations !</strong> <br/>You have {{data.type.type == 'BUY' ? 'bought' : 'sold'}} {{data.quantity}} {{stock.id}} {{data.type.type == 'BUY' ? 'at' : 'for'}} {{data.type == 'BUY' ? quote.ask : quote.bid | currency:stock.currency+" "| uppercase}} &nbsp;&nbsp;<a href="/portal/wallet">See your wallet</a>
+				 <strong translate>screen.stock.detail.transaction.congratulations</strong> <br/><span translate>screen.stock.detail.transaction.you.have</span> {{data.type.type == 'BUY' ? 'screen.stock.detail.transaction.bought' : 'screen.stock.detail.transaction.sold' | translate}} {{data.quantity}} {{stock.id}} {{data.type.type == 'BUY' ? 'screen.stock.detail.transaction.at' : 'screen.stock.detail.transaction.for' | translate}} {{data.type == 'BUY' ? quote.ask : quote.bid | currency:stock.currency+" "| uppercase}} &nbsp;&nbsp;<a href="/portal/wallet" translate>screen.stock.detail.transaction.see.your.wallet</a>
 			</div>
-			<div ng-if="!transactionSuccess">
-				 <strong>Something happened!</strong> Your transaction didn't complete.
+			<div ng-if="!transactionSuccess && serverErrorMessage">
+				 <strong>{{serverErrorMessage}}</strong>
 			</div>
 	    </div>
 	
@@ -36,34 +36,34 @@
 
 			<div class="calendarNav tab-pane fade in active" >
 				<div class="span4">
-					<div ng-show="industry" style="margin-bottom:5px">Industry:   <i>{{industry.label}}</i></div>
+					<div ng-show="industry" style="margin-bottom:5px"><span translate="screen.stock.detail.industry">Industry</span>:   <i>{{industry.label}}</i></div>
 					
 					<table ng-show="quote.bid" class="table table-condensed table-striped table-bordered" >
 						<tr>
-							<td>Bid:</td>
+							<td><span translate="screen.stock.detail.bid">Bid</span>:</td>
 							<td><span class="label label-success">{{quote.bid | number:2}}</span></td>
-							<td>Ask:</td>
+							<td><span translate="screen.stock.detail.ask">Ask</span>:</td>
 							<td><span class="label label-danger">{{quote.ask | number:2}}</span></td>
 						</tr>
 					</table>
 					
 					<table ng-show="stock.open" class="table table-condensed table-striped" >
 						<tr>
-							<td>Prev. Close:</td>
+							<td><span translate="screen.stock.detail.prev.close">Prev. Close</span>:</td>
 							<td><strong>{{stock.previousClose | number}}</strong></td>
-							<td>Open:</td>
+							<td><span translate="screen.stock.detail.open">Open</span>:</td>
 							<td><strong>{{stock.open | number}}</strong></td>
 						</tr>
 						<tr>
-							<td>High:</td>
+							<td><span translate="screen.stock.detail.high">High</span>:</td>
 							<td><strong>{{stock.high | number}}</strong></td>
-							<td>Low:</td>
+							<td><span translate="screen.stock.detail.low">Low</span>:</td>
 							<td><strong>{{stock.low | number}}</strong></td>
 						</tr>
 						<tr>
-							<td><span ng-show="exchange">Exchange:</span></td>
+							<td><span ng-show="exchange" translate="screen.stock.detail.exchange">Exchange</span>:</td>
 							<td><span ng-show="exchange"><strong>{{exchange.name}}</strong> ({{exchange.id}})</span></td>
-							<td><span>Currency:</span></td>
+							<td><span translate="screen.stock.detail.currency">Currency</span>:</td>
 							<td><span><strong>{{stock.currency | uppercase}}</strong></span></td>
 						</tr>
 					</table>
@@ -73,13 +73,13 @@
 			
 				<table class="table table-condensed table-striped" >
 					<tr>
-						<td style="width:20%;vertical-align: middle;">Actions:</td>
+						<td style="width:20%;vertical-align: middle"><span translate="screen.stock.detail.actions">Actions</span>:</td>
 						
 						<td style="width:40%">
-							<button type="button" ng-if="user.balance >= currencyExchange*quote.ask" class="btn btn-success" href="#" ng-click="buyButton(buy)" ng-disabled="buy || transactionComplete" ng-class="(buy || transactionComplete) ? 'disabled': ''"><i class="mini-ico-plus-sign mini-white"></i> Buy</button>	
+							<button type="button" ng-if="user.balance >= currencyExchange*quote.ask" class="btn btn-success" href="#" ng-click="buyButton(buy)" ng-disabled="buy || transactionComplete" ng-class="(buy || transactionComplete) ? 'disabled': ''"><i class="mini-ico-plus-sign mini-white"></i> <span translate="screen.stock.detail.buy">Buy</span></button>	
 						</td>
 						<td style="width:40%">
-							<button type="button" ng-if="totalOwned > 0" class="btn btn-danger" href="#" ng-click="sellButton(sell)" ng-disabled="sell || transactionComplete" ng-class="(sell || transactionComplete) ? 'disabled': ''"><i class="mini-ico-minus-sign mini-white"></i> Sell</button>
+							<button type="button" ng-if="totalOwned > 0" class="btn btn-danger" href="#" ng-click="sellButton(sell)" ng-disabled="sell || transactionComplete" ng-class="(sell || transactionComplete) ? 'disabled': ''"><i class="mini-ico-minus-sign mini-white"></i> <span translate="screen.stock.detail.sell">Sell</span></button>
 						</td>
 					</tr>
 				</table>
@@ -89,7 +89,7 @@
 					<div style="background-color: #efefef">
 					<table ng-show="user.balance && totalOwned > 0" class="table table-condensed table-striped table-bordered" >
 						<tr>
-							<td style="width:30%;vertical-align: middle"><strong>Quantity:</strong></td>
+							<td style="width:30%;vertical-align: middle"><strong><span translate="screen.stock.detail.quantity">Quantity</span>:</strong></td>
 							<td style="width:45%;"">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-small btn-danger btn-number" ng-disabled="quantity <= minQuantity" ng-class="(quantity <= minQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) - 1">
@@ -108,24 +108,24 @@
 							</td>
 						</tr>
 						<tr>
-							<td>Current balance:</td>
+							<td><span translate="screen.stock.detail.current.balance">Current balance</span>:</td>
 							<td>{{user.balance | currency:user.currency+" " | uppercase}}</td>
 							<td style="width:35%">&nbsp;</td>
 						</tr>
 						<tr>
-							<td>Will be sold:</td>
+							<td><span translate="screen.stock.detail.will.be.sold">Will be sold</span>:</td>
 							<td ng-if="quantity && quantity <= maxQuantity"><strong>{{currencyExchange*quantity*quote.bid | currency:user.currency+" "| uppercase}}</strong></td>
 							<td ng-if="!quantity || quantity > maxQuantity">-</td>
 							<td><span ng-if="(user.currency != stock.currency) && quantity && quantity < maxQuantity">({{quantity*quote.bid | currency:stock.currency+" "| uppercase}})</span></td>
 						</tr>
 						<tr>
-							<td>Next balance:</td>
+							<td><span translate="screen.stock.detail.next.balance">Next balance</span>:</td>
 							<td ng-if="quantity && quantity <= maxQuantity">{{(user.balance + currencyExchange*quantity*quote.bid) | currency:user.currency+" "| uppercase}}</td>
 							<td ng-if="!quantity || quantity > maxQuantity">-</td>
 							<td></td>
 						</tr>
 						<tr>
-							<td>Will remain:</td>
+							<td><span translate="screen.stock.detail.will.remain">Will remain</span>:</td>
 							<td>{{totalOwned - quantity}}</td>
 							<td></td>
 						</tr>
@@ -133,7 +133,7 @@
 					</div>
 
 	              	<button type="button" class="btn btn-danger btn-large" ng-disabled="!quantity || quantity > totalOwned" ng-class="(!quantity || quantity > totalOwned) ? 'disabled': ''" ng-click="createTransaction(quantity, 'SELL')">
-	                	<span class="mini-ico-shopping-cart mini-white"></span>  Sell {{quantity}}
+	                	<span class="mini-ico-shopping-cart mini-white"></span>  <span translate="screen.stock.detail.sell">Sell</span> {{quantity}}
 	              	</button>
 	              	
 				</div>
@@ -143,7 +143,7 @@
 					<div style="background-color: #efefef">
 					<table ng-show="user.balance" class="table table-condensed table-striped table-bordered" >
 						<tr>
-							<td style="width:30%;vertical-align: middle"><strong>Quantity:</strong></td>
+							<td style="width:30%;vertical-align: middle"><strong><span translate="screen.stock.detail.quantity">Quantity</span>:</strong></td>
 							<td style="width:45%;"">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-small btn-danger btn-number" ng-disabled="quantity <= minQuantity" ng-class="(quantity <= minQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) - 1">
@@ -162,18 +162,18 @@
 							</td>
 						</tr>
 						<tr>
-							<td>Current balance:</td>
+							<td><span translate="screen.stock.detail.current.balance">Current balance</span>:</td>
 							<td>{{user.balance | currency:user.currency+" " | uppercase}}</td>
 							<td style="width:35%">&nbsp;</td>
 						</tr>
 						<tr>
-							<td>To be paid:</td>
+							<td><span translate="screen.stock.detail.to.be.paid">To be paid</span>:</td>
 							<td ng-if="quantity && quantity <= maxQuantity"><strong>{{currencyExchange*quantity*quote.ask | currency:user.currency+" "| uppercase}}</strong></td>
 							<td ng-if="!quantity || quantity > maxQuantity">-</td>
 							<td><span ng-if="(user.currency != stock.currency) && quantity && quantity < maxQuantity">({{quantity*quote.ask | currency:stock.currency+" "| uppercase}})</span></td>
 						</tr>
 						<tr>
-							<td>Next balance:</td>
+							<td><span translate="screen.stock.detail.next.balance">Next balance</span>:</td>
 							<td ng-if="quantity && quantity <= maxQuantity">{{(user.balance - currencyExchange*quantity*quote.ask) | currency:user.currency+" "| uppercase}}</td>
 							<td ng-if="!quantity || quantity > maxQuantity">-</td>
 							<td></td>

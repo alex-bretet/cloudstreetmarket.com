@@ -9,7 +9,7 @@
 
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>Cloudstreet Market! The financial and community portal</title> 
+	<title translate="screen.home.title">Cloudstreet Market! The financial and community portal</title> 
 	<meta name="description" content="Developed with Spring MVC Cookbook [PACKT Publishing] 2015"/>
 	<meta name="keywords" content="Cloudstreet market, Spring, Spring MVC, educational, tutorial, Spring MVC Cookbook, PACKT Publishing" />
 	<meta name="author" content="Alex Bretet"/>
@@ -23,14 +23,16 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/bootstrap-2.3.2.patch.css" rel="stylesheet">
-   
+   	<link href="css/font-awesome.min.css" rel="stylesheet">
+   	<link href="css/language/language.min.css" rel="stylesheet">
+   	
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/FeedEk.css" rel="stylesheet">
+	
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Boogaloo">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Economica:700,400italic">
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 	<!-- end: CSS -->
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -141,41 +143,43 @@
           				</a>
           				<div class="nav-collapse collapse">
 							<ul class="nav">
-								<li class="active"><a href="/portal/index">Home</a></li>
+								<li class="active"><a href="/portal/index" translate="webapp.main.menu.home">Home</a></li>
               					<li class="dropdown">
-                					<a href="markets" class="dropdown-toggle"  data-toggle="dropdown">Prices and markets <b class="caret"></b></a>
+                					<a href="markets" class="dropdown-toggle"><span translate="webapp.main.menu.price.and.market">Prices and markets</span> <b class="caret"></b></a>
                 					<ul class="dropdown-menu">
-                						<li class="nav-header">Indices</li>
-                						<li><a href="/portal/indices-EUROPE">Indices by markets</a></li>
+                						<li class="nav-header" translate="webapp.main.menu.indices">Indices</li>
+                						<li><a href="/portal/indices-EUROPE"><i class="fa fa-table fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.indices.by.market">Indices by markets</span></a></li>
                   						<li class="divider"></li>
-                  						<li class="nav-header">Stocks</li>
-                  						<li><a href="/portal/stock-search">All prices search</a></li>
-                  						<li><a href="/portal/stock-search-by-market">Search by markets</a></li>
-                  						<li><a href="/portal/stocks-risers-fallers">Risers and fallers</a></li>
+                  						<li class="nav-header" translate="webapp.main.menu.stocks">Stocks</li>
+                  						<li><a href="/portal/stock-search"><i class="fa fa-search fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.all.prices.search">All prices search</span></a></li>
+                  						<li><a href="/portal/stock-search-by-market"><i class="fa fa-search fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.all.prices.search">Search by markets</span></a></li>
+                  						<li><a href="/portal/stocks-risers-fallers"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.all.prices.search">All prices search</span></a></li>
                 					</ul>
               					</li>
-              					<li class="dropdown">
-                					<a href="markets" class="dropdown-toggle"  data-toggle="dropdown">My account <b class="caret"></b></a>
-                					<ul class="dropdown-menu">
-                						<li><a href="/portal/wallet">My wallet</a></li>
-                						<li><a href="/portal/transactions">My transactions</a></li>
-                					</ul>
-              					
-              					</li>
-								<li><a href="community">Community</a></li>
-								<li><a href="sources">Sources</a></li>
-								<li><a href="about">About</a></li>
-								<li><a href="contact">Contact</a></li>
+								<li><a href="community" translate="webapp.main.menu.community">Community</a></li>
+								<li><a href="sources" translate="webapp.main.menu.sources">Sources</a></li>
+								<li><a href="about" translate="webapp.main.menu.about">About</a></li>
+								<li><a href="contact" translate="webapp.main.menu.contact">Contact</a></li>
+
+							</ul>
+								
+				            <ul class="nav" style="float: right">
 								<li ng-if="!userAuthenticated()"><a data-toggle="modal" href="" ng-click="menuModal('auth')">
 										<i class="fa fa-lock" style="margin-right:5px;"></i>
-										Login
+										<span translate="webapp.main.menu.login">Login</span>
 									</a>
 								</li>
-								<li ng-if="userAuthenticated()"><a href="" ng-click="logout()">
-										Logout
-									</a>
-								</li>
-							</ul>
+					            <li class="dropdown" ng-if="userAuthenticated()">
+                					<a href="markets" class="dropdown-toggle"><i class="fa fa-user fa-fw" style="margin-right:5px;"></i> {{loggedInUser}} <b class="caret"></b></a>
+                					<ul class="dropdown-menu">
+                						<li><a href="/portal/preferences"><i class="fa fa fa-pencil fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.preferences">Preferences</span> </a></li>					
+                						<li><a href="/portal/wallet"><i class="fa fa-book fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.wallet">Wallet</span> </a></li>
+                						<li class="divider"></li>
+                						<li><a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.logout">Logout</span></a></li>
+                					</ul>
+              					</li>
+				          	</ul>
+
           				</div>
           				<div id="spi" class="hide">${spi}</div>
         			</div>
@@ -233,13 +237,13 @@
 						<div class="span10">
 								<div id="footer-menu-links">
 									<ul id="footer-nav" style="margin-left:35pt;">
-										<li><a href="index">Home</a></li>
-										<li><a href="markets">Prices and markets</a></li>
-										<li><a href="community">Community</a></li>
-										<li><a href="sources">Sources</a></li>
-										<li><a href="about">About</a></li>
-										<li><a href="contact">Contact</a></li>
-										<li><a data-toggle="modal" href="#authModal"><i class="fa fa-lock" style="margin-right:5px;"></i>Login</a></li>
+										<li><a href="index" translate="webapp.main.menu.home">Home</a></li>
+										<li><a href="markets" translate="webapp.main.menu.price.and.market">Prices and markets</a></li>
+										<li><a href="community" translate="webapp.main.menu.community">Community</a></li>
+										<li><a href="sources" translate="webapp.main.menu.sources">Sources</a></li>
+										<li><a href="about" translate="webapp.main.menu.about">About</a></li>
+										<li><a href="contact" translate="webapp.main.menu.contact">Contact</a></li>
+										<li><a data-toggle="modal" href="#authModal" translate="webapp.main.menu.login">Login</a></li>
 									</ul>
 								</div>
 						</div>
@@ -273,17 +277,15 @@
 						<!-- start: About -->
 						<div class="span3">
 						
-							<h3>About Us</h3>
-							<p>
-								Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-							</p>
+							<h3 translate="webapp.footer.about.us">About Us</h3>
+							<p translate="webapp.footer.about.us.blah.blah">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
 							
 						</div>
 						<!-- end: About -->
 
 						<!-- start: Leaderboard -->
 						<div class="span3">
-						<h3>Leaderboard</h3>
+						<h3 translate="webapp.footer.leaderboard">Leaderboard</h3>
 						<div class="flickr-widget">
 						<script type="text/javascript" src=""></script>
 						<div class="clear"></div>
@@ -294,7 +296,7 @@
 						<div class="span6">
 					
 							<!-- start: Follow Us -->
-							<h3>Follow Us!</h3>
+							<h3 translate="webapp.footer.follow.us">Follow Us!</h3>
 							<ul class="social-grid">
 								<li>
 									<div class="social-item">				
@@ -357,8 +359,8 @@
 					
 							<!-- start: Newsletter -->
 							<form id="newsletter">
-								<h3>Newsletter</h3>
-								<p>Please leave us your email</p>
+								<h3 translate="webapp.footer.newsletter">Newsletter</h3>
+								<p translate="webapp.footer.please.your.email">Please leave us your email</p>
 								<label for="newsletter_input">@:</label>
 								<input type="text" id="newsletter_input"/>
 								<input type="submit" id="newsletter_submit" value="submit">
@@ -405,10 +407,19 @@
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular/angular-route.min.js"></script>
 	<script src="js/angular/angular-cookies.min.js"></script>
+	<script src="js/angular/angular-translate.min.js"></script>
+	<script src="js/angular/angular-translate-loader-url.min.js"></script>
 	<script src="js/util/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
 	<script>
-		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap']);
+		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap', 'pascalprecht.translate']);
+		
+		cloudStreetMarketApp.config(function ($translateProvider) {
+			    $translateProvider.useUrlLoader('/api/properties.json');
+			    $translateProvider.useStorage('UrlLanguageStorage');
+			    $translateProvider.preferredLanguage('en');
+			    $translateProvider.fallbackLanguage('en');
+			});
 	</script>
 	
 	<script src="js/global_routes.js"></script>
@@ -426,8 +437,7 @@
 	<script src="js/stocks/stock_search.js"></script>
 	<script src="js/stocks/stock_search_by_market.js"></script>
 	<script src="js/stocks/stocks_risers_fallers.js"></script>
-	<script src="js/my-account/wallet.js"></script>
-	<script src="js/my-account/transactions.js"></script>
+	<script src="js/wallet/wallet.js"></script>
 	<!-- end: Javascript -->
 
 </body>

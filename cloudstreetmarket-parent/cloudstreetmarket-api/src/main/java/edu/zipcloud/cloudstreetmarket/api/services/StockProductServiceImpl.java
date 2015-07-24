@@ -95,7 +95,7 @@ public class StockProductServiceImpl implements StockProductService {
 	public Environment env;
 	
 	@Override
-	public Page<StockProduct> get(String indexId, String exchangeId, MarketId marketId, String startWith, Specification<StockProduct> spec, Pageable pageable) {
+	public Page<StockProduct> get(String indexId, String exchangeId, MarketId marketId, String startWith, Specification<StockProduct> spec, Pageable pageable, boolean validResults) {
 		if(!StringUtils.isEmpty(indexId)){
 			Index index = indexRepository.findOne(indexId);
 			if(index == null){
@@ -120,8 +120,16 @@ public class StockProductServiceImpl implements StockProductService {
 			spec = Specifications.where(spec).and(new ProductSpecifications<StockProduct>().exchangeIdEquals(exchangeId));
 		}
 		
-		spec = Specifications.where(spec).and(new ProductSpecifications<StockProduct>().nameNotNull());
+		spec = Specifications.where(spec)
+				.and(new ProductSpecifications<StockProduct>().nameNotNull())
+				.and(new ProductSpecifications<StockProduct>().exchangeNotNull());
 
+		if(validResults){
+			spec = Specifications.where(spec)
+					.and(new ProductSpecifications<StockProduct>().currencyNotNull())
+					.and(new ProductSpecifications<StockProduct>().hasAPrice());
+		}
+		
 		return stockProductRepository.findAll(spec, pageable);
 	}
 
@@ -136,11 +144,11 @@ public class StockProductServiceImpl implements StockProductService {
 			MarketId marketId, String startWith,
 			Specification<StockProduct> spec, Pageable pageable) {
 
-		Page<StockProduct> stocks = get(indexId, exchangeId, marketId, startWith, spec, pageable);
+		Page<StockProduct> stocks = get(indexId, exchangeId, marketId, startWith, spec, pageable, false);
 		
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateStocksAndQuotesFromYahoo(stocks.getContent().stream().collect(Collectors.toSet()));
-			return get(indexId, exchangeId, marketId, startWith, spec, pageable);
+			return get(indexId, exchangeId, marketId, startWith, spec, pageable, false);
 		}
 		
 		return stocks;
@@ -170,13 +178,30 @@ public class StockProductServiceImpl implements StockProductService {
 				List<YahooQuote> yahooQuotes = connection.getApi().financialOperations().getYahooQuotes(new ArrayList<String>(updatableTickers.keySet()), token);
 				
 				Set<StockProduct> updatableProducts = yahooQuotes.stream()
+					.filter(yq -> StringUtils.isNotBlank(yq.getExchange()))
 					.map(yq -> {
 						StockQuote sq = new StockQuote(yq, updatableTickers.get((yq.getId())));
 						return syncProduct(updatableTickers.get((yq.getId())), sq);
 					})
 					.collect(Collectors.toSet());
 				
-				stockProductRepository.save(updatableProducts);
+				if(!updatableProducts.isEmpty()){
+					stockProductRepository.save(updatableProducts);
+				}
+
+				
+				//This job below should decrease with the time
+				Set<StockProduct> removableProducts = yahooQuotes.stream()
+						.filter(yq -> StringUtils.isBlank(yq.getExchange()))
+						.map(yq -> {
+							StockQuote sq = new StockQuote(yq, updatableTickers.get((yq.getId())));
+							return syncProduct(updatableTickers.get((yq.getId())), sq);
+						})
+						.collect(Collectors.toSet());
+					
+				if(!removableProducts.isEmpty()){
+					stockProductRepository.delete(removableProducts);
+				}
 	        }
 		}
 	}
@@ -306,4 +331,5 @@ public class StockProductServiceImpl implements StockProductService {
 		stockProduct.setQuote(quote);
 		return stockProduct;
 	}
+
 }

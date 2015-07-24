@@ -59,7 +59,11 @@
 		    <groupId>com.mangofactory</groupId>
 		    <artifactId>swagger-springmvc</artifactId>
 		</dependency>
-		
+		<dependency>
+		    <groupId>javax</groupId>
+		    <artifactId>javaee-api</artifactId>
+		    <scope>provided</scope>
+		</dependency>
 		<!-- Spring core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -161,6 +165,13 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
+
+		<!-- Bean Validation -->
+
+	   <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency> 
 
 		<!-- Utilities -->
 		<dependency>

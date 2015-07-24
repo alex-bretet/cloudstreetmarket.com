@@ -13,18 +13,22 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 @XStreamAlias("activity")
 public class UserDTO {
 	
-	private String username;
+	private String id;
 	private String fullname;
 	private String profileImg;
+	private String password;
+	private String email;
+	
 	private SupportedCurrency currency;
 	private BigDecimal balance;
+	private String language;
 	private Set<ActionDTO> actions;
 	
-	public String getUsername() {
-		return username;
+	public String getId() {
+		return id;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getFullname() {
 		return fullname;
@@ -58,13 +62,36 @@ public class UserDTO {
 				.map(ActionDTO::new)
 				.collect(Collectors.toSet());
 	}
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Set<ActionDTO> getActions() {
+		return actions;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 	public UserDTO (User user){
 		this.setFullname(user.getFullname());
 		this.setProfileImg(user.getProfileImg());
-		this.setUsername(user.getUsername());
+		this.setId(user.getId());
 		this.setCurrency(user.getCurrency());
 		this.setActions(user.getActions());
 		this.setBalance(user.getBalance());
+		this.setEmail(user.getEmail());
+		this.setPassword(user.getPassword());
+		this.setLanguage(user.getLanguage().name());
 	}
 }

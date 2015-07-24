@@ -12,6 +12,7 @@ public class ErrorInfo {
 
     public final String error;
     public final String message;
+    public final String i18nKey;
     public final int status;
     public final String date;
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -32,11 +33,16 @@ public class ErrorInfo {
 		return date;
 	}
 
-	public ErrorInfo(Throwable throwable, String message, HttpStatus status) {
+	public String getI18nKey() {
+		return i18nKey;
+	}
+
+	public ErrorInfo(Throwable throwable, String message, String i18nKey, HttpStatus status) {
     	this.error = ExceptionUtil.getRootMessage(throwable);
     	this.message = message;
     	this.date = dateFormat.format(new Date());
     	this.status = status.value();
+    	this.i18nKey = i18nKey;
     }
 
 	@Override

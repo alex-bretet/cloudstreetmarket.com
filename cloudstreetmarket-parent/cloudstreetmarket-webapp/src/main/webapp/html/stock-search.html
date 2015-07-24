@@ -3,7 +3,7 @@
 
 	<div class="span12">
 		<ol class="breadcrumb">
-		  <li><a href="#">Home</a></li>
+		  <li><a href="/portal/index">Home</a></li>
 		  <li>> Prices and markets</li>
 		  <li>> All prices search</li>
 		</ol>
@@ -79,7 +79,7 @@
 							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
 					<th/>
 				</tr>
-				<tr data-ng-repeat="value in stocks">
+				<tr data-ng-repeat="value in stocks | filter: currencyPopulated">
 					<td><strong><a href="/portal/stock-{{value.id}}">{{value.name}}</a></strong></td>
 					<td>{{value.id}}</td>
 					<td>{{value.currency | uppercase}}</td>

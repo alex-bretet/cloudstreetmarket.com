@@ -22,7 +22,7 @@ cloudStreetMarketApp.factory("stockDetailFactory", function (httpAuth) {
     }
 });
 
-cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpAuth, stockDetailFactory, genericAPIFactory, accountManagementFactory, $routeParams){
+cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpAuth, errorHandler, stockDetailFactory, genericAPIFactory, accountManagementFactory, $routeParams){
 	
 	  $scope.data= {
 			  quantity: 0,
@@ -132,7 +132,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 		  $scope.data.quantity = number;
 		  $scope.data.type = operation;
 		  $scope.data.quoteId = $scope.quote.id;
-		  $scope.data.userId = $scope.user.username;
+		  $scope.data.userId = httpAuth.getLoggedInUser();
 		  
 		  var baseTransactionUrl = $scope.transactionUrl;
 		  
@@ -166,6 +166,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 		  }).error(function(data, status, headers, config) {
 			  $scope.transactionComplete = true;
 			  $scope.transactionSuccess = false;
+			  $scope.serverErrorMessage = errorHandler.render(data);
 		  });  
 	  };
 	  
@@ -191,6 +192,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 	  
 	  $scope.transactionComplete = false;
 	  $scope.transactionSuccess = false;
+	  $scope.serverErrorMessage;
 	  
 	  $scope.transactionUrl = "/api/actions/transactions";
 	  

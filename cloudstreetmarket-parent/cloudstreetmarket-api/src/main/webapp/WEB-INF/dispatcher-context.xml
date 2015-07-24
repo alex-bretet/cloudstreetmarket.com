@@ -77,7 +77,7 @@
 	       </map>
 	    </property>
 	</bean>
-	
+
 	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	    <property name="supportedMediaTypes" value="application/json"/>
 	    <property name="objectMapper">
@@ -177,9 +177,11 @@
 		<constructor-arg><null/></constructor-arg>
 		<constructor-arg><null/></constructor-arg>
 	</bean>
-
+	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+	
 	<!-- Serve static content-->
-	<mvc:default-servlet-handler/>
-	<mvc:annotation-driven/>
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
 
 </beans>

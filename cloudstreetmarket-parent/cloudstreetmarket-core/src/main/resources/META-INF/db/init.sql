@@ -308,32 +308,3 @@ insert into industry(label,id) values ('Medical Practitioners',527);
 insert into industry(label,id) values ('Wholesale, Other',759);
 insert into industry(label,id) values ('Closed-End Fund - Foreign',427);
 
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('happyFace8', '', 'fake1@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', 'img/young-lad.jpg', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('actionMan9', '', 'fake2@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('other9', '', 'fake3@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', 'img/santa.jpg', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('randomGuy34', '', 'fake4@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('traderXX', '', 'fake5@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('userB', '', 'fake6@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('happyFace9', '', 'fake7@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('actionMan10', '', 'fake8@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('other10', '', 'fake9@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('randomGuy35', '', 'fake10@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('traderYY', '', 'fake11@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('userC', '', 'fake12@fake.com', '$2a$10$Qz5slUkuV7RXfaH/otDY9udROisOwf6XXAOLt4PHWnYgOhG59teC6', '', true, true, true);
-insert into users(id, fullname, email, password, profileImg, enabled, not_expired, not_locked) values ('admin', '', 'admin@fake.com', '$2a$10$VLKFFxRChNwxyciHMKYcvOsrCzy4HcucDen2aTS7oQO84ZhN96.0G', '', true, true, true);
-
-insert into authorities(user_id, authority) values ('happyFace8', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('actionMan9', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('other9', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('randomGuy34', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('traderXX', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('userB', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('happyFace9', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('actionMan10', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('other10', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('randomGuy35', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('traderYY', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('userC', 'ROLE_BASIC');
-insert into authorities(user_id, authority) values ('admin', 'ROLE_ADMIN');
-insert into authorities(user_id, authority) values ('admin', 'ROLE_BASIC');
-

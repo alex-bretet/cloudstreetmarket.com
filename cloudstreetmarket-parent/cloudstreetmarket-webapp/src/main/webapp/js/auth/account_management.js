@@ -10,6 +10,9 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
         	}
         	return httpAuth.post('/api/users', body);
         },
+        updateAccount: function (body) {
+        	return httpAuth.put('/api/users', body);
+        },
         saveImage: function (formData) {
         	return $http.post('/api/images/users', formData, {
                 headers: {'Content-Type': undefined },
@@ -22,11 +25,13 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
     }
 });
 
-cloudStreetMarketApp.controller('createNewAccountController', function ($scope, accountManagementFactory, httpAuth){
+cloudStreetMarketApp.controller('accountController', function ($scope, $translate, $location, errorHandler, accountManagementFactory, httpAuth, genericAPIFactory){
       $scope.form = {
       		id: "",
     		email: "",
+    		fullname: "",
     		password: "",
+    		language: "EN",
     		currency: "",
     		profileImg: "img/anon.png"
       };
@@ -49,6 +54,24 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 		  });
 	  };
 	  
+	  $scope.update = function () {
+		  $scope.formSubmitted = true;
+
+		  if(!$scope.updateAccount.$valid) {
+		       return;
+		  }
+		  
+		  httpAuth.put('/api/users', JSON.stringify($scope.form)).success(
+			  function(data, status, headers, config) {
+				httpAuth.setCredentials($scope.form.id, $scope.form.password);
+				$scope.updateSuccess = true;
+		  }).error(function(data, status, headers, config) {
+			  $scope.updateFail = true;
+			  $scope.updateSuccess = false;
+			  $scope.serverErrorMessage = errorHandler.renderOnForms(data);
+		  });
+	  };
+
 	  $scope.updateCredit = function(){
 		  if($scope.form.currency=="USD"){
 			  $scope.credit = 20000;
@@ -61,10 +84,34 @@ cloudStreetMarketApp.controller('createNewAccountController', function ($scope, 
 		  }
 	  }
 
+	  $scope.restFormFromUser = function() {
+		  genericAPIFactory.get("/api/users/"+httpAuth.getLoggedInUser()+".json")
+			.success(function(data, status, headers, config) {
+				if(!data.profileImg){
+					data.profileImg = "img/anon.png";
+				}
+				data.password ='';
+				$scope.form = data;
+		  });
+	  }
+	  
 	  $scope.progressVisible = false;
 	  $scope.progressType = "warning";
 	  $scope.progress = 0;
 	  $scope.credit = 20000;
+	  $scope.formSubmitted = false;
+	  $scope.serverErrorMessage ="";
+	  $scope.updateSuccess = false;
+	  $scope.updateFail = false;
+	  
+	  if(httpAuth.isUserAuthenticated() && !$scope.formSubmitted){
+		  $scope.restFormFromUser();
+	  }
+
+	  $scope.setLanguage = function(language) {
+		  $translate.use(language);
+		  $scope.form.language = language;
+	  }
 	  
 	  $scope.setFiles = function(element) {
 		  $scope.progressType = "warning";

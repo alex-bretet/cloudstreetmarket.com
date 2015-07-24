@@ -1,5 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
+import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,6 +48,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.IndexQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.services.ResourceBundleService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.specifications.ChartSpecifications;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
@@ -85,6 +88,9 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
 	public Environment env;
 
+	@Autowired
+	protected ResourceBundleService bundle;
+    
 	@Override
 	public Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable) {
 		if(!StringUtils.isEmpty(exchangeId)){
@@ -105,7 +111,7 @@ public class IndexServiceImpl implements IndexService {
 	public Index getIndex(String id) {
 		Index index = indexRepository.findOne(id);
 		if(index == null){
-			throw new ResourceNotFoundException("No index has been found for the provided index ID: "+id);
+			throw new ResourceNotFoundException(bundle.getFormatted(I18N_INDICES_INDEX_NOT_FOUND, id));
 		}
 		return index;
 	}

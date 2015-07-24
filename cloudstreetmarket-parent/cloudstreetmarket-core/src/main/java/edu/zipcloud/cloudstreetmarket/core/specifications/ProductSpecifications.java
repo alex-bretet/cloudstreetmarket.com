@@ -1,5 +1,7 @@
 package edu.zipcloud.cloudstreetmarket.core.specifications;
 
+import java.math.BigDecimal;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -49,6 +51,16 @@ public class ProductSpecifications<T extends Product> {
 	        };
 	  }
 	  
+	  public Specification<T> exchangeNotNull() {
+	    	return new Specification<T>() {
+				@Override
+				public Predicate toPredicate(Root<T> root,
+						CriteriaQuery<?> query, CriteriaBuilder cb) {
+	                return cb.isNotNull(root.<String>get("exchange"));
+				}
+	        };
+	  }
+	  
 	  public Specification<T> nameNotNull() {
 	    	return new Specification<T>() {
 				@Override
@@ -58,4 +70,27 @@ public class ProductSpecifications<T extends Product> {
 				}
 	        };
 	  }
+	  
+	  public Specification<T> currencyNotNull() {
+	    	return new Specification<T>() {
+				@Override
+				public Predicate toPredicate(Root<T> root,
+						CriteriaQuery<?> query, CriteriaBuilder cb) {
+	                return cb.isNotNull(root.<String>get("currency"));
+				}
+	        };
+	  }
+
+	  
+	  public Specification<T> hasAPrice() {
+	    	return new Specification<T>() {
+				@Override
+				public Predicate toPredicate(Root<T> root,
+						CriteriaQuery<?> query, CriteriaBuilder cb) {
+	                return cb.greaterThan(root.<BigDecimal>get("dailyLatestValue"), BigDecimal.valueOf(0));
+				}
+	        };
+	  }
+	  
+
 }

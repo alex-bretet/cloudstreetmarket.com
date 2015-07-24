@@ -3,8 +3,8 @@
 
 	<div class="span12">
 		<ol class="breadcrumb">
-		  <li><a href="#">Home</a></li>
-		  <li>> Index: {{index.name}}</li>
+		  <li><a href="/portal/index" translate>screen.index.detail.breadcrum.home</a></li>
+		  <li>> <span translate>screen.index.detail.breadcrum.index</span>: {{index.name}}</li>
 		</ol>
 	</div>
 	
@@ -23,28 +23,25 @@
 			<div class="span5">
 				<img id="detailChart"/>
 			</div>
-		
-		
-		
+
 		<div class="calendarNav tab-pane fade in active" >
 			
-
 			<div class="span4">
 				<table class="table table-condensed table-striped" >
 					<tr>
-						<td>Prev. Close:</strong></td>
+						<td translate>screen.index.detail.table.prev.close</td>
 						<td><strong>{{index.previousClose | number}}</strong></td>
-						<td>Open:</td>
+						<td translate>screen.index.detail.table.open</td>
 						<td><strong>{{index.open | number}}</strong></td>
 					</tr>
 					<tr>
-						<td>High:</td>
+						<td translate>screen.index.detail.table.high</td>
 						<td><strong>{{index.high | number}}</strong></td>
-						<td>Low:</td>
+						<td translate>screen.index.detail.table.low</td>
 						<td><strong>{{index.low | number}}</strong></td>
 					</tr>
 					<tr ng-show="exchange">
-						<td>Exchange:</td>
+						<td translate>screen.index.detail.table.exchange</td>
 						<td><strong>{{exchange.name}}</strong> ({{exchange.id}})</td>
 						<td></td>
 						<td></td>

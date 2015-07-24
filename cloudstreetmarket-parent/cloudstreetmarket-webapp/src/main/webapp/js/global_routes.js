@@ -34,9 +34,9 @@ cloudStreetMarketApp.config(function($locationProvider, $routeProvider) {
       templateUrl: '/portal/html/wallet.html', 
       controller:  'walletController'
     })
-    .when('/portal/transactions', {
-      templateUrl: '/portal/html/transactions.html', 
-      controller:  'transactionsController'
+    .when('/portal/preferences', {
+      templateUrl: '/portal/html/user-account.html', 
+      controller:  'accountController'
     })
     .otherwise({ redirectTo: '/' });
 });

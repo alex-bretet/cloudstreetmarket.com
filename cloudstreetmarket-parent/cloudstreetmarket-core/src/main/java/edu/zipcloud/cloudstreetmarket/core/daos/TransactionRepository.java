@@ -12,8 +12,9 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 
-public interface TransactionRepository {
+public interface TransactionRepository{
 	
+	void delete(Long transactionId);
 	Page<Transaction> findAll(Pageable pageable);
 	Page<Transaction> findByUser(Pageable pageable, User user);
 	List<Transaction> findByUser(User user);

@@ -55,6 +55,10 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
         	this.refresh();
         	return $http.post(url, body);
         },
+        put: function (url, body) {
+        	this.refresh();
+        	return $http.put(url, body);
+        },
         post: function (url, body, headers, data) {
         	this.refresh();
         	return $http.post(url, body, headers, data);

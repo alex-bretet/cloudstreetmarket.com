@@ -1394,6 +1394,16 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+.submitted  input.ng-invalid{
+	border: 2px solid #b94a48;
+	background-color: #EBD3D5;!important;
+} 
+
+.submitted .input .text-error {
+	font-weight:bold;
+	padding-left:10px;
+}
+
 /* Higher than 960 (desktop devices)
 ====================================================================== */
 @media only screen and (min-width: 960px) {

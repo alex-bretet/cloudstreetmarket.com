@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @XStreamAlias("activity")
@@ -18,6 +20,8 @@ public class UserActivityDTO {
 	private int amount;
 	private BigDecimal price;
 	private String date;
+	private String currency;
+	
 	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
 	
 	public UserActivityDTO(String userName, String urlProfilePicture, UserActivityType userActivity, Date date) {
@@ -28,24 +32,26 @@ public class UserActivityDTO {
 	}
 	
 	public UserActivityDTO(String userName, String urlProfilePicture, UserActivityType userActivity,
-			String valueShortId, int amount, BigDecimal price, Date date) {
+			String valueShortId, int amount, BigDecimal price, SupportedCurrency currency, Date date) {
 		this.userName = userName;
 		this.urlProfilePicture = urlProfilePicture;
 		this.userActivity = userActivity;
 		this.valueShortId = valueShortId;
 		this.amount = amount;
 		this.price = price;
+		this.currency = currency.name();
 		this.date = dateFormatter.format(date);
 	}
 	
 	public UserActivityDTO(String userName, String urlProfilePicture, UserActivityType userActivity,
-			String valueShortId, int amount, BigDecimal price, LocalDateTime date) {
+			String valueShortId, int amount, BigDecimal price, SupportedCurrency currency, LocalDateTime date) {
 		this.userName = userName;
 		this.urlProfilePicture = urlProfilePicture;
 		this.userActivity = userActivity;
 		this.valueShortId = valueShortId;
 		this.amount = amount;
 		this.price = price;
+		this.currency = currency.name();
 		this.date = dateFormatter.format(date);
 	}
 	
@@ -85,12 +91,16 @@ public class UserActivityDTO {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
 	public String getDate() {
 		return date;
 	}
-
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 }

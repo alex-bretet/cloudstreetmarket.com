@@ -2,7 +2,7 @@
 <div class="row" ng-controller="homeMainController">
 	<div class="span12">
 		<div class="hero-unit hidden-phone">
-			<p>Welcome to CloudStreet Market, the educational platform.</p>
+			<p translate="screen.home.hero">Welcome to CloudStreet Market, the educational platform.</p>
 		</div>
 	</div>
 	<div class="span5">
@@ -26,9 +26,9 @@
 						<table class="table table-hover table-condensed table-bordered table-striped" ng-controller="homeFinancialTableController">
 							<thead>
 								<tr>
-									<th>Index</th>
-									<th>Value</th>
-									<th>Change</th>
+									<th translate="screen.home.table.market.price.index">Index</th>
+									<th translate="screen.home.table.market.price.value">Value</th>
+									<th translate="screen.home.table.market.price.change">Change</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -56,14 +56,14 @@
 							<div ng-if="(value.userAction.type =='REGISTER')">
 								<span class="ico-white listActionIco actionRegister"></span>
 								<a href="#">{{value.userName}}</a> 
-								{{value.userAction.presentTense}} a new account
+								{{value.userAction.presentTense | translate}} <span translate="screen.home.feed.action.a.new.account">a new account</span>
 								<p class="itemDate">{{value.date}}</p>
 							</div>
 							<div ng-if="value.userAction.type =='BUY' || value.userAction.type =='SELL'">
 								<span class="ico-white listActionIco" ng-class="(value.userAction.type =='BUY') ? 'ico-up-arrow actionBuy': 'ico-down-arrow actionSell'"></span>
 								<a href="#">{{value.userName}}</a> 
-								{{value.userAction.presentTense}} {{value.amount}} 
-								<a href="#">{{value.valueShortId}}</a> at ${{value.price}}
+								{{value.userAction.presentTense | translate}} {{value.amount}} 
+								<a href="/portal/stock-{{value.valueShortId}}">{{value.valueShortId}}</a> <span translate="screen.home.feed.action.at">at</span> {{value.currency}} {{value.price}}
 								<p class="itemDate">{{value.date}}</p>
 							</div>
 						</div>

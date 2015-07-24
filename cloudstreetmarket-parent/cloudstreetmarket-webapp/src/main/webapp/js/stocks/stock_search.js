@@ -36,6 +36,10 @@ cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl
 		  $scope.loadPage();
 	  };
 	  
+	  $scope.currencyPopulated = function (item) { 
+		    return item.currency !== 'undefined' && item.currency !== null; 
+	  };
+	  
 	  $scope.startWith = "";
 	  $scope.stockSearch ="";
 	  $scope.letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];

@@ -46,6 +46,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
@@ -93,6 +94,7 @@ public class CommunityServiceImpl implements CommunityService {
 											((Transaction)a).getType().equals(UserActivityType.BUY) ? 
 													new BigDecimal(((Transaction)a).getQuote().getAsk()) 
 														: new BigDecimal(((Transaction)a).getQuote().getBid()),
+											((Transaction)a).getQuote().getSupportedCurrency(),
 											((Transaction)a).getQuote().getDate()
 								));
 					}
@@ -131,8 +133,15 @@ public class CommunityServiceImpl implements CommunityService {
 		return userRepository.save(user);
 	}
 	
+	@Override
+	public User updateUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		return userRepository.save(user);
+	}
+	
 	public User createUserWithBalance(User user, Role[] roles, BigDecimal balance) {
 		user.setBalance(balance);
+		user.setLanguage(SupportedLanguage.EN);
 		return createUser(user, roles);
 	}
 
@@ -187,7 +196,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public User createUser(String nickName, String email, String password) {
-		User user = new User(nickName, passwordEncoder.encode(password), email, true, true, true, true, null, null, null);
+		User user = new User(nickName, passwordEncoder.encode(password), email, null, true, true, true, true, null, null, null, null);
 		return userRepository.save(user);
 	}
 	

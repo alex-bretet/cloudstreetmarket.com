@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,5 +120,10 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 		TypedQuery<String> sqlQuery = em.createNamedQuery(Transaction.FIND_STOCK_ID_BY_USER, String.class);
 		sqlQuery.setParameter("user", user);
 		return sqlQuery.getResultList();
+	}
+
+	@Override
+	public void delete(Long transactionId) {
+		repo.delete(transactionId);
 	}
 }

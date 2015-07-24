@@ -33,4 +33,18 @@ public class AuthenticationUtil {
         }
         return new User();
 	}
+	
+	public static User getUserPrincipal(){
+	       SecurityContext securityContext = SecurityContextHolder.getContext();
+	        if (securityContext != null) {
+	            Authentication auth = securityContext.getAuthentication();
+		        if (auth != null) {
+		            Object principal = auth.getPrincipal();
+		            if (principal instanceof User) {
+		            	return (User) principal;
+		            }
+		        }
+	        }
+	        return new User();
+	}
 }

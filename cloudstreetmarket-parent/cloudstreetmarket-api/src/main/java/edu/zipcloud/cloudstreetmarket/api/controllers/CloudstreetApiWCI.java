@@ -1,7 +1,13 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
-import static javax.ws.rs.HttpMethod.*;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_BASIC;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_OAUTH2;
+import static javax.ws.rs.HttpMethod.DELETE;
+import static javax.ws.rs.HttpMethod.GET;
+import static javax.ws.rs.HttpMethod.HEAD;
+import static javax.ws.rs.HttpMethod.OPTIONS;
+import static javax.ws.rs.HttpMethod.POST;
+import static javax.ws.rs.HttpMethod.PUT;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,6 +36,7 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
+import edu.zipcloud.cloudstreetmarket.core.services.ResourceBundleService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.cloudstreetmarket.core.util.UserDetailsUtil;
@@ -58,6 +65,9 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
     @Autowired
 	public Environment env;
     
+	@Autowired
+	protected ResourceBundleService bundle;
+    
     @Autowired
     protected CommunityService communityService;
     
@@ -66,11 +76,12 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 
     @Autowired
     protected PagedResourcesAssembler<T> pagedAssembler;
-    
+
+
 	public CloudstreetApiWCI(){
 		setRequireSession(false);
 		setCacheSeconds(0);
-		setSupportedMethods(GET,POST, OPTIONS, HEAD, DELETE);
+		setSupportedMethods(GET,POST,PUT, OPTIONS, HEAD, DELETE);
 	}
 	
 	@Override
@@ -95,7 +106,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	}
 	
 	public static boolean isAjax(HttpServletRequest request) {
-		   return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+		return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 	}
 
 	private void preAuthenticate(HttpServletRequest request, HttpServletResponse response){
@@ -107,7 +118,8 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 				response.setHeader(MUST_REGISTER_HEADER, oAuthGuid);
 			}
 			else{
-				communityService.signInUser(communityService.findOne(socialUser.getUserId()));
+				User registeredUser = communityService.findOne(socialUser.getUserId());
+				communityService.signInUser(registeredUser);
 			}
 		}
 	}
@@ -149,4 +161,9 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	{
 		binder.registerCustomEditor( Date.class, new CustomDateEditor( df, true ));
 	}
+	
+	@InitBinder
+	protected void registerValidator ( WebDataBinder binder){
+		//binder.setValidator(new UserValidator());
+	};
 }
