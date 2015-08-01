@@ -74,6 +74,7 @@ public class UserImageController extends CloudstreetApiWCI{
     }
     
     @RequestMapping(method=DELETE, produces={"application/json"})
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public String delete(@PathVariable String fileName, @PathVariable String extension) {
     	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\");
     	Path path = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));

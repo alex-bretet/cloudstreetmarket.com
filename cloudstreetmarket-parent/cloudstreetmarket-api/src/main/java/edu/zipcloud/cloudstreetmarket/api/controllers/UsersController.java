@@ -4,6 +4,7 @@ import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
+import static edu.zipcloud.cloudstreetmarket.api.controllers.UsersController.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -46,9 +47,11 @@ import edu.zipcloud.cloudstreetmarket.core.validators.UserValidator;
 
 @Api(value = "users", description = "Cloudstreet Market users") // Swagger annotation
 @RestController
-@RequestMapping(value="/users", produces={"application/xml", "application/json"})
+@RequestMapping(value=USERS_PATH, produces={"application/xml", "application/json"})
 public class UsersController extends CloudstreetApiWCI{
 
+	public static final String USERS_PATH = "/users";
+	
 	@Autowired
 	private CommunityService communityService;
 	
@@ -101,18 +104,19 @@ public class UsersController extends CloudstreetApiWCI{
 		}
 		
 		response.setHeader(MUST_REGISTER_HEADER, FALSE);
+		response.setHeader(LOCATION_HEADER, USERS_PATH + user.getId());
 	}
 	
 	@RequestMapping(method=PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Updates a user account")
 	public void update(@Valid @RequestBody User user, BindingResult result){
-		ValidatorUtil.raiseFirst(result);
+		ValidatorUtil.raiseFirstError(result);
 		user = communityService.updateUser(user);
 	}
 	
 	@RequestMapping(method=GET)
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.PARTIAL_CONTENT)
 	@ApiOperation(value = "List user accounts", notes = "")
 	public Page<UserDTO> getAll(@ApiIgnore @PageableDefault(size=10, page=0) Pageable pageable){
 		return communityService.getAll(pageable);
@@ -126,7 +130,7 @@ public class UsersController extends CloudstreetApiWCI{
 	}
 	
 	@RequestMapping(value="/{username}", method=DELETE)
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete user account", notes = "")
 	public void delete(@PathVariable String username){
 		communityService.delete(username);

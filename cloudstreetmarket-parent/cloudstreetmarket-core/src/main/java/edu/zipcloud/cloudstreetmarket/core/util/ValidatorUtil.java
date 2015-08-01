@@ -37,8 +37,14 @@ public class ValidatorUtil {
 	    return errors;
 	  }
 	  
-	  public static void raiseFirst(BindingResult result) {
-			if (result.hasErrors()) {
+	  public static void raiseFirstError(BindingResult result) {
+			if (result.hasFieldErrors()) {
+	            throw new IllegalArgumentException(result.getFieldError().getDefaultMessage());
+	        }
+			else if (result.hasGlobalErrors()) {
+	            throw new IllegalArgumentException(result.getGlobalError().getDefaultMessage());
+	        }
+			else if (result.hasErrors()) {
 	            throw new IllegalArgumentException(result.getAllErrors().get(0).getCode());
 	        }
 	  }

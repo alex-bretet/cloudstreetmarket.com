@@ -16,11 +16,13 @@ cloudStreetMarketApp.controller('menuController',  function ($scope, $translate,
 		if($('#spi').text()){
 			httpAuth.setSession('oAuthSpiCSM', $('#spi').text());
 		}
-		genericAPIFactory.get("/api/users/"+httpAuth.getLoggedInUser()+".json")
-		.success(function(data, status, headers, config) {
-		    $translate.use(data.language);
-		    $location.search('lang', data.language);
-	});
+		if(httpAuth.getLoggedInUser()){
+			genericAPIFactory.get("/api/users/"+httpAuth.getLoggedInUser()+".json")
+			.success(function(data, status, headers, config) {
+			    $translate.use(data.language);
+			    $location.search('lang', data.language);
+			})
+		};
     }
 	
 	$scope.loggedInUser = null;

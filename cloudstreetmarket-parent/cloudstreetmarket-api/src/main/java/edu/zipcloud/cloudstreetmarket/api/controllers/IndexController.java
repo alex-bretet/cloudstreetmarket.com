@@ -9,9 +9,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mangofactory.swagger.annotations.ApiIgnore;
@@ -37,6 +39,7 @@ public class IndexController extends CloudstreetApiWCI<Index> {
 	private IndexResourceAssembler assembler;
 	
 	@RequestMapping(method=GET)
+	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get overviews of indices", notes = "Return a page of index-overviews")
 	public PagedResources<IndexResource> getSeveral(
 			@RequestParam(value="exchange", required=false) String exchangeId,

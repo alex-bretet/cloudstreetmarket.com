@@ -152,8 +152,8 @@
                   						<li class="divider"></li>
                   						<li class="nav-header" translate="webapp.main.menu.stocks">Stocks</li>
                   						<li><a href="/portal/stock-search"><i class="fa fa-search fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.all.prices.search">All prices search</span></a></li>
-                  						<li><a href="/portal/stock-search-by-market"><i class="fa fa-search fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.all.prices.search">Search by markets</span></a></li>
-                  						<li><a href="/portal/stocks-risers-fallers"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.all.prices.search">All prices search</span></a></li>
+                  						<li><a href="/portal/stock-search-by-market"><i class="fa fa-search fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.prices.search.by.market">Search by markets</span></a></li>
+                  						<li><a href="/portal/stocks-risers-fallers"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.prices.risers.and.fallers">Risers and fallers</span></a></li>
                 					</ul>
               					</li>
 								<li><a href="community" translate="webapp.main.menu.community">Community</a></li>
@@ -276,10 +276,8 @@
 
 						<!-- start: About -->
 						<div class="span3">
-						
 							<h3 translate="webapp.footer.about.us">About Us</h3>
 							<p translate="webapp.footer.about.us.blah.blah">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-							
 						</div>
 						<!-- end: About -->
 

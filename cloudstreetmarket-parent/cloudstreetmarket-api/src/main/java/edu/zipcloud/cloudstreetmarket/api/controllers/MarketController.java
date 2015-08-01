@@ -9,8 +9,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mangofactory.swagger.annotations.ApiIgnore;
@@ -37,6 +39,7 @@ public class MarketController extends CloudstreetApiWCI<Market> {
 	private MarketResourceAssembler assembler;
 
 	@RequestMapping(method=GET)
+	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get list of markets", notes = "Return a page of markets")
 	public PagedResources<MarketResource> getSeveral(
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"name"}, direction=Direction.ASC) Pageable pageable){

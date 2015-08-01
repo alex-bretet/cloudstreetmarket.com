@@ -9,8 +9,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mangofactory.swagger.annotations.ApiIgnore;
@@ -35,6 +37,7 @@ public class IndustryController extends CloudstreetApiWCI<Industry> {
 	private IndustryResourceAssembler assembler;
 	
 	@RequestMapping(method=GET)
+	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get industries", notes = "Return a page of industries")
 	public PagedResources<IndustryResource> getSeveral(
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){

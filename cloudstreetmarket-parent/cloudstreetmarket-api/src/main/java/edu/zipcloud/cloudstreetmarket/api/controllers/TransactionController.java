@@ -4,6 +4,7 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.*
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +38,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 import edu.zipcloud.cloudstreetmarket.core.services.TransactionService;
+import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
 import edu.zipcloud.cloudstreetmarket.core.validators.TransactionValidator;
 
 @Api(value = TRANSACTIONS, description = "Transactions") // Swagger annotation
@@ -53,6 +56,9 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	@Autowired
 	private CurrencyExchangeService currencyExchangeService;
 	
+	@Autowired
+	private TransactionValidator validator;
+	
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get the user transactions", notes = "Return the transactions of a user")
@@ -60,7 +66,8 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			@ApiParam(value="User id: WHATEVERKEY") @RequestParam(value="user", required=false) String userName,
 			@ApiParam(value="Quote id: 123L") @RequestParam(value="quote:[\\d]+", required=false) Long quoteId,
 			@ApiParam(value="Product ticker: FB") @RequestParam(value="ticker:[a-zA-Z0-9-:]+", required=false) String ticker,
-			@ApiIgnore @PageableDefault(size=10, page=0, sort={"lastUpdate"}, direction=Direction.DESC) Pageable pageable
+			@ApiIgnore @PageableDefault(size=10, page=0, sort={"lastUpdate"}, direction=Direction.DESC) Pageable pageable,
+			HttpServletResponse response
 			){
 		return pagedAssembler.toResource(transactionService.findBy(pageable, userName, quoteId, ticker), assembler);
 	}
@@ -75,8 +82,8 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	@RequestMapping(method=POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Processes a transaction")
-	public TransactionResource post(@Valid @RequestBody Transaction transaction) {
-
+	public TransactionResource post(@Valid @RequestBody Transaction transaction, HttpServletResponse response, BindingResult result) {
+		ValidatorUtil.raiseFirstError(result);
 		transactionService.hydrate(transaction);
 		
 		if(!transaction.getUser().getUsername().equals(getPrincipal().getUsername())){
@@ -107,13 +114,15 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_DONT_OWN_QUANTITY));
 			}
 		}
-
-		return assembler.toResource(transaction);
+		
+		TransactionResource resource = assembler.toResource(transaction);
+		response.setHeader(LOCATION_HEADER, resource.getLink("self").getHref());
+		return resource;
 	}
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=DELETE)
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete a transaction", notes = "Delete one transaction")
 	public void delete(@ApiParam(value="Transaction id: 24") @PathVariable(value="id") Long transactionId){
 		transactionService.delete(transactionId);
@@ -121,6 +130,6 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new TransactionValidator());
+        binder.setValidator(validator);
     }
 }

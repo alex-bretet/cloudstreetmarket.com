@@ -78,7 +78,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 										});
 									};
 									
-									genericAPIFactory.get($scope.transactionUrl +".json?user="+httpAuth.getLoggedInUser()+"&ticker=")
+									genericAPIFactory.get($scope.transactionUrl +".json?user="+httpAuth.getLoggedInUser()+"&ticker="+$scope.stock.id)
 									.success(function(data, status, headers, config) {
 										
 										var totalOwned = 0;
