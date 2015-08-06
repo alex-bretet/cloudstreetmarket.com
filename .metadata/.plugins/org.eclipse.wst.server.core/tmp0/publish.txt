@@ -1,0 +1,5 @@
+#Tomcat publish data
+#Thu Aug 06 20:40:46 BST 2015
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\abretet\\.m2\\repository\\org\\springframework\\spring-web\\4.1.0.RELEASE\\spring-web-4.1.0.RELEASE.jar=WEB-INF/lib/spring-web-4.1.0.RELEASE.jar
+org.eclipse.jst.j2ee.server\:cloudstreetmarket-core=WEB-INF/lib/cloudstreetmarket-core-0.0.1-SNAPSHOT.jar
+org.eclipse.jst.j2ee.server\:zipcloud-core=WEB-INF/lib/zipcloud-core-0.0.1-SNAPSHOT.jar

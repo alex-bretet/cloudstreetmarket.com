@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 3 resources" deleteContents="false" description="Delete 3 resources" element1="/cloudstreetmarket-parent" element2="/Servers" element3="/zipcloud-parent" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="3" stamp="1438887984485"/>
+</session>

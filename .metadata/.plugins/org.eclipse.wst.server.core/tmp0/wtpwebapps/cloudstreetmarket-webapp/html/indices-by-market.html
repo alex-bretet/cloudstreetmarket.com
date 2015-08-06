@@ -1,0 +1,92 @@
+<!-- start: Row -->
+<div class="mainController row" ng-controller="indicesByMarketsMainController">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="#" translate>screen.indices.by.market.breadcrum.home</a></li>
+		  <li>> <span translate>screen.indices.by.market.breadcrum.prices.and.markets</span></li>
+		  <li>> <span translate>screen.indices.by.market.breadcrum.indices.by.market</span></li>
+		</ol>
+	</div>
+	
+	<div class="span9">
+	
+		<div class="title"><h3 translate="screen.indices.by.market.sub.title">INDICES BY MARKET</h3></div>
+		<br/>
+		<ul class="tabs-nav">
+			<li ng-class="(market === 'EUROPE') ? 'active': ''"><a showtab="" href="/portal/indices-EUROPE" translate>screen.indices.by.market.table.europe</a></li>
+			<li ng-class="(market === 'US') ? 'active': ''"><a showtab="" href="/portal/indices-US" translate>screen.indices.by.market.table.us</a></li>
+			<li ng-class="(market === 'ASIA_PACIFIC') ? 'active': ''"><a showtab="" href="/portal/indices-ASIA_PACIFIC" translate>screen.indices.by.market.table.asia.pacific</a></li>
+			<li ng-class="(market === 'AMERICAS') ? 'active': ''"><a showtab="" href="/portal/indices-AMERICAS" translate>screen.indices.by.market.table.americas</a></li>
+			<li ng-class="(market === 'AFRICA_MIDDLE_EAST') ? 'active': ''"><a showtab="" href="/portal/indices-AFRICA_MIDDLE_EAST" translate>screen.indices.by.market.table.africa.emea</a></li>
+		</ul>
+		
+		<br/>
+		<div class="calendarNav tab-pane fade in active" >
+			
+			<table class="table table-condensed table-striped" >
+		
+				<tr>
+					<th><a href="" ng-click="setSort('name')" translate>screen.indices.by.market.table.name</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'name'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th><a href="" ng-click="setSort('id')" translate>screen.indices.by.market.table.symbol</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'id'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestValue')" translate>screen.indices.by.market.table.value</a>  
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestValue'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th ><a href="" ng-click="setSort('dailyLatestChange')">+/-</a>  
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestChange'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th><a href="" ng-click="setSort('dailyLatestChangePercent')">%+/-</a>  
+						<li class="mini-color" 
+							ng-show="sortedField === 'dailyLatestChangePercent'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th><a href="" ng-click="setSort('high')" translate>screen.indices.by.market.table.high</a>  
+						<li class="mini-color" 
+							ng-show="sortedField === 'high'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th ><a href="" ng-click="setSort('low')" translate>screen.indices.by.market.table.low</a>  
+						<li class="mini-color" 
+							ng-show="sortedField === 'low'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th><a href="" ng-click="setSort('exchangeId')" translate>screen.indices.by.market.table.exchange</a>  
+						<li class="mini-color" 
+							ng-show="sortedField === 'exchangeId'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th/>
+				</tr>
+		
+				<tr data-ng-repeat="value in indicesForMarket">
+					<td><a href="/portal/index-{{value.id}}"><strong>{{value.name}}</strong></a></td>
+					<td>{{value.id}}</td>
+					<td><strong>{{value.dailyLatestValue | number:2}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange | number:2}}</strong></td>
+					<td ng-class="(value.latestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent | number:2}}%</strong></td>
+					<td>{{value.high | number:2}}</td>
+					<td>{{value.low | number:2}}</td>
+					<td>{{value.exchangeId}}</td>
+					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
+				</tr>
+		
+			</table>
+			
+			<div class="pagination pagination-right pagination-mini block-pagination" >
+				<pagination max-size="12" boundary-links="true"  page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
+			</div>
+
+		</div>
+
+	</div>
+		
+		<div class="span3">
+	
+		</div>
+
+</div>
+<!-- end: Row -->

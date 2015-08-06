@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+C:\Users\abretet\perso\git\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3350209334.index
+4057158716.index
+267412963.index
+1185072455.index
+1807504303.index
+3488731518.index

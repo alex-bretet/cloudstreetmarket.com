@@ -1,0 +1,61 @@
+<!-- start: Row -->
+<div class="mainController row" >
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="/portal/index" translate>screen.index.detail.breadcrum.home</a></li>
+		  <li>> <span translate>screen.index.detail.breadcrum.index</span>: {{index.name}}</li>
+		</ol>
+	</div>
+	
+	<div class="span10">
+		<div class="title"><h3>{{index.name}} ( {{index.id}} )</h3></div>
+		
+			<div class="span4" style="margin-right:-5px;">
+				<h1>
+					<li ng-class="index.dailyLatestChange > 0 ? 'ico-up-arrow' : 'ico-down-arrow'"></li>
+					<span style="margin-left:-15px;">{{index.dailyLatestValue | number }}</span>
+				</h1>
+				<div style="margin-top:-10px;">
+					<h3 ng-class="index.dailyLatestChange > 0 ? 'text-success' : 'text-error'">{{index.dailyLatestChange | number}} ({{index.dailyLatestChangePercent}}%)</h3>
+				</div>
+			</div>
+			<div class="span5">
+				<img id="detailChart"/>
+			</div>
+
+		<div class="calendarNav tab-pane fade in active" >
+			
+			<div class="span4">
+				<table class="table table-condensed table-striped" >
+					<tr>
+						<td translate>screen.index.detail.table.prev.close</td>
+						<td><strong>{{index.previousClose | number}}</strong></td>
+						<td translate>screen.index.detail.table.open</td>
+						<td><strong>{{index.open | number}}</strong></td>
+					</tr>
+					<tr>
+						<td translate>screen.index.detail.table.high</td>
+						<td><strong>{{index.high | number}}</strong></td>
+						<td translate>screen.index.detail.table.low</td>
+						<td><strong>{{index.low | number}}</strong></td>
+					</tr>
+					<tr ng-show="exchange">
+						<td translate>screen.index.detail.table.exchange</td>
+						<td><strong>{{exchange.name}}</strong> ({{exchange.id}})</td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+
+		</div>
+	</div>
+		
+	<div class="span3">
+	
+	</div>
+	
+</div>
+<!-- end: Row -->

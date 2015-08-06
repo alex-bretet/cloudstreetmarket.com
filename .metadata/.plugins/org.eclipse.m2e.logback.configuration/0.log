@@ -1,0 +1,286 @@
+2015-08-04 19:41:54,811 [Worker-2] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-04 19:41:54,877 [Worker-2] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-04 19:41:55,130 [Worker-3] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-04 19:41:55,135 [Worker-3] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-04 20:13:49,530 [Worker-10] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\cloudstreetmarket-parent
+2015-08-04 20:13:49,531 [Worker-10] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2015-08-04 20:13:56,702 [Worker-9] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\zipcloud-parent
+2015-08-04 20:13:56,703 [Worker-9] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2015-08-04 20:14:06,523 [Worker-6] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\zipcloud-parent
+2015-08-04 20:14:06,523 [Worker-6] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B install
+2015-08-04 20:14:18,384 [Worker-13] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\cloudstreetmarket-parent
+2015-08-04 20:14:18,385 [Worker-13] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B install
+2015-08-04 20:15:38,012 [Worker-0] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2015-08-04 20:15:38,189 [Worker-0] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-04 20:15:38,192 [Worker-0] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-04 20:15:38,322 [Worker-0] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 0 sec
+2015-08-04 20:16:20,560 [Worker-3] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-04 20:16:23,949 [Worker-6] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-04 20:16:32,943 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-04 20:16:58,446 [Worker-5] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2015-08-04 20:16:58,677 [Worker-5] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-04 20:16:58,686 [Worker-5] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-04 20:16:58,972 [Worker-5] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 0 sec
+2015-08-05 05:32:15,930 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-06 20:07:57,122 [Worker-4] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-06 20:07:58,362 [Worker-4] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-webapp:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-webapp\pom.xml.
+2015-08-06 20:07:59,694 [Worker-4] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-core\pom.xml.
+2015-08-06 20:08:00,063 [Worker-4] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:08:00,188 [Worker-4] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:02,779 [Worker-4] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:07,789 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-core/src/main/java
+2015-08-06 20:08:07,789 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-core/src/main/resources
+2015-08-06 20:08:07,789 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-core/src/test/java
+2015-08-06 20:08:07,789 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-core/src/test/resources
+2015-08-06 20:08:07,939 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-webapp:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-webapp\pom.xml.
+2015-08-06 20:08:08,140 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-api/src/main/java
+2015-08-06 20:08:08,140 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-api/src/main/resources
+2015-08-06 20:08:08,140 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-api/src/test/java
+2015-08-06 20:08:08,150 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-api/src/test/resources
+2015-08-06 20:08:08,890 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-core\pom.xml.
+2015-08-06 20:08:09,118 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-webapp/src/main/java
+2015-08-06 20:08:09,118 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-webapp/src/main/resources
+2015-08-06 20:08:09,119 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-webapp/src/test/java
+2015-08-06 20:08:09,119 [Worker-4] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-webapp/src/test/resources
+2015-08-06 20:08:09,202 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:08:09,262 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:09,552 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-06 20:08:09,624 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-webapp:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-webapp\pom.xml.
+2015-08-06 20:08:09,874 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-core\pom.xml.
+2015-08-06 20:08:10,124 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:08:10,134 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:10,434 [Worker-4] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 4 project(s) in 14 sec
+2015-08-06 20:08:11,674 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:11,834 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:18,847 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:18,867 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:08:19,007 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:19,007 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:08:22,217 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:22,427 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:22,437 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:08:22,467 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:22,477 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:08:22,477 [Worker-1] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for cloudstreetmarket-api
+2015-08-06 20:08:22,557 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:22,557 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources to WEB-INF
+2015-08-06 20:08:27,221 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:27,221 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:08:27,221 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:27,221 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:08:27,221 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for cloudstreetmarket-webapp
+2015-08-06 20:08:27,231 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:27,241 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources to WEB-INF
+2015-08-06 20:08:53,228 [Worker-1] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-06 20:08:53,298 [Worker-1] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\zipcloud-core\pom.xml.
+2015-08-06 20:08:53,578 [Worker-1] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-webapp:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-webapp\pom.xml.
+2015-08-06 20:08:53,938 [Worker-1] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:08:53,998 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:54,178 [Worker-1] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-core\pom.xml.
+2015-08-06 20:08:55,378 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:08:56,348 [Worker-1] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /zipcloud-core/src/main/java
+2015-08-06 20:08:56,358 [Worker-1] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /zipcloud-core/src/main/resources
+2015-08-06 20:08:56,358 [Worker-1] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /zipcloud-core/src/test/java
+2015-08-06 20:08:56,358 [Worker-1] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /zipcloud-core/src/test/resources
+2015-08-06 20:08:56,618 [Worker-1] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 2 project(s) in 3 sec
+2015-08-06 20:08:57,458 [Worker-0] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\zipcloud-core\pom.xml.
+2015-08-06 20:08:57,688 [Worker-0] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-06 20:08:57,758 [Worker-0] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\zipcloud-core\pom.xml.
+2015-08-06 20:08:59,581 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:59,591 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2015-08-06 20:08:59,601 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:08:59,601 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:00,711 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:00,721 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:09:00,791 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:00,791 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:01,371 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:01,381 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:01,391 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:01,391 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:01,401 [Worker-0] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for cloudstreetmarket-webapp
+2015-08-06 20:09:01,411 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:01,411 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources to WEB-INF
+2015-08-06 20:09:02,551 [Worker-3] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:09:02,681 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:02,681 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:09:02,701 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:02,701 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:02,701 [Worker-3] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for cloudstreetmarket-api
+2015-08-06 20:09:02,711 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:02,711 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources to WEB-INF
+2015-08-06 20:09:14,144 [Worker-4] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\zipcloud-parent
+2015-08-06 20:09:14,154 [Worker-4] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2015-08-06 20:09:15,949 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:15,959 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2015-08-06 20:09:15,969 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:15,969 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:22,851 [Worker-5] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\cloudstreetmarket-parent
+2015-08-06 20:09:22,851 [Worker-5] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2015-08-06 20:09:25,159 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:25,169 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:09:25,239 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:25,249 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:25,639 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:25,649 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:25,649 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:25,649 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:26,629 [Worker-3] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:09:26,769 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:26,769 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:09:26,789 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:26,789 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:30,860 [Worker-9] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\zipcloud-parent
+2015-08-06 20:09:30,860 [Worker-9] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B install
+2015-08-06 20:09:37,677 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:37,677 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2015-08-06 20:09:37,677 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:09:37,687 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:09:43,019 [Worker-4] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\cloudstreetmarket-parent
+2015-08-06 20:09:43,019 [Worker-4] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B install
+2015-08-06 20:10:04,788 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:04,798 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:10:04,808 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:04,808 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:06,300 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:06,300 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:06,300 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:06,300 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:06,720 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:06,850 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:06,860 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:10:06,860 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:06,870 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:15,261 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2015-08-06 20:10:15,661 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\pom.xml.
+2015-08-06 20:10:15,711 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:10:15,951 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:16,121 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-core\pom.xml.
+2015-08-06 20:10:16,282 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-webapp:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-webapp\pom.xml.
+2015-08-06 20:10:16,392 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-parent:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\pom.xml.
+2015-08-06 20:10:16,442 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\zipcloud-core\pom.xml.
+2015-08-06 20:10:16,922 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:17,072 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:18,292 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-api/src/main/java
+2015-08-06 20:10:18,302 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-api/src/main/resources
+2015-08-06 20:10:18,312 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-api/src/test/java
+2015-08-06 20:10:18,322 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-api/src/test/resources
+2015-08-06 20:10:18,592 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-core/src/main/java
+2015-08-06 20:10:18,592 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-core/src/main/resources
+2015-08-06 20:10:18,592 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-core/src/test/java
+2015-08-06 20:10:18,592 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-core/src/test/resources
+2015-08-06 20:10:18,942 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-webapp/src/main/java
+2015-08-06 20:10:18,952 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-webapp/src/main/resources
+2015-08-06 20:10:18,952 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /cloudstreetmarket-webapp/src/test/java
+2015-08-06 20:10:18,952 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /cloudstreetmarket-webapp/src/test/resources
+2015-08-06 20:10:19,332 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /zipcloud-core/src/main/java
+2015-08-06 20:10:19,342 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /zipcloud-core/src/main/resources
+2015-08-06 20:10:19,342 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /zipcloud-core/src/test/java
+2015-08-06 20:10:19,342 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /zipcloud-core/src/test/resources
+2015-08-06 20:10:19,962 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:10:19,972 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:20,462 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:20,592 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:20,882 [Worker-7] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for cloudstreetmarket-api
+2015-08-06 20:10:21,022 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-core\pom.xml.
+2015-08-06 20:10:21,472 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-webapp:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-webapp\pom.xml.
+2015-08-06 20:10:22,372 [Worker-7] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for cloudstreetmarket-webapp
+2015-08-06 20:10:22,522 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud:zipcloud-core:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\zipcloud-parent\zipcloud-core\pom.xml.
+2015-08-06 20:10:22,642 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 7 sec
+2015-08-06 20:10:25,712 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:25,712 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2015-08-06 20:10:25,732 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:25,742 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:26,772 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:26,772 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:10:26,832 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:26,842 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:29,155 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:29,165 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:29,175 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:29,195 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:29,195 [Worker-11] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for cloudstreetmarket-webapp
+2015-08-06 20:10:29,195 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:29,195 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources to WEB-INF
+2015-08-06 20:10:30,684 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:10:30,804 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:30,804 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:10:30,814 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:30,824 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:10:30,824 [Worker-7] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for cloudstreetmarket-api
+2015-08-06 20:10:30,834 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:10:30,834 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources to WEB-INF
+2015-08-06 20:17:38,862 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:17:38,872 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:17:38,872 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:17:38,872 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:17:39,914 [Worker-3] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+2015-08-06 20:17:40,134 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:17:40,134 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:17:40,134 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:17:40,134 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:17:58,206 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:17:58,206 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:17:58,216 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:17:58,216 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:18:00,366 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:00,366 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:18:00,366 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:00,376 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:18:12,217 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:12,227 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:18:12,237 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:12,257 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:18:14,477 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:14,477 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:18:14,487 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:14,497 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:18:30,289 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:30,289 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:18:30,299 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:30,309 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:18:34,910 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:34,970 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:18:34,980 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:18:34,990 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:19:58,714 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:19:58,714 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:19:58,714 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:19:58,724 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:21:21,107 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:21:21,112 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:21:21,122 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:21:21,129 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:21:27,537 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:21:27,537 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:21:27,544 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:21:27,554 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:26:44,688 [main] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: edu.zipcloud.cloudstreetmarket:cloudstreetmarket-api:0.0.1-SNAPSHOT @ C:\Users\abretet\perso\git\cloudstreetmarket-parent\cloudstreetmarket-api\pom.xml.
+2015-08-06 20:33:41,537 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:33:41,544 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:33:41,552 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:33:41,553 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:33:48,813 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:33:48,813 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2015-08-06 20:33:48,823 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:33:48,831 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:47:12,084 [Worker-5] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\cloudstreetmarket-parent
+2015-08-06 20:47:12,084 [Worker-5] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2015-08-06 20:47:14,838 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:14,858 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 12 resources
+2015-08-06 20:47:14,962 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:14,962 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:47:15,011 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:15,012 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:47:15,025 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:15,025 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:47:18,159 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:18,161 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2015-08-06 20:47:18,176 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:18,177 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-08-06 20:47:18,361 [Worker-7] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\abretet\perso\git\zipcloud-parent
+2015-08-06 20:47:18,362 [Worker-7] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2015-08-06 20:47:21,973 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:21,974 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2015-08-06 20:47:21,989 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-08-06 20:47:21,989 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
