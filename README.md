@@ -2,7 +2,9 @@
 
 ![Build Status](https://travis-ci.org/alex-bretet/cloudstreetmarket.com.svg?branch=master)
 
-This project is the application developed with the book [Spring MVC Cookbook]
+This project is the application developed with the book [Spring MVC Cookbook](http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419)
+
+[![spring-mvc-cookbook-img]](http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419) 
 
 ## Quickstart
 
@@ -31,3 +33,10 @@ The project uses:
 - [Spring HATEOAS](http://github.com/spring-projects/spring-hateoas) - 0.17.0.RELEASE
 - [Spring Security](http://github.com/spring-projects/spring-security) - 4.0.0.RELEASE
 - [Spring Social](https://github.com/spring-projects/spring-social) - 1.1.0.RELEASE
+
+
+<!---
+Link References
+-->
+
+[spring-mvc-cookbook-img]:http://ecx.images-amazon.com/images/I/518gBtl%2BMpL.jpg
