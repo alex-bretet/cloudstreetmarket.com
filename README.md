@@ -3,6 +3,7 @@
 ![Build Status](https://travis-ci.org/alex-bretet/cloudstreetmarket.com.svg?branch=master)
 
 This project is the application developed with the book [Spring MVC Cookbook](http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419)
+
 The latest Release of the application is running at: [cloudstreetmarket.com](http://cloudstreetmarket.com)
 
 ## Quickstart
