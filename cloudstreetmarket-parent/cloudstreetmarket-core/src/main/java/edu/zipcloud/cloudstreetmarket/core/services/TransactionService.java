@@ -7,12 +7,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 
-public interface TransactionService {
-	Transaction get(Long transaction);
-	Transaction save(Transaction transaction);
+public interface TransactionService extends ActionService<Transaction> {
 	Page<Transaction> findBy(Pageable pageable, String userName, Long quoteId, String ticker);
-	Transaction create(Transaction transaction);
-	Transaction hydrate(Transaction transaction);
 	boolean isOwnedByUser(User user, int quantity, StockProduct stock);
-	void delete(Long transactionId);
 }

@@ -1,14 +1,14 @@
-cloudStreetMarketApp.controller('menuController',  function ($scope, $translate, $location, modalService, httpAuth, genericAPIFactory) {
+cloudStreetMarketApp.controller('menuController',  function ($scope, $rootScope, $translate, $location, modalService, httpAuth, genericAPIFactory) {
 	
 	$scope.menuModal = function (feature) {
         modalService.showModal({templateUrl:'/portal/html/partials/'+feature+'_modal.html'}, {});
     }
 	
-	$scope.userAuthenticated = function () {
+	$rootScope.userAuthenticated = function () {
 		$scope.loggedInUser = httpAuth.getLoggedInUser();
         return httpAuth.isUserAuthenticated();
     }
-	$scope.logout = function () {
+	$rootScope.logout = function () {
         httpAuth.clearSession();
         window.document.location="../portal/index";
     }
@@ -36,6 +36,9 @@ cloudStreetMarketApp.factory("genericAPIFactory", function (httpAuth) {
         },
         post: function (url, body) {
         	return httpAuth.post(url, body);
+        },
+        del: function (url) {
+        	return httpAuth.del(url);
         }
     }
 });

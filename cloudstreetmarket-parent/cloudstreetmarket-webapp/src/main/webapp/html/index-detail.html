@@ -14,10 +14,10 @@
 			<div class="span4" style="margin-right:-5px;">
 				<h1>
 					<li ng-class="index.dailyLatestChange > 0 ? 'ico-up-arrow' : 'ico-down-arrow'"></li>
-					<span style="margin-left:-15px;">{{index.dailyLatestValue | number }}</span>
+					<span style="margin-left:-15px;">{{index.dailyLatestValue | number:2}}</span>
 				</h1>
 				<div style="margin-top:-10px;">
-					<h3 ng-class="index.dailyLatestChange > 0 ? 'text-success' : 'text-error'">{{index.dailyLatestChange | number}} ({{index.dailyLatestChangePercent}}%)</h3>
+					<h3 ng-class="index.dailyLatestChange > 0 ? 'text-success' : 'text-error'">{{index.dailyLatestChange | number:2}} ({{index.dailyLatestChangePercent}}%)</h3>
 				</div>
 			</div>
 			<div class="span5">

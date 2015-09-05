@@ -19,9 +19,9 @@ public class AccountActivity extends Action{
 	public AccountActivity(){
 		
 	}
-	public AccountActivity(User user, UserActivityType register, Date date) {
+	public AccountActivity(User user, UserActivityType type, Date date) {
 		setUser(user);
-		setType(register);
+		setType(type);
 		setDate(date);
 	}
 }

@@ -18,6 +18,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,6 +50,8 @@ import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
+import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
+import edu.zipcloud.cloudstreetmarket.core.util.TransactionUtil;
 
 @Service(value="communityServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -63,44 +66,40 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-    
+	
     private static final String RANDOM_PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!$*";
     private static final int RANDOM_PASSWORD_LENGTH = 12;
-	
+    
 	@Override
 	public Page<UserActivityDTO> getPublicActivity(Pageable pageable) {
-		List<UserActivityDTO> result = new LinkedList<UserActivityDTO>();
 		Page<Action> actions = actionRepository.findAll(pageable);
+		List<UserActivityDTO> result = transform(actions);
+		return new PageImpl<>(result, pageable, actions.getTotalElements());
+	}
 
+	private List<UserActivityDTO> transform(Iterable<Action> actions){
+		List<UserActivityDTO> result = new LinkedList<UserActivityDTO>();
 		actions.forEach(
 				a -> {
 					if(a instanceof AccountActivity){
-						result.add(
-								new UserActivityDTO(
-											a.getUser().getUsername(),
-											a.getUser().getProfileImg(),
-											((AccountActivity)a).getType(),
-											((AccountActivity)a).getDate()
-								));
+						UserActivityDTO accountActivity = new UserActivityDTO(
+								a.getUser().getUsername(),
+								a.getUser().getProfileImg(),
+								((AccountActivity)a).getType(),
+								((AccountActivity)a).getDate(),
+								a.getId()
+						);
+						accountActivity.setSocialReport(a.getLikeActions(), a.getCommentActions());
+						result.add(accountActivity);
 					}
 					else if(a instanceof Transaction){
-						result.add(
-								new UserActivityDTO(
-											a.getUser().getUsername(),
-											a.getUser().getProfileImg(),
-											((Transaction)a).getType(),
-											((Transaction)a).getQuote().getStock().getId(),
-											((Transaction)a).getQuantity(),
-											((Transaction)a).getType().equals(UserActivityType.BUY) ? 
-													new BigDecimal(((Transaction)a).getQuote().getAsk()) 
-														: new BigDecimal(((Transaction)a).getQuote().getBid()),
-											((Transaction)a).getQuote().getSupportedCurrency(),
-											((Transaction)a).getQuote().getDate()
-								));
+						UserActivityDTO transaction = new UserActivityDTO((Transaction)a);
+						transaction.setSocialReport(a.getLikeActions(), a.getCommentActions());
+						result.add(transaction);
 					}
 				}
 			);
-		return new PageImpl<>(result, pageable, actions.getTotalElements());
+		return result;
 	}
 
 	@Override
@@ -146,10 +145,14 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public Page<UserDTO> getAll(Pageable pageable) {
-		Page<User> users = userRepository.findAll(pageable);
+	public Page<UserDTO> search(Specification<User> spec, Pageable pageable) {
+		Page<User> users = userRepository.findAll(spec, pageable);
 		List<UserDTO> result = users.getContent().stream()
-			.map(UserDTO::new)
+			.map(u -> {
+				UserDTO userDTO = new UserDTO(u);
+				hideSensitiveFieldsIfNecessary(userDTO);
+		        return new UserDTO(u);
+			})
 			.collect(Collectors.toCollection(LinkedList::new));
 		return new PageImpl<>(result, pageable, users.getTotalElements());
 	}
@@ -173,9 +176,27 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Override
 	public UserDTO getUser(String username) {
-		return new UserDTO(userRepository.findOne(username));
+		UserDTO userDTO = new UserDTO(userRepository.findOne(username));
+		hideSensitiveFieldsIfNecessary(userDTO);
+		return userDTO;
 	}
-
+	
+	private  void hideSensitiveInformation(UserDTO userDTO){
+		userDTO.setPassword("hidden");
+		userDTO.setEmail("hidden");
+	}
+	
+	private  UserDTO hideSensitiveFieldsIfNecessary(UserDTO userDTO){
+		Preconditions.checkNotNull(userDTO);
+		if(AuthenticationUtil.isThePrincipal(userDTO.getId())){
+			return userDTO;
+		}
+		else{
+			hideSensitiveInformation(userDTO);
+			return userDTO;
+		}
+	}
+	
 	@Override
 	public User identifyUser(User user) {
 		Preconditions.checkArgument(user.getPassword() != null, "The provided password cannot be null!");
@@ -277,36 +298,13 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public boolean isAffordableToUser(int quantity, StockQuote quote, User user, @Nullable CurrencyExchange currencyExchange) {
-		
-		BigDecimal priceInUserCurrency;
-		
-		if(user.getCurrency().equals(quote.getSupportedCurrency())){
-			priceInUserCurrency = BigDecimal.valueOf(quote.getAsk()*quantity);
-		}
-		else{
-			Preconditions.checkNotNull(currencyExchange);
-			Preconditions.checkArgument(currencyExchange.getDailyLatestValue() != null);
-			Preconditions.checkArgument(currencyExchange.getDailyLatestValue().doubleValue() > 0);
-			priceInUserCurrency = currencyExchange.getDailyLatestValue().multiply(BigDecimal.valueOf(quote.getAsk()*quantity));
-		}
-
+		BigDecimal priceInUserCurrency = TransactionUtil.getPriceInUserCurrency(quote, UserActivityType.BUY, quantity, user, currencyExchange);
 		return user.getBalance().compareTo(priceInUserCurrency) >= 0;
 	}
 
 	@Override
 	public void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType type, @Nullable CurrencyExchange currencyExchange) {
-		
-		BigDecimal priceInUserCurrency;
-		
-		if(user.getCurrency().equals(quote.getSupportedCurrency())){
-			priceInUserCurrency = BigDecimal.valueOf(quote.getAsk()*quantity);
-		}
-		else{
-			Preconditions.checkNotNull(currencyExchange);
-			Preconditions.checkArgument(currencyExchange.getDailyLatestValue() != null);
-			Preconditions.checkArgument(currencyExchange.getDailyLatestValue().doubleValue() > 0);
-			priceInUserCurrency = currencyExchange.getDailyLatestValue().multiply(BigDecimal.valueOf(quote.getAsk()*quantity));
-		}
+		BigDecimal priceInUserCurrency = TransactionUtil.getPriceInUserCurrency(quote, type, quantity, user, currencyExchange);
 		
 		if(UserActivityType.BUY.equals(type)){
 			user.setBalance(user.getBalance().add(priceInUserCurrency.negate()));
@@ -316,5 +314,10 @@ public class CommunityServiceImpl implements CommunityService {
 		}
 		
 		userRepository.save(user);
+	}
+
+	@Override
+	public User hydrate(User user) {
+		return user;
 	}
 }

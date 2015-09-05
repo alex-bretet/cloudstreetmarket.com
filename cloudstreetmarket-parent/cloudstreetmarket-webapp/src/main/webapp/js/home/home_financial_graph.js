@@ -9,7 +9,9 @@ cloudStreetMarketApp.factory("indicesGraphFactory", function (httpAuth) {
             xmlHTTP.onload = function(e){
                 var arr = new Uint8Array(this.response);
                 var raw = String.fromCharCode.apply(null,arr);
-                document.getElementById("homeChart").src = "data:image/png;base64,"+btoa(raw);
+                if($("#homeChart")[0]){
+                	$("#homeChart")[0].src = "data:image/png;base64,"+btoa(raw);
+                }
             };
             xmlHTTP.send();
         },

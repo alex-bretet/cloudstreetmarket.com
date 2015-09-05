@@ -7,7 +7,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum UserActivityType implements Serializable{
-	REGISTER(I18N_ACTION_REGISTERS), BUY(I18N_ACTION_BUYS), SELL(I18N_ACTION_SELLS);
+	
+	REGISTER(I18N_ACTION_REGISTERS), 
+	BUY(I18N_ACTION_BUYS), 
+	SELL(I18N_ACTION_SELLS), 
+	LIKE(I18N_ACTION_LIKES), 
+	FOLLOW(I18N_ACTION_FOLLOWS),
+	SEE(I18N_ACTION_SEES),
+	COMMENT(I18N_ACTION_COMMENTS);
 	
 	private String presentTense;
 	

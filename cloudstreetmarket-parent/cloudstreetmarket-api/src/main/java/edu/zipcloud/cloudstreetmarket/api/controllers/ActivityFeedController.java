@@ -28,7 +28,7 @@ public class ActivityFeedController extends CloudstreetApiWCI{
 	@RequestMapping(method=GET)
 	@ApiOperation(value = "Gets public user activities", notes = "Return a page of user-activities")
 	public Page<UserActivityDTO> getPublicActivities(
-			@ApiIgnore @PageableDefault(size=10, page=0, sort={"date"}, direction=Direction.DESC) Pageable pageable){
+			@ApiIgnore @PageableDefault(size=10, page=0, sort={"id"}, direction=Direction.DESC) Pageable pageable){
 		return communityService.getPublicActivity(pageable);
 	}
 }

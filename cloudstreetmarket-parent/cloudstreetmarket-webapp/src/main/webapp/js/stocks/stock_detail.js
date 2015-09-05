@@ -70,7 +70,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 											if($scope.user.currency != $scope.stock.currency){
 												  accountManagementFactory.getCurrencyX($scope.stock.currency+$scope.user.currency+"=X")
 													.success(function(data, status, headers, config) {
-														$scope.currencyExchange = data.dailyLatestValue;
+														$scope.currencyExchange = data.ask;
 														$scope.maxQuantity = Math.floor($scope.user.balance / ($scope.currencyExchange * $scope.quote.ask));
 												  });
 											}

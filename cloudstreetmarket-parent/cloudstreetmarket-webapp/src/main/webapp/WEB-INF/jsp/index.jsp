@@ -9,7 +9,7 @@
 
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title translate="screen.home.title">Cloudstreet Market! The financial and community portal</title> 
+	<title translate="screen.home.title">Cloudstreet Market! The financial and community portal [v8.0.0]</title> 
 	<meta name="description" content="Developed with Spring MVC Cookbook [PACKT Publishing] 2015"/>
 	<meta name="keywords" content="Cloudstreet market, Spring, Spring MVC, educational, tutorial, Spring MVC Cookbook, PACKT Publishing" />
 	<meta name="author" content="Alex Bretet"/>
@@ -70,10 +70,10 @@
 										<div class="social-small-info-wrap">
 											<div class="social-small-info">
 												<div class="social-small-info-front social-small-twitter">
-													<a href="http://twitter.com"></a>
+													<a href="http://twitter.com/SpringMVCCookB"></a>
 												</div>
 												<div class="social-small-info-back social-small-twitter-hover">
-													<a href="http://twitter.com"></a>
+													<a href="http://twitter.com/SpringMVCCookB"></a>
 												</div>	
 											</div>
 										</div>
@@ -84,10 +84,10 @@
 										<div class="social-small-info-wrap">
 											<div class="social-small-info">
 												<div class="social-small-info-front social-small-facebook">
-													<a href="http://facebook.com"></a>
+													<a href="https://www.facebook.com/springmvccookbook"></a>
 												</div>
 												<div class="social-small-info-back social-small-facebook-hover">
-													<a href="http://facebook.com"></a>
+													<a href="https://www.facebook.com/springmvccookbook"></a>
 												</div>	
 											</div>
 										</div>
@@ -97,11 +97,11 @@
 									<div class="social-small-item">				
 										<div class="social-small-info-wrap">
 											<div class="social-small-info">
-												<div class="social-small-info-front social-small-dribbble">
-													<a href="http://dribbble.com"></a>
+												<div class="social-small-info-front social-small-amazon">
+													<a href="http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419"></a>
 												</div>
-												<div class="social-small-info-back social-small-dribbble-hover">
-													<a href="http://dribbble.com"></a>
+												<div class="social-small-info-back social-small-amazon-hover">
+													<a href="http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419"></a>
 												</div>	
 											</div>
 										</div>
@@ -156,7 +156,13 @@
                   						<li><a href="/portal/stocks-risers-fallers"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.prices.risers.and.fallers">Risers and fallers</span></a></li>
                 					</ul>
               					</li>
-								<li><a href="community" translate="webapp.main.menu.community">Community</a></li>
+								<li class="dropdown">
+									<a href="community" class="dropdown-toggle"><span translate="webapp.main.menu.community">Community</span> <b class="caret"></b></a>
+                					<ul class="dropdown-menu">
+                  						<li><a href="/portal/all-users"><i class="fa fa-users fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.community.all.users">All users</span></a></li>
+                  						<li><a href="/portal/leaderboard"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.community.leaderboard">Leaderboard</span></a></li>
+                					</ul>
+								</li>
 								<li><a href="sources" translate="webapp.main.menu.sources">Sources</a></li>
 								<li><a href="about" translate="webapp.main.menu.about">About</a></li>
 								<li><a href="contact" translate="webapp.main.menu.contact">Contact</a></li>
@@ -301,10 +307,10 @@
 										<div class="social-info-wrap">
 											<div class="social-info">
 												<div class="social-info-front social-twitter">
-													<a href="http://twitter.com"></a>
+													<a href="http://twitter.com/SpringMVCCookB"></a>
 												</div>
 												<div class="social-info-back social-twitter-hover">
-													<a href="http://twitter.com"></a>
+													<a href="http://twitter.com/SpringMVCCookB"></a>
 												</div>	
 											</div>
 										</div>
@@ -315,10 +321,10 @@
 										<div class="social-info-wrap">
 											<div class="social-info">
 												<div class="social-info-front social-facebook">
-													<a href="http://facebook.com"></a>
+													<a href="https://www.facebook.com/springmvccookbook"></a>
 												</div>
 												<div class="social-info-back social-facebook-hover">
-													<a href="http://facebook.com"></a>
+													<a href="https://www.facebook.com/springmvccookbook"></a>
 												</div>
 											</div>
 										</div>
@@ -328,11 +334,11 @@
 									<div class="social-item">				
 										<div class="social-info-wrap">
 											<div class="social-info">
-												<div class="social-info-front social-dribbble">
-													<a href="http://dribbble.com"></a>
+												<div class="social-info-front social-amazon">
+													<a href="http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419"></a>
 												</div>
-												<div class="social-info-back social-dribbble-hover">
-													<a href="http://dribbble.com"></a>
+												<div class="social-info-back social-amazon-hover">
+													<a href="http://www.amazon.co.uk/Spring-MVC-Cookbook-Alex-Bretet/dp/1784396419"></a>
 												</div>	
 											</div>
 										</div>
@@ -408,7 +414,9 @@
 	<script src="js/angular/angular-translate.min.js"></script>
 	<script src="js/angular/angular-translate-loader-url.min.js"></script>
 	<script src="js/util/ui-bootstrap-tpls-0.11.0.min.js"></script>
-
+	<script src="js/util/sockjs-1.0.2.min.js"></script>
+	<script src="js/util/stomp-2.3.3.js"></script>
+	
 	<script>
 		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap', 'pascalprecht.translate']);
 		
@@ -416,8 +424,10 @@
 			    $translateProvider.useUrlLoader('/api/properties.json');
 			    $translateProvider.useStorage('UrlLanguageStorage');
 			    $translateProvider.preferredLanguage('en');
+			    $translateProvider.useSanitizeValueStrategy(null);
 			    $translateProvider.fallbackLanguage('en');
 			});
+
 	</script>
 	
 	<script src="js/global_routes.js"></script>
@@ -435,8 +445,24 @@
 	<script src="js/stocks/stock_search.js"></script>
 	<script src="js/stocks/stock_search_by_market.js"></script>
 	<script src="js/stocks/stocks_risers_fallers.js"></script>
+	<script src="js/community/all_users.js"></script>
+	<script src="js/community/user_profile.js"></script>
 	<script src="js/wallet/wallet.js"></script>
+	
 	<!-- end: Javascript -->
 
+	<!-- Google analytics -->
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-7628104-14', 'auto');
+		  ga('require', 'linkid', 'linkid.js');
+		  ga('send', 'pageview');
+		</script>
+	<!-- Google analytics -->
+	
 </body>
 </html>

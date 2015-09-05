@@ -29,7 +29,7 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
       $scope.form = {
       		id: "",
     		email: "",
-    		fullname: "",
+    		headline: "",
     		password: "",
     		language: "EN",
     		currency: "",
@@ -72,6 +72,7 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
 		  });
 	  };
 
+	  //Only called in creation..
 	  $scope.updateCredit = function(){
 		  if($scope.form.currency=="USD"){
 			  $scope.credit = 20000;
@@ -79,7 +80,7 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
 		  else{
 			  accountManagementFactory.getCurrencyX("USD"+$scope.form.currency+"=X").success(
 				  function(data, status) {
-					  $scope.credit = data.dailyLatestValue*20000;
+					  $scope.credit = data.ask*20000;
 				  });
 		  }
 	  }
@@ -89,6 +90,9 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
 			.success(function(data, status, headers, config) {
 				if(!data.profileImg){
 					data.profileImg = "img/anon.png";
+				}
+				if(data.bigProfileImg){
+					delete data.bigProfileImg;
 				}
 				data.password ='';
 				$scope.form = data;
@@ -120,7 +124,7 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
 	      $scope.form.profileImg = "img/anon.png";
 	      
 	      var fd = new FormData();
-	      fd.append("file",  element.files[0])
+	      fd.append("file",  element.files[0]);
 
 	      accountManagementFactory.saveImage(fd)
 	    	.success(

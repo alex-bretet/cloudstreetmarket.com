@@ -40,7 +40,6 @@
 	
 	<mvc:interceptors>
 		<bean class="edu.zipcloud.cloudstreetmarket.portal.controllers.CloudstreetWebAppWCI">
-		
 		<property name="cacheMappings">
 			<props>
 				<prop key="/**/*.js">86400</prop>

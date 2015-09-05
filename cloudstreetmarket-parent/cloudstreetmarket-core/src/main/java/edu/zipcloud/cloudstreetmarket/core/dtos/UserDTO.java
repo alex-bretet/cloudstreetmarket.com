@@ -1,20 +1,18 @@
 package edu.zipcloud.cloudstreetmarket.core.dtos;
 
 import java.math.BigDecimal;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import edu.zipcloud.cloudstreetmarket.core.entities.Action;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
+import edu.zipcloud.core.util.ImageUtil;
 
 @XStreamAlias("activity")
 public class UserDTO {
 	
 	private String id;
-	private String fullname;
+	private String headline;
 	private String profileImg;
 	private String password;
 	private String email;
@@ -22,7 +20,6 @@ public class UserDTO {
 	private SupportedCurrency currency;
 	private BigDecimal balance;
 	private String language;
-	private Set<ActionDTO> actions;
 	
 	public String getId() {
 		return id;
@@ -30,14 +27,17 @@ public class UserDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getFullname() {
-		return fullname;
+	public String getHeadline() {
+		return headline;
 	}
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setHeadline(String headline) {
+		this.headline = headline;
 	}
 	public String getProfileImg() {
 		return profileImg;
+	}
+	public String getBigProfileImg() {
+		return ImageUtil.renameToBig(profileImg);
 	}
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
@@ -48,19 +48,11 @@ public class UserDTO {
 	public void setCurrency(SupportedCurrency currency) {
 		this.currency = currency;
 	}
-	public Set<ActionDTO> getActions(Set<Action> actions) {
-		return this.actions;
-	}
 	public BigDecimal getBalance() {
 		return balance;
 	}
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
-	}
-	public void setActions(Set<Action> actions) {
-		this.actions = actions.stream()
-				.map(ActionDTO::new)
-				.collect(Collectors.toSet());
 	}
 	public String getPassword() {
 		return password;
@@ -74,9 +66,6 @@ public class UserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Set<ActionDTO> getActions() {
-		return actions;
-	}
 	public String getLanguage() {
 		return language;
 	}
@@ -84,11 +73,10 @@ public class UserDTO {
 		this.language = language;
 	}
 	public UserDTO (User user){
-		this.setFullname(user.getFullname());
+		this.setHeadline(user.getHeadline());
 		this.setProfileImg(user.getProfileImg());
 		this.setId(user.getId());
 		this.setCurrency(user.getCurrency());
-		this.setActions(user.getActions());
 		this.setBalance(user.getBalance());
 		this.setEmail(user.getEmail());
 		this.setPassword(user.getPassword());

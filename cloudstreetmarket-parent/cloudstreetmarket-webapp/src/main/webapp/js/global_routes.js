@@ -30,6 +30,18 @@ cloudStreetMarketApp.config(function($locationProvider, $routeProvider) {
 	    templateUrl: '/portal/html/stock-detail.html', 
 	    controller: 'stockDetailController' 
 	})
+	.when('/portal/all-users', {
+	    templateUrl: '/portal/html/all-users.html', 
+	    controller: 'allUsersMainController' 
+	})
+	.when('/portal/user-:username', {
+	    templateUrl: '/portal/html/user-profile.html', 
+	    controller: 'userProfileController' 
+	})
+	.when('/portal/leaderboard', {
+	    templateUrl: '/portal/html/leaderboard.html', 
+	    controller: 'leaderboardController' 
+	})
     .when('/portal/wallet', {
       templateUrl: '/portal/html/wallet.html', 
       controller:  'walletController'
@@ -46,3 +58,4 @@ cloudStreetMarketApp.controller("indicesByMarketsMainController", function($scop
 cloudStreetMarketApp.controller("stockSearchMainController", function($scope) {})
 cloudStreetMarketApp.controller("stockSearchByMarketMainController", function($scope) {})
 cloudStreetMarketApp.controller("stocksRisersFallersMainController", function($scope) {})
+cloudStreetMarketApp.controller("allUsersMainController", function($scope) {})

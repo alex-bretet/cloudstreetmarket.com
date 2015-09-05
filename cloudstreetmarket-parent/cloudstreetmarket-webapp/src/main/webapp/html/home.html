@@ -44,34 +44,77 @@
 		</div>
 	</div>
 	<div class="span7">
-
 		<div id="divRss3">
-			<ul class="feedEkList" data-ng-controller='homeCommunityActivityController'>
-				      
-				  <li data-ng-repeat="value in communityActivities">
+			<ul class="feedEkList" ng-controller='homeCommunityActivityController'>
+				  <li data-ng-repeat="value in communityActivities | orderObjectBy:'id':true">
 						<div class="itemTitle">
 							<div ng-class="(!value.urlProfilePicture) ? 'listUserIco ico-user': 'listUserIcoNonBG'">
 								<img ng-if="value.urlProfilePicture" style="position: relative;top: 50%;transform: translateY(-50%);" src='{{value.urlProfileMiniPicture}}' >
 							</div>
 							<div ng-if="(value.userAction.type =='REGISTER')">
 								<span class="ico-white listActionIco actionRegister"></span>
-								<a href="#">{{value.userName}}</a> 
+								<a href="/portal/user-{{value.userName}}">{{value.userName}}</a>
 								{{value.userAction.presentTense | translate}} <span translate="screen.home.feed.action.a.new.account">a new account</span>
-								<p class="itemDate">{{value.date}}</p>
+								<p class="itemDate">{{value.date}} 
+								
+									<span ng-if="userAuthenticated() && value.amountOfLikes > 0">
+										<img ng-if="value.amountOfLikes > 1 || (value.amountOfLikes == 1 && !value.userHasLiked)" src="img/icon-finder/1441188631_4_like.png"
+									    	ng-class="(value.userHasLiked) ? 'like-img like-img-liked': 'like-img'"
+									    	ng-click="(value.userHasLiked) ? unLike(value): like(value.id)"
+									    	alt="like"/>
+									    	
+										<img ng-if="value.amountOfLikes == 1 && value.userHasLiked" ng-src="{{image}}"
+									    	ng-class="'like-img like-img-liked'"
+										    ng-mouseover="image='img/icon-finder/1441189591_1_like.png'"
+										    ng-mouseleave="image='img/icon-finder/1441188631_4_like.png'"
+										    ng-init="image = 'img/icon-finder/1441188631_4_like.png'"
+									    	ng-click="unLike(value)"
+									    	alt="unlike"/> ({{value.amountOfLikes}})
+									</span>
+									
+									<span ng-if="userAuthenticated() && value.amountOfLikes == 0">
+										<img ng-src="{{image}}"
+										    	class="like-img" ng-init="image = 'img/icon-finder/1441189591_1_like.png'"
+										    	ng-mouseover="image='img/icon-finder/1441188631_4_like.png'"
+										    	ng-mouseleave="image='img/icon-finder/1441189591_1_like.png'"
+										    	ng-click="like(value.id)"/>
+									</span>
+								</p>
 							</div>
 							<div ng-if="value.userAction.type =='BUY' || value.userAction.type =='SELL'">
 								<span class="ico-white listActionIco" ng-class="(value.userAction.type =='BUY') ? 'ico-up-arrow actionBuy': 'ico-down-arrow actionSell'"></span>
-								<a href="#">{{value.userName}}</a> 
+								<a href="/portal/user-{{value.userName}}">{{value.userName}}</a> 
 								{{value.userAction.presentTense | translate}} {{value.amount}} 
-								<a href="/portal/stock-{{value.valueShortId}}">{{value.valueShortId}}</a> <span translate="screen.home.feed.action.at">at</span> {{value.currency}} {{value.price}}
-								<p class="itemDate">{{value.date}}</p>
+								<a href="/portal/stock-{{value.valueShortId}}">{{value.valueShortId}}</a> <span translate="screen.home.feed.action.at">at</span> <i class="fa fa-{{value.currency | lowercase}}"></i><b>{{value.price | number:2}}</b> ({{value.currency | uppercase}})
+								<p class="itemDate">{{value.date}} 
+									<span ng-if="userAuthenticated() && value.amountOfLikes > 0">
+										<img ng-if="value.amountOfLikes > 1 || (value.amountOfLikes == 1 && !value.userHasLiked)" src="img/icon-finder/1441188631_4_like.png"
+									    	ng-class="(value.userHasLiked) ? 'like-img like-img-liked': 'like-img'"
+									    	ng-click="(value.userHasLiked) ? unLike(value): like(value.id)"
+									    	alt="like"/>
+										<img ng-if="value.amountOfLikes == 1 && value.userHasLiked" ng-src="{{image}}"
+									    	ng-class="'like-img like-img-liked'"
+										    ng-mouseover="image='img/icon-finder/1441189591_1_like.png'"
+										    ng-mouseleave="image='img/icon-finder/1441188631_4_like.png'"
+										    ng-init="image = 'img/icon-finder/1441188631_4_like.png'"
+										    alt="unlike"
+									    	ng-click="unLike(value)"/> ({{value.amountOfLikes}})
+									</span>
+									
+									<span ng-if="userAuthenticated() && value.amountOfLikes == 0">
+										<img ng-src="{{image}}"
+										    	class="like-img" ng-init="image = 'img/icon-finder/1441189591_1_like.png'"
+										    	ng-mouseover="image='img/icon-finder/1441188631_4_like.png'"
+										    	ng-mouseleave="image='img/icon-finder/1441189591_1_like.png'"
+										    	ng-click="like(value.id)"
+										    	alt="like"/>
+									</span>
+								</p>
 							</div>
 						</div>
 				  </li>
 			</ul>
-			
 		</div>
-
 	</div>
 
 </div>

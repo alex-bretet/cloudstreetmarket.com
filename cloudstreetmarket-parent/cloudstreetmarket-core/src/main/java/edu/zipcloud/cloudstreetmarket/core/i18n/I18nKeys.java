@@ -6,6 +6,10 @@ public class I18nKeys {
 	public static final String I18N_ACTION_REGISTERS = "webapp.action.feeds.action.registers";
 	public static final String I18N_ACTION_BUYS = "webapp.action.feeds.action.buys";
 	public static final String I18N_ACTION_SELLS = "webapp.action.feeds.action.sells";
+	public static final String I18N_ACTION_LIKES = "webapp.action.feeds.action.likes";
+	public static final String I18N_ACTION_FOLLOWS = "webapp.action.feeds.action.follows";
+	public static final String I18N_ACTION_SEES = "webapp.action.feeds.action.sees";
+	public static final String I18N_ACTION_COMMENTS = "webapp.action.feeds.action.comments";
 	
 	//Errors
 	public static final String I18N_USER_GUID_UNKNOWN_TO_PROVIDER = "error.api.user.control.guid.unknown.to.provider";

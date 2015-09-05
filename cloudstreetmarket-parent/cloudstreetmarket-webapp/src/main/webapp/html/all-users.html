@@ -1,0 +1,53 @@
+<!-- start: Row -->
+<div class="mainController row" ng-controller="allUsersMainController">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="/portal/index">Home</a></li>
+		  <li>> All users</li>
+		</ol>
+	</div>
+	
+	<div ng-controller="allUsersController">
+		<div class="span9">
+			<h2>ALL USERS</h2>
+			<div class="hero-unit form-panel">
+				<form ng-submit="setContains()">
+					<fieldset>
+						<div class="span2" >
+							<label>Username / Name</label>
+						</div>
+						<div class="span7 form-inline" >
+						  <input type="text" ng-model="userFilter" class="input pull-left" placeholder="Type here...">
+						  <button ng-class="{'disabled': userFilter === containsSubmitted}" type="submit" class="btn btn-success">Search</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		
+		<div class="span9">
+			<table class="table table-condensed table-striped">
+				<tr>
+					<th><a href="" ng-click="setSort('id')">User</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'id'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+					<th><a href="" ng-click="setSort('balance')">Balance</a> 
+						<li class="mini-color" 
+							ng-show="sortedField === 'balance'" 
+							ng-class="(sortDirection === 'asc') ? 'mini-ico-chevron-up' : 'mini-ico-chevron-down'"/></th>
+				</tr>
+				<tr data-ng-repeat="value in users">
+					<td><a href="/portal/user-{{value.id}}"><img src="{{value.profileImg}}" style="height:30px;padding-right:15px;"><strong>{{value.id}}</strong></a></td>
+					<td>{{value.currency}} {{value.balance}}</td>
+				</tr>
+			</table>
+			
+			<div class="pagination pagination-right pagination-mini block-pagination" >
+				<pagination max-size="12" boundary-links="true" page="paginationCurrentPage" ng-model="paginationCurrentPage" items-per-page="pageSize" total-items="paginationTotalItems" ng-change="setPage(paginationCurrentPage)"></pagination>
+			</div>
+	
+		</div>
+	</div>
+</div>

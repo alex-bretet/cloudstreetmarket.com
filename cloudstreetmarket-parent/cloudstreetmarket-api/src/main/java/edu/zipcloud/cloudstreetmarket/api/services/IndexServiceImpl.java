@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.api.services;
 
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +17,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -37,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
+import edu.zipcloud.cloudstreetmarket.api.controllers.ChartStockController;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToIndexConverter;
 import edu.zipcloud.cloudstreetmarket.core.daos.ChartIndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.ExchangeRepository;
@@ -57,6 +61,8 @@ import edu.zipcloud.core.util.DateUtil;
 @Service
 @Transactional(readOnly = true)
 public class IndexServiceImpl implements IndexService {
+	
+	private static final Logger log = Logger.getLogger(IndexServiceImpl.class);
 
 	@Autowired
 	private MarketRepository marketRepository;
@@ -91,6 +97,8 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	protected ResourceBundleService bundle;
     
+	
+	
 	@Override
 	public Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable) {
 		if(!StringUtils.isEmpty(exchangeId)){
@@ -192,9 +200,12 @@ public class IndexServiceImpl implements IndexService {
 		Integer ttl = Integer.parseInt(env.getProperty("yahoo.graphs."+type.name().toLowerCase()+".ttl.minutes"));
 
 		if(chartIndex!=null && !chartIndex.isExpired(ttl)){
+			log.debug("chartIndex!=null && !chartIndex.isExpired(ttl)");
 			return chartIndex;
 		}
 		else if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
+			log.debug("AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)");
+			log.debug("updateChartIndexFromYahoo("+index+", "+type+", "+histoSize+", "+histoAverage+", "+histoPeriod+", "+intradayWidth+", "+intradayHeight+")");
 			updateChartIndexFromYahoo(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 			return getChartIndex(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 		}
@@ -221,7 +232,7 @@ public class IndexServiceImpl implements IndexService {
 			LocalDateTime dateTime = LocalDateTime.now();
 			String formattedDateTime = dateTime.format(formatter); // "1986-04-08_1230"
 			String imageName = index.getId().toLowerCase()+"_"+type.name().toLowerCase()+"_"+formattedDateTime+".png";
-	    	String pathToYahooPicture = env.getProperty("user.home").concat(env.getProperty("pictures.yahoo.path")).concat("\\").concat(imageName);
+	    	String pathToYahooPicture = env.getProperty("user.home").concat(env.getProperty("pictures.yahoo.path")).concat(File.separator+imageName);
 	    	
             try {
                 Path newPath = Paths.get(pathToYahooPicture);
@@ -240,6 +251,8 @@ public class IndexServiceImpl implements IndexService {
 			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
 			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
 			Integer intradayHeight) {
+		
+		log.debug("getChartIndex("+index+", "+type+", "+histoSize+", "+histoAverage+", "+histoPeriod+", "+intradayWidth+", "+intradayHeight+")");
 		
 		Specification<ChartIndex> spec = new ChartSpecifications<ChartIndex>().typeEquals(type);
 		
@@ -264,6 +277,8 @@ public class IndexServiceImpl implements IndexService {
 		}
 		
 		spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().indexEquals(index));
+		log.debug("DB CALL");
+
 		return chartIndexRepository.findAll(spec).stream().findFirst().orElse(null);
 	}
 }

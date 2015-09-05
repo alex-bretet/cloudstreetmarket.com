@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -65,7 +66,8 @@ public class ChartIndexController extends CloudstreetApiWCI<ChartIndex> {
 		}
 		catch(ResourceNotFoundException e){
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat("\\").concat("graph_not_found.png");
+	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat(File.separator+"graph_not_found.png");
+	    	log.error("Resource not found: "+pathToYahooPicture, e);
 			try {
 				bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
 			} catch (IOException ioEx) {

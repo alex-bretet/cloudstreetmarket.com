@@ -1,21 +1,34 @@
 cloudStreetMarketApp.factory("communityFactory", function (httpAuth) {
     return {
-        getUsersActivity: function (pn) {
-        	return httpAuth.get("/api/users/feed.json?page="+pn+"&size=10");
+        getUsersActivity: function (pn, ps) {
+        	return httpAuth.get("/api/users/feed.json?page="+pn+"&size="+ps);
         }
     }
 });
 
-cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, httpAuth, modalService, communityFactory){
-	
+cloudStreetMarketApp.filter('orderObjectBy', function() {
+	  return function(items, field, reverse) {
+	    var filtered = [];
+	    angular.forEach(items, function(item) {
+	      filtered.push(item);
+	    });
+	    filtered.sort(function (a, b) {
+	      return (a[field] > b[field] ? 1 : -1);
+	    });
+	    if(reverse) filtered.reverse();
+	    return filtered;
+	  };
+	});
+
+cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $rootScope, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
+
 	$scope.init = function () {
 		$scope.loadMore();
-		
 		$('.feedEkList').slimScroll({
 	        height: '365px',
 	        railVisible: true,
 	        disableFadeOut: true,
-	        wheelStep: 10
+	        wheelStep: $scope.pageSize
 	    }).bind('slimscroll', function(e, pos){
 	    	if(pos === "bottom")
 	    		$scope.loadMore();
@@ -23,7 +36,7 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 	}
 	
 	$scope.loadMore = function () {
-		communityFactory.getUsersActivity(pageNumber)
+		communityFactory.getUsersActivity(pageNumber, $scope.pageSize)
 			.success(
 				function(usersData, status, headers, config) {
 					if(usersData.content){
@@ -32,9 +45,44 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 			        	}
 			        	$.each( usersData.content, function(index, el ) {
 			        		usersData.content[index].urlProfileMiniPicture = $scope.renamePictureToMini(el.urlProfilePicture);
-			        		$scope.communityActivities.push(usersData.content[index]);
+			        		$scope.communityActivities[usersData.content[index].id] = usersData.content[index];
+
+			        		 //Check if other people have liked the action
+			        		 if($scope.communityActivities[usersData.content[index].id].amountOfLikes > 0 
+			        				 && $scope.communityActivities[usersData.content[index].id].authorOfLikes[httpAuth.getLoggedInUser()]){
+			        			 $scope.communityActivities[usersData.content[index].id].userHasLiked = true;
+			        		 }
 			        	});
 					}
+					$scope.socket = new SockJS('/api/users/feed/add');
+					$scope.stompClient = Stomp.over($scope.socket);
+					$scope.socket.onclose = function() {
+						$scope.stompClient.disconnect();
+					};
+					$scope.stompClient.connect({}, function(frame) {
+						$scope.stompClient.subscribe('/topic/actions', function(message){
+							 var newActivity = JSON.parse(message.body);
+							 newActivity.urlProfileMiniPicture = $scope.renamePictureToMini(newActivity.urlProfilePicture);
+							 if(newActivity.userAction.type == 'LIKE'){
+					        	 if($scope.communityActivities[newActivity.targetActionId]){
+					        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
+					        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
+					        		 if(newActivity.userName == httpAuth.getLoggedInUser()){
+					        			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+					        		 }
+					        	 }
+							 }
+							 else if(newActivity.userAction.type == 'COMMENT'){
+					        	 if($scope.communityActivities[newActivity.targetActionId]){
+					        		 $scope.communityActivities[newActivity.targetActionId].amountOfComments = $scope.communityActivities[newActivity.targetActionId].amountOfComments +1;
+					        	 }
+							 }
+							 else{
+								 $scope.communityActivities[newActivity.id]=newActivity;
+							 }
+				        	 $scope.$apply();
+				         });
+				    });
 				}).then(function(response){
 					if(response.headers('Must-Register')){
 						modalService.showModal({templateUrl:'/portal/html/partials/must_register_modal.html'}, {});
@@ -44,6 +92,31 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 					}
 				});
 	};
+
+	$scope.like = function (targetActionId){
+		var likeAction = {
+			  id: null,
+			  type: 'LIKE',
+			  date: null,
+			  targetActionId: targetActionId,
+			  userId: httpAuth.getLoggedInUser()
+		};
+		genericAPIFactory.post("/api/actions/likes", likeAction);
+	}
+	
+	$scope.unLike = function (el){
+		var likeActionId = el.authorOfLikes[httpAuth.getLoggedInUser()];
+		genericAPIFactory.del("/api/actions/likes/"+likeActionId).success(
+			function(usersData, status, headers, config) {
+				if(status==204){
+					 if($scope.communityActivities[el.id].amountOfLikes > 0){
+						 $scope.communityActivities[el.id].amountOfLikes = $scope.communityActivities[el.id].amountOfLikes-1;
+						 delete $scope.communityActivities[el.id].authorOfLikes[httpAuth.getLoggedInUser()];
+						 $scope.communityActivities[el.id].userHasLiked = true;
+					 }
+				}
+			});
+	}
 	
 	$scope.renamePictureToMini = function (name) {
 		if(!name){
@@ -54,6 +127,8 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 	}
 
    pageNumber = 0;
-   $scope.communityActivities = [];
+   $scope.communityActivities = {};
+   $scope.pageSize=10;
+   $scope.injectedActions = [];
    $scope.init();
 });

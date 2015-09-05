@@ -1,0 +1,40 @@
+<!-- start: Row -->
+<div class="mainController row">
+
+	<div class="span12">
+		<ol class="breadcrumb">
+		  <li><a href="/portal/index" translate="webapp.main.menu.home">Home</a></li>
+		  <li>> <span translate="webapp.main.menu.my.account"> {{user.id}}</span></li>
+		</ol>
+	</div>
+
+	<div class="span9">
+		<div class="title"><h3>{{user.id | uppercase}}</h3></div>
+		<div class="clearfix span9">
+		   	 <div style="position:relative;float:left;background-repeat:no-repeat;background-image: url('{{user.bigProfileImg}}');margin-top:10px;height:125px;width:125px;"></div>
+			 <div class="span6" style="height:125px;padding-left:5px;padding-top:15px;">
+			 	 <p><span style="font-size:16px;margin-right:20px;"><i class="fa fa-user"></i> <strong>{{user.id}}</strong></span><span class="lang-sm" lang="{{user.language | lowercase}}"></span> {{user.currency}}</p> 
+				 <p style="font-size:15px;"><i>{{user.headline}}</i></p>
+				 <p style="font-size:15px;"><i class="fa fa-{{user.currency | lowercase}}"></i><strong>{{user.balance | number:2}}</strong></p>
+				 <p style="font-size:15px;"><i class="fa fa-eye"></i> 203
+				 </p> 
+
+				 <button type="button" class="btn btn-success btn-mini" >
+	                	<i class="fa fa-user-plus"></i>
+	                	Follow
+	              </button>
+	              
+				 <button type="button" class="btn btn-danger btn-mini" >
+	                	<i class="fa fa-user-times"></i>
+	                	Unfollow
+	              </button>
+			 </div>
+		</div>
+	</div>
+	
+	<div class="span3">
+
+	</div>
+
+</div>
+<!-- end: Row -->

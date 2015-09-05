@@ -73,6 +73,10 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
         	    headers: headers
         	});
         },
+        del: function (url) {
+        	this.refresh();
+        	return $http.delete(url);
+        },
         isUserAuthenticated: function () {
     		var authBasicItem = sessionStorage.getItem('authenticatedCSM');
     		if(authBasicItem){

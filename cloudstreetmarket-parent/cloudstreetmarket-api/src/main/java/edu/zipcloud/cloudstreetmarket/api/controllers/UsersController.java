@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
 import static edu.zipcloud.cloudstreetmarket.api.controllers.UsersController.*;
+import static edu.zipcloud.cloudstreetmarket.api.config.WebSocketConfig.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -12,9 +13,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,6 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +42,10 @@ import com.google.common.collect.Sets;
 import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeService;
+import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
@@ -60,7 +70,7 @@ public class UsersController extends CloudstreetApiWCI{
 
 	@Autowired
 	private CurrencyExchangeService currencyExchangeService;
-
+	
 	@RequestMapping(value="/login", method=POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Identifies the provided user")
@@ -88,6 +98,7 @@ public class UsersController extends CloudstreetApiWCI{
 			}
 			
 			user = communityService.createUserWithBalance(user, new Role[]{ROLE_BASIC, ROLE_OAUTH2}, BigDecimal.valueOf(20000L));
+			messagingTemplate.convertAndSend(TOPIC_ACTIVITY_FEED_PATH, new UserActivityDTO(user.getActions().iterator().next()));
 			usersConnectionRepository.bindSocialUserToUser(guid, user, provider);
 			communityService.signInUser(user);
 			
@@ -100,6 +111,7 @@ public class UsersController extends CloudstreetApiWCI{
 		}
 		else{
 			user = communityService.createUser(user, ROLE_BASIC);
+			messagingTemplate.convertAndSend("/topic/actions", new UserActivityDTO(user.getActions().iterator().next()));
 			communityService.signInUser(user);
 		}
 		
@@ -112,16 +124,22 @@ public class UsersController extends CloudstreetApiWCI{
 	@ApiOperation(value = "Updates a user account")
 	public void update(@Valid @RequestBody User user, BindingResult result){
 		ValidatorUtil.raiseFirstError(result);
-		user = communityService.updateUser(user);
+		prepareUser(user);
+		communityService.updateUser(user);
 	}
 	
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.PARTIAL_CONTENT)
 	@ApiOperation(value = "List user accounts", notes = "")
-	public Page<UserDTO> getAll(@ApiIgnore @PageableDefault(size=10, page=0) Pageable pageable){
-		return communityService.getAll(pageable);
+	public Page<UserDTO> search(
+			@Or({
+                @Spec(params="cn", path="id", spec=LikeIgnoreCase.class)}	
+			) @ApiIgnore Specification<User> spec,
+            @ApiParam(value="Contains filter") @RequestParam(value="cn", defaultValue="", required=false) String contain, 
+            @ApiIgnore @PageableDefault(size=10, page=0, sort={"balance"}, direction=Direction.DESC) Pageable pageable){
+		return communityService.search(spec, pageable);
 	}
-	
+
 	@RequestMapping(value="/{username}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Details one account", notes = "")
@@ -149,5 +167,23 @@ public class UsersController extends CloudstreetApiWCI{
 			return true;
 		}
 		return false;
+	}
+	
+	private void prepareUser(User user){
+		User existingUser = communityService.findOne(user.getId());
+		if(!existingUser.getCurrency().equals(user.getCurrency())){
+			CurrencyExchange currencyExchange = currencyExchangeService.gather(existingUser.getCurrency().name() + user.getCurrency().name()+"=X");
+			BigDecimal change = BigDecimal.valueOf(1L);
+			if(currencyExchange != null 
+					&& currencyExchange.getAsk() != null 
+						&& currencyExchange.getAsk().compareTo(BigDecimal.ZERO) > 0 ){
+				change = currencyExchange.getAsk();
+			}
+			//Let's say 2.5% virtual charge applied for now 
+			user.setBalance(change.multiply(existingUser.getBalance()).multiply(BigDecimal.valueOf(0.975)));
+		}
+		else{
+			user.setBalance(existingUser.getBalance());
+		}
 	}
 }

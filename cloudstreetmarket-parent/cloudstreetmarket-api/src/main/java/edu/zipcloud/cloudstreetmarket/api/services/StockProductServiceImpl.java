@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -268,7 +269,7 @@ public class StockProductServiceImpl implements StockProductService {
 			LocalDateTime dateTime = LocalDateTime.now();
 			String formattedDateTime = dateTime.format(formatter); // "1986-04-08_1230"
 			String imageName = stock.getId().toLowerCase()+"_"+type.name().toLowerCase()+"_"+formattedDateTime+".png";
-	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat("\\").concat(imageName);
+	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat(File.separator+imageName);
 	    	
             try {
                 Path newPath = Paths.get(pathToYahooPicture);

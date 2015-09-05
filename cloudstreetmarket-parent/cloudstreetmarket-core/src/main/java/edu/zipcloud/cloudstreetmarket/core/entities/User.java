@@ -13,6 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -23,7 +26,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
@@ -42,7 +44,8 @@ public class User extends AbstractId<String> implements UserDetails{
 
 	private static final long serialVersionUID = 1990856213905768044L;
 
-	private String fullname;
+	@Size(max=140)
+	private String headline;
 	
 	@NotNull
 	@Size(min=4, max=30)
@@ -78,6 +81,20 @@ public class User extends AbstractId<String> implements UserDetails{
 	@OrderBy("id desc")
 	private Set<Action> actions = new LinkedHashSet<Action>();
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_followers", joinColumns = { @JoinColumn(name = "followed_user_id") },
+		inverseJoinColumns = { @JoinColumn(name = "follower_user_id") })
+	@JsonIgnore
+	@XStreamOmitField
+	private Set<User> followers = new LinkedHashSet<User>();
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_following", joinColumns = { @JoinColumn(name = "follower_user_id") },
+		inverseJoinColumns = { @JoinColumn(name = "followed_user_id") })
+	@JsonIgnore
+	@XStreamOmitField
+	private Set<User> following = new LinkedHashSet<User>();
+	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JsonIgnore
 	@XStreamOmitField
@@ -101,7 +118,7 @@ public class User extends AbstractId<String> implements UserDetails{
 		setId(id);
 	}
 	
-	public User(String id, String password, String email, String fullname, boolean enabled, boolean accountNonExpired,
+	public User(String id, String password, String email, String headline, boolean enabled, boolean accountNonExpired,
 			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance,
 			 SupportedLanguage language) {
 		setId(id);
@@ -113,12 +130,12 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.authorities = auth;
 		this.currency = currency;
 		this.balance = balance;
-		this.fullname = fullname;
+		this.headline = headline;
 		this.language = language;
 	}
 
 	public User(User user, Set<Authority> authorities) {
-		this(user.getId(), user.getPassword(), user.getEmail(), user.getFullname(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage());
+		this(user.getId(), user.getPassword(), user.getEmail(), user.getHeadline(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage());
 	}
 
 	@Override
@@ -143,12 +160,12 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.password = password;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public String getHeadline() {
+		return headline;
 	}
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setHeadline(String headLine) {
+		this.headline = headLine;
 	}
 
 	public String getProfileImg() {
@@ -239,7 +256,39 @@ public class User extends AbstractId<String> implements UserDetails{
 	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
-	
+
+	public Set<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<User> followers) {
+		this.followers = followers;
+	}
+
+	public Set<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<User> following) {
+		this.following = following;
+	}
+
+	public Set<SocialUser> getSocialUsers() {
+		return socialUsers;
+	}
+
+	public void setSocialUsers(Set<SocialUser> socialUsers) {
+		this.socialUsers = socialUsers;
+	}
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
 	public Locale getLocale(){
 		return new Locale.Builder().setLanguage((language ==  null ? SupportedLanguage.EN : language).name().toLowerCase()).build();
 	}
@@ -247,7 +296,7 @@ public class User extends AbstractId<String> implements UserDetails{
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
-		return "User [fullname=" + fullname + ", email=" + email
+		return "User [headline=" + headline + ", email=" + email
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked

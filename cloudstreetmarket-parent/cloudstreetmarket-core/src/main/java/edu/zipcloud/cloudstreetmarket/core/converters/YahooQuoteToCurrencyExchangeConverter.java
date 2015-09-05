@@ -31,8 +31,8 @@ public class YahooQuoteToCurrencyExchangeConverter implements Converter<YahooQuo
 		}
 		
 		currencyExchange.setName(yahooQuote.getName());
-		currencyExchange.setHigh(BigDecimal.valueOf(yahooQuote.getHigh()));
-		currencyExchange.setLow(BigDecimal.valueOf(yahooQuote.getLow()));
+		currencyExchange.setBid(BigDecimal.valueOf(yahooQuote.getBid()));
+		currencyExchange.setAsk(BigDecimal.valueOf(yahooQuote.getAsk()));
 		currencyExchange.setDailyLatestChange(BigDecimal.valueOf(yahooQuote.getLastChange()));
 		currencyExchange.setDailyLatestChangePercent(BigDecimal.valueOf(yahooQuote.getLastChangePercent()));
 		currencyExchange.setDailyLatestValue(BigDecimal.valueOf(yahooQuote.getLast()));

@@ -2,12 +2,14 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -35,7 +37,9 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
 @ExposesResourceFor(ChartStock.class)
 @RequestMapping(value=CHART_STOCK_PATH)
 public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
-
+	
+	private static final Logger log = Logger.getLogger(ChartStockController.class);
+	
 	@Autowired
 	private StockProductService stockProductService;
 	
@@ -61,7 +65,8 @@ public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 		}
 		catch(ResourceNotFoundException e){
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat("\\").concat("graph_not_found.png");
+	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat(File.separator+"graph_not_found.png");
+	    	log.error("Resource not found: "+pathToYahooPicture, e);
 			bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
 		}
 

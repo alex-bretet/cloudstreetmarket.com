@@ -1,6 +1,26 @@
 .feedEkList{list-style:none outside none;background-color:#F8F9F9; border:1px solid #D3CAD7; padding:4px 6px; color:#3E3E3E;}
 .feedEkList li{border-bottom:1px solid #D3CAD7; padding:5px;}
 .feedEkList li:last-child{border-bottom:none;}
+.itemDate{font-size:11px;color:#AAAAAA;height:20px;} 
+
 .itemTitle a{font-weight:bold; color:#4EBAFF !important; text-decoration:none }
 .itemTitle a:hover{ text-decoration:underline }
-.itemDate{font-size:11px;color:#AAAAAA;} 
+
+img.like-img{
+    margin-top:-1px;
+    margin-bottom:2px;
+    margin-right:-2px;
+    width:25px;
+}
+img.like-img:hover{
+	cursor:pointer;
+}
+img.like-img-liked{
+    -webkit-filter: drop-shadow(1px 1px 0px #0174DF);
+    filter:         drop-shadow(1px 1px 0px #0174DF);
+}
+img.like-img-liked:hover{
+	cursor:pointer;
+    filter: none;
+    -webkit-filter: none;
+}

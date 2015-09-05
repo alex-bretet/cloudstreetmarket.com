@@ -32,9 +32,9 @@ public class CurrencyExchange extends AbstractId<String> {
 
 	private BigDecimal open;
 	
-	private BigDecimal high;
+	private BigDecimal bid;
 
-	private BigDecimal low;
+	private BigDecimal ask;
 
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -86,20 +86,20 @@ public class CurrencyExchange extends AbstractId<String> {
 		this.previousClose = previousClose;
 	}
 
-	public BigDecimal getHigh() {
-		return high;
+	public BigDecimal getBid() {
+		return bid;
 	}
 
-	public void setHigh(BigDecimal high) {
-		this.high = high;
+	public void setBid(BigDecimal bid) {
+		this.bid = bid;
 	}
 
-	public BigDecimal getLow() {
-		return low;
+	public BigDecimal getAsk() {
+		return ask;
 	}
 
-	public void setLow(BigDecimal low) {
-		this.low = low;
+	public void setAsk(BigDecimal ask) {
+		this.ask = ask;
 	}
 
 	public Date getLastUpdate() {
@@ -125,6 +125,6 @@ public class CurrencyExchange extends AbstractId<String> {
 				+ ", dailyLatestChange=" + dailyLatestChange
 				+ ", dailyLatestChangePercent=" + dailyLatestChangePercent
 				+ ", previousClose=" + previousClose + ", open=" + open
-				+ ", high=" + high + ", low=" + low + ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
+				+ ", bid=" + bid + ", ask=" + ask + ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
 	}
 }

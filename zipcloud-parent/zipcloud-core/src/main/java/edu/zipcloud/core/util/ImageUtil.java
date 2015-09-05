@@ -35,4 +35,9 @@ public class ImageUtil {
 		String ext = "."+getExtension(fileName);
 		return fileName = fileName.substring(0, fileName.lastIndexOf(ext))+"-mini"+ext;
 	}
+	
+	public static String renameToBig(String fileName){
+		String ext = "."+getExtension(fileName);
+		return fileName = fileName.substring(0, fileName.lastIndexOf(ext))+"-big"+ext;
+	}
 }

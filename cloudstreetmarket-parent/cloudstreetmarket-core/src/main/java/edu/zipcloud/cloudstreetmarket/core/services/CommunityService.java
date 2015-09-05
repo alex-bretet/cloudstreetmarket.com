@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -25,6 +26,7 @@ public interface CommunityService extends UserDetailsService{
 	Page<User> findAll(Pageable pageable);
 	User createUser(User user, Role role);
 	User createUser(User user, Role[] role);
+	User hydrate(User user);
 	User updateUser(User user);
 	User createUserWithBalance(User user, Role[] roles, BigDecimal balance);
 	User createUser(String nickName, String email, String password);
@@ -39,9 +41,8 @@ public interface CommunityService extends UserDetailsService{
 	User save(User user);
 	void registerUser(User user);
 	Authentication signInUser(User user);
-	Page<UserDTO> getAll(Pageable pageable);
+	Page<UserDTO> search(Specification<User> spec, Pageable pageable);
 	void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType userActivityType, CurrencyExchange currencyExchange);
 	boolean isAffordableToUser(int quantity, StockQuote quote, User user, CurrencyExchange currencyExchange);
-
 	
 }

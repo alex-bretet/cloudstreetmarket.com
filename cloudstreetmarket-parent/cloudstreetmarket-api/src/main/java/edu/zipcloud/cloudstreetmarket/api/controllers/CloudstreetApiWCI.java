@@ -25,6 +25,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Identifiable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -77,7 +78,9 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
     @Autowired
     protected PagedResourcesAssembler<T> pagedAssembler;
 
-
+	@Autowired
+	protected SimpMessagingTemplate messagingTemplate;
+	
 	public CloudstreetApiWCI(){
 		setRequireSession(false);
 		setCacheSeconds(0);

@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +35,7 @@ public class UserImageController extends CloudstreetApiWCI{
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get uploaded images for users")
 	public InputStreamResource get(@PathVariable String fileName, @PathVariable String extension, HttpServletResponse response) throws IOException{
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\");
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")+File.separator);
     	Path URI = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));
     	
     	response.setContentType(Files.probeContentType(URI));
@@ -49,19 +50,25 @@ public class UserImageController extends CloudstreetApiWCI{
     	String extension = ImageUtil.getExtension(file.getOriginalFilename());
     	String name = UUID.randomUUID().toString().concat(".").concat(extension);
     	
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\").concat(name);
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("/"+name);
     	String pathToMiniUserPictures = ImageUtil.renameToMini(pathToUserPictures);
+    	String pathToBigUserPictures = ImageUtil.renameToBig(pathToUserPictures);
     	
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 Path newPath = Paths.get(pathToUserPictures);
+
                 Files.write(newPath, bytes, StandardOpenOption.CREATE);
                 ImageUtil.createThumbnail(newPath.toFile(), 72, 72, extension);
                 
                 newPath = Paths.get(pathToMiniUserPictures);
                 Files.write(newPath, bytes, StandardOpenOption.CREATE);
                 ImageUtil.createThumbnail(newPath.toFile(), 48, 48, extension);
+
+                newPath = Paths.get(pathToBigUserPictures);
+                Files.write(newPath, bytes, StandardOpenOption.CREATE);
+                ImageUtil.createThumbnail(newPath.toFile(), 125, 125, extension);
 
                 response.addHeader(LOCATION_HEADER, env.getProperty("pictures.user.endpoint").concat(name));
                 return "Success";
@@ -76,7 +83,7 @@ public class UserImageController extends CloudstreetApiWCI{
     @RequestMapping(method=DELETE, produces={"application/json"})
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public String delete(@PathVariable String fileName, @PathVariable String extension) {
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\");
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")+File.separator);
     	Path path = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));
     	
         try {

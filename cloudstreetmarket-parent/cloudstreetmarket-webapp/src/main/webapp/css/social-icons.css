@@ -888,6 +888,14 @@
 	background: #f1628b url(../img/icons/social_small/flickr_white.png) no-repeat;
 }
 
+.social-small-flickr { 
+	background: #ffffff url(../img/icons/social_small/flickr_grey.png) no-repeat;
+}
+
+.social-small-flickr-hover { 
+	background: #f1628b url(../img/icons/social_small/flickr_white.png) no-repeat;
+}
+
 .social-small-html5 { 
 	background: #ffffff url(../img/icons/social_small/html5_grey.png) no-repeat;
 }
