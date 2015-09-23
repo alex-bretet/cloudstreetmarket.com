@@ -15,6 +15,8 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 @XStreamAlias("market")
 public class Market extends AbstractEnumId<MarketId>{
 
+	private static final long serialVersionUID = -6095402949255569113L;
+
 	private String name;
 
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

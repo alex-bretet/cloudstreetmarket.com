@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/oxm 
+	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+	<context:annotation-config/>
+	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
+
+    <bean id="authenticationEntryPoint" 
+        class="edu.zipcloud.cloudstreetmarket.core.authentication.CustomBasicAuthenticationEntryPoint">
+        <property name="realmName" value="${realm.name}" />
+        <property name="scheme" value="CSM_OAuth2" />
+    </bean>
+
+    <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+    
+    <security:http create-session="never" 
+        authentication-manager-ref="authenticationManager" entry-point-ref="authenticationEntryPoint">
+        <security:custom-filter ref="securityContextPersistenceFilter" before="FORM_LOGIN_FILTER" />
+        <security:csrf disabled="true"/>
+        <security:intercept-url pattern="/channels/private/**" access="hasRole('OAUTH2')"/>
+	    <security:headers>
+	        <security:frame-options policy="SAMEORIGIN" />
+	    </security:headers>
+    </security:http>
+
+	<security:authentication-manager alias="authenticationManager">
+    	<security:authentication-provider user-service-ref='communityServiceImpl'>
+    		<security:password-encoder ref="passwordEncoder"/>
+    	</security:authentication-provider>
+  	</security:authentication-manager>
+	
+	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+
+    <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:port="6379"/>
+	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
+	<bean class="edu.zipcloud.cloudstreetmarket.core.util.RootPathCookieHttpSessionStrategy"/>
+
+</beans>

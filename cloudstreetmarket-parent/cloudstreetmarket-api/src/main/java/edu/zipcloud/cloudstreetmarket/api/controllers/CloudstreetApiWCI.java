@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_BASIC;
 import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_OAUTH2;
+import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 import static javax.ws.rs.HttpMethod.DELETE;
 import static javax.ws.rs.HttpMethod.GET;
 import static javax.ws.rs.HttpMethod.HEAD;
@@ -9,23 +10,28 @@ import static javax.ws.rs.HttpMethod.OPTIONS;
 import static javax.ws.rs.HttpMethod.POST;
 import static javax.ws.rs.HttpMethod.PUT;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Identifiable;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -43,25 +49,13 @@ import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.cloudstreetmarket.core.util.UserDetailsUtil;
 
 @Component
-@PropertySource("file:${user.home}/app/cloudstreetmarket.properties")
 public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInterceptor {
 
     private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    
-    protected static final String LOCATION_HEADER = "Location";
-    protected static final String BASIC_TOKEN = "Basic-Token";
-    protected static final String MUST_REGISTER_HEADER = "Must-Register";
-    private static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
-    private static final String AUTHENTICATED_HEADER = "Authenticated";
-    private static final String SPI_HEADER = "Spi";
-    private static final String BASIC_SCHEME = "CSM_Basic";
-    private static final String OAUTH2_SCHEME = "CSM_OAuth2";
-    protected static final String TRUE = "true";
-    protected static final String FALSE = "false";
-    
+
     @Value("${realm.name}")
-    private String realName = "cloudstreetmarket.com";
-    private String authenticationHeaderSequence = " realm=\""+realName+"\"";
+    private String realmName = "cloudstreetmarket.com";
+    private String authenticationHeaderSequence = " realm=\""+realmName+"\"";
     
     @Autowired
 	public Environment env;
@@ -77,12 +71,20 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 
     @Autowired
     protected PagedResourcesAssembler<T> pagedAssembler;
-
+    
 	@Autowired
-	protected SimpMessagingTemplate messagingTemplate;
+	protected RabbitTemplate messagingTemplate;
 	
+	public MessageCreator messageCreator(Serializable payload){
+		return new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				return session.createObjectMessage(payload);
+			}
+	    };
+	}
+
 	public CloudstreetApiWCI(){
-		setRequireSession(false);
 		setCacheSeconds(0);
 		setSupportedMethods(GET,POST,PUT, OPTIONS, HEAD, DELETE);
 	}
@@ -91,19 +93,19 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
 		super.preHandle(request, response, handler);
 		preAuthenticate(request, response);
-		setResponseHeaders(response);
+		setResponseHeaders(request, response);
 		return true;
 	}
 	
-	private void setResponseHeaders(HttpServletResponse response) {
+	private void setResponseHeaders(HttpServletRequest request,  HttpServletResponse response) {
 		boolean authenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
 		if(authenticated){
 			UserDetails user = getPrincipal();
 			if(UserDetailsUtil.hasRole(user, ROLE_OAUTH2)){
-				handlePostSignIn(response, OAUTH2_SCHEME);
+				handlePostSignIn(request, response, OAUTH2_SCHEME);
 			}
 			else if(UserDetailsUtil.hasRole(user, ROLE_BASIC)){
-				handlePostSignIn(response, BASIC_SCHEME);
+				handlePostSignIn(request, response, BASIC_SCHEME);
 			}
 		}
 	}
@@ -137,13 +139,19 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 	}
 	
-	protected void handlePostSignIn(HttpServletResponse response, String scheme){
+	protected void handlePostSignIn(HttpServletRequest request, HttpServletResponse response, String scheme){
 		response.setHeader(WWW_AUTHENTICATE_HEADER, scheme.concat(authenticationHeaderSequence));
 		response.setHeader(AUTHENTICATED_HEADER, SecurityContextHolder.getContext().getAuthentication().getName());
+		
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			session.setAttribute(WWW_AUTHENTICATE_HEADER, scheme.concat(authenticationHeaderSequence));
+			session.setAttribute(AUTHENTICATED_HEADER, SecurityContextHolder.getContext().getAuthentication().getName());
+		}
 	}
 	
-	protected void handlePostSignIn(HttpServletResponse response, String scheme, String mustRegister){
-		handlePostSignIn(response, scheme);
+	protected void handlePostSignIn(HttpServletRequest request, HttpServletResponse response, String scheme, String mustRegister){
+		handlePostSignIn(request, response, scheme);
 		response.setHeader(MUST_REGISTER_HEADER, mustRegister);
 	}
 

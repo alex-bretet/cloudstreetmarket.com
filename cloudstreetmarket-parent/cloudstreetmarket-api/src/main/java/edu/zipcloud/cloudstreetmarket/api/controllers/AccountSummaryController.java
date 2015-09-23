@@ -16,7 +16,7 @@ import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-import edu.zipcloud.cloudstreetmarket.api.services.WalletService;
+import edu.zipcloud.cloudstreetmarket.api.services.WalletServiceOnline;
 import edu.zipcloud.cloudstreetmarket.core.dtos.WalletItemDTO;
 
 @Api(value = "Account summary", description = "Account summary") // Swagger annotation
@@ -25,7 +25,7 @@ import edu.zipcloud.cloudstreetmarket.core.dtos.WalletItemDTO;
 public class AccountSummaryController extends CloudstreetApiWCI{
 
 	@Autowired
-	private WalletService walletService;
+	private WalletServiceOnline walletService;
 	
 	@RequestMapping(value="/wallets/{userName}", method=GET)
 	@ApiOperation(value = "Gets all wallet-items per user", notes = "Return a page of user-activities")

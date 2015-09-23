@@ -1,9 +1,12 @@
-cloudStreetMarketApp.factory("httpAuth", function ($http) {
+cloudStreetMarketApp.factory("httpAuth", function ($http, $cookies) {
+
     return {
     	clearSession: function () {
     		var authBasicItem = sessionStorage.getItem('basicHeaderCSM');
     		var oAuthSpiItem = sessionStorage.getItem('oAuthSpiCSM');
-    		if(authBasicItem || oAuthSpiItem){
+    		var authenticatedItem = sessionStorage.getItem('authenticatedCSM');
+    		
+    		if(authBasicItem || oAuthSpiItem || authenticatedItem){
     			sessionStorage.removeItem('basicHeaderCSM');
     			sessionStorage.removeItem('oAuthSpiCSM');
     			sessionStorage.removeItem('authenticatedCSM');
@@ -11,6 +14,7 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
     			$http.defaults.headers.common.Spi = undefined;
     			$http.defaults.headers.common.OAuthProvider = undefined;
     		}
+
         },
     	refresh: function(){
     		var authBasicItem = sessionStorage.getItem('basicHeaderCSM');
@@ -35,14 +39,15 @@ cloudStreetMarketApp.factory("httpAuth", function ($http) {
     			xmlHTTP.setRequestHeader("OAuthProvider", "yahoo");
     		}
     	},
+        getHeaders: function () {
+        	this.refresh();
+        	return $http.defaults.headers.common;
+        },
     	setCredentials: function (login, password) {
     		var encodedData = window.btoa(login+":"+password);
     		var basicAuthToken = 'Basic '+encodedData;
         	var header = {Authorization: basicAuthToken};
         	sessionStorage.setItem('basicHeaderCSM', JSON.stringify(header));
-        	$http.defaults.headers.common.Authorization = basicAuthToken;
-        },
-    	setCsrfToken: function (token) {
         	$http.defaults.headers.common.Authorization = basicAuthToken;
         },
     	setSession: function (attributeName, attributeValue) {

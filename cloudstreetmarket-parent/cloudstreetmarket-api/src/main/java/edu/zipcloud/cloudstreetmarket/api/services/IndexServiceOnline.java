@@ -11,12 +11,10 @@ import org.springframework.social.yahoo.module.ChartType;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
+import edu.zipcloud.cloudstreetmarket.shared.services.IndexService;
 
-public interface IndexService{
-	Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable);
-	Page<Index> getIndices(Pageable pageable);
-	Index getIndex(String id);
-	
+public interface IndexServiceOnline extends IndexService{
+
 	Page<Index> gather(String exchangeId, MarketId marketId,
 			Pageable pageable);
 	Index gather(String indexId);
@@ -24,10 +22,5 @@ public interface IndexService{
 	ChartIndex gather(String indexId, ChartType type, ChartHistoSize histoSize,
 			ChartHistoMovingAverage histoAverage, ChartHistoTimeSpan histoPeriod, 
 			Integer intradayWidth, Integer intradayHeight) throws ResourceNotFoundException;
-
-	ChartIndex getChartIndex(Index index, ChartType type,
-			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
-			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
-			Integer intradayHeight);
 
 }

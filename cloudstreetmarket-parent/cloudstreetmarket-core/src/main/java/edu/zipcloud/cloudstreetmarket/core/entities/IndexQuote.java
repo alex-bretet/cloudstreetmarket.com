@@ -20,6 +20,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @XStreamAlias("index_quote")
 public class IndexQuote extends Quote {
 
+	private static final long serialVersionUID = -5115694609904059298L;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "index_code")
 	@JsonIgnore

@@ -10,6 +10,7 @@ cloudStreetMarketApp.controller('menuController',  function ($scope, $rootScope,
     }
 	$rootScope.logout = function () {
         httpAuth.clearSession();
+        genericAPIFactory.del("/api/sessions/current");
         window.document.location="../portal/index";
     }
 	$scope.init = function () {
@@ -21,7 +22,7 @@ cloudStreetMarketApp.controller('menuController',  function ($scope, $rootScope,
 			.success(function(data, status, headers, config) {
 			    $translate.use(data.language);
 			    $location.search('lang', data.language);
-			})
+			});
 		};
     }
 	

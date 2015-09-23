@@ -11,8 +11,10 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.hateoas.Identifiable;
 
 @MappedSuperclass
-public class AbstractTableGeneratedId<ID extends Serializable> implements Identifiable<ID> {
+public class AbstractTableGeneratedId<ID extends Serializable> implements Identifiable<ID>, Serializable  {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
 	protected ID id;

@@ -15,6 +15,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @Table(name="currency_exchange")
 @XStreamAlias("currency_exchange")
 public class CurrencyExchange extends AbstractId<String> {
+	
+	private static final long serialVersionUID = 3197924065214694462L;
 
 	private String name;
 

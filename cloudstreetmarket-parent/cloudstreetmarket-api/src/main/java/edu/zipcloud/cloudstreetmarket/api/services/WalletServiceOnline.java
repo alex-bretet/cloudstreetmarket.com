@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.zipcloud.cloudstreetmarket.core.dtos.WalletItemDTO;
 
-public interface WalletService {
+public interface WalletServiceOnline {
 
 	List<WalletItemDTO> findBy(String userName);
 

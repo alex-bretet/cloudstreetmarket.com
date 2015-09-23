@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,12 +12,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
-
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
-public class Product extends AbstractId<String>{
+public class Product extends AbstractId<String> implements Serializable {
 	
+	private static final long serialVersionUID = 8571185085199807041L;
+
 	protected String name;
 
 	@Column(name="daily_latest_value")

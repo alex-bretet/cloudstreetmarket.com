@@ -17,6 +17,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import edu.zipcloud.cloudstreetmarket.core.entities.Action;
 import edu.zipcloud.cloudstreetmarket.core.entities.CommentAction;
 import edu.zipcloud.cloudstreetmarket.core.entities.LikeAction;
+import edu.zipcloud.cloudstreetmarket.core.entities.SocialEventAction;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
@@ -87,8 +88,6 @@ public class UserActivityDTO implements Serializable {
 		this.userActivity = action.getType();
 		this.date = dateFormatter.format(action.getDate() != null ? action.getDate() : new Date());
 		this.id = action.getId();
-
-		setSocialReport(action.getLikeActions(), action.getCommentActions());
 	}
 		
 	public UserActivityDTO(Transaction transaction) {
@@ -114,11 +113,13 @@ public class UserActivityDTO implements Serializable {
 		this.comment = commentAction.getComment();
 	}
 	
-	public void setSocialReport(Set<LikeAction> likes, Set<CommentAction> comments){
-		this.amountOfLikes = likes.size();
+	public void setSocialReport(Set<SocialEventAction> socialEventActions){
+		this.authorOfLikes = socialEventActions.stream()
+								.filter(a -> a.getType().equals(UserActivityType.LIKE))
+								.collect(Collectors.toMap(a -> a.getUser().getId(), a -> a.getId()));
+		
+		this.amountOfLikes = authorOfLikes.size();
 		//this.amountOfComments = comments.size();
-		this.authorOfLikes = likes.stream().collect(Collectors.toMap(a -> a.getUser().getId(),
-                a -> a.getId()));
 		//this.authorOfComments = comments.stream().map(a -> a.getUser().getId()).collect(Collectors.toList());
 	}
 	

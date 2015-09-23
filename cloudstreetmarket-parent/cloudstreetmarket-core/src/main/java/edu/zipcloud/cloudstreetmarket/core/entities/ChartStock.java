@@ -26,6 +26,8 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @XStreamAlias("chart_stock")
 public class ChartStock extends Chart {
 
+	private static final long serialVersionUID = 8405318980463119962L;
+
 	public static final String DISCR = "stk";
 	
 	@ManyToOne(fetch = FetchType.LAZY)

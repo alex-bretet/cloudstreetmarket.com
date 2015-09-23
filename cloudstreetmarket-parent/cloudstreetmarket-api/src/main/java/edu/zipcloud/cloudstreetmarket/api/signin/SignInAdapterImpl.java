@@ -34,7 +34,6 @@ import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 
 @Transactional(propagation = Propagation.REQUIRED)
-@PropertySource("file:${user.home}/app/cloudstreetmarket.properties")
 public class SignInAdapterImpl implements SignInAdapter{
 
 	@Autowired

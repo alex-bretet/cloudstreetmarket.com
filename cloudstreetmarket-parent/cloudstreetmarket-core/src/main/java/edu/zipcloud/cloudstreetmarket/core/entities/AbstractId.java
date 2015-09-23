@@ -9,8 +9,10 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.hateoas.Identifiable;
 
 @MappedSuperclass
-public class AbstractId<ID extends Serializable> implements Identifiable<ID> {
+public class AbstractId<ID extends Serializable> implements Identifiable<ID>, Serializable  {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id 
 	protected ID id;
 

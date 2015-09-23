@@ -31,6 +31,8 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @XStreamAlias("index")
 public class Index extends AbstractId<String> {
 
+	private static final long serialVersionUID = 7652033887219337074L;
+
 	private String name;
 
 	@Column(name="daily_latest_value")

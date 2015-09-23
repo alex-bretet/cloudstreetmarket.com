@@ -1,4 +1,4 @@
-package edu.zipcloud.cloudstreetmarket.api.services;
+package edu.zipcloud.cloudstreetmarket.shared.services;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,85 +63,31 @@ import edu.zipcloud.core.util.DateUtil;
 
 @Service
 @Transactional(readOnly = true)
-public class StockProductServiceImpl implements StockProductService {
+public class StockProductServiceOfflineImpl extends StockProductServiceImpl implements StockProductServiceOffline {
 	
-	@Autowired
-	private StockProductRepository stockProductRepository;
-	
-	@Autowired
-	private StockQuoteRepository stockQuoteRepository;
-	
-	@Autowired
-	private IndexRepository indexRepository;
+	/*
+	 * // JDBC DataSource pointing to the DB where connection data is stored
+DataSource dataSource = ...;
 
-	@Autowired
-	private MarketRepository marketRepository;
-	
-	@Autowired
-	private SocialUserService usersConnectionRepository;
-	
-	@Autowired
-	private ConnectionRepository connectionRepository;
-	
-	@Autowired
-	private YahooQuoteToStockQuoteConverter yahooStockQuoteConverter;
+// locator for factories needed to construct Connections when restoring from persistent form
+ConnectionFactoryLocator connectionFactoryLocator = ...;
 
-	@Autowired
-	private ChartStockRepository chartStockRepository;
-	
-	@Autowired
-	private ExchangeService exchangeService;
-	
-    @Autowired
-	public Environment env;
-	
-	@Override
-	public Page<StockProduct> get(String indexId, String exchangeId, MarketId marketId, String startWith, Specification<StockProduct> spec, Pageable pageable, boolean validResults) {
-		if(!StringUtils.isEmpty(indexId)){
-			Index index = indexRepository.findOne(indexId);
-			if(index == null){
-				throw new NoResultException("No result found for the index ID "+indexId+" !");
-			}
-			return stockProductRepository.findByIndices(index, pageable);
-		}
+// encryptor of connection authorization credentials
+TextEncryptor encryptor = ...;
 
-		if(!StringUtils.isEmpty(startWith)){
-			spec = Specifications.where(spec).and(new ProductSpecifications<StockProduct>().nameStartsWith(startWith));
-		}
-		
-		if(marketId != null){
-			Market market = marketRepository.findOne(marketId);
-			if(market == null){
-				throw new NoResultException("No result found for the market ID "+marketId+" !");
-			}
-			spec = Specifications.where(spec).and(new ProductSpecifications<StockProduct>().marketIdEquals(marketId));
-		}
-		
-		if(!StringUtils.isEmpty(exchangeId)){
-			spec = Specifications.where(spec).and(new ProductSpecifications<StockProduct>().exchangeIdEquals(exchangeId));
-		}
-		
-		spec = Specifications.where(spec)
-				.and(new ProductSpecifications<StockProduct>().nameNotNull())
-				.and(new ProductSpecifications<StockProduct>().exchangeNotNull());
+UsersConnectionRepository usersConnectionRepository =
+    new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, encryptor);
 
-		if(validResults){
-			spec = Specifications.where(spec)
-					.and(new ProductSpecifications<StockProduct>().currencyNotNull())
-					.and(new ProductSpecifications<StockProduct>().hasAPrice());
-		}
-		
-		return stockProductRepository.findAll(spec, pageable);
-	}
+// create a connection repository for the single-user 'kdonald'
+ConnectionRepository repository = usersConnectionRepository.createConnectionRepository("kdonald");
 
-	@Override
-	public StockProduct get(String stockProductId) {
-		return stockProductRepository.findOne(stockProductId);
-	}
+// find kdonald's primary Facebook connection
+Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.class);
+	 */
 
 	@Override
 	@Transactional
-	public Page<StockProduct> gather(String indexId, String exchangeId,
+	public Page<StockProduct> gather(String userId, String indexId, String exchangeId,
 			MarketId marketId, String startWith,
 			Specification<StockProduct> spec, Pageable pageable) {
 
@@ -167,7 +113,9 @@ public class StockProductServiceImpl implements StockProductService {
 		if(askedContent.size() != recentlyUpdated.size()){
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
+
 			String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+			ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(guid);
 			Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 			
 	        if (connection != null) {
@@ -189,7 +137,6 @@ public class StockProductServiceImpl implements StockProductService {
 				if(!updatableProducts.isEmpty()){
 					stockProductRepository.save(updatableProducts);
 				}
-
 				
 				//This job below should decrease with the time
 				Set<StockProduct> removableProducts = yahooQuotes.stream()
@@ -209,7 +156,7 @@ public class StockProductServiceImpl implements StockProductService {
 
 	@Override
 	@Transactional
-	public StockProduct gather(String stockProductId) {
+	public StockProduct gather(String userId, String stockProductId) {
 		StockProduct stock = stockProductRepository.findOne(stockProductId);
 		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
 			updateStocksAndQuotesFromYahoo(stock != null ? Sets.newHashSet(stock) : Sets.newHashSet(new StockProduct(stockProductId)));
@@ -217,28 +164,16 @@ public class StockProductServiceImpl implements StockProductService {
 		}
 		return stock;
 	}
-	
-	@Override
-	@Transactional
-	public List<StockProduct> gather(String[] stockProductId) {
-		List<StockProduct> stockProducts = stockProductRepository.findByIdIn(Arrays.asList(stockProductId));
-		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
-			Set<StockProduct> fallBack = Arrays.asList(stockProductId).stream().map(id -> new StockProduct(id)).collect(Collectors.toSet());
-			updateStocksAndQuotesFromYahoo(!stockProducts.isEmpty()? Sets.newHashSet(stockProducts) : fallBack);
-			return stockProductRepository.findByIdIn(Arrays.asList(stockProductId));
-		}
-		return stockProducts;
-	}
 
 	@Override
 	@Transactional
-	public ChartStock gather(String stockProductId, ChartType type,
+	public ChartStock gather(String userId, String stockProductId, ChartType type,
 			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
 			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
 			Integer intradayHeight) throws ResourceNotFoundException {
 		Preconditions.checkNotNull(type, "ChartType must not be null!");
 		
-		StockProduct stock = gather(stockProductId);
+		StockProduct stock = gather(userId, stockProductId);
 
 		ChartStock chartStock = getChartStock(stock, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 
@@ -260,6 +195,7 @@ public class StockProductServiceImpl implements StockProductService {
 		
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
 		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+		ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(guid);
 		Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 		
         if (connection != null) {
@@ -283,38 +219,6 @@ public class StockProductServiceImpl implements StockProductService {
         }
 	}
 	
-	@Override
-	public ChartStock getChartStock(StockProduct index, ChartType type,
-			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
-			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
-			Integer intradayHeight) {
-		
-		Specification<ChartStock> spec = new ChartSpecifications<ChartStock>().typeEquals(type);
-		
-		if(type.equals(ChartType.HISTO)){
-			if(histoSize != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().sizeEquals(histoSize));
-			}
-			if(histoAverage != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().histoMovingAverageEquals(histoAverage));
-			}
-			if(histoPeriod != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().histoTimeSpanEquals(histoPeriod));
-			}
-		}
-		else{
-			if(intradayWidth != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().intradayWidthEquals(intradayWidth));
-			}
-			if(intradayHeight != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().intradayHeightEquals(intradayHeight));
-			}
-		}
-		
-		spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().indexEquals(index));
-		return chartStockRepository.findAll(spec).stream().findFirst().orElse(null);
-	}
-	
 	private StockProduct syncProduct(StockProduct stockProduct, StockQuote quote){
 		stockProduct.setHigh(BigDecimal.valueOf(quote.getHigh()));
 		stockProduct.setLow(BigDecimal.valueOf(quote.getLow()));
@@ -333,4 +237,23 @@ public class StockProductServiceImpl implements StockProductService {
 		return stockProduct;
 	}
 
+	@Override
+	@Transactional
+	public List<StockProduct> gather(String userId, String[] stockProductId) {
+		List<StockProduct> stockProducts = stockProductRepository.findByIdIn(Arrays.asList(stockProductId));
+		if(AuthenticationUtil.userHasRole(Role.ROLE_OAUTH2)){
+			Set<StockProduct> fallBack = Arrays.asList(stockProductId).stream().map(id -> new StockProduct(id)).collect(Collectors.toSet());
+			updateStocksAndQuotesFromYahoo(!stockProducts.isEmpty()? Sets.newHashSet(stockProducts) : fallBack);
+			return stockProductRepository.findByIdIn(Arrays.asList(stockProductId));
+		}
+		return stockProducts;
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, StockProduct> gatherAsMap(String userId, String[] stockProductId) {
+		List<StockProduct> stockProducts = gather(userId, stockProductId);
+		return stockProducts.stream().collect(
+	            Collectors.toMap(StockProduct::getId, i -> i));
+	}
 }

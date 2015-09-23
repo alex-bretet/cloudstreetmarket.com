@@ -7,6 +7,7 @@
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -21,22 +22,32 @@
 		http://www.springframework.org/schema/context  
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/security 
-		http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
+		http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
  
  	<context:annotation-config/>
  	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core" />  
 
+	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
+	
 	<jpa:repositories base-package="edu.zipcloud.cloudstreetmarket.core.daos" />
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName">
-            <value>org.hsqldb.jdbcDriver</value>
+            <value>com.mysql.jdbc.Driver</value>
         </property>
         <property name="url">
-            <value>jdbc:hsqldb:mem:csm</value>
+            <value>jdbc:mysql://localhost/csm</value>
         </property>
         <property name="username">
-            <value>sa</value>
+            <value>root</value>
+        </property>
+        <property name="password">
+            <value>csmrootpwd</value>
+        </property>
+        <property name="defaultReadOnly">
+        	<value>false</value>
         </property>
     </bean>
 
@@ -44,22 +55,29 @@
 		<property name="persistenceUnitName" value="jpaData"/>
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+				<property name="database" value="MYSQL" />
+			</bean>
 		</property>
+
 		<property name="jpaProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.archive.autodetection">class, hbm</prop>
                 <prop key="hibernate.format_sql">false</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.default_schema">public</prop>
-            </props>
+            </props>																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						
         </property>
 	</bean>
-	
+
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
 	    <property name="dataSource" ref="dataSource" />
+	    <property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"
+        proxy-target-class="true" />
 
 	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
@@ -69,14 +87,92 @@
 	    <property name="defaultEncoding" value="UTF-8" />
 	</bean>
 
-	<jdbc:initialize-database data-source="dataSource">
-	    <jdbc:script location="classpath:/META-INF/db/init.sql"/>
-	    <jdbc:script location="classpath:/META-INF/db/indices.sql"/>
-	    <jdbc:script location="classpath:/META-INF/db/currency_exchange.sql"/>
-	    <jdbc:script location="classpath:/META-INF/db/stocks.sql"/>
-	</jdbc:initialize-database>
+	<bean id="multipartResolver"
+	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	
+	    <!-- one of the properties available; the maximum file size in bytes -->
+	    <property name="maxUploadSize" value="${pictures.max.upload.size}"/>
+	</bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager"
-        proxy-target-class="true" />
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	    <property name="supportedMediaTypes" value="application/json"/>
+	    <property name="objectMapper">
+	   		<!-- Automatically parses the Dates of the response object into a default string format-->
+           <bean class="com.fasterxml.jackson.databind.ObjectMapper" >
+               <property name="dateFormat">
+	                <bean class="java.text.SimpleDateFormat">
+	                	<constructor-arg value="yyyy-MM-dd" />
+	                </bean>
+               </property>
+           </bean>
+        </property>
+	</bean>
 
+	<bean id="byteArrayConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+            <property name="supportedMediaTypes">
+                <list>
+                    <value>image/png</value>
+                </list>
+            </property> 
+	</bean>
+	
+	<bean id="xmlConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/xml"/>
+   		<property name="marshaller">
+   			<ref bean="xStreamMarshaller"/>
+       	</property>
+   		<property name="unmarshaller">
+	    	<ref bean="xStreamMarshaller"/>
+       	</property>
+	</bean>
+	
+	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+
+    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+    	<property name="autodetectAnnotations" value="true"/>
+	    <property name="aliasesByType">
+	        <map>
+	        	<entry key="pagedResources" value="org.springframework.hateoas.PagedResources"/>
+	            <entry key="page" value="org.springframework.data.domain.Slice"/>
+	            <entry key="pageInfo" value="org.springframework.data.domain.Pageable"/>
+	            <entry key="sort" value="org.springframework.data.domain.Sort"/>
+	            <entry key="order" value="org.springframework.data.domain.Sort.Order"/>
+	            <entry key="link" value="org.springframework.hateoas.Link"/>
+	        </map>
+	    </property>
+	    <property name="omittedFields">
+	        <map>
+	            <entry key="org.springframework.hateoas.Link" value="template"/>
+	        </map>
+	    </property>
+	    <property name="converters">
+	    	<list>
+	    		<bean class="com.thoughtworks.xstream.converters.basic.DateConverter"/>
+	    	</list>
+	    </property>
+    </bean>
+
+	<bean id="usersConnectionRepository" class="edu.zipcloud.cloudstreetmarket.core.services.SocialUserServiceImpl"/>
+
+	<bean id="connectionFactoryLocator" 
+	      class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
+	    <property name="connectionFactories">
+	        <list>
+	            <bean class="org.springframework.social.yahoo.connect.YahooOAuth2ConnectionFactory">
+	                <constructor-arg value="${yahoo.client.token}" />
+	                <constructor-arg value="${yahoo.client.secret}" />				
+	                <constructor-arg value="${yahoo.signin.url}" />			
+	            </bean>
+	        </list>
+	    </property>
+	</bean>
+
+	<bean class="org.springframework.data.web.PagedResourcesAssembler">
+		<constructor-arg><null/></constructor-arg>
+		<constructor-arg><null/></constructor-arg>
+	</bean>
+	
+	<task:annotation-driven scheduler="wsScheduler"/>
+	<task:scheduler id="wsScheduler" pool-size="1000"/>
+	<task:executor id="taskExecutor"/>
 </beans>

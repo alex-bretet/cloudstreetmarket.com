@@ -28,7 +28,7 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
-import edu.zipcloud.cloudstreetmarket.api.services.StockProductService;
+import edu.zipcloud.cloudstreetmarket.api.services.StockProductServiceOnline;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartStock;
 import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
 
@@ -41,7 +41,7 @@ public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 	private static final Logger log = Logger.getLogger(ChartStockController.class);
 	
 	@Autowired
-	private StockProductService stockProductService;
+	private StockProductServiceOnline stockProductService;
 	
 	@RequestMapping(value="/{ticker:[a-zA-Z0-9.:-]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get chart for one stock", notes = "Return a chart from one stock")
@@ -72,42 +72,4 @@ public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 
 		return new HttpEntity<>(bytes, headers);
 	}
-	
-	/*
-	private String buildYahooFallback(String indexId, ChartType type,
-			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
-			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
-			Integer intradayHeight) {
-			
-		StringBuilder sb;
-		if(type.equals(ChartType.INTRADAY)){
-			sb = new StringBuilder(YahooAPIType.FINANCIAL_CHARTS_INTRA.getBaseUrl()+"?s="+indexId);
-			if(intradayWidth!=null){
-				sb.append("&width=");
-				sb.append(intradayWidth);
-			}
-			if(intradayHeight!=null){
-				sb.append("&height=");
-				sb.append(intradayHeight);
-			}
-		}
-		else{
-			sb = new StringBuilder(YahooAPIType.FINANCIAL_CHARTS_HISTO.getBaseUrl()+"?s="+indexId);
-			if(histoSize!=null){
-				sb.append("&z=");
-				sb.append(histoSize.getTag());
-			}
-			if(histoAverage!=null){
-				sb.append("&p=");
-				sb.append(histoAverage.getTag());
-			}
-			if(histoPeriod!=null){
-				sb.append("&t=");
-				sb.append(histoPeriod.getTag());
-			}
-		}
-
-		return sb.toString();
-	}
-	 */
 }

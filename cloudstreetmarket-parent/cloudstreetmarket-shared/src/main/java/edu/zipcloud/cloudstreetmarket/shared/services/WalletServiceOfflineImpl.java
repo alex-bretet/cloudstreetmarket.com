@@ -1,4 +1,4 @@
-package edu.zipcloud.cloudstreetmarket.api.services;
+package edu.zipcloud.cloudstreetmarket.shared.services;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,7 +23,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Service
 @Transactional(readOnly = true)
-public class WalletServiceImpl implements WalletService {
+public class WalletServiceOfflineImpl implements WalletServiceOffline {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
@@ -38,20 +38,20 @@ public class WalletServiceImpl implements WalletService {
 	private StockProductRepository stockProductRepository;
 
 	@Autowired
-	private StockProductService stockProductService;
+	private StockProductServiceOffline stockProductService;
 	
 	@Autowired
-	private CurrencyExchangeService currencyExchangeService;
+	private CurrencyExchangeServiceOffline currencyExchangeService;
 	
 	@Override
-	public List<WalletItemDTO> findBy(String userName) {
+	public List<WalletItemDTO> findBy(String forUser, String userName) {
 	
 		List<WalletItemDTO> results = new ArrayList<>();
 		User user = userRepository.findOne(userName);
 		
 		List<String> productId = transactionRepository.findStockIdsByUser(user);
 		
-		stockProductService.gather(productId.toArray(new String[productId.size()]));
+		stockProductService.gather(forUser, productId.toArray(new String[productId.size()]));
 
 		Map<StockProduct, List<Transaction>> transPerStockProduct =
 				transactionRepository.findByUser(user).stream()
@@ -93,7 +93,7 @@ public class WalletServiceImpl implements WalletService {
 			CurrencyExchange currencyExchange = null;
 			
 			if(!user.getCurrency().equals(stockProduct.getQuote().getSupportedCurrency())){
-				currencyExchange = currencyExchangeService.gather(stockProduct.getQuote().getSupportedCurrency().name() + user.getCurrency().name() + "=X");
+				currencyExchange = currencyExchangeService.gather(forUser, stockProduct.getQuote().getSupportedCurrency().name() + user.getCurrency().name() + "=X");
 			}
 			
 			double averageCostPerShare = buysOnly

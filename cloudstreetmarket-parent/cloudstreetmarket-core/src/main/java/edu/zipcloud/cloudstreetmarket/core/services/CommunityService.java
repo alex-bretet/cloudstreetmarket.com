@@ -19,7 +19,6 @@ import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 public interface CommunityService extends UserDetailsService{
-	Page<UserActivityDTO> getPublicActivity(Pageable pageable);
 	User findByUserName(String userName);
 	User findByLogin(String userName);
 	
@@ -44,5 +43,6 @@ public interface CommunityService extends UserDetailsService{
 	Page<UserDTO> search(Specification<User> spec, Pageable pageable);
 	void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType userActivityType, CurrencyExchange currencyExchange);
 	boolean isAffordableToUser(int quantity, StockQuote quote, User user, CurrencyExchange currencyExchange);
+	Page<UserActivityDTO> getPublicActivity(Pageable pageable);
 	
 }

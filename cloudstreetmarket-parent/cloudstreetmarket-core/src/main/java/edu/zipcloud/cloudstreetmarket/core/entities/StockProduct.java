@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -29,7 +30,9 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @NamedEntityGraph(name="StockProduct.indices", attributeNodes={
     @NamedAttributeNode("indices")
 })
-public class StockProduct extends Product{
+public class StockProduct extends Product implements Serializable{
+
+	private static final long serialVersionUID = -6533148398875178571L;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonSerialize(using=IdentifiableSerializer.class)

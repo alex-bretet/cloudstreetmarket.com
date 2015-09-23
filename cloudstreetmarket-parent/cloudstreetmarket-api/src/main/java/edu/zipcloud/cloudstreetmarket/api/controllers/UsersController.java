@@ -5,7 +5,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
 import static edu.zipcloud.cloudstreetmarket.api.controllers.UsersController.*;
-import static edu.zipcloud.cloudstreetmarket.api.config.WebSocketConfig.*;
+import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -44,7 +44,8 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
-import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeService;
+import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeServiceOnline;
+
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
@@ -52,6 +53,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
+import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
 import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
 import edu.zipcloud.cloudstreetmarket.core.validators.UserValidator;
 
@@ -69,22 +71,8 @@ public class UsersController extends CloudstreetApiWCI{
 	private ConnectionRepository connectionRepository;
 
 	@Autowired
-	private CurrencyExchangeService currencyExchangeService;
-	
-	@RequestMapping(value="/login", method=POST)
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Identifies the provided user")
-	public void login(@RequestBody User user, 
-							@RequestHeader(value="Spi", required=false) String guid, 
-								@RequestHeader(value="OAuthProvider", required=false) String provider, 
-									HttpServletResponse response){
-		user = communityService.identifyUser(user);
-		if(isNotBlank(guid)){
-			usersConnectionRepository.bindSocialUserToUser(guid, user, provider);
-		}
-    	communityService.signInUser(user);
-	}
-	
+	private CurrencyExchangeServiceOnline currencyExchangeService;
+
 	@RequestMapping(method=POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Creates a user account")
@@ -98,7 +86,9 @@ public class UsersController extends CloudstreetApiWCI{
 			}
 			
 			user = communityService.createUserWithBalance(user, new Role[]{ROLE_BASIC, ROLE_OAUTH2}, BigDecimal.valueOf(20000L));
-			messagingTemplate.convertAndSend(TOPIC_ACTIVITY_FEED_PATH, new UserActivityDTO(user.getActions().iterator().next()));
+
+			messagingTemplate.convertAndSend(Constants.WS_TOPIC_ACTIVITY_FEED_PATH, new UserActivityDTO(user.getActions().iterator().next()));
+
 			usersConnectionRepository.bindSocialUserToUser(guid, user, provider);
 			communityService.signInUser(user);
 			
@@ -111,7 +101,7 @@ public class UsersController extends CloudstreetApiWCI{
 		}
 		else{
 			user = communityService.createUser(user, ROLE_BASIC);
-			messagingTemplate.convertAndSend("/topic/actions", new UserActivityDTO(user.getActions().iterator().next()));
+			messagingTemplate.convertAndSend(Constants.JMS_USER_ACTIVITY_QUEUE, new UserActivityDTO(user.getActions().iterator().next()));
 			communityService.signInUser(user);
 		}
 		

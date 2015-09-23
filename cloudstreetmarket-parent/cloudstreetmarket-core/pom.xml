@@ -61,6 +61,18 @@
 			  <groupId>org.springframework.data</groupId>
 			  <artifactId>spring-data-rest-webmvc</artifactId>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jms</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>javax.jms</groupId>
+				<artifactId>javax.jms-api</artifactId>
+			</dependency>
 
 			<!-- Spring social -->
 			<dependency>
@@ -96,8 +108,8 @@
 				<artifactId>hibernate-jpa-2.1-api</artifactId>
 			</dependency>
 			<dependency>
-				<groupId>org.hsqldb</groupId>
-				<artifactId>hsqldb</artifactId>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
 			</dependency>
 		   	<dependency>
 		    	<groupId>org.hibernate</groupId>
@@ -146,6 +158,21 @@
 			    <artifactId>specification-arg-resolver</artifactId>
 			</dependency>
 
+			<!-- Session -->
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session-data-redis</artifactId>
+			</dependency>
+			<!-- Session -->
+			
 			<!-- Tests -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -165,6 +192,11 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 			</dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+			</dependency>
+			
 			
 		</dependencies>
   

@@ -15,8 +15,8 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Exchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 
-@Repository
 @Transactional(readOnly = true)
+@Repository
 public class IndexRepositoryImpl implements IndexRepository{
 
 	@PersistenceContext 

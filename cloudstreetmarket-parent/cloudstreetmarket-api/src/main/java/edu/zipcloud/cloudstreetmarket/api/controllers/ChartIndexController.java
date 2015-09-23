@@ -28,7 +28,7 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
-import edu.zipcloud.cloudstreetmarket.api.services.IndexService;
+import edu.zipcloud.cloudstreetmarket.api.services.IndexServiceOnline;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import static edu.zipcloud.cloudstreetmarket.api.resources.ChartResource.*;
 
@@ -41,7 +41,7 @@ public class ChartIndexController extends CloudstreetApiWCI<ChartIndex> {
 	private static final Logger log = Logger.getLogger(ChartIndexController.class);
 	
 	@Autowired
-	private IndexService indexService;
+	private IndexServiceOnline indexService;
 	
 	@RequestMapping(value="/{index:[a-zA-Z0-9^.-:]+}{extension:\\.[a-z]+}", method=GET)
 	@ApiOperation(value = "Get chart for one index", notes = "Return a chart from one index")

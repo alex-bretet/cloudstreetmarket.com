@@ -1,7 +1,5 @@
 package edu.zipcloud.cloudstreetmarket.api.services;
 
-import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,15 +14,10 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
@@ -42,88 +35,32 @@ import com.google.common.collect.Sets;
 
 import edu.zipcloud.cloudstreetmarket.api.controllers.ChartStockController;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToIndexConverter;
-import edu.zipcloud.cloudstreetmarket.core.daos.ChartIndexRepository;
-import edu.zipcloud.cloudstreetmarket.core.daos.ExchangeRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.IndexQuoteRepository;
-import edu.zipcloud.cloudstreetmarket.core.daos.IndexRepository;
-import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.IndexQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
-import edu.zipcloud.cloudstreetmarket.core.services.ResourceBundleService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
-import edu.zipcloud.cloudstreetmarket.core.specifications.ChartSpecifications;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
+import edu.zipcloud.cloudstreetmarket.shared.services.IndexServiceImpl;
 import edu.zipcloud.core.util.DateUtil;
 
 @Service
 @Transactional(readOnly = true)
-public class IndexServiceImpl implements IndexService {
+public class IndexServiceOnlineImpl extends IndexServiceImpl implements IndexServiceOnline {
 	
-	private static final Logger log = Logger.getLogger(IndexServiceImpl.class);
-
-	@Autowired
-	private MarketRepository marketRepository;
-	
-	@Autowired
-	private ExchangeRepository exchangeRepository;
-	
-	@Autowired
-	private ChartIndexRepository historicalIndexRepository;
-	
-	@Autowired
-	private IndexRepository indexRepository;
-	
-	@Autowired
-	private SocialUserService usersConnectionRepository;
+	private static final Logger log = Logger.getLogger(IndexServiceOnlineImpl.class);
 	
 	@Autowired
 	private ConnectionRepository connectionRepository;
-	
+
 	@Autowired
 	private YahooQuoteToIndexConverter yahooIndexConverter;
 	
 	@Autowired
 	private IndexQuoteRepository indexQuoteRepository;
 	
-	@Autowired
-	private ChartIndexRepository chartIndexRepository;
-
-    @Autowired
-	public Environment env;
-
-	@Autowired
-	protected ResourceBundleService bundle;
-    
-	
-	
-	@Override
-	public Page<Index> getIndices(String exchangeId, MarketId marketId, Pageable pageable) {
-		if(!StringUtils.isEmpty(exchangeId)){
-			return indexRepository.findByExchange(exchangeRepository.findOne(exchangeId), pageable);
-		}
-		else if(marketId!=null){
-			return indexRepository.findByMarket(marketRepository.findOne(marketId), pageable);
-		}
-		return indexRepository.findAll(pageable);
-	}
-
-	@Override
-	public Page<Index> getIndices(Pageable pageable) {
-		return indexRepository.findAll(pageable);
-	}
-
-	@Override
-	public Index getIndex(String id) {
-		Index index = indexRepository.findOne(id);
-		if(index == null){
-			throw new ResourceNotFoundException(bundle.getFormatted(I18N_INDICES_INDEX_NOT_FOUND, id));
-		}
-		return index;
-	}
-
 	@Override
 	@Transactional
 	public Page<Index> gather(String exchangeId, MarketId marketId, Pageable pageable) {
@@ -244,41 +181,5 @@ public class IndexServiceImpl implements IndexService {
             ChartIndex chartIndex = new ChartIndex(index, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight, pathToYahooPicture);
             chartIndexRepository.save(chartIndex);
         }
-	}
-	
-	@Override
-	public ChartIndex getChartIndex(Index index, ChartType type,
-			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
-			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
-			Integer intradayHeight) {
-		
-		log.debug("getChartIndex("+index+", "+type+", "+histoSize+", "+histoAverage+", "+histoPeriod+", "+intradayWidth+", "+intradayHeight+")");
-		
-		Specification<ChartIndex> spec = new ChartSpecifications<ChartIndex>().typeEquals(type);
-		
-		if(type.equals(ChartType.HISTO)){
-			if(histoSize != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().sizeEquals(histoSize));
-			}
-			if(histoAverage != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().histoMovingAverageEquals(histoAverage));
-			}
-			if(histoPeriod != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().histoTimeSpanEquals(histoPeriod));
-			}
-		}
-		else{
-			if(intradayWidth != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().intradayWidthEquals(intradayWidth));
-			}
-			if(intradayHeight != null){
-				spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().intradayHeightEquals(intradayHeight));
-			}
-		}
-		
-		spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().indexEquals(index));
-		log.debug("DB CALL");
-
-		return chartIndexRepository.findAll(spec).stream().findFirst().orElse(null);
 	}
 }

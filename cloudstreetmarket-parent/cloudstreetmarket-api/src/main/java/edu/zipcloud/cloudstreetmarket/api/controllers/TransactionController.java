@@ -3,7 +3,8 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
-import static edu.zipcloud.cloudstreetmarket.api.config.WebSocketConfig.*;
+
+import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -34,12 +35,14 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 import edu.zipcloud.cloudstreetmarket.api.assemblers.TransactionResourceAssembler;
 import edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource;
-import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeService;
+import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeServiceOnline;
+
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 import edu.zipcloud.cloudstreetmarket.core.services.TransactionService;
+import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
 import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
 import edu.zipcloud.cloudstreetmarket.core.validators.TransactionValidator;
 
@@ -56,7 +59,7 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	private TransactionResourceAssembler assembler;
 	
 	@Autowired
-	private CurrencyExchangeService currencyExchangeService;
+	private CurrencyExchangeServiceOnline currencyExchangeService;
 	
 	@Autowired
 	private TransactionValidator validator;
@@ -117,8 +120,8 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			}
 		}
 		
-		messagingTemplate.convertAndSend(TOPIC_ACTIVITY_FEED_PATH, new UserActivityDTO(transaction));
-		
+		messagingTemplate.convertAndSend(Constants.JMS_USER_ACTIVITY_QUEUE, new UserActivityDTO(transaction));
+
 		TransactionResource resource = assembler.toResource(transaction);
 		response.setHeader(LOCATION_HEADER, resource.getLink("self").getHref());
 		return resource;

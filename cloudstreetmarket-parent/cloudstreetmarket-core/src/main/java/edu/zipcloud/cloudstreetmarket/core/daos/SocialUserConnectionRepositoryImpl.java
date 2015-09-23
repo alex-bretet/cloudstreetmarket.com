@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -24,7 +25,9 @@ import java.util.Set;
  */
 @Transactional(propagation = Propagation.REQUIRED)
 @SuppressWarnings("unchecked")
-public class SocialUserConnectionRepositoryImpl implements ConnectionRepository {
+public class SocialUserConnectionRepositoryImpl implements ConnectionRepository, Serializable {
+
+	private static final long serialVersionUID = 3484579019612213064L;
 
 	@Autowired
 	private SocialUserRepository socialUserRepository;

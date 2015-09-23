@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.zipcloud.cloudstreetmarket.core.daos.ActionRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.LikeActionRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.UserRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.LikeAction;
@@ -18,6 +20,9 @@ public class LikeActionServiceImpl implements LikeActionService {
 	@Autowired
 	private LikeActionRepository likeActionRepository;
 	
+	@Autowired
+	private ActionRepository actionRepository;
+
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -45,13 +50,9 @@ public class LikeActionServiceImpl implements LikeActionService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void delete(Long actionId) {
-		LikeAction action = likeActionRepository.findOne(actionId);
-		if(action == null){
-			throw new ResourceNotFoundException("the like action "+actionId +" hasn't been found!");
-		}
-		action.getTargetAction().getLikeActions().remove(action);
+		likeActionRepository.delete(actionId);
 	}
 
 	@Override

@@ -19,7 +19,9 @@ import static javax.persistence.InheritanceType.*;
 
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
-public class Quote extends AbstractTableGeneratedId<Long>{
+public class Quote extends AbstractTableGeneratedId<Long> {
+
+	private static final long serialVersionUID = -854929089039706306L;
 
 	private Date date;
 	

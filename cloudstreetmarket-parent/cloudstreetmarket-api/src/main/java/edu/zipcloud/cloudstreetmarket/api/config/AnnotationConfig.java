@@ -1,11 +1,15 @@
 package edu.zipcloud.cloudstreetmarket.api.config;
 
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.models.dto.ApiInfo;
@@ -13,10 +17,14 @@ import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 
 @Configuration
+@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.api","edu.zipcloud.cloudstreetmarket.core","edu.zipcloud.cloudstreetmarket.shared"})
 @EnableSwagger //Loads the spring beans required by the framework
 @EnableHypermediaSupport(type = { HypermediaType.HAL })
-@EnableEntityLinks //Loads Hateoas EntityLinks bean
-public class AnnotationConfig{
+@EnableEntityLinks //Loads Hateoas EntityLinks bea
+@PropertySource(value={"file:${user.home}/app/cloudstreetmarket.properties"})
+@EnableRabbit
+@EnableAsync
+public class AnnotationConfig {
 
    private SpringSwaggerConfig springSwaggerConfig;
 

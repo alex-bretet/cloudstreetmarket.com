@@ -2,6 +2,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page session="false" %>
 
 <!DOCTYPE html>
 <html lang="en" ng-app="cloudStreetMarketApp">
@@ -176,6 +177,7 @@
 									</a>
 								</li>
 					            <li class="dropdown" ng-if="userAuthenticated()">
+					            	<div id="authenticatedDiv" class="hide"></div>
                 					<a href="markets" class="dropdown-toggle"><i class="fa fa-user fa-fw" style="margin-right:5px;"></i> {{loggedInUser}} <b class="caret"></b></a>
                 					<ul class="dropdown-menu">
                 						<li><a href="/portal/preferences"><i class="fa fa fa-pencil fa-fw" style="margin-right:5px;"></i> <span translate="webapp.main.menu.preferences">Preferences</span> </a></li>					
@@ -414,11 +416,11 @@
 	<script src="js/angular/angular-translate.min.js"></script>
 	<script src="js/angular/angular-translate-loader-url.min.js"></script>
 	<script src="js/util/ui-bootstrap-tpls-0.11.0.min.js"></script>
-	<script src="js/util/sockjs-1.0.2.min.js"></script>
+	<script src="js/util/sockjs-1.0.3.js"></script>
 	<script src="js/util/stomp-2.3.3.js"></script>
 	
 	<script>
-		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap', 'pascalprecht.translate']);
+		var cloudStreetMarketApp = angular.module('cloudStreetMarketApp', ['ngRoute','ui.bootstrap', 'pascalprecht.translate', 'ngCookies']);
 		
 		cloudStreetMarketApp.config(function ($translateProvider) {
 			    $translateProvider.useUrlLoader('/api/properties.json');

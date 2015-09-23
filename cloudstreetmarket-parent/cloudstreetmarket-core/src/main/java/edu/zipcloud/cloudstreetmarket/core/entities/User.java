@@ -75,7 +75,6 @@ public class User extends AbstractId<String> implements UserDetails{
 	private BigDecimal balance;
 	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore
 	@XStreamOmitField
 	@OrderBy("id desc")

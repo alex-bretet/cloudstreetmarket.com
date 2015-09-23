@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAuth) {
     return {
         login: function (body) {
-        	return httpAuth.post('/api/oauth2/login', body);
+        	return httpAuth.post('/api/sessions/login', body);
         },
         createAccount: function (body, spi) {
         	if(spi){

@@ -1,5 +1,8 @@
 package edu.zipcloud.cloudstreetmarket.core.services;
 
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ADMIN;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.SYSTEM;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
@@ -48,13 +51,12 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.cloudstreetmarket.core.util.TransactionUtil;
 
 @Service(value="communityServiceImpl")
-@Transactional(propagation = Propagation.REQUIRED)
+@Transactional(propagation=Propagation.REQUIRED)
 @PropertySource(value="file:${user.home}/app/cloudstreetmarket.properties")
 public class CommunityServiceImpl implements CommunityService {
 
@@ -89,12 +91,12 @@ public class CommunityServiceImpl implements CommunityService {
 								((AccountActivity)a).getDate(),
 								a.getId()
 						);
-						accountActivity.setSocialReport(a.getLikeActions(), a.getCommentActions());
+						accountActivity.setSocialReport(a.getSocialEventAction());
 						result.add(accountActivity);
 					}
 					else if(a instanceof Transaction){
 						UserActivityDTO transaction = new UserActivityDTO((Transaction)a);
-						transaction.setSocialReport(a.getLikeActions(), a.getCommentActions());
+						transaction.setSocialReport(a.getSocialEventAction());
 						result.add(transaction);
 					}
 				}

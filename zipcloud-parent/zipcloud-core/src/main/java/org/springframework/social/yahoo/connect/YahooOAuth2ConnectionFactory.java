@@ -15,6 +15,8 @@
  */
 package org.springframework.social.yahoo.connect;
 
+import java.io.Serializable;
+
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.support.OAuth2Connection;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
@@ -28,7 +30,9 @@ import org.springframework.social.yahoo.module.YahooAccessGrant;
 * @author Alex Bretet
 * @author Michael Lavelle
 */
-public class YahooOAuth2ConnectionFactory extends OAuth2ConnectionFactory<Yahoo2> {
+public class YahooOAuth2ConnectionFactory extends OAuth2ConnectionFactory<Yahoo2> implements Serializable {
+
+		private static final long serialVersionUID = -4835304974503363071L;
 
 		public YahooOAuth2ConnectionFactory(String clientId, String clientSecret) {
 			super("yahoo", new YahooOAuth2ServiceProvider(clientId, clientSecret), new YahooOAuth2Adapter());

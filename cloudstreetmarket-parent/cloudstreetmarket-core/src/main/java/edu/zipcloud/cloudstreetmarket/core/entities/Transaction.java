@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import static edu.zipcloud.cloudstreetmarket.core.entities.Transaction.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -41,9 +42,10 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
     @NamedQuery(name=GET_ALL_ORDER_BY,
                 query="select t from Transaction t ORDER BY t.quote.date desc")
 }) 
-public class Transaction extends Action implements Comparable<Transaction>
-{
+public class Transaction extends Action implements Comparable<Transaction>, Serializable {
 
+	private static final long serialVersionUID = -5395464106046036788L;
+	
 	public static final String GET_ALL_ORDER_BY = "Transaction.getAllAndOrderBy";
 	public static final String FIND_STOCK_ID_BY_USER = "Transaction.findStockIdByUser";
 	public static final String FIND_FROM_QUOTE_DATE = "Transaction.findFromQuoteDate";

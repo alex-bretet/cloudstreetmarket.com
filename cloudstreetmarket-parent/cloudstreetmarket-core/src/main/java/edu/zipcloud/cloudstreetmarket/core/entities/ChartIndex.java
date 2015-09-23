@@ -25,6 +25,8 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @DiscriminatorValue(DISCR)
 public class ChartIndex extends Chart {
 
+	private static final long serialVersionUID = -4747008689841328827L;
+
 	public static final String DISCR = "idx";
 	
 	@ManyToOne(fetch = FetchType.EAGER)

@@ -169,7 +169,7 @@ insert into industry(label,id) values ('Regional - Mid-Atlantic Banks',412);
 insert into industry(label,id) values ('Regional - Midwest Banks',414);
 insert into industry(label,id) values ('Regional - Northeast Banks',411);
 insert into industry(label,id) values ('REIT - Diversified',440);
-insert into industry(label,id) values ('REIT - Hotel/Motel',443)
+insert into industry(label,id) values ('REIT - Hotel/Motel',443);
 insert into industry(label,id) values ('REIT - Office',441);
 insert into industry(label,id) values ('REIT - Retail',446);
 insert into industry(label,id) values ('Rental & Leasing Services',761);

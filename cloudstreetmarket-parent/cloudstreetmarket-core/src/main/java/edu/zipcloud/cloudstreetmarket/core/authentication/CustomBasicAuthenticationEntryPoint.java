@@ -1,4 +1,4 @@
-package edu.zipcloud.cloudstreetmarket.api.authentication;
+package edu.zipcloud.cloudstreetmarket.core.authentication;
 
 import java.io.IOException;
 
@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
 	private final String SWAGGER_UI_PATH = "/api/index.html";
+	private String scheme;
 	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
@@ -20,8 +21,14 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
 			super.commence(request, response, authException);
 			return;
 		}
-		response.setHeader("WWW-Authenticate", "CSM_Basic realm=\"" + getRealmName() + "\"");
+		response.setHeader("WWW-Authenticate", scheme + " realm=\"" + getRealmName() + "\"");
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-		
+	}
+	
+	public String getScheme() {
+		return scheme;
+	}
+	public void setScheme(String scheme) {
+		this.scheme = scheme;
 	}
 }

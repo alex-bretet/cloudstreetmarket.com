@@ -20,7 +20,7 @@ cloudStreetMarketApp.filter('orderObjectBy', function() {
 	  };
 	});
 
-cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $rootScope, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
+cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $timeout, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
 
 	$scope.init = function () {
 		$scope.loadMore();
@@ -54,35 +54,45 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 			        		 }
 			        	});
 					}
-					$scope.socket = new SockJS('/api/users/feed/add');
-					$scope.stompClient = Stomp.over($scope.socket);
-					$scope.socket.onclose = function() {
-						$scope.stompClient.disconnect();
-					};
-					$scope.stompClient.connect({}, function(frame) {
-						$scope.stompClient.subscribe('/topic/actions', function(message){
-							 var newActivity = JSON.parse(message.body);
-							 newActivity.urlProfileMiniPicture = $scope.renamePictureToMini(newActivity.urlProfilePicture);
-							 if(newActivity.userAction.type == 'LIKE'){
-					        	 if($scope.communityActivities[newActivity.targetActionId]){
-					        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
-					        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
-					        		 if(newActivity.userName == httpAuth.getLoggedInUser()){
-					        			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
-					        		 }
-					        	 }
-							 }
-							 else if(newActivity.userAction.type == 'COMMENT'){
-					        	 if($scope.communityActivities[newActivity.targetActionId]){
-					        		 $scope.communityActivities[newActivity.targetActionId].amountOfComments = $scope.communityActivities[newActivity.targetActionId].amountOfComments +1;
-					        	 }
-							 }
-							 else{
-								 $scope.communityActivities[newActivity.id]=newActivity;
-							 }
-				        	 $scope.$apply();
-				         });
-				    });
+					
+					var timer = $timeout( function(){ 
+							$scope.socket = new SockJS('/ws/channels/users/broadcast');
+							$scope.stompClient = Stomp.over($scope.socket);
+							$scope.socket.onclose = function() {
+								$scope.stompClient.disconnect();
+							};
+							$scope.stompClient.connect({}, function(frame) {
+								$scope.stompClient.subscribe('/topic/actions', function(message){
+									 var newActivity = JSON.parse(message.body);
+									 newActivity.urlProfileMiniPicture = $scope.renamePictureToMini(newActivity.urlProfilePicture);
+									 if(newActivity.userAction.type == 'LIKE'){
+							        	 if($scope.communityActivities[newActivity.targetActionId]){
+							        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
+							        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
+							        		 if(newActivity.userName == httpAuth.getLoggedInUser()){
+							        			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+							        		 }
+							        	 }
+									 }
+									 else if(newActivity.userAction.type == 'COMMENT'){
+							        	 if($scope.communityActivities[newActivity.targetActionId]){
+							        		 $scope.communityActivities[newActivity.targetActionId].amountOfComments = $scope.communityActivities[newActivity.targetActionId].amountOfComments +1;
+							        	 }
+									 }
+									 else{
+										 $scope.communityActivities[newActivity.id]=newActivity;
+									 }
+						        	 $scope.$apply();
+						         });
+						    });
+					        $scope.$on(
+					                "$destroy",
+					                function( event ) {
+					                	$timeout.cancel( timer );
+					                	$scope.stompClient.disconnect();
+					                }
+					        );
+					}, 5000);
 				}).then(function(response){
 					if(response.headers('Must-Register')){
 						modalService.showModal({templateUrl:'/portal/html/partials/must_register_modal.html'}, {});

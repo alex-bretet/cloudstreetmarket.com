@@ -8,7 +8,8 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context 
@@ -23,10 +24,13 @@
 	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
 	http://www.springframework.org/schema/security 
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd
-    http://www.springframework.org/schema/websocket
-    http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd">
-
-	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api"/>
+	http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api,edu.zipcloud.cloudstreetmarket.shared,edu.zipcloud.cloudstreetmarket.core"/>
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -53,15 +57,7 @@
 		        <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
 			</list>
 		</property>
-	    <property name="requireSession" value="false"/>
 	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
-	</bean>
-
-	<bean id="multipartResolver"
-	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	
-	    <!-- one of the properties available; the maximum file size in bytes -->
-	    <property name="maxUploadSize" value="${pictures.max.upload.size}"/>
 	</bean>
 
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
@@ -81,64 +77,6 @@
 	    </property>
 	</bean>
 
-	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-	    <property name="supportedMediaTypes" value="application/json"/>
-	    <property name="objectMapper">
-	   		<!-- Automatically parses the Dates of the response object into a default string format-->
-           <bean class="com.fasterxml.jackson.databind.ObjectMapper" >
-               <property name="dateFormat">
-	                <bean class="java.text.SimpleDateFormat">
-	                	<constructor-arg value="yyyy-MM-dd" />
-	                </bean>
-               </property>
-           </bean>
-        </property>
-	</bean>
-
-	<bean id="byteArrayConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
-            <property name="supportedMediaTypes">
-                <list>
-                    <value>image/png</value>
-                </list>
-            </property> 
-	</bean>
-	
-	<bean id="xmlConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/xml"/>
-   		<property name="marshaller">
-   			<ref bean="xStreamMarshaller"/>
-       	</property>
-   		<property name="unmarshaller">
-	    	<ref bean="xStreamMarshaller"/>
-       	</property>
-	</bean>
-	
-	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
-
-    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
-    	<property name="autodetectAnnotations" value="true"/>
-	    <property name="aliasesByType">
-	        <map>
-	        	<entry key="pagedResources" value="org.springframework.hateoas.PagedResources"/>
-	            <entry key="page" value="org.springframework.data.domain.Slice"/>
-	            <entry key="pageInfo" value="org.springframework.data.domain.Pageable"/>
-	            <entry key="sort" value="org.springframework.data.domain.Sort"/>
-	            <entry key="order" value="org.springframework.data.domain.Sort.Order"/>
-	            <entry key="link" value="org.springframework.hateoas.Link"/>
-	        </map>
-	    </property>
-	    <property name="omittedFields">
-	        <map>
-	            <entry key="org.springframework.hateoas.Link" value="template"/>
-	        </map>
-	    </property>
-	    <property name="converters">
-	    	<list>
-	    		<bean class="com.thoughtworks.xstream.converters.basic.DateConverter"/>
-	    	</list>
-	    </property>
-    </bean>
-
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 	<bean class="edu.zipcloud.cloudstreetmarket.api.config.AnnotationConfig"/>
 
@@ -156,24 +94,14 @@
 		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
 	</mvc:interceptors>
 
-	<bean id="usersConnectionRepository" class="edu.zipcloud.cloudstreetmarket.core.services.SocialUserServiceImpl"/>
-
 	<bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
 	    <constructor-arg value="#{request.userPrincipal.name}" />
 	    <aop:scoped-proxy proxy-target-class="false" />
 	</bean>
 
-	<bean id="connectionFactoryLocator" 
-	      class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
-	    <property name="connectionFactories">
-	        <list>
-	            <bean class="org.springframework.social.yahoo.connect.YahooOAuth2ConnectionFactory">
-	                <constructor-arg value="${yahoo.client.token}" />
-	                <constructor-arg value="${yahoo.client.secret}" />				
-	                <constructor-arg value="${yahoo.signin.url}" />			
-	            </bean>
-	        </list>
-	    </property>
+	<bean id="providerSignInUtils" class="org.springframework.social.connect.web.ProviderSignInUtils">
+			<constructor-arg ref="connectionFactoryLocator" />
+			<constructor-arg ref="usersConnectionRepository" />
 	</bean>
 
 	<bean class="org.springframework.data.web.PagedResourcesAssembler">
@@ -182,14 +110,17 @@
 	</bean>
 	
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
-	
-	<bean class="org.springframework.web.socket.server.support.OriginHandshakeInterceptor">
-	    <property name="allowedOrigins">
-	    	<list>
-	    		<value>http://cloudstreetmarket.com</value>
-	    	</list>
-	    </property>
-	</bean>
+
+	<!--  first following line creates a rabbit connection factory with specified parameters -->
+    <rabbit:connection-factory id="connectionFactory" host="localhost" username="guest" password="guest" />
+    
+    <!-- obtain admin rights to create the an exchange -->
+    <rabbit:admin connection-factory="connectionFactory" />
+ 
+    <rabbit:template id="messagingTemplate" connection-factory="connectionFactory"/>
+
+	<task:annotation-driven scheduler="myScheduler"/>
+	<task:scheduler id="myScheduler" pool-size="1000"/>
 
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler />

@@ -21,6 +21,8 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 @XStreamAlias("stock_quote")
 public class StockQuote extends Quote{
 
+	private static final long serialVersionUID = -6816461369257289514L;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_code")
 	@XStreamOmitField

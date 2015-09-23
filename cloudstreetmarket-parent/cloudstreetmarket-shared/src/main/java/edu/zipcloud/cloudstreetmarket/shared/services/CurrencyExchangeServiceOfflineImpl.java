@@ -1,4 +1,4 @@
-package edu.zipcloud.cloudstreetmarket.api.services;
+package edu.zipcloud.cloudstreetmarket.shared.services;
 
 import java.util.List;
 
@@ -24,26 +24,23 @@ import edu.zipcloud.core.util.DateUtil;
 
 @Service
 @Transactional(readOnly = true)
-public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
+public class CurrencyExchangeServiceOfflineImpl implements CurrencyExchangeServiceOffline {
 
-	@Autowired
-	private SocialUserService usersConnectionRepository;
-	
-	@Autowired
-	private ConnectionRepository connectionRepository;
-	
 	@Autowired
 	private CurrencyExchangeRepository currencyExchangeRepository;
 	
 	@Autowired
 	private YahooQuoteToCurrencyExchangeConverter yahooCurrencyConverter;
 	
+	@Autowired
+	private SocialUserService usersConnectionRepository;
+	
     @Autowired
 	public Environment env;
 
 	@Override
 	@Transactional
-	public CurrencyExchange gather(String ticker) {
+	public CurrencyExchange gather(String forUser, String ticker) {
 		Preconditions.checkNotNull(ticker, "The quote ticker is null before Yahoo call!");
 		if(ticker.length() == 0){
 			return null;
@@ -62,6 +59,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	private void updateCurrencyExchangeFromYahoo(String ticker) {
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
 		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+		ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(guid);
 		Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 
         if (connection == null) {

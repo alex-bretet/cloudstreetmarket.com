@@ -49,7 +49,7 @@
 				  <li data-ng-repeat="value in communityActivities | orderObjectBy:'id':true">
 						<div class="itemTitle">
 							<div ng-class="(!value.urlProfilePicture) ? 'listUserIco ico-user': 'listUserIcoNonBG'">
-								<img ng-if="value.urlProfilePicture" style="position: relative;top: 50%;transform: translateY(-50%);" src='{{value.urlProfileMiniPicture}}' >
+								<img ng-if="value.urlProfilePicture" style="position: relative;top: 50%;transform: translateY(-50%);" ng-src='{{value.urlProfileMiniPicture}}' >
 							</div>
 							<div ng-if="(value.userAction.type =='REGISTER')">
 								<span class="ico-white listActionIco actionRegister"></span>

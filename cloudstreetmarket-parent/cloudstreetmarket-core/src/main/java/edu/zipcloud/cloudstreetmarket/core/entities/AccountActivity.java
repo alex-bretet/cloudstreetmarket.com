@@ -14,6 +14,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 @XStreamAlias("activity")
 public class AccountActivity extends Action{
 
+	private static final long serialVersionUID = -4083758866971621647L;
 	public static final String DISCR = "acc";
 
 	public AccountActivity(){

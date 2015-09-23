@@ -39,6 +39,11 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
+			<artifactId>cloudstreetmarket-shared</artifactId>
+			<version>${csm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
 			<artifactId>cloudstreetmarket-core</artifactId>
 			<version>${csm.version}</version>
 		</dependency>
@@ -106,19 +111,46 @@
 		  <groupId>org.springframework.data</groupId>
 		  <artifactId>spring-data-rest-webmvc</artifactId>
 		</dependency>
-    	<dependency>
-		   <groupId>org.springframework</groupId>
-		   <artifactId>spring-websocket</artifactId>
-		</dependency>
+
+
+		<!-- Messaging -->
 		<dependency>
 		   <groupId>org.springframework</groupId>
 		   <artifactId>spring-messaging</artifactId>
 		</dependency>
 
+    	<dependency>
+		   <groupId>org.springframework</groupId>
+		   <artifactId>spring-websocket</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.amqp</groupId>
+		    <artifactId>spring-rabbit</artifactId>
+		</dependency>
+		<!-- Messaging -->
+		
+		<!-- Session -->
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session-data-redis</artifactId>
+			</dependency>
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -150,7 +182,7 @@
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
+			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
 		
@@ -192,4 +224,6 @@
 		</dependency>
 
 	</dependencies>
+	
+
 </project>

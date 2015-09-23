@@ -13,6 +13,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("currency_exchange_quote")
 public class CurrencyExchangeQuote extends Quote {
 
+	private static final long serialVersionUID = 7862727164220349639L;
+	
 	@Transient
 	private String symbol;
 

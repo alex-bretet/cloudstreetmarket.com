@@ -19,16 +19,11 @@ import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 @Entity
 @DiscriminatorValue(LikeAction.DISCR)
 @XStreamAlias("like_event")
-public class LikeAction extends SocialAction{
+public class LikeAction extends SocialEventAction{
 
+	private static final long serialVersionUID = 8864286913794338818L;
+	
 	public static final String DISCR = "like";
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonSerialize(using=IdentifiableSerializer.class)
-	@JsonProperty("targetActionId")
-	@XStreamConverter(value=IdentifiableToIdConverter.class, strings={"id"})
-	@XStreamAlias("targetActionId")
-	private Action targetAction;
 	
 	public LikeAction(){
 	}
@@ -38,13 +33,5 @@ public class LikeAction extends SocialAction{
 		setType(UserActivityType.LIKE);
 		setDate(new Date());
 		setTargetAction(targetAction);
-	}
-
-	public Action getTargetAction() {
-		return targetAction;
-	}
-
-	public void setTargetAction(Action targetAction) {
-		this.targetAction = targetAction;
 	}
 }

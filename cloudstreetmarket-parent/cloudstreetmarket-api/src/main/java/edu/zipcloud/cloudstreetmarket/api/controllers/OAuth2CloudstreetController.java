@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UserProfile;
+import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
@@ -38,7 +36,6 @@ import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
  */
 @Controller
 @RequestMapping(value="/oauth2", produces={"application/xml", "application/json"})
-@PropertySource("file:${user.home}/app/cloudstreetmarket.properties")
 public class OAuth2CloudstreetController extends CloudstreetApiWCI{
 
     @Autowired
@@ -52,25 +49,29 @@ public class OAuth2CloudstreetController extends CloudstreetApiWCI{
     
 	@Autowired
 	private SocialUserService usersConnectionRepository;
-    
+	
+	@Autowired
+	private ConnectionFactoryRegistry connectionFactoryLocator;
+
+	@Autowired
+	private ProviderSignInUtils providerSignInUtils;
+	
 	@Value("${oauth.signup.success.view}")
     private String successView;
 
-    @SuppressWarnings("deprecation")
 	@RequestMapping(value="/signup", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.CONTINUE)
     public String getForm(NativeWebRequest request,  @ModelAttribute User user) {
     	String view = successView;
-    	
-        // check if this is a new user signing in via Spring Social
-        Connection<?> connection = ProviderSignInUtils.getConnection(request);
+
+    	// check if this is a new user signing in via Spring Social
+        Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
         if (connection != null) {
             // populate new User from social connection user profile
             UserProfile userProfile = connection.fetchUserProfile();
             user.setId(userProfile.getUsername());
 
             // finish social signup/login
-            ProviderSignInUtils.handlePostSignUp(user.getUsername(), request);
+            providerSignInUtils.doPostSignUp(user.getUsername(), request);
 
             // sign the user in and send them to the user home page
             signInAdapter.signIn(user.getUsername(), connection, request);

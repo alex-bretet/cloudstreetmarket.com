@@ -1,5 +1,6 @@
 package edu.zipcloud.cloudstreetmarket.core.daos;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +19,9 @@ import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public class SocialUserRepositoryImpl implements SocialUserRepository{
+public class SocialUserRepositoryImpl implements SocialUserRepository, Serializable{
+
+	private static final long serialVersionUID = -1094865428182160411L;
 
 	@PersistenceContext 
 	private EntityManager em;

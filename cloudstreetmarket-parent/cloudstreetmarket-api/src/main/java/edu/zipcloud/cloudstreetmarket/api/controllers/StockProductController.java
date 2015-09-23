@@ -1,8 +1,9 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.api.controllers.AbstractProductController.*;
-import static edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource.*;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static edu.zipcloud.cloudstreetmarket.api.controllers.AbstractProductController.PRODUCT_PATH;
+import static edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource.STOCKS;
+import static edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource.STOCKS_PATH;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
@@ -28,7 +29,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 import edu.zipcloud.cloudstreetmarket.api.assemblers.StockProductResourceAssembler;
 import edu.zipcloud.cloudstreetmarket.api.resources.StockProductResource;
-import edu.zipcloud.cloudstreetmarket.api.services.StockProductService;
+import edu.zipcloud.cloudstreetmarket.api.services.StockProductServiceOnline;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
@@ -39,7 +40,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 public class StockProductController extends AbstractProductController<StockProduct>{
 	
 	@Autowired
-	private StockProductService stockProductService;
+	private StockProductServiceOnline stockProductService;
 	
 	@Autowired
 	private StockProductResourceAssembler assembler;

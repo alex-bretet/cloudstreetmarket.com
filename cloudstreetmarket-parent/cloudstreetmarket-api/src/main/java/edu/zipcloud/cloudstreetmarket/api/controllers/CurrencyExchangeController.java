@@ -14,7 +14,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 import edu.zipcloud.cloudstreetmarket.api.assemblers.CurrencyExchangeResourceAssembler;
 import edu.zipcloud.cloudstreetmarket.api.resources.CurrencyExchangeResource;
-import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeService;
+import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeServiceOnline;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 
 @Api(value = CURRENCY_EXCHANGE, description = "Currency Exchanges") // Swagger annotation
@@ -24,7 +24,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 public class CurrencyExchangeController extends CloudstreetApiWCI<CurrencyExchange>{
 	
 	@Autowired
-	private CurrencyExchangeService currencyExchangeService;
+	private CurrencyExchangeServiceOnline currencyExchangeService;
 	
 	@Autowired
 	private CurrencyExchangeResourceAssembler assembler;

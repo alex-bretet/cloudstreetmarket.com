@@ -22,7 +22,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 import edu.zipcloud.cloudstreetmarket.api.assemblers.IndexResourceAssembler;
 import edu.zipcloud.cloudstreetmarket.api.resources.IndexResource;
-import edu.zipcloud.cloudstreetmarket.api.services.IndexService;
+import edu.zipcloud.cloudstreetmarket.api.services.IndexServiceOnline;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
@@ -33,7 +33,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 public class IndexController extends CloudstreetApiWCI<Index> {
 	
 	@Autowired
-	private IndexService indexService;
+	private IndexServiceOnline indexService;
 	
 	@Autowired
 	private IndexResourceAssembler assembler;

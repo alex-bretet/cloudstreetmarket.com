@@ -22,7 +22,9 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 
 @Entity
 public class Exchange extends AbstractId<String> {
-	
+
+	private static final long serialVersionUID = 2153374213932765740L;
+
 	private String name;
 
 	@ManyToOne(fetch = FetchType.EAGER)

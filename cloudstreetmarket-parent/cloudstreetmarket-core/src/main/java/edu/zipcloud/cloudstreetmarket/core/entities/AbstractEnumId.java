@@ -12,8 +12,10 @@ import static javax.persistence.EnumType.*;
 import org.springframework.hateoas.Identifiable;
 
 @MappedSuperclass
-public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID> {
+public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID>, Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id 
 	@Enumerated(STRING)
 	protected ID id;
