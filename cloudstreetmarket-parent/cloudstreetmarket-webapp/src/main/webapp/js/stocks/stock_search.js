@@ -33,7 +33,7 @@ cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl
 	  $scope.loadPage = function () {
 		  stockTableFactory.get($scope.pageSize, $scope.currentPage, $scope.stockSearch, $scope.startWith, $scope.sortedField, $scope.sortDirection)
 			.success(function(data, status, headers, config) {
-				updatePaginationStockS ($scope, data, httpAuth);
+				updatePaginationStockS ($scope, data);
 	        });
 	  }
 
@@ -44,12 +44,13 @@ cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl
 	    $scope.currentPage = pageNo-1;
 	    $scope.loadPage();
 	  };
-	  initPaginationStockS ($scope, $rootScope, $interval, $timeout, httpAuth, dynStockSearchService);
+	  initPaginationStockS ($scope, $interval, httpAuth, dynStockSearchService);
 	  
 	  /*
 	   * Request spec.
 	   */
-	  $scope.setStartWith = function (startWith) {
+	  $scope.setStartWith = function (event, startWith) {
+		  event.preventDefault();
 		  $scope.startWith = (startWith!==$scope.startWith) ? startWith : ""; 
 		  $scope.loadPage();
 	  };
@@ -80,7 +81,7 @@ cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl
 /**
  * Static functions
  */
-function updatePaginationStockS ($scope, data, httpAuth){
+function updatePaginationStockS ($scope, data){
 	$scope.tickers = [];
 	$scope.stocks = data.content;
 	$scope.stocks.forEach(function(entry) {
@@ -105,7 +106,7 @@ function updateSortParamStockS ($scope, field){
 	  $scope.loadPage()
 }
 
-function initPaginationStockS ($scope, $rootScope, $interval, $timeout, httpAuth, dynStockSearchService){
+function initPaginationStockS ($scope, $interval, httpAuth, dynStockSearchService){
 	$scope.sortedField = "name";
 	$scope.sortDirection = "asc";
 	
@@ -133,6 +134,7 @@ function initPaginationStockS ($scope, $rootScope, $interval, $timeout, httpAuth
 	                "$destroy",
 	                function( event ) {
 	                	$interval.cancel( intervalPromise );
+	                	$scope.stompClient.disconnect();
 	                }
 	        );
 			

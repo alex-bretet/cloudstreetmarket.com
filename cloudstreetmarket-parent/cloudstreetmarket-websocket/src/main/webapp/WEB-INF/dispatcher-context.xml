@@ -33,7 +33,7 @@
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
  	<context:annotation-config/>
-	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core, edu.zipcloud.cloudstreetmarket.ws,edu.zipcloud.cloudstreetmarket.shared"/>
+	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.ws,edu.zipcloud.cloudstreetmarket.shared"/>
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
 
 	<mvc:interceptors>
@@ -47,7 +47,6 @@
 	    	</list>
 	    </property>
 	</bean>
-
 
 	<rabbit:connection-factory id="rabbitConnectionFactory" username="guest" host="localhost" password="guest"/>
 

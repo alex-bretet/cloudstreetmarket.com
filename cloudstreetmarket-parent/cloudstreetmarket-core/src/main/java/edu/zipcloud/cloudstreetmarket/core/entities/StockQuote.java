@@ -29,14 +29,16 @@ public class StockQuote extends Quote{
 	@JsonIgnore
 	private StockProduct stock;
 	
+	@Column(precision = 10, scale = 5)
 	private double bid;
 	
+	@Column(precision = 10, scale = 5)
 	private double ask;
 
-	@Column(name="last_change")
+	@Column(name="last_change", precision = 10, scale = 5)
 	private double lastChange;
 	
-	@Column(name="last_change_pc")
+	@Column(name="last_change_pc", precision = 10, scale = 5)
 	private double lastChangePercent;
 	
 	private String exchange;

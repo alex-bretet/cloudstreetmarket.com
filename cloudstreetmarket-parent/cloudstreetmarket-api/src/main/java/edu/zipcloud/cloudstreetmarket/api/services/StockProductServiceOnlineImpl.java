@@ -38,6 +38,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartStock;
+import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
@@ -49,26 +50,6 @@ import edu.zipcloud.core.util.DateUtil;
 @Service
 @Transactional(readOnly = true)
 public class StockProductServiceOnlineImpl extends StockProductServiceImpl implements StockProductServiceOnline {
-
-	/*
-	 * // JDBC DataSource pointing to the DB where connection data is stored
-DataSource dataSource = ...;
-
-// locator for factories needed to construct Connections when restoring from persistent form
-ConnectionFactoryLocator connectionFactoryLocator = ...;
-
-// encryptor of connection authorization credentials
-TextEncryptor encryptor = ...;
-
-UsersConnectionRepository usersConnectionRepository =
-    new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, encryptor);
-
-// create a connection repository for the single-user 'kdonald'
-ConnectionRepository repository = usersConnectionRepository.createConnectionRepository("kdonald");
-
-// find kdonald's primary Facebook connection
-Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.class);
-	 */
 
 	@Autowired
 	private ConnectionRepository connectionRepository;
@@ -101,7 +82,11 @@ Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.clas
 		if(askedContent.size() != recentlyUpdated.size()){
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
-			String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+			SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(guid);
+			if(socialUser == null){
+				return;
+			}
+			String token = socialUser.getAccessToken();
 			Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 			
 	        if (connection != null) {
@@ -114,6 +99,7 @@ Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.clas
 				
 				Set<StockProduct> updatableProducts = yahooQuotes.stream()
 					.filter(yq -> StringUtils.isNotBlank(yq.getExchange()))
+					.filter(yq -> updatableTickers.get(yq.getId()) != null)
 					.map(yq -> {
 						StockQuote sq = new StockQuote(yq, updatableTickers.get((yq.getId())));
 						return syncProduct(updatableTickers.get((yq.getId())), sq);
@@ -180,7 +166,11 @@ Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.clas
 		Preconditions.checkNotNull(type, "ChartType must not be null!");
 		
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
-		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+		SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(guid);
+		if(socialUser == null){
+			return;
+		}
+		String token = socialUser.getAccessToken();
 		Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 		
         if (connection != null) {

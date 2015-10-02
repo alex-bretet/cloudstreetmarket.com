@@ -64,7 +64,7 @@ public class Transaction extends Action implements Comparable<Transaction>, Seri
 
 	private int quantity;
 
-	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", precision = 10, scale = 5)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdate;
 

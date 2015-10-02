@@ -35,22 +35,25 @@ public class Index extends AbstractId<String> {
 
 	private String name;
 
-	@Column(name="daily_latest_value")
+	@Column(name="daily_latest_value", precision = 10, scale = 5)
 	private BigDecimal dailyLatestValue;
 
-	@Column(name="daily_latest_change")
+	@Column(name="daily_latest_change", precision = 10, scale = 5)
 	private BigDecimal dailyLatestChange;
 
-	@Column(name="daily_latest_change_pc")
+	@Column(name="daily_latest_change_pc", precision = 10, scale = 5)
 	private BigDecimal dailyLatestChangePercent;
 
-	@Column(name = "previous_close")
+	@Column(name = "previous_close", precision = 10, scale = 5)
 	private BigDecimal previousClose;
 
+	@Column(precision = 10, scale = 5)
 	private BigDecimal open;
 	
+	@Column(precision = 10, scale = 5)
 	private BigDecimal high;
 
+	@Column(precision = 10, scale = 5)
 	private BigDecimal low;
 
 	@ManyToOne(fetch = FetchType.EAGER)

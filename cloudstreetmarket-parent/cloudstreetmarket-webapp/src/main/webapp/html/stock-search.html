@@ -26,7 +26,7 @@
 						<div class="span9" id="startWithSection">
 							 <h4>List companies starting with:</h4>
 							  <div class="btn-group" data-ng-repeat="letter in letters">
-							    <button class="btn btn-mini btn-margin-right" ng-class="{'btn-success': startWith !== letter}" ng-click="setStartWith(letter)">{{letter}}</button>
+							    <button class="btn btn-mini btn-margin-right" ng-class="{'btn-success': startWith !== letter}" ng-click="setStartWith($event, letter)">{{letter}}</button>
 							  </div>
 						</div> 
 					</fieldset>

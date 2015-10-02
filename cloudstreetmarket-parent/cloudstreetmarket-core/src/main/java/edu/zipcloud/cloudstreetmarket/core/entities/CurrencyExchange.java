@@ -20,22 +20,25 @@ public class CurrencyExchange extends AbstractId<String> {
 
 	private String name;
 
-	@Column(name="daily_latest_value")
+	@Column(name="daily_latest_value", precision = 10, scale = 5)
 	private BigDecimal dailyLatestValue;
 
-	@Column(name="daily_latest_change")
+	@Column(name="daily_latest_change", precision = 10, scale = 5)
 	private BigDecimal dailyLatestChange;
 
-	@Column(name="daily_latest_change_pc")
+	@Column(name="daily_latest_change_pc", precision = 10, scale = 5)
 	private BigDecimal dailyLatestChangePercent;
 
-	@Column(name = "previous_close")
+	@Column(name = "previous_close", precision = 10, scale = 5)
 	private BigDecimal previousClose;
 
+	@Column(precision = 10, scale = 5)
 	private BigDecimal open;
 	
+	@Column(precision = 10, scale = 5)
 	private BigDecimal bid;
 
+	@Column(precision = 10, scale = 5)
 	private BigDecimal ask;
 
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

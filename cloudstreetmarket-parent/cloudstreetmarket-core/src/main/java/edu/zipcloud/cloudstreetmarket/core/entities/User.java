@@ -72,6 +72,7 @@ public class User extends AbstractId<String> implements UserDetails{
 	@Enumerated(EnumType.STRING)
 	private SupportedCurrency currency;
 
+	@Column(precision = 10, scale = 5)
 	private BigDecimal balance;
 	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)

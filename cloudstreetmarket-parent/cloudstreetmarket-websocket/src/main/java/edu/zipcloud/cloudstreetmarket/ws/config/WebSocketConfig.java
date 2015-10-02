@@ -19,7 +19,7 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 
 import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
 
-@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.ws","edu.zipcloud.cloudstreetmarket.core","edu.zipcloud.cloudstreetmarket.shared"})
+@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.ws","edu.zipcloud.cloudstreetmarket.shared"})
 @EnableScheduling
 @EnableAsync
 @EnableRabbit

@@ -41,6 +41,7 @@
 	<filter>
 	    <filter-name>springSessionRepositoryFilter</filter-name>
 	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	    <async-supported>true</async-supported>
 	</filter>
 	<filter-mapping>
 	    <filter-name>springSessionRepositoryFilter</filter-name>
@@ -61,6 +62,7 @@
 	<filter>
 	    <filter-name>openEntityManagerInViewFilter</filter-name>
 	    <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	    <async-supported>true</async-supported>
 	    <init-param>
 		    <param-name>singleSession</param-name>
 		    <param-value>true</param-value>

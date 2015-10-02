@@ -64,26 +64,6 @@ import edu.zipcloud.core.util.DateUtil;
 @Service
 @Transactional(readOnly = true)
 public class StockProductServiceOfflineImpl extends StockProductServiceImpl implements StockProductServiceOffline {
-	
-	/*
-	 * // JDBC DataSource pointing to the DB where connection data is stored
-DataSource dataSource = ...;
-
-// locator for factories needed to construct Connections when restoring from persistent form
-ConnectionFactoryLocator connectionFactoryLocator = ...;
-
-// encryptor of connection authorization credentials
-TextEncryptor encryptor = ...;
-
-UsersConnectionRepository usersConnectionRepository =
-    new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, encryptor);
-
-// create a connection repository for the single-user 'kdonald'
-ConnectionRepository repository = usersConnectionRepository.createConnectionRepository("kdonald");
-
-// find kdonald's primary Facebook connection
-Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.class);
-	 */
 
 	@Override
 	@Transactional
@@ -128,6 +108,7 @@ Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.clas
 				
 				Set<StockProduct> updatableProducts = yahooQuotes.stream()
 					.filter(yq -> StringUtils.isNotBlank(yq.getExchange()))
+					.filter(yq -> updatableTickers.get(yq.getId()) != null)
 					.map(yq -> {
 						StockQuote sq = new StockQuote(yq, updatableTickers.get((yq.getId())));
 						return syncProduct(updatableTickers.get((yq.getId())), sq);

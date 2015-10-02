@@ -43,6 +43,8 @@
 	        <security:frame-options policy="SAMEORIGIN" />
 	    </security:headers>
     </security:http>
+    
+	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
 	<security:authentication-manager alias="authenticationManager">
     	<security:authentication-provider user-service-ref='communityServiceImpl'>
@@ -50,7 +52,6 @@
     	</security:authentication-provider>
   	</security:authentication-manager>
 	
-	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
     <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:port="6379"/>
 	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>

@@ -4,7 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -14,7 +14,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @ComponentScan("edu.zipcloud.cloudstreetmarket.api")
 @EnableWebSocketMessageBroker
 @EnableScheduling
-@Async
+@EnableAsync
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	public static final String ACTIVITY_FEED_ENDPOINT = "/users/feed/add";

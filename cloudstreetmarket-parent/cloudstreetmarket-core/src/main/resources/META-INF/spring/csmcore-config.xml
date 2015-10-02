@@ -41,10 +41,10 @@
             <value>jdbc:mysql://localhost/csm</value>
         </property>
         <property name="username">
-            <value>root</value>
+            <value>csm_tech</value>
         </property>
         <property name="password">
-            <value>csmrootpwd</value>
+            <value>csmDB1$55</value>
         </property>
         <property name="defaultReadOnly">
         	<value>false</value>
@@ -67,6 +67,7 @@
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.archive.autodetection">class, hbm</prop>
                 <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						
         </property>
 	</bean>
@@ -171,7 +172,7 @@
 		<constructor-arg><null/></constructor-arg>
 		<constructor-arg><null/></constructor-arg>
 	</bean>
-	
+
 	<task:annotation-driven scheduler="wsScheduler"/>
 	<task:scheduler id="wsScheduler" pool-size="1000"/>
 	<task:executor id="taskExecutor"/>

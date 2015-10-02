@@ -25,15 +25,19 @@ public class Quote extends AbstractTableGeneratedId<Long> {
 
 	private Date date;
 	
+	@Column(precision = 10, scale = 5)
 	private double open;
 	
-	@Column(name = "previous_close")
+	@Column(name = "previous_close", precision = 10, scale = 5)
 	private double previousClose;
 	
+	@Column(precision = 10, scale = 5)
 	private double last;
 
+	@Column(precision = 10, scale = 5)
 	private double high;
 	
+	@Column(precision = 10, scale = 5)
 	private double low;
 
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

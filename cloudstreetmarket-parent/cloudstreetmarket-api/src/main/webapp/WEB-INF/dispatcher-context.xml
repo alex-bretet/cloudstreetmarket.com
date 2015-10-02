@@ -111,16 +111,9 @@
 	
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
-	<!--  first following line creates a rabbit connection factory with specified parameters -->
     <rabbit:connection-factory id="connectionFactory" host="localhost" username="guest" password="guest" />
-    
-    <!-- obtain admin rights to create the an exchange -->
     <rabbit:admin connection-factory="connectionFactory" />
- 
     <rabbit:template id="messagingTemplate" connection-factory="connectionFactory"/>
-
-	<task:annotation-driven scheduler="myScheduler"/>
-	<task:scheduler id="myScheduler" pool-size="1000"/>
 
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler />

@@ -39,6 +39,7 @@ import edu.zipcloud.cloudstreetmarket.core.daos.IndexQuoteRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.entities.IndexQuote;
+import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
@@ -95,7 +96,12 @@ public class IndexServiceOnlineImpl extends IndexServiceImpl implements IndexSer
 		if(askedContent.size() != recentlyUpdated.size()){
 			
 			String guid = AuthenticationUtil.getPrincipal().getUsername();
-			String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+			SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(guid);
+			if(socialUser == null){
+				return;
+			}
+			
+			String token = socialUser.getAccessToken();
 			Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 
 	        if (connection != null) {
@@ -159,7 +165,13 @@ public class IndexServiceOnlineImpl extends IndexServiceImpl implements IndexSer
 		Preconditions.checkNotNull(type, "ChartType must not be null!");
 		
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
-		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+		SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(guid);
+		if(socialUser == null){
+			return;
+		}
+		
+		String token = socialUser.getAccessToken();
+		
         Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 
         if (connection != null) {

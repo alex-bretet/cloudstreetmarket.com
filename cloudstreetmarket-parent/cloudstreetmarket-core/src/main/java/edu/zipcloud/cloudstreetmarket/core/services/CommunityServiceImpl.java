@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -178,7 +179,11 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Override
 	public UserDTO getUser(String username) {
-		UserDTO userDTO = new UserDTO(userRepository.findOne(username));
+		User user = userRepository.findOne(username);
+		if(user == null){
+			throw new ResourceNotFoundException();
+		}
+		UserDTO userDTO = new UserDTO(user);
 		hideSensitiveFieldsIfNecessary(userDTO);
 		return userDTO;
 	}

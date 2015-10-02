@@ -37,7 +37,7 @@
 						<div class="span9" id="startWithSection">
 							 <h4>List companies starting with:</h4>
 							  <div class="btn-group" data-ng-repeat="letter in letters">
-							    <button class="btn btn-mini btn-margin-right" ng-class="{'btn-success': startWith !== letter}" ng-click="setStartWith(letter)">{{letter}}</button>
+							    <button class="btn btn-mini btn-margin-right" ng-class="{'btn-success': startWith !== letter}" ng-click="setStartWith($event, letter)">{{letter}}</button>
 							  </div>
 						</div> 
 					</fieldset>
@@ -91,17 +91,19 @@
 					<th/>
 				</tr>
 				<tr data-ng-repeat="value in stocks | filter: currencyPopulated">
-					<td><a href="/portal/stock-{{value.id}}"><strong>{{value.name}}</strong></a></td>
-					<td>{{value.id}}</td>
-					<td>{{value.currency | uppercase}}</td>
-					<td><strong>{{value.dailyLatestValue| number:2}}</strong></td>
-					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange | number:2}}</strong></td>
-					<td ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent | number:2}}%</strong></td>
-					<td>{{value.high | number:2}}</td>
-					<td>{{value.low | number:2}}</td>
-					<td>{{value.exchangeId}}</td>
+					<td><div id="td_{{value.domId}}_name"><strong><a href="/portal/stock-{{value.id}}">{{value.name}}</a></strong></div></td>
+					<td id="td_{{value.domId}}_id">{{value.id}}</td>
+					<td id="td_{{value.domId}}_currency">{{value.currency | uppercase}}</td>
+					<td id="td_{{value.domId}}_dailyLatestValue"><strong>{{value.dailyLatestValue| number:2}}</strong></td>
+					<td id="td_{{value.domId}}_dailyLatestChange" ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChange | number:2}}</strong></td>
+					<td id="td_{{value.domId}}_dailyLatestChangePercent" ng-class="(value.dailyLatestChange >=0) ? 'text-success' : 'text-error'"><strong>{{value.dailyLatestChangePercent | number:2}}%</strong></td>
+					<td id="td_{{value.domId}}_high">{{value.high | number:2}}</td>
+					<td id="td_{{value.domId}}_low">{{value.low | number:2}}</td>
+					<td id="td_{{value.domId}}_exchangeId">{{value.exchangeId}}</td>
 					<td><a href=""><i class="fa fa-area-chart"></i></a></td>
 				</tr>
+				
+				
 			</table>
 			
 			<div class="pagination pagination-right pagination-mini block-pagination" >

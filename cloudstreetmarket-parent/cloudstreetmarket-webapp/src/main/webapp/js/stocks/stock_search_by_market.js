@@ -6,7 +6,7 @@ cloudStreetMarketApp.factory("stockTableByMarketFactory", function (httpAuth) {
     }
 });
 
-cloudStreetMarketApp.controller('stockSearchByMarketController', function PaginationCtrl($scope, stockTableByMarketFactory){
+cloudStreetMarketApp.controller('stockSearchByMarketController', function PaginationCtrl($scope, $interval, httpAuth, stockTableByMarketFactory, dynStockSearchService){
 	  $scope.loadPage = function () {
 		  stockTableByMarketFactory.get($scope.pageSize, $scope.currentPage, $scope.stockSearch, $scope.startWith, $scope.sortedField, $scope.sortDirection, $scope.selectedMarket)
 			.success(function(data, status, headers, config) {
@@ -21,12 +21,13 @@ cloudStreetMarketApp.controller('stockSearchByMarketController', function Pagina
 	    $scope.currentPage = pageNo-1;
 	    $scope.loadPage();
 	  };
-	  initPaginationStockS_BM ($scope);
+	  initPaginationStockS_BM ($scope, $interval, httpAuth, dynStockSearchService);
 	  
 	  /*
 	   * Request spec.
 	   */
-	  $scope.setStartWith = function (startWith) {
+	  $scope.setStartWith = function (event, startWith) {
+		  event.preventDefault();
 		  $scope.startWith = (startWith!==$scope.startWith) ? startWith : ""; 
 		  $scope.loadPage();
 	  };
@@ -59,7 +60,12 @@ cloudStreetMarketApp.controller('stockSearchByMarketController', function Pagina
  * Static functions
  */
 function updatePaginationStockS_BM ($scope, data){
+	$scope.tickers = [];
 	$scope.stocks = data.content;
+	$scope.stocks.forEach(function(entry) {
+		$scope.tickers.push(entry.id);
+		entry['domId'] = entry.id.replace(/\W/g, '');
+	});
     $scope.currentPage = data.page.number;
     $scope.paginationCurrentPage = data.page.number+1;
     $scope.paginationTotalItems =  data.page.totalElements;//number total of objects
@@ -76,7 +82,7 @@ function updateSortParamStockS_BM ($scope, field){
 	  $scope.loadPage()
 }
 
-function initPaginationStockS_BM ($scope){
+function initPaginationStockS_BM ($scope, $interval, httpAuth, dynStockSearchService){
 	$scope.sortedField = "name";
 	$scope.sortDirection = "asc";
 	
@@ -86,4 +92,68 @@ function initPaginationStockS_BM ($scope){
 	$scope.paginationCurrentPage = 1;
 	$scope.pageSize = 15;
 	$scope.stocks = [];
+	
+
+	if(httpAuth.isUserAuthenticated()){
+		
+		$scope.socket = new SockJS('/ws/channels/private');
+		$scope.stompClient = Stomp.over($scope.socket);
+		$scope.socket.onclose = function() {
+			$scope.stompClient.disconnect();
+		};
+		$scope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
+
+			var intervalPromise = $interval(function() {
+				$scope.stompClient.send('/app/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), {}, JSON.stringify($scope.tickers)); 
+	          }, 5000);
+			
+	        $scope.$on(
+	                "$destroy",
+	                function( event ) {
+	                	$interval.cancel( intervalPromise );
+	                	$scope.stompClient.disconnect();
+	                }
+	        );
+
+			$scope.stompClient.subscribe('/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), function(message){
+				 var freshStocks = JSON.parse(message.body);
+				 $scope.stocks.forEach(function(existingStock) {
+
+					 freshStocks.forEach(function(newEntry) {
+						 if(existingStock.id == newEntry.id){
+							 if(existingStock.dailyLatestValue != newEntry.dailyLatestValue){
+								 dynStockSearchService.triggerAnim(existingStock.id, "dailyLatestValue", existingStock, newEntry);
+								 existingStock.dailyLatestValue = newEntry.dailyLatestValue;
+							 }
+							 if(existingStock.dailyLatestChange != newEntry.dailyLatestChange){
+								 existingStock.dailyLatestChange = newEntry.dailyLatestChange;
+							 }
+							 if(existingStock.dailyLatestChangePercent != newEntry.dailyLatestChangePercent){
+								 existingStock.dailyLatestChangePercent = newEntry.dailyLatestChangePercent;
+							 }
+							 if(existingStock.previousClose != newEntry.previousClose){
+								 existingStock.previousClose = newEntry.previousClose;
+							 }
+							 if(existingStock.open != newEntry.open){
+								 existingStock.open = newEntry.open;
+							 }
+							 if(existingStock.high != newEntry.high){
+								 dynStockSearchService.triggerAnim(existingStock.id, "high", existingStock, newEntry);
+								 existingStock.high = newEntry.high;
+							 }
+							 if(existingStock.low != newEntry.low){
+								 dynStockSearchService.triggerAnim(existingStock.id, "low", existingStock, newEntry);
+								 existingStock.low = newEntry.low;
+							 }
+						 }
+					 });
+				 });
+				 
+	        	 $scope.$apply();
+	        	 dynStockSearchService.fadeOutAnim();
+
+	         });
+	    });
+		
+	};
 }

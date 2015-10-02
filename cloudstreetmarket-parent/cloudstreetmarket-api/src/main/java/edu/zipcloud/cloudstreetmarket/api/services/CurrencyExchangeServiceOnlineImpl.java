@@ -17,6 +17,7 @@ import com.google.common.collect.Lists;
 import edu.zipcloud.cloudstreetmarket.core.converters.YahooQuoteToCurrencyExchangeConverter;
 import edu.zipcloud.cloudstreetmarket.core.daos.CurrencyExchangeRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
+import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
@@ -61,7 +62,12 @@ public class CurrencyExchangeServiceOnlineImpl implements CurrencyExchangeServic
 
 	private void updateCurrencyExchangeFromYahoo(String ticker) {
 		String guid = AuthenticationUtil.getPrincipal().getUsername();
-		String token = usersConnectionRepository.getRegisteredSocialUser(guid).getAccessToken();
+		SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(guid);
+		if(socialUser == null){
+			return;
+		}
+		
+		String token = socialUser.getAccessToken();
 		Connection<Yahoo2> connection = connectionRepository.getPrimaryConnection(Yahoo2.class);
 
         if (connection == null) {
