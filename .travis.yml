@@ -16,3 +16,4 @@ cache:
 branches:
   only:
     - master
+
