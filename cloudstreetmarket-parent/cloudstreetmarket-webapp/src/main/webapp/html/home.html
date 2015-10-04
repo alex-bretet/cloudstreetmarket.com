@@ -88,10 +88,12 @@
 								<a href="/portal/stock-{{value.valueShortId}}">{{value.valueShortId}}</a> <span translate="screen.home.feed.action.at">at</span> <i class="fa fa-{{value.currency | lowercase}}"></i><b>{{value.price | number:2}}</b> ({{value.currency | uppercase}})
 								<p class="itemDate">{{value.date}} 
 									<span ng-if="userAuthenticated() && value.amountOfLikes > 0">
+									
 										<img ng-if="value.amountOfLikes > 1 || (value.amountOfLikes == 1 && !value.userHasLiked)" src="img/icon-finder/1441188631_4_like.png"
 									    	ng-class="(value.userHasLiked) ? 'like-img like-img-liked': 'like-img'"
 									    	ng-click="(value.userHasLiked) ? unLike(value): like(value.id)"
 									    	alt="like"/>
+									    	
 										<img ng-if="value.amountOfLikes == 1 && value.userHasLiked" ng-src="{{image}}"
 									    	ng-class="'like-img like-img-liked'"
 										    ng-mouseover="image='img/icon-finder/1441189591_1_like.png'"

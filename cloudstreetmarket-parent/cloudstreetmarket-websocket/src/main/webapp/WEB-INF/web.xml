@@ -29,7 +29,7 @@
 		    <param-name>contextConfigLocation</param-name>
 		    <param-value>/WEB-INF/dispatcher-context.xml</param-value>
 	    </init-param>
-	    <load-on-startup>-1</load-on-startup>
+	    <load-on-startup>1</load-on-startup>
 	    <async-supported>true</async-supported>
 	</servlet>
   
@@ -37,6 +37,16 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+	    <filter-name>springSessionRepositoryFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	    <async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+	    <filter-name>springSessionRepositoryFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -47,16 +57,6 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
-	    <filter-name>springSessionRepositoryFilter</filter-name>
-	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	    <async-supported>true</async-supported>
-	</filter>
-	<filter-mapping>
-	    <filter-name>springSessionRepositoryFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 </web-app>

@@ -21,6 +21,8 @@ package edu.zipcloud.cloudstreetmarket.shared.services;
 
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.I18N_INDICES_INDEX_NOT_FOUND;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ import org.springframework.social.yahoo.module.ChartHistoTimeSpan;
 import org.springframework.social.yahoo.module.ChartType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.collect.Lists;
 
 import edu.zipcloud.cloudstreetmarket.core.daos.ChartIndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.ExchangeRepository;
@@ -83,7 +87,15 @@ public class IndexServiceImpl implements IndexService {
 		else if(marketId!=null){
 			return indexRepository.findByMarket(marketRepository.findOne(marketId), pageable);
 		}
-		return indexRepository.findAll(pageable);
+		else{
+			List<String> fixedSelection = Lists.newArrayList("^GDAXI", "^FTSE","^N225","^KS11", "^DJX", "^TWII");
+			return indexRepository.findByIdIn(fixedSelection, pageable);
+		}
+	}
+	
+	@Override
+	public Page<Index> getIndicesByIdIn(List<String> tickers, Pageable pageable) {
+		return indexRepository.findByIdIn(tickers, pageable);
 	}
 
 	@Override

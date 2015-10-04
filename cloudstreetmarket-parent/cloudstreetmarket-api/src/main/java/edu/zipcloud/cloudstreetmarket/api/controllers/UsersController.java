@@ -138,7 +138,7 @@ public class UsersController extends CloudstreetApiWCI{
 	}
 	
 	@RequestMapping(method=GET)
-	@ResponseStatus(HttpStatus.PARTIAL_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "List user accounts", notes = "")
 	public Page<UserDTO> search(
 			@Or({
@@ -147,6 +147,14 @@ public class UsersController extends CloudstreetApiWCI{
             @ApiParam(value="Contains filter") @RequestParam(value="cn", defaultValue="", required=false) String contain, 
             @ApiIgnore @PageableDefault(size=10, page=0, sort={"balance"}, direction=Direction.DESC) Pageable pageable){
 		return communityService.search(spec, pageable);
+	}
+	
+	@RequestMapping(value="/leaderboard", method=GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Leaderboard", notes = "")
+	public Page<UserDTO> getLeaders(
+            @ApiIgnore @PageableDefault(size=9, page=0, sort={"balanceUSD"}, direction=Direction.DESC) Pageable pageable){
+		return communityService.getLeaders(pageable);
 	}
 
 	@RequestMapping(value="/{username}", method=GET)

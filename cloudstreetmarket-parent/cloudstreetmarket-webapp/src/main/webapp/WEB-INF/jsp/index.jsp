@@ -161,7 +161,7 @@
 									<a href="community" class="dropdown-toggle"><span translate="webapp.main.menu.community">Community</span> <b class="caret"></b></a>
                 					<ul class="dropdown-menu">
                   						<li><a href="/portal/all-users"><i class="fa fa-users fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.community.all.users">All users</span></a></li>
-                  						<li><a href="/portal/leaderboard"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.community.leaderboard">Leaderboard</span></a></li>
+                  						<!-- <li><a href="/portal/leaderboard"><i class="fa fa-line-chart fa-fw" style="margin-right:5px;"></i><span translate="webapp.main.menu.community.leaderboard">Leaderboard</span></a></li> -->
                 					</ul>
 								</li>
 								<li><a href="sources" translate="webapp.main.menu.sources">Sources</a></li>
@@ -290,12 +290,14 @@
 						<!-- end: About -->
 
 						<!-- start: Leaderboard -->
-						<div class="span3">
-						<h3 translate="webapp.footer.leaderboard">Leaderboard</h3>
-						<div class="flickr-widget">
-						<script type="text/javascript" src=""></script>
-						<div class="clear"></div>
-						</div>
+						<div class="span3" ng-controller="leaderBoardFooterController">
+							<h3 translate="webapp.footer.leaderboard">Leaderboard</h3>
+							<div class="flickr-widget">
+								<div class="flickr_badge_image" id="flickr_badge_image{{$index}}" data-ng-repeat="value in leaders">
+									<a href="http://cloudstreetmarket.com/portal/user-{{value.id}}"><img src="{{value.profileImg}}" alt="{{value.id}}" title="{{value.id}}" height="75" width="75"></a>
+								</div>
+								<div class="clear"></div>
+							</div>
 						</div>
 						<!-- end: Leaderboard -->
 				
@@ -438,6 +440,7 @@
 	<script src="js/auth/account_management.js"></script>
 	<script src="js/modals.js"></script>
 	<script src="js/main_menu.js"></script>
+	<script src="js/leaderboard_footer.js"></script>
 	<script src="js/home/home_financial_graph.js"></script>
 	<script src="js/home/home_financial_table.js"></script>
 	<script src="js/home/home_community_activity.js"></script>

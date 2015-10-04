@@ -35,6 +35,7 @@ public interface IndexRepositoryJpa extends JpaRepository<Index, String>{
 	@Query("select t from Index t where t.exchange.market = ?1 and t.name is not null")
 	Page<Index> findByMarket(Market market, Pageable pageable);
 	
+	Page<Index> findByIdIn(List<String> tickers, Pageable pageable);
 	Page<Index> findByExchange(Exchange exchange, Pageable pageable);
 	List<Index> findAll();
 	Page<Index> findAll(Pageable pageable);

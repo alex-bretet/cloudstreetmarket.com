@@ -40,6 +40,7 @@ insert into exchange (id, name, market_id) values('JKT','Jakarta','ASIA_PACIFIC'
 insert into exchange (id, name, market_id) values('KBT','KBT','AFRICA_MIDDLE_EAST');
 insert into exchange (id, name, market_id) values('KLS','Kuala Lumpur','ASIA_PACIFIC');
 insert into exchange (id, name, market_id) values('KOE','KOSDAQ','ASIA_PACIFIC');
+insert into exchange (id, name, market_id) values('KSE','KSE','ASIA_PACIFIC')
 insert into exchange (id, name, market_id) values('KSC','KSE','AFRICA_MIDDLE_EAST');
 insert into exchange (id, name, market_id) values('LIS','Lisbon','EUROPE');
 insert into exchange (id, name, market_id) values('LSE','London','EUROPE');
@@ -308,3 +309,16 @@ insert into industry(label,id) values ('Medical Practitioners',527);
 insert into industry(label,id) values ('Wholesale, Other',759);
 insert into industry(label,id) values ('Closed-End Fund - Foreign',427);
 
+DROP TRIGGER IF EXISTS upd_user_balance_usd;
+
+delimiter //
+CREATE TRIGGER upd_user_balance_usd BEFORE UPDATE ON users
+ FOR EACH ROW
+ BEGIN
+     IF NEW.balance > 0 AND NEW.currency != 'USD' THEN
+         SET NEW.balance_usd  = NEW.balance / (select daily_latest_value from currency_exchange where id = CONCAT('USD', NEW.currency , '=X'));
+     ELSE 
+         SET NEW.balance_usd  = NEW.balance;
+     END IF;
+ END;//
+ 

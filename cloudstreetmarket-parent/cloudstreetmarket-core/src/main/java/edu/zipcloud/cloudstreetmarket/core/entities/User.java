@@ -94,6 +94,9 @@ public class User extends AbstractId<String> implements UserDetails{
 	@Column(precision = 10, scale = 5)
 	private BigDecimal balance;
 	
+	@Column(name="balance_usd", precision = 10, scale = 5)
+	private BigDecimal balanceUSD;
+	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JsonIgnore
 	@XStreamOmitField
@@ -310,6 +313,14 @@ public class User extends AbstractId<String> implements UserDetails{
 
 	public Locale getLocale(){
 		return new Locale.Builder().setLanguage((language ==  null ? SupportedLanguage.EN : language).name().toLowerCase()).build();
+	}
+
+	public BigDecimal getBalanceUSD() {
+		return balanceUSD;
+	}
+
+	public void setBalanceUSD(BigDecimal balanceUSD) {
+		this.balanceUSD = balanceUSD;
 	}
 
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)

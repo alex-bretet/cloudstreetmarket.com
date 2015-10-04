@@ -63,5 +63,6 @@ public interface CommunityService extends UserDetailsService{
 	void alterUserBalance(int quantity, StockQuote quote, User user, UserActivityType userActivityType, CurrencyExchange currencyExchange);
 	boolean isAffordableToUser(int quantity, StockQuote quote, User user, CurrencyExchange currencyExchange);
 	Page<UserActivityDTO> getPublicActivity(Pageable pageable);
+	Page<UserDTO> getLeaders(Pageable pageable);
 	
 }

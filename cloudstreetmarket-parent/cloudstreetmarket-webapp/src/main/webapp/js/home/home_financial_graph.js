@@ -16,7 +16,7 @@ cloudStreetMarketApp.factory("indicesGraphFactory", function (httpAuth) {
             xmlHTTP.send();
         },
         getIndices: function (market) {
-        	return httpAuth.get("/api/indices.json?market="+market+"&size=6");
+        	return httpAuth.get("/api/indices.json?size=6");
         }
     }
 });

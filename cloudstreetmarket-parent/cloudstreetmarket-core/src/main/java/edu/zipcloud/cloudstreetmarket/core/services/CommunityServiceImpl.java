@@ -89,6 +89,8 @@ public class CommunityServiceImpl implements CommunityService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	private String[] reservedUserNames = {"leaderboard"};
+
     private static final String RANDOM_PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!$*";
     private static final int RANDOM_PASSWORD_LENGTH = 12;
     
@@ -131,7 +133,7 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Override
 	public User createUser(User user, Role role) {
-		if(findByUserName(user.getUsername()) != null){
+		if(findByUserName(user.getUsername()) != null || Arrays.asList(reservedUserNames).contains(user.getUsername())){
 			throw new ConstraintViolationException("The provided user name already exists!", null, null);
 		}
 		user.addAuthority(new Authority(user, role));
@@ -142,7 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Override
 	public User createUser(User user, Role[] roles) {
-		if(findByUserName(user.getUsername()) != null){
+		if(findByUserName(user.getUsername()) != null || Arrays.asList(reservedUserNames).contains(user.getUsername())){
 			throw new ConstraintViolationException("The provided user name already exists!", null, null);
 		}
 		
@@ -194,6 +196,19 @@ public class CommunityServiceImpl implements CommunityService {
 	@Secured(ADMIN)
 	public Page<User> findAll(Pageable pageable) {
 		return userRepository.findAll(pageable);
+	}
+	
+	@Override
+	public Page<UserDTO> getLeaders(Pageable pageable) {
+		Page<User> users = userRepository.findAll(pageable);
+		List<UserDTO> result = users.getContent().stream()
+				.map(u -> {
+					UserDTO userDTO = new UserDTO(u);
+					hideSensitiveFieldsIfNecessary(userDTO);
+			        return new UserDTO(u);
+				})
+				.collect(Collectors.toCollection(LinkedList::new));
+			return new PageImpl<>(result, pageable, users.getTotalElements());
 	}
 	
 	@Override

@@ -29,11 +29,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
+
 import edu.zipcloud.cloudstreetmarket.core.daos.ActionRepository;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.AccountActivity;
 import edu.zipcloud.cloudstreetmarket.core.entities.Action;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
+import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Service
 @Transactional(readOnly = true)
@@ -72,7 +75,7 @@ public class GenericActionServiceImpl implements GenericActionService {
 
 	@Override
 	public Page<UserActivityDTO> getPublicActivity(Pageable pageable) {
-		Page<Action> actions = actionRepository.findAll(pageable);
+		Page<Action> actions = actionRepository.findAllByTypeIn(Lists.newArrayList(UserActivityType.REGISTER,UserActivityType.BUY,UserActivityType.SELL), pageable);
 		List<UserActivityDTO> result = new LinkedList<UserActivityDTO>();
 		actions.getContent().forEach(
 				a -> {

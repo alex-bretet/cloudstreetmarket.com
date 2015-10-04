@@ -80,4 +80,9 @@ public class IndexRepositoryImpl implements IndexRepository{
 	public List<Index> save(Iterable<Index> indices) {
 		return repo.save(indices);
 	}
+
+	@Override
+	public Page<Index> findByIdIn(List<String> tickers, Pageable pageable) {
+		return repo.findByIdIn(tickers, pageable);
+	}
 }

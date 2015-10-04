@@ -49,7 +49,9 @@ public class IndexResourceAssembler extends ResourceAssemblerSupport<Index, Inde
 	@Override
 	public IndexResource toResource(Index index) {
 		IndexResource resource = createResourceWithId(index.getId(), index);
-		resource.add(entityLinks.linkToSingleResource(index.getExchange()).withRel(EXCHANGE));
+		if(index.getExchange() != null){
+			resource.add(entityLinks.linkToSingleResource(index.getExchange()).withRel(EXCHANGE));
+		}
 		resource.add(linkTo(methodOn(ChartIndexController.class).get(index.getId(), ".png", null, null, null, null, null, null, null)).withRel(CHART));
 		resource.add(linkTo(methodOn(StockProductController.class).getSeveral(null, null, index.getId(), null, null, null, null)).withRel(COMPONENTS));
 	    return resource;

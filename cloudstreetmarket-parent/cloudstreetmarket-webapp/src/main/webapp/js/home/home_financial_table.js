@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("indicesTableFactory", function (httpAuth) {
     return {
         get: function (market) {
-        	return httpAuth.get("/api/indices.json?market="+market+"&size=6");
+        	return httpAuth.get("/api/indices.json?size=6");
         }
     }
 });

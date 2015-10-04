@@ -115,14 +115,14 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 			StockProduct stockProduct) {
 		
 		TypedQuery<Transaction> sqlQuery = em.createNamedQuery(Transaction.FIND_BY_USER_AND_STOCK, Transaction.class);
-		sqlQuery.setParameter(1,user);
-		sqlQuery.setParameter(2, stockProduct.getId());
+		sqlQuery.setParameter("user",user);
+		sqlQuery.setParameter("productId", stockProduct.getId());
 		sqlQuery.setFirstResult(pageable.getOffset());
 		sqlQuery.setMaxResults(pageable.getPageSize());
 		
 		Query countQuery = em.createNamedQuery(Transaction.COUNT_BY_USER_AND_STOCK);
-		countQuery.setParameter(1,user);
-		countQuery.setParameter(2, stockProduct.getId());
+		countQuery.setParameter("user",user);
+		countQuery.setParameter("productId", stockProduct.getId());
 		Long total=(Long) countQuery.getSingleResult();
 
 		return new PageImpl<Transaction>(sqlQuery.getResultList(), pageable, total);

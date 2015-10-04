@@ -31,9 +31,11 @@ import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 public interface IndexRepository{
 	Page<Index> findByMarket(Market findOne, Pageable pageable);
 	Page<Index> findByExchange(Exchange exchange, Pageable pageable);
+	Page<Index> findByIdIn(List<String> tickers, Pageable pageable);
 	List<Index> findAll();
 	Page<Index> findAll(Pageable pageable);
 	Index findOne(String id);
 	Index save(Index index);
 	List<Index> save(Iterable<Index> indices);
+
 }

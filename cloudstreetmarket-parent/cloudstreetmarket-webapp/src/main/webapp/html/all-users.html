@@ -40,7 +40,7 @@
 				</tr>
 				<tr data-ng-repeat="value in users">
 					<td><a href="/portal/user-{{value.id}}"><img src="{{value.profileImg}}" style="height:30px;padding-right:15px;"><strong>{{value.id}}</strong></a></td>
-					<td>{{value.currency}} {{value.balance}}</td>
+					<td>{{value.currency}} {{value.balance | number:2}}</td>
 				</tr>
 			</table>
 			

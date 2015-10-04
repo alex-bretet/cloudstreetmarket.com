@@ -20,7 +20,7 @@ cloudStreetMarketApp.filter('orderObjectBy', function() {
 	  };
 	});
 
-cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $timeout, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
+cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $rootScope, $timeout, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
 
 	$scope.init = function () {
 		$scope.loadMore();
@@ -56,40 +56,55 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 					}
 					
 					var timer = $timeout( function(){ 
-							$scope.socket = new SockJS('/ws/channels/users/broadcast');
-							$scope.stompClient = Stomp.over($scope.socket);
-							$scope.socket.onclose = function() {
-								$scope.stompClient.disconnect();
+							$rootScope.socket = new SockJS('/ws/channels/users/broadcast');
+							$rootScope.stompClient = Stomp.over($scope.socket);
+							$rootScope.socket.onclose = function() {
+								$rootScope.stompClient.disconnect();
 							};
-							$scope.stompClient.connect({}, function(frame) {
-								$scope.stompClient.subscribe('/topic/actions', function(message){
+							$rootScope.stompClient.connect({}, function(frame) {
+								$rootScope.stompClient.subscribe('/topic/actions', function(message){
 									 var newActivity = JSON.parse(message.body);
 									 newActivity.urlProfileMiniPicture = $scope.renamePictureToMini(newActivity.urlProfilePicture);
 									 if(newActivity.userAction.type == 'LIKE'){
+
 							        	 if($scope.communityActivities[newActivity.targetActionId]){
-							        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
-							        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
-							        		 if(newActivity.userName == httpAuth.getLoggedInUser()){
-							        			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+											 //if we receive an activity that is from another user
+							        		 if(newActivity.userName != httpAuth.getLoggedInUser()){
+								        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
+								        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
+								        		 $scope.$apply();
+							        		 }
+							        		 else{
+							        			 //If user hasn't already liked in scope (realtime update from ajax)
+							        			 //Possible from another tab
+							        			 if(!$scope.communityActivities[newActivity.targetActionId].userHasLiked){
+									        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
+									        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
+									        		 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+									        		 $scope.$apply();
+							        			 }
 							        		 }
 							        	 }
+
 									 }
 									 else if(newActivity.userAction.type == 'COMMENT'){
 							        	 if($scope.communityActivities[newActivity.targetActionId]){
 							        		 $scope.communityActivities[newActivity.targetActionId].amountOfComments = $scope.communityActivities[newActivity.targetActionId].amountOfComments +1;
 							        	 }
+							        	 $scope.$apply();
 									 }
 									 else{
 										 $scope.communityActivities[newActivity.id]=newActivity;
+										 $scope.$apply();
 									 }
-						        	 $scope.$apply();
+						        	 
 						         });
 						    });
 					        $scope.$on(
 					                "$destroy",
 					                function( event ) {
 					                	$timeout.cancel( timer );
-					                	$scope.stompClient.disconnect();
+					                	$rootScope.stompClient.disconnect();
 					                }
 					        );
 					}, 5000);
@@ -111,7 +126,14 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 			  targetActionId: targetActionId,
 			  userId: httpAuth.getLoggedInUser()
 		};
-		genericAPIFactory.post("/api/actions/likes", likeAction);
+		genericAPIFactory.post("/api/actions/likes", likeAction).success(
+				function(usersData, status, headers, config) {
+					if(status==201){
+						$scope.communityActivities[targetActionId].amountOfLikes = $scope.communityActivities[targetActionId].amountOfLikes+1;
+						$scope.communityActivities[targetActionId].userHasLiked = true;
+						$scope.communityActivities[targetActionId].authorOfLikes[httpAuth.getLoggedInUser()] = usersData.id;
+					}
+				});
 	}
 	
 	$scope.unLike = function (el){
@@ -122,7 +144,7 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 					 if($scope.communityActivities[el.id].amountOfLikes > 0){
 						 $scope.communityActivities[el.id].amountOfLikes = $scope.communityActivities[el.id].amountOfLikes-1;
 						 delete $scope.communityActivities[el.id].authorOfLikes[httpAuth.getLoggedInUser()];
-						 $scope.communityActivities[el.id].userHasLiked = true;
+						 $scope.communityActivities[el.id].userHasLiked = false;
 					 }
 				}
 			});

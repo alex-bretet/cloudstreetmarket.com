@@ -19,6 +19,8 @@
  **/
 package edu.zipcloud.cloudstreetmarket.shared.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
@@ -39,5 +41,7 @@ public interface IndexService{
 			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
 			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
 			Integer intradayHeight);
+	
+	Page<Index> getIndicesByIdIn(List<String> tickers, Pageable pageable);
 
 }

@@ -44,7 +44,7 @@ cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl
 	    $scope.currentPage = pageNo-1;
 	    $scope.loadPage();
 	  };
-	  initPaginationStockS ($scope, $interval, httpAuth, dynStockSearchService);
+	  initPaginationStockS ($scope, $rootScope, $interval, httpAuth, dynStockSearchService);
 	  
 	  /*
 	   * Request spec.
@@ -106,7 +106,7 @@ function updateSortParamStockS ($scope, field){
 	  $scope.loadPage()
 }
 
-function initPaginationStockS ($scope, $interval, httpAuth, dynStockSearchService){
+function initPaginationStockS ($scope, $rootScope, $interval, httpAuth, dynStockSearchService){
 	$scope.sortedField = "name";
 	$scope.sortDirection = "asc";
 	
@@ -119,18 +119,18 @@ function initPaginationStockS ($scope, $interval, httpAuth, dynStockSearchServic
 
 	if(httpAuth.isUserAuthenticated()){
 		
-		$scope.socket = new SockJS('/ws/channels/private');
-		$scope.stompClient = Stomp.over($scope.socket);
-		$scope.socket.onclose = function() {
-			$scope.stompClient.disconnect();
+		$rootScope.socket = new SockJS('/ws/channels/private');
+		$rootScope.stompClient = Stomp.over($scope.socket);
+		$rootScope.socket.onclose = function() {
+			$rootScope.stompClient.disconnect();
 		};
-		$scope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
+		$rootScope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
 
 			var intervalPromise = $interval(function() {
-				$scope.stompClient.send('/app/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), {}, JSON.stringify($scope.tickers)); 
+				$rootScope.stompClient.send('/app/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), {}, JSON.stringify($scope.tickers)); 
 	          }, 5000);
 			
-	        $scope.$on(
+			$scope.$on(
 	                "$destroy",
 	                function( event ) {
 	                	$interval.cancel( intervalPromise );
@@ -138,7 +138,7 @@ function initPaginationStockS ($scope, $interval, httpAuth, dynStockSearchServic
 	                }
 	        );
 			
-			$scope.stompClient.subscribe('/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), function(message){
+			$rootScope.stompClient.subscribe('/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), function(message){
 				 var freshStocks = JSON.parse(message.body);
 				 $scope.stocks.forEach(function(existingStock) {
 

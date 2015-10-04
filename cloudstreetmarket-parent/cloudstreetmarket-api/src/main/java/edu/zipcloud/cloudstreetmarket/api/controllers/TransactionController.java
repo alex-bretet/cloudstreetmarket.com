@@ -22,7 +22,6 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
-
 import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +54,6 @@ import com.wordnik.swagger.annotations.ApiParam;
 import edu.zipcloud.cloudstreetmarket.api.assemblers.TransactionResourceAssembler;
 import edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource;
 import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeServiceOnline;
-
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
@@ -89,13 +87,13 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	public PagedResources<TransactionResource> search(
 			@ApiParam(value="User id: WHATEVERKEY") @RequestParam(value="user", required=false) String userName,
 			@ApiParam(value="Quote id: 123L") @RequestParam(value="quote:[\\d]+", required=false) Long quoteId,
-			@ApiParam(value="Product ticker: FB") @RequestParam(value="ticker:[a-zA-Z0-9-:]+", required=false) String ticker,
+			@ApiParam(value="Product ticker: FB") @RequestParam(value="ticker", required=false) String ticker, 
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"lastUpdate"}, direction=Direction.DESC) Pageable pageable,
 			HttpServletResponse response
 			){
 		return pagedAssembler.toResource(transactionService.findBy(pageable, userName, quoteId, ticker), assembler);
 	}
-	
+
 	@RequestMapping(value="/{id}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get a transaction", notes = "Return one transaction")
