@@ -37,8 +37,16 @@
         <security:intercept-url pattern="/oauth2/**" access="permitAll"/>
         <security:intercept-url pattern="/basic.html" access="hasRole('ROLE_BASIC')"/>
         <security:intercept-url pattern="/**" access="permitAll"/>
-        <security:session-management session-authentication-strategy-ref="sas"/>
+        <security:session-management session-authentication-strategy-ref="sas" />
     </security:http>
+    
+	<security:authentication-manager alias="authenticationManager">
+    	<security:authentication-provider user-service-ref='communityServiceImpl'>
+    		<security:password-encoder ref="passwordEncoder"/>
+    	</security:authentication-provider>
+  	</security:authentication-manager>
+	
+	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
 	<bean id="sas" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
 
@@ -48,13 +56,6 @@
         <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
     </bean>
 
-	<security:authentication-manager alias="authenticationManager">
-    	<security:authentication-provider user-service-ref='communityServiceImpl'>
-    		<security:password-encoder ref="passwordEncoder"/>
-    	</security:authentication-provider>
-  	</security:authentication-manager>
-	
-	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
     <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:port="6379"/>
 	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>

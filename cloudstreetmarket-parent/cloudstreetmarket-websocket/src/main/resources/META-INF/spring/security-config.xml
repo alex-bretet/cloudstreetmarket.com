@@ -32,8 +32,14 @@
         <property name="scheme" value="CSM_OAuth2" />
     </bean>
 
-    <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
-    
+    <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+    	<constructor-arg name="repo" ref="httpSessionSecurityContextRepo" />
+	</bean>
+	    
+     <bean id="httpSessionSecurityContextRepo" class='org.springframework.security.web.context.HttpSessionSecurityContextRepository'>
+        <property name='allowSessionCreation' value='false' />
+    </bean> 
+	    
     <security:http create-session="never" 
         authentication-manager-ref="authenticationManager" entry-point-ref="authenticationEntryPoint">
         <security:custom-filter ref="securityContextPersistenceFilter" before="FORM_LOGIN_FILTER" />
@@ -52,7 +58,6 @@
     	</security:authentication-provider>
   	</security:authentication-manager>
 	
-
     <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:port="6379"/>
 	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
 	<bean class="edu.zipcloud.cloudstreetmarket.core.util.RootPathCookieHttpSessionStrategy"/>
