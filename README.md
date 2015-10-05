@@ -19,9 +19,6 @@ cd cloudstreetmarket.com
 mvn clean install
 ```
 
-## To Continue
-Further configuration instructions can be found on the WIKI
-
 ## IDE setup
 
 For the usage inside an IDE do the following:
