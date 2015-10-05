@@ -1,6 +1,13 @@
-Welcome,
+This file is intended for the OSS Awards reviewers:
 
-Please find a review of the business features of the application on the WIKI:
-https://github.com/alex-bretet/cloudstreetmarket.com/wiki/Business-features-overview.
+Hi and welcome,
+
+Please find for the review some extra resources in th WIKI:
+https://github.com/alex-bretet/cloudstreetmarket.com/wiki/Business-features-overview
+https://github.com/alex-bretet/cloudstreetmarket.com/wiki/Technical features overview
+
+And some more installation instructions (if you wanted to run the application locally):
+https://github.com/alex-bretet/cloudstreetmarket.com/wiki/More-installation-instructions
 
 Best regards,
+Alex Bretet
