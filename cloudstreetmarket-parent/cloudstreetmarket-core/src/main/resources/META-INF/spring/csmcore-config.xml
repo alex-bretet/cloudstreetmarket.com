@@ -38,13 +38,13 @@
             <value>com.mysql.jdbc.Driver</value>
         </property>
         <property name="url">
-            <value>jdbc:mysql://localhost/csm</value>
+            <value>${db.connection.url}</value>
         </property>
         <property name="username">
-            <value>csm_tech</value>
+            <value>${db.user.name}</value>
         </property>
         <property name="password">
-            <value>csmDB1$55</value>
+            <value>${db.user.passsword}</value>
         </property>
         <property name="defaultReadOnly">
         	<value>false</value>

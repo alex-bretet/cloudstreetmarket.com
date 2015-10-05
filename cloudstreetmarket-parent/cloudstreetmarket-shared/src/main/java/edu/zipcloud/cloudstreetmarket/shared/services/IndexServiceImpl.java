@@ -29,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -145,6 +147,6 @@ public class IndexServiceImpl implements IndexService {
 		spec = Specifications.where(spec).and(new ChartSpecifications<ChartIndex>().indexEquals(index));
 		log.debug("DB CALL");
 
-		return chartIndexRepository.findAll(spec).stream().findFirst().orElse(null);
+		return chartIndexRepository.findAll(spec,new Sort(Direction.DESC,"id")).stream().findFirst().orElse(null);
 	}
 }
