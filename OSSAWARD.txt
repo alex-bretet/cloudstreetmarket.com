@@ -1,3 +1,6 @@
 Welcome,
 
+Please find a review of the business features of the application on the WIKI:
+https://github.com/alex-bretet/cloudstreetmarket.com/wiki/Business-features-overview.
+
 Best regards,
