@@ -19,6 +19,9 @@
  **/
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -31,6 +34,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -130,6 +134,13 @@ public class Quote extends AbstractTableGeneratedId<Long> {
 
 	public void setTransactions(Set<Transaction> transactions) {
 		this.transactions = transactions;
+	}
+
+	public boolean isExpired(int ttlInMinutes){
+		Instant now = new Date().toInstant();
+		LocalDateTime localNow = now.atZone(ZoneId.systemDefault()).toLocalDateTime();
+		LocalDateTime localLastUpdate = DateUtils.addMinutes(lastUpdate, ttlInMinutes).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		return localLastUpdate.isBefore(localNow);
 	}
 
 	//Avoid fetching lazy collections at this stage (session may be closed)

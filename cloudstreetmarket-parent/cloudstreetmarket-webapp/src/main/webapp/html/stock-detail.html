@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="span10">
-	
+
 		<div class="alert" ng-class="(transactionSuccess) ?  'alert-success' : 'alert-danger'" ng-if="transactionComplete">
 			<div ng-if="transactionSuccess">
 				 <strong translate>screen.stock.detail.transaction.congratulations</strong> <br/><span translate>screen.stock.detail.transaction.you.have</span> {{data.type.type == 'BUY' ? 'screen.stock.detail.transaction.bought' : 'screen.stock.detail.transaction.sold' | translate}} {{data.quantity}} {{stock.id}} {{data.type.type == 'BUY' ? 'screen.stock.detail.transaction.at' : 'screen.stock.detail.transaction.for' | translate}} {{data.type == 'BUY' ? quote.ask : quote.bid | currency:stock.currency+" "| uppercase}} &nbsp;&nbsp;<a href="/portal/wallet" translate>screen.stock.detail.transaction.see.your.wallet</a>
@@ -30,7 +30,7 @@
 					<h3 ng-class="stock.dailyLatestChange >= 0 ? 'text-success' : 'text-error'">{{stock.dailyLatestChange > 0 ? '+' : ''}}{{stock.dailyLatestChange | number}} {{stock.currency | uppercase}} ({{stock.dailyLatestChange > 0 ? '+' : ''}}{{stock.dailyLatestChangePercent}}%)</h3>
 				</div>
 			</div>
-			<div style="margin-top:10px;" class="span5">
+			<div style="margin-top:10px;margin-bottom:30px;" class="span5">
 				<img id="detailChart"/>
 			</div>
 

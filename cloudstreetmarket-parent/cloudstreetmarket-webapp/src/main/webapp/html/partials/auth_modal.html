@@ -4,12 +4,19 @@
    <h3>{{modalOptions.headerText}}</h3>
  </div>
  <div class="modal-body center_div centered " align="center">
-	
+
 	   <div ng-controller="OAuth2Controller">
-		   <form name="oAuthForm" id="oAuthForm" method="POST" action="/api/signin/yahoo">
-		   		<input type="hidden" id="csrfParams" name="paramName" value="paramName"/> 
-		   		<button class="social-yahoo-connect" type='button' ng-click="socialLogin()" style="padding: 0;border: none;" onclick='return false;'></button>
-			</form>
+	   
+			<div class="alert alert-success">
+				<strong>Beware !</strong> You should definitely be using a Yahoo! account to log in, otherwise you won't be able to pull fresh data nor process transactions!<br/>
+				
+			   <form name="oAuthForm" id="oAuthForm" method="POST" action="/api/signin/yahoo">
+			   		<input type="hidden" id="csrfParams" name="paramName" value="paramName"/> 
+			   		<button class="social-yahoo-connect" type='button' ng-click="socialLogin()" style="padding: 0;border: none;" onclick='return false;'></button>
+				</form>
+				
+		   </div>
+
 	   	</div>
 	   <h4>OR</h4>
 	   <hr/>

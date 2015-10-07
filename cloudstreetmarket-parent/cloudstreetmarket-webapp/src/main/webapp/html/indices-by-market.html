@@ -13,6 +13,13 @@
 	
 		<div class="title"><h3 translate="screen.indices.by.market.sub.title">INDICES BY MARKET</h3></div>
 		<br/>
+		
+		<div class="alert alert-danger" ng-if="!userAuthenticated()">
+			<strong translate>screens.user.should.register.yahoo.ohh</strong> <span translate>screens.user.should.register.yahoo</span>
+	    </div>
+	    
+		<br/>
+		
 		<ul class="tabs-nav">
 			<li ng-class="(market === 'EUROPE') ? 'active': ''"><a showtab="" href="/portal/indices-EUROPE" translate>screen.indices.by.market.table.europe</a></li>
 			<li ng-class="(market === 'US') ? 'active': ''"><a showtab="" href="/portal/indices-US" translate>screen.indices.by.market.table.us</a></li>

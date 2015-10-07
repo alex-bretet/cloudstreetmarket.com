@@ -84,7 +84,7 @@ public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 		}
 		catch(ResourceNotFoundException e){
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat(File.separator+"graph_not_found.png");
+	    	String pathToYahooPicture = env.getProperty("user.home").concat(env.getProperty("pictures.yahoo.path").concat(File.separator+"graph_not_found.png"));
 	    	log.error("Resource not found: "+pathToYahooPicture, e);
 			bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
 		}

@@ -64,12 +64,18 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
         registry.addEndpoint(ACTIVITY_FEED_ENDPOINT)
         	.setAllowedOrigins(protocol.concat(realmName))
         	.withSockJS()
-        	.setClientLibraryUrl(Constants.SOCKJS_CLIENT_LIB);
+        	.setClientLibraryUrl(Constants.SOCKJS_CLIENT_LIB)
+        	.setStreamBytesLimit(512 * 1024)
+            .setHttpMessageCacheSize(1000)
+            .setDisconnectDelay(30 * 1000);
     
 	    registry.addEndpoint(PRIVATE_STOCKS_ENDPOINT)
 	    	.setAllowedOrigins(protocol.concat(realmName))
 	    	.withSockJS()
-			.setClientLibraryUrl(Constants.SOCKJS_CLIENT_LIB);
+			.setClientLibraryUrl(Constants.SOCKJS_CLIENT_LIB)
+        	.setStreamBytesLimit(512 * 1024)
+            .setHttpMessageCacheSize(1000)
+            .setDisconnectDelay(30 * 1000);
 	}
 
     @Override

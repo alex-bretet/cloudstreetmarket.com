@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.social.yahoo.module.ChartHistoMovingAverage;
@@ -147,6 +149,6 @@ public class StockProductServiceImpl implements StockProductService {
 		}
 		
 		spec = Specifications.where(spec).and(new ChartSpecifications<ChartStock>().indexEquals(index));
-		return chartStockRepository.findAll(spec).stream().findFirst().orElse(null);
+		return chartStockRepository.findAll(spec,new Sort(Direction.DESC,"id")).stream().findFirst().orElse(null);
 	}
 }

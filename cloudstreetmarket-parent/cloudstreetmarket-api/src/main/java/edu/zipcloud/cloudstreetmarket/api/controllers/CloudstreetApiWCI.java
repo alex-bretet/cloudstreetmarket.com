@@ -74,8 +74,12 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 
     @Value("${realm.name}")
     private String realmName = "cloudstreetmarket.com";
-    private String authenticationHeaderSequence = " realm=\""+realmName+"\"";
     
+    @Value("${transactions.quotes.ttl.minutes}")
+    public Integer quoteTTLMinutes = 5;
+    
+    private String authenticationHeaderSequence = " realm=\""+realmName+"\"";
+
     @Autowired
 	public Environment env;
     

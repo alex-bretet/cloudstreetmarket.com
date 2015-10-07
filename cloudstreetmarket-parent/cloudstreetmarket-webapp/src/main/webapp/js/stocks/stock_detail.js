@@ -13,9 +13,14 @@ cloudStreetMarketApp.factory("stockDetailFactory", function (httpAuth) {
             // Must include this line - specifies the response type we want
             xmlHTTP.responseType = 'arraybuffer';
             xmlHTTP.onload = function(e){
+
                 var arr = new Uint8Array(this.response);
                 var raw = String.fromCharCode.apply(null,arr);
-                document.getElementById("detailChart").src = "data:image/png;base64,"+btoa(raw);
+                if($("#detailChart")[0]){
+                	$("#detailChart")[0].src = "data:image/png;base64,"+btoa(raw);
+                }
+                
+                
             };
             xmlHTTP.send();
         },
@@ -39,7 +44,7 @@ cloudStreetMarketApp.controller('stockDetailController', function ($scope, httpA
 				$(data.links).each(function(index, value) { 
 					if(value.rel){
 						if(value.rel=="chart"){
-							stockDetailFactory.setGraph(value.href+"?type=HISTO&average=m20");
+							stockDetailFactory.setGraph("/api/charts/stocks/"+data.id+".png?type=INTRADAY&average=m20");
 						}
 						if(value.rel=="exchange"){
 							stockDetailFactory.getUrl(value.href)

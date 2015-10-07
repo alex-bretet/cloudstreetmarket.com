@@ -22,6 +22,9 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 import static edu.zipcloud.cloudstreetmarket.core.entities.Transaction.*;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -35,6 +38,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

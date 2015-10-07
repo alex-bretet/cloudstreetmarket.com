@@ -199,7 +199,7 @@ public class StockProductServiceOnlineImpl extends StockProductServiceImpl imple
 			LocalDateTime dateTime = LocalDateTime.now();
 			String formattedDateTime = dateTime.format(formatter); // "1986-04-08_1230"
 			String imageName = stock.getId().toLowerCase()+"_"+type.name().toLowerCase()+"_"+formattedDateTime+".png";
-	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat(File.separator+imageName);
+	    	String pathToYahooPicture = env.getProperty("user.home").concat(env.getProperty("pictures.yahoo.path")).concat(File.separator+imageName);
 	    	
             try {
                 Path newPath = Paths.get(pathToYahooPicture);

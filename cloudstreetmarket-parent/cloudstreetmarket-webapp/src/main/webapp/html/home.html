@@ -35,7 +35,7 @@
 								<tr data-ng-repeat="value in indicesForTable">
 									<td><a href="/portal/index-{{value.id}}"><b>{{value.name}}</b></a></td>
 									<td style="text-align:right">{{value.dailyLatestValue}}</td>
-									<td class='{{value.style}}' style="text-align:right"><strong>{{value.dailyLatestChangePercent}}%</strong></td>
+									<td class='{{value.style}}' style="text-align:right"><strong>{{value.dailyLatestChangePercent > 0 ? '+' : ''}}{{value.dailyLatestChangePercent}}%</strong></td>
 								</tr>
 							</tbody>
 						</table>

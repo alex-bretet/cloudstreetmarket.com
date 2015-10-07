@@ -12,6 +12,11 @@
 	<div ng-controller="stockSearchController">
 		<div class="span9" >
 			<h2>ALL PRICES SEARCH</h2>
+			
+			<div class="alert alert-danger" ng-if="!userAuthenticated()">
+				<strong translate>screens.user.should.register.yahoo.ohh</strong> <span translate>screens.user.should.register.yahoo</span>
+		    </div>
+
 			<div class="hero-unit form-panel">
 				<form ng-submit="setContains()">
 					<fieldset>

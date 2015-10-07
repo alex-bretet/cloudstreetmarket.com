@@ -13,7 +13,7 @@ cloudStreetMarketApp.controller('homeFinancialTableController', function ($scope
     		dailyIndicesActivity = data.content;
     		if(dailyIndicesActivity){
             	$.each( dailyIndicesActivity, function(index, el ) {
-            		if(el.latestChange >=0){
+            		if(el.dailyLatestChange >=0){
             			dailyIndicesActivity[index].style='text-success';
             		}
             		else{

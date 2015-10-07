@@ -81,6 +81,8 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	@Autowired
 	private TransactionValidator validator;
 	
+	private static final String TRANSACTION_QUOTE_TTL = "transactions.quotes.ttl.minutes";
+	
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get the user transactions", notes = "Return the transactions of a user")
@@ -110,6 +112,10 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 		
 		if(!transaction.getUser().getUsername().equals(getPrincipal().getUsername())){
 			throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_USER_FORBIDDEN));
+		}
+		
+		if(transaction.getQuote().isExpired(quoteTTLMinutes)){
+			throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_QUOTE_EXPIRED));
 		}
 		
 		CurrencyExchange currencyExchange = null;

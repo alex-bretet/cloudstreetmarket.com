@@ -33,6 +33,7 @@ public class I18nKeys {
 	//Errors
 	public static final String I18N_USER_GUID_UNKNOWN_TO_PROVIDER = "error.api.user.control.guid.unknown.to.provider";
 	public static final String I18N_TRANSACTIONS_USER_FORBIDDEN = "error.api.transactions.control.wrong.user";
+	public static final String I18N_TRANSACTIONS_QUOTE_EXPIRED = "error.api.transactions.control.quote.expired";
 	public static final String I18N_TRANSACTIONS_CANT_AFFORD = "error.api.transactions.control.cant.afford";
 	public static final String I18N_TRANSACTIONS_DONT_OWN_QUANTITY = "error.api.transactions.control.dont.own.quantity";
 	
