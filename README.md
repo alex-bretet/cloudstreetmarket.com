@@ -13,11 +13,11 @@ Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wik
 1. You must have a %JAVA_HOME% environment variable pointing to the root directory of a JDK8.
 2. From the command line do:
 
-```
-git clone https://github.com/alex-bretet/cloudstreetmarket.com.git
-cd cloudstreetmarket.com
-mvn clean install
-```
+  ```
+  git clone https://github.com/alex-bretet/cloudstreetmarket.com.git
+  cd cloudstreetmarket.com
+  mvn clean install
+  ```
 
 3. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
 
