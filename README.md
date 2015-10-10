@@ -18,6 +18,7 @@ git clone https://github.com/alex-bretet/cloudstreetmarket.com.git
 cd cloudstreetmarket.com
 mvn clean install
 ```
+
 3. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
 
 ## IDE setup
