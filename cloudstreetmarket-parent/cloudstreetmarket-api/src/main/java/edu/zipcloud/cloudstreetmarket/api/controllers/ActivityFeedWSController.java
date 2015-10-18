@@ -28,7 +28,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,9 +44,6 @@ public class ActivityFeedWSController extends CloudstreetApiWCI{
 	@Autowired
 	private CommunityService communityService;
 
-	@Autowired
-	private SimpMessagingTemplate template;
-	
     @MessageMapping(ACTIVITY_FEED_ENDPOINT)
     @SendTo(TOPIC_ACTIVITY_FEED_PATH)
     public UserActivityDTO handle(UserActivityDTO message) throws Exception {

@@ -98,7 +98,7 @@ public class LikeActionController extends CloudstreetApiWCI<LikeAction> {
 		
 		likeAction = likeActionService.create(likeAction);
 
-		messagingTemplate.convertAndSend(Constants.JMS_USER_ACTIVITY_QUEUE, new UserActivityDTO(likeAction));
+		messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(likeAction));
 
 		LikeActionResource resource = assembler.toResource(likeAction);
 		response.setHeader(LOCATION_HEADER, resource.getLink("self").getHref());

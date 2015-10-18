@@ -98,13 +98,14 @@ function initPaginationStockS_BM ($scope, $interval, httpAuth, dynStockSearchSer
 		
 		$scope.socket = new SockJS('/ws/channels/private');
 		$scope.stompClient = Stomp.over($scope.socket);
+		var queueId = httpAuth.generatedQueueId();
 		$scope.socket.onclose = function() {
 			$scope.stompClient.disconnect();
 		};
 		$scope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
 
 			var intervalPromise = $interval(function() {
-				$scope.stompClient.send('/app/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), {}, JSON.stringify($scope.tickers)); 
+				$scope.stompClient.send('/app/queue/CSM_QUEUE_'+queueId, {}, JSON.stringify($scope.tickers)); 
 	          }, 5000);
 			
 	        $scope.$on(
@@ -115,7 +116,7 @@ function initPaginationStockS_BM ($scope, $interval, httpAuth, dynStockSearchSer
 	                }
 	        );
 
-			$scope.stompClient.subscribe('/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), function(message){
+			$scope.stompClient.subscribe('/queue/CSM_QUEUE_'+queueId, function(message){
 				 var freshStocks = JSON.parse(message.body);
 				 $scope.stocks.forEach(function(existingStock) {
 

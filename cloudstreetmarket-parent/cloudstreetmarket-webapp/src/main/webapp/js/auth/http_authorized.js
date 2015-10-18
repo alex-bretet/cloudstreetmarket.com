@@ -91,6 +91,9 @@ cloudStreetMarketApp.factory("httpAuth", function ($http, $cookies) {
         },
         getLoggedInUser: function () {
         	return sessionStorage.getItem('authenticatedCSM');
+        },
+        generatedQueueId: function () {
+        	return sessionStorage.getItem('authenticatedCSM')+"_"+Math.floor((Math.random() * 100000000) + 1);
         }
     }
 });

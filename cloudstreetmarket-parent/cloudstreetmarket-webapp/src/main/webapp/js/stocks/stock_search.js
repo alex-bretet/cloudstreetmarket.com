@@ -29,7 +29,7 @@ cloudStreetMarketApp.factory("stockTableFactory", function (httpAuth) {
     }
 });
 
-cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl($scope, $rootScope, $interval, $timeout, httpAuth, stockTableFactory, dynStockSearchService){
+cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl($scope, $scope, $interval, $timeout, httpAuth, stockTableFactory, dynStockSearchService){
 	  $scope.loadPage = function () {
 		  stockTableFactory.get($scope.pageSize, $scope.currentPage, $scope.stockSearch, $scope.startWith, $scope.sortedField, $scope.sortDirection)
 			.success(function(data, status, headers, config) {
@@ -44,7 +44,7 @@ cloudStreetMarketApp.controller('stockSearchController', function PaginationCtrl
 	    $scope.currentPage = pageNo-1;
 	    $scope.loadPage();
 	  };
-	  initPaginationStockS ($scope, $rootScope, $interval, httpAuth, dynStockSearchService);
+	  initPaginationStockS ($scope, $scope, $interval, httpAuth, dynStockSearchService);
 	  
 	  /*
 	   * Request spec.
@@ -106,7 +106,7 @@ function updateSortParamStockS ($scope, field){
 	  $scope.loadPage()
 }
 
-function initPaginationStockS ($scope, $rootScope, $interval, httpAuth, dynStockSearchService){
+function initPaginationStockS ($scope, $scope, $interval, httpAuth, dynStockSearchService){
 	$scope.sortedField = "name";
 	$scope.sortDirection = "asc";
 	
@@ -118,17 +118,19 @@ function initPaginationStockS ($scope, $rootScope, $interval, httpAuth, dynStock
 	$scope.stocks = [];
 
 	if(httpAuth.isUserAuthenticated()){
+
+		$scope.socket = new SockJS('/ws/channels/private');
+		$scope.stompClient = Stomp.over($scope.socket);
+		var queueId = httpAuth.generatedQueueId();
 		
-		$rootScope.socket = new SockJS('/ws/channels/private');
-		$rootScope.stompClient = Stomp.over($scope.socket);
-		$rootScope.socket.onclose = function() {
-			$rootScope.stompClient.disconnect();
+		$scope.socket.onclose = function() {
+			$scope.stompClient.disconnect();
 		};
-		$rootScope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
+		$scope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
 
 			var intervalPromise = $interval(function() {
-				$rootScope.stompClient.send('/app/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), {}, JSON.stringify($scope.tickers)); 
-	          }, 5000);
+				$scope.stompClient.send('/app/queue/CSM_QUEUE_'+queueId, {}, JSON.stringify($scope.tickers)); 
+	        }, 5000);
 			
 			$scope.$on(
 	                "$destroy",
@@ -138,7 +140,7 @@ function initPaginationStockS ($scope, $rootScope, $interval, httpAuth, dynStock
 	                }
 	        );
 			
-			$rootScope.stompClient.subscribe('/queue/CSM_DEV_'+httpAuth.getLoggedInUser(), function(message){
+			$scope.stompClient.subscribe('/queue/CSM_QUEUE_'+queueId, function(message){
 				 var freshStocks = JSON.parse(message.body);
 				 $scope.stocks.forEach(function(existingStock) {
 

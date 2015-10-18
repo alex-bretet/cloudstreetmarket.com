@@ -120,7 +120,7 @@ public class UsersController extends CloudstreetApiWCI{
 		}
 		else{
 			user = communityService.createUser(user, ROLE_BASIC);
-			messagingTemplate.convertAndSend(Constants.JMS_USER_ACTIVITY_QUEUE, new UserActivityDTO(user.getActions().iterator().next()));
+			messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(user.getActions().iterator().next()));
 			communityService.signInUser(user);
 		}
 		

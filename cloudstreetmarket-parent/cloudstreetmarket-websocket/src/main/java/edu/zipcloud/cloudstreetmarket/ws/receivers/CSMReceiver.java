@@ -33,7 +33,7 @@ public class CSMReceiver {
 	@Autowired
 	protected SimpMessagingTemplate simpMessagingTemplate;
 	
-	@RabbitListener(queues = Constants.JMS_USER_ACTIVITY_QUEUE)
+	@RabbitListener(queues = Constants.AMQP_USER_ACTIVITY_QUEUE)
 	public void handleMessage(UserActivityDTO message) {
 	    simpMessagingTemplate.convertAndSend(Constants.WS_TOPIC_ACTIVITY_FEED_PATH, message);
 	}

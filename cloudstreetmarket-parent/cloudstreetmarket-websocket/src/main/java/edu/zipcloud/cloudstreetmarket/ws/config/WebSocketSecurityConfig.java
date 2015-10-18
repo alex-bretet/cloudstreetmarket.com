@@ -30,8 +30,10 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
 	
     @Override
 	protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
+    	
 		messages
 		.simpMessageDestMatchers(Constants.WS_TOPIC_ACTIVITY_FEED_PATH, "/queue/*", "/app/queue/*").permitAll();
+		
 	}
 
 	@Override

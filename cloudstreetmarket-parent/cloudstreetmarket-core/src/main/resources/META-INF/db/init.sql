@@ -40,7 +40,7 @@ insert into Exchange (id, name, market_id) values('JKT','Jakarta','ASIA_PACIFIC'
 insert into Exchange (id, name, market_id) values('KBT','KBT','AFRICA_MIDDLE_EAST');
 insert into Exchange (id, name, market_id) values('KLS','Kuala Lumpur','ASIA_PACIFIC');
 insert into Exchange (id, name, market_id) values('KOE','KOSDAQ','ASIA_PACIFIC');
-insert into Exchange (id, name, market_id) values('KSE','KSE','ASIA_PACIFIC')
+insert into Exchange (id, name, market_id) values('KSE','KSE','ASIA_PACIFIC');
 insert into Exchange (id, name, market_id) values('KSC','KSE','AFRICA_MIDDLE_EAST');
 insert into Exchange (id, name, market_id) values('LIS','Lisbon','EUROPE');
 insert into Exchange (id, name, market_id) values('LSE','London','EUROPE');

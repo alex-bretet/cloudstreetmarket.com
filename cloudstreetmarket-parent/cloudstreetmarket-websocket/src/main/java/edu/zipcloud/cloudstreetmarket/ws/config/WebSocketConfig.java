@@ -19,11 +19,11 @@
  **/
 package edu.zipcloud.cloudstreetmarket.ws.config;
 
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
+import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.ACTIVITY_FEED_ENDPOINT;
+import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.PRIVATE_STOCKS_ENDPOINT;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -37,8 +37,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
-import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
-
 @ComponentScan(value={"edu.zipcloud.cloudstreetmarket.ws","edu.zipcloud.cloudstreetmarket.shared"})
 @EnableScheduling
 @EnableAsync
@@ -50,21 +48,20 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
 
     @Value("${realm.name}")
     private String realmName = "cloudstreetmarket.com";
-	
+
     @Value("${configured.protocol}")
     private String protocol = "http://";
-    
+
 	public static final String USER_ROOT_PATH = "/user";
 	public static final String TOPICS_ROOT_PATH = "/topic";
 	public static final String QUEUES_ROOT_PATH = "/queue";
 	public static final String APPLICATION_PREFIX_PATH = "/app";
-	
+
 	@Override
 	protected void configureStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint(ACTIVITY_FEED_ENDPOINT)
         	.setAllowedOrigins(protocol.concat(realmName))
         	.withSockJS()
-        	.setClientLibraryUrl(Constants.SOCKJS_CLIENT_LIB)
         	.setStreamBytesLimit(512 * 1024)
             .setHttpMessageCacheSize(1000)
             .setDisconnectDelay(30 * 1000);
@@ -72,7 +69,6 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
 	    registry.addEndpoint(PRIVATE_STOCKS_ENDPOINT)
 	    	.setAllowedOrigins(protocol.concat(realmName))
 	    	.withSockJS()
-			.setClientLibraryUrl(Constants.SOCKJS_CLIENT_LIB)
         	.setStreamBytesLimit(512 * 1024)
             .setHttpMessageCacheSize(1000)
             .setDisconnectDelay(30 * 1000);
@@ -83,7 +79,7 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
         registry.enableStompBrokerRelay(TOPICS_ROOT_PATH, QUEUES_ROOT_PATH);
         registry.setApplicationDestinationPrefixes(APPLICATION_PREFIX_PATH);
     }
-   
+
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		registration.taskExecutor().corePoolSize(Runtime.getRuntime().availableProcessors() *4);
@@ -94,12 +90,11 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
 	public void configureClientOutboundChannel(ChannelRegistration registration) {
 		registration.taskExecutor().corePoolSize(Runtime.getRuntime().availableProcessors() *4);
 	}
-	
+
 	@Override
 	public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
 		registration
 			.setSendTimeLimit(15*1000) //max time allowed when sending
 			.setSendBufferSizeLimit(512*1024); //set 0 to disable buffering
 	}
-	
 }

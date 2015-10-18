@@ -143,7 +143,7 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			}
 		}
 		
-		messagingTemplate.convertAndSend(Constants.JMS_USER_ACTIVITY_QUEUE, new UserActivityDTO(transaction));
+		messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(transaction));
 
 		TransactionResource resource = assembler.toResource(transaction);
 		response.setHeader(LOCATION_HEADER, resource.getLink("self").getHref());

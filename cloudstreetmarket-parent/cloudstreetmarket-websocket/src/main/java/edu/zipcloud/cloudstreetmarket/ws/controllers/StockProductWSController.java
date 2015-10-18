@@ -22,6 +22,8 @@ package edu.zipcloud.cloudstreetmarket.ws.controllers;
 import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,10 +46,14 @@ public class StockProductWSController extends CloudstreetWebSocketWCI<StockProdu
 	@Autowired
 	private StockProductServiceOffline stockProductService;
 
-    @MessageMapping("/queue/CSM_DEV_{username}")
-    @SendTo("/queue/CSM_DEV_{username}")
+    @MessageMapping("/queue/CSM_QUEUE_{queueId}")
+    @SendTo("/queue/CSM_QUEUE_{queueId}")
 	@PreAuthorize("hasRole('OAUTH2')")
-    public List<StockProduct> sendContent(@Payload List<String> tickers, @DestinationVariable("username") String username) throws Exception {
+    public List<StockProduct> sendContent(@Payload List<String> tickers, @DestinationVariable("queueId") String queueId) throws Exception {
+    	String username = extractUserFromQueueId(queueId);
+    	if(!getPrincipal().getUsername().equals(username)){
+    		throw new IllegalAccessError("/queue/CSM_QUEUE_"+queueId);
+    	}
 		return stockProductService.gather(username, tickers.toArray(new String[tickers.size()]));
     }
     
@@ -57,4 +63,14 @@ public class StockProductWSController extends CloudstreetWebSocketWCI<StockProdu
 	public String info(HttpServletRequest request) {
 	    return "v0";
 	}
+    
+    private static String extractUserFromQueueId(String token){
+    	Pattern p = Pattern.compile("_[0-9]+$");
+    	Matcher m = p.matcher(token);
+    	String sessionNumber = "";
+    	if(m.find()){
+    		sessionNumber = m.group();
+    	}
+    	return token.replaceAll(sessionNumber, "");
+    }
 }
