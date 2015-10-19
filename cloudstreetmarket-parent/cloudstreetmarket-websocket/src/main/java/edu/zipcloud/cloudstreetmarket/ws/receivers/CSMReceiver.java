@@ -25,7 +25,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
-import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
+import edu.zipcloud.cloudstreetmarket.core.util.Constants;
 
 @Component
 public class CSMReceiver {

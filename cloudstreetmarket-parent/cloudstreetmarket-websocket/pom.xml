@@ -39,15 +39,8 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
-			<artifactId>cloudstreetmarket-shared</artifactId>
-			<version>${csm.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
 			<artifactId>cloudstreetmarket-core</artifactId>
-			<version>${csm.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

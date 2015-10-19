@@ -20,6 +20,7 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -33,6 +34,10 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.social.yahoo.module.YahooQuote;
+import org.springframework.social.yahoo.module.YahooQuote.Builder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -87,6 +92,24 @@ public class StockProduct extends Product implements Serializable{
 		setId(id);
 	}
 
+	public StockProduct(String id, String name, BigDecimal high,
+			BigDecimal low, BigDecimal dailyLatestValue,
+			BigDecimal dailyLatestChange, BigDecimal dailyLatestChangePercent,
+			BigDecimal previousClose, BigDecimal open, Exchange exchange,
+			String currency) {
+		this.id = id;
+		this.name = name;
+		this.high = high;
+		this.low = low;
+		this.dailyLatestValue = dailyLatestValue;
+		this.dailyLatestChange = dailyLatestChange;
+		this.dailyLatestChangePercent = dailyLatestChangePercent;
+		this.previousClose = previousClose;
+		this.open = open;
+		this.exchange = exchange;
+		this.currency = currency;
+	}
+
 	public Industry getIndustry() {
 		return industry;
 	}
@@ -119,6 +142,80 @@ public class StockProduct extends Product implements Serializable{
 		this.quote = quote;
 	}
 
+	public static class Builder {
+
+    	private String id;
+    	private String name;
+    	private BigDecimal high;
+    	private BigDecimal low;
+    	private BigDecimal dailyLatestValue;
+    	private BigDecimal dailyLatestChange;
+    	private BigDecimal dailyLatestChangePercent;
+    	private BigDecimal previousClose;
+    	private BigDecimal open;
+    	private Exchange exchange;
+    	private String currency;
+    	
+        public Builder withId(String id) {
+        	this.id = id;
+            return this;
+        }
+        
+        public Builder withName(String name) {
+        	this.name = name;
+            return this;
+        }
+        
+        public Builder withOpen(BigDecimal open) {
+        	this.open = open;
+            return this;
+        }
+        
+        public Builder withPreviousClose(BigDecimal previousClose) {
+        	this.previousClose = previousClose;
+            return this;
+        }
+        
+        public Builder withDailyLatestValue(BigDecimal dailyLatestValue) {
+        	this.dailyLatestValue = dailyLatestValue;
+            return this;
+        }
+        
+        public Builder withDailyLatestChange(BigDecimal dailyLatestChange) {
+        	this.dailyLatestChange = dailyLatestChange;
+            return this;
+        }
+        
+        public Builder withDailyLatestChangePercent(BigDecimal dailyLatestChangePercent) {
+        	this.dailyLatestChangePercent = dailyLatestChangePercent;
+            return this;
+        }
+        
+        public Builder withHigh(BigDecimal high) {
+        	this.high = high;
+            return this;
+        }
+        
+        public Builder withLow(BigDecimal low) {
+        	this.low = low;
+            return this;
+        }
+
+        public Builder withExchange(Exchange exchange) {
+        	this.exchange = exchange;
+            return this;
+        }
+        
+        public Builder withCurrency(String currency) {
+        	this.currency = currency;
+            return this;
+        }
+
+        public StockProduct build() {
+            return new StockProduct(id, name, high, low, dailyLatestValue, dailyLatestChange, dailyLatestChangePercent, previousClose, open, exchange, currency);
+        }
+    }
+	
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {

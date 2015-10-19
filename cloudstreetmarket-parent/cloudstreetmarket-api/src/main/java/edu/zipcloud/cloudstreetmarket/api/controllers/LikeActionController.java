@@ -23,11 +23,10 @@ import static edu.zipcloud.cloudstreetmarket.api.resources.LikeActionResource.AC
 import static edu.zipcloud.cloudstreetmarket.api.resources.LikeActionResource.LIKES;
 import static edu.zipcloud.cloudstreetmarket.api.resources.LikeActionResource.LIKES_PATH;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.I18N_TRANSACTIONS_USER_FORBIDDEN;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -56,7 +55,7 @@ import edu.zipcloud.cloudstreetmarket.api.resources.LikeActionResource;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.LikeAction;
 import edu.zipcloud.cloudstreetmarket.core.services.LikeActionService;
-import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
+import edu.zipcloud.cloudstreetmarket.core.util.Constants;
 
 @Api(value = LIKES, description = "Like actions") // Swagger annotation
 @RestController

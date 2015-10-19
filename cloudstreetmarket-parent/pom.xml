@@ -24,9 +24,10 @@
 		<java.uel.version>3.0.0</java.uel.version>
 		<servlet-api.version>3.1.0</servlet-api.version>
 		<dom4j.version>1.6.1</dom4j.version>
-		<junit.version>4.4</junit.version>
+		<junit.version>4.6</junit.version>
 		<commons-lang3.version>3.2</commons-lang3.version>
 		<commons-collections.version>3.2</commons-collections.version>
+		<commons.codec.version>1.9</commons.codec.version>
 		<persistence.api>1.0.2</persistence.api>
 		<jee.version>7.0</jee.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
@@ -46,7 +47,14 @@
 		<xstream.version>1.4.3</xstream.version>
 		<projectreactor.version>2.0.5.RELEASE</projectreactor.version>
 		<guava.version>18.0</guava.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mockito.version>1.9.5</mockito.version>
+		
+		<tomcat.version>8.0.24</tomcat.version>
+		<rest.assured.version>2.7.0</rest.assured.version>
+
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 	</properties>
 
 	<dependencyManagement>
@@ -56,6 +64,11 @@
 				<groupId>edu.zipcloud</groupId>
 				<artifactId>zipcloud-core</artifactId>
 				<version>${zipcloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.zipcloud.cloudstreetmarket</groupId>
+				<artifactId>cloudstreetmarket-core</artifactId>
+				<version>${csm.version}</version>
 			</dependency>
 
 			<!-- Spring dependencies -->
@@ -124,11 +137,6 @@
 			  <artifactId>spring-data-rest-webmvc</artifactId>
 			  <version>${spring.data.rest.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-oxm</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
 		    <dependency>
 		      <groupId>org.springframework.data</groupId>
 		      <artifactId>spring-data-jpa</artifactId>
@@ -178,11 +186,6 @@
 		        <artifactId>spring-hateoas</artifactId>
 		        <version>${spring.hateoas.version}</version>
 		    </dependency>
-			<dependency>
-			   <groupId>org.springframework</groupId>
-			   <artifactId>spring-websocket</artifactId>
-			   <version>${spring.version}</version>
-			</dependency>
 			<dependency>
 			   <groupId>org.springframework</groupId>
 			   <artifactId>spring-messaging</artifactId>
@@ -254,11 +257,11 @@
 			</dependency>
 
 			<!--  Session -->
-		<dependency>
-			<groupId>org.springframework.session</groupId>
-			<artifactId>spring-session</artifactId>
-			<version>1.0.2.RELEASE</version>
-		</dependency>
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session</artifactId>
+				<version>1.0.2.RELEASE</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-pool2</artifactId>
@@ -415,6 +418,16 @@
 		      <artifactId>junit</artifactId>
 		      <version>${junit.version}</version>
 		    </dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mockito.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.restassured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>${rest.assured.version}</version>
+			</dependency>
 
 			<!-- Web dependencies -->
 			<dependency>
@@ -480,21 +493,20 @@
 				<version>${guava.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>1.2</version>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons.codec.version}</version>
 			</dependency>
-
+			
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<plugins>
-		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
+				<version>3.3</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -511,6 +523,12 @@
 		        <configuration>
 		          <jvm>${JAVA_HOME}/bin/java</jvm>
 		          <forkMode>once</forkMode>
+				  <includes>
+				 	<include>**/*Test.java</include>
+			      </includes>
+		          <excludes>
+			         <exclude>**/*IT.java</exclude>
+			      </excludes>
 		        </configuration>
 			</plugin>
 			<plugin>
@@ -535,8 +553,39 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+			   <groupId>com.googlecode.flyway</groupId>
+			   <artifactId>flyway-maven-plugin</artifactId>
+			   <version>2.3.1</version>
+			   <configuration>
+			      <driver>${database.driver}</driver>
+			      <url>${database.url}</url>
+			      <serverId>${database.serverId}</serverId>
+			      <schemas>
+			      	<schema>${database.name}</schema>
+			      </schemas>
+			      <locations>
+			      	<location>filesystem:${user.home}/app/db/migration</location>
+			      </locations>
+			      <initOnMigrate>true</initOnMigrate>
+				  <sqlMigrationPrefix>Migration-</sqlMigrationPrefix>
+				  <sqlMigrationSuffix>.sql</sqlMigrationSuffix>
+				  <placeholderPrefix>#[</placeholderPrefix>
+				  <placeholderSuffix>]</placeholderSuffix>
+				  <placeholderReplacement>true</placeholderReplacement>
+				  <placeholders>
+				  	<db.name>${database.name}</db.name>
+				  </placeholders>
+			   </configuration>
+                <dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.6</version>
+					</dependency>
+                </dependencies>
+			</plugin>
 		</plugins>
-		
 		
 		<pluginManagement>
 		    <plugins>
@@ -568,12 +617,37 @@
 		</pluginManagement>
 	</build>
 
+	<profiles>
+	  <profile>
+	      <id>flyway-dev</id>
+	      <properties>
+	         <database.name>csm</database.name>
+	         <database.driver>com.mysql.jdbc.Driver</database.driver>
+	         <database.url>jdbc:mysql://localhost</database.url>
+	         <database.serverId>flyway-dev</database.serverId>
+	      </properties>
+	  </profile>
+	</profiles>
+
+	 <pluginRepositories>
+		<pluginRepository>
+		  <id>apache.snapshots</id>
+		  <name>Apache Snapshots</name>
+		  <url>https://repository.apache.org/content/repositories/snapshots</url>
+		  <releases>
+		    <enabled>false</enabled>
+		  </releases>
+		  <snapshots>
+		    <enabled>true</enabled>
+		  </snapshots>
+		</pluginRepository>
+	 </pluginRepositories>
+
 	<modules>
 		<module>cloudstreetmarket-webapp</module>
 		<module>cloudstreetmarket-core</module>
-		<module>cloudstreetmarket-shared</module>
 		<module>cloudstreetmarket-api</module>
 		<module>cloudstreetmarket-websocket</module>
-  </modules>
-
+  	</modules>
+	
 </project>

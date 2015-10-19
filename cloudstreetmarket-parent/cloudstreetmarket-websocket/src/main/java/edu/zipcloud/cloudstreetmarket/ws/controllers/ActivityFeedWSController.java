@@ -19,7 +19,7 @@
  **/
 package edu.zipcloud.cloudstreetmarket.ws.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 
 import javax.servlet.http.HttpServletRequest;
 

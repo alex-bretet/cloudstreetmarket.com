@@ -30,12 +30,13 @@ import org.springframework.social.yahoo.module.ChartType;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartIndex;
 import edu.zipcloud.cloudstreetmarket.core.entities.Index;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
-import edu.zipcloud.cloudstreetmarket.shared.services.IndexService;
+import edu.zipcloud.cloudstreetmarket.core.services.IndexService;
 
 public interface IndexServiceOnline extends IndexService{
 
 	Page<Index> gather(String exchangeId, MarketId marketId,
 			Pageable pageable);
+	
 	Index gather(String indexId);
 	
 	ChartIndex gather(String indexId, ChartType type, ChartHistoSize histoSize,

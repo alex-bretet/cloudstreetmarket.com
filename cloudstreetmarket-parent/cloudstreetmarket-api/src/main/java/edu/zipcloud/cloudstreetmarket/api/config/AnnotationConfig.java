@@ -39,7 +39,7 @@ import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
  * The Class AnnotationConfig.
  */
 @Configuration
-@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.api","edu.zipcloud.cloudstreetmarket.core","edu.zipcloud.cloudstreetmarket.shared"})
+@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.api","edu.zipcloud.cloudstreetmarket.core"})
 @EnableSwagger //Loads the spring beans required by the framework
 @EnableHypermediaSupport(type = { HypermediaType.HAL })
 @EnableEntityLinks //Loads Hateoas EntityLinks bea

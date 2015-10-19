@@ -19,12 +19,7 @@
  **/
 package edu.zipcloud.cloudstreetmarket.ws.controllers;
 
-import static javax.ws.rs.HttpMethod.DELETE;
-import static javax.ws.rs.HttpMethod.GET;
-import static javax.ws.rs.HttpMethod.HEAD;
-import static javax.ws.rs.HttpMethod.OPTIONS;
-import static javax.ws.rs.HttpMethod.POST;
-import static javax.ws.rs.HttpMethod.PUT;
+import static javax.ws.rs.HttpMethod.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +35,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
-import edu.zipcloud.cloudstreetmarket.core.entities.User;
+import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
@@ -88,7 +83,7 @@ public class CloudstreetWebSocketWCI<T extends Identifiable<?>> extends WebConte
 	   return AuthenticationUtil.getPrincipal();
 	}
 	
-	public User getAuthenticated(){
+	public UserDTO getAuthenticated(){
 		UserDetails userDetail = getPrincipal();
 		if(userDetail != null){
 			return communityService.findByLogin(userDetail.getUsername());

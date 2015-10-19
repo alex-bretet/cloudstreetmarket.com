@@ -39,7 +39,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 public interface CommunityService extends UserDetailsService{
 	User findByUserName(String userName);
-	User findByLogin(String userName);
+	UserDTO findByLogin(String userName);
 	
 	Page<User> findAll(Pageable pageable);
 	User createUser(User user, Role role);
@@ -47,16 +47,14 @@ public interface CommunityService extends UserDetailsService{
 	User hydrate(User user);
 	User updateUser(User user);
 	User createUserWithBalance(User user, Role[] roles, BigDecimal balance);
-	User createUser(String nickName, String email, String password);
 	User findOne(String username);
 	UserDTO getUser(String username);
 	User identifyUser(User user);
-	String generatePassword();
 	void delete(String userName);
 	Set<Authority> createAuthorities(Role[] roles);
 	
 	User getUserByEmail(String email);
-	User save(User user);
+	void save(User user);
 	void registerUser(User user);
 	Authentication signInUser(User user);
 	Page<UserDTO> search(Specification<User> spec, Pageable pageable);

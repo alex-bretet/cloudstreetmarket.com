@@ -52,7 +52,7 @@ public class Product extends AbstractId<String> implements Serializable {
 	protected BigDecimal previousClose;
 	
 	@Column(precision = 10, scale = 5)
-	private BigDecimal open;
+	protected BigDecimal open;
 	
 	@Column(precision = 10, scale = 5)
 	protected BigDecimal high;

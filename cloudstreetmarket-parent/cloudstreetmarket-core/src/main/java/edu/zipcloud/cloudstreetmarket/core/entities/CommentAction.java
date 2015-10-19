@@ -23,9 +23,7 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Entity
@@ -37,12 +35,14 @@ public class CommentAction extends SocialEventAction{
 
 	public static final String DISCR = "comment";
 	
-	private String comment;
+	protected String comment;
 
 	public CommentAction(){
+		super();
 	}
 	
 	public CommentAction(User user, Action targetAction, String comment) {
+		super();
 		setUser(user);
 		setType(UserActivityType.COMMENT);
 		setTargetAction(targetAction);
@@ -57,4 +57,28 @@ public class CommentAction extends SocialEventAction{
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+	public static class Builder extends CommentAction {
+
+		private static final long serialVersionUID = -7449245034377241127L;
+
+		public Builder withComment(String comment) {
+        	this.comment = comment;
+            return this;
+        }
+        
+        public Builder withUser(User user) {
+        	this.user = user;
+            return this;
+        }
+        
+        public Builder withTargetAction(Action targetAction) {
+        	this.targetAction = targetAction;
+            return this;
+        }
+
+        public CommentAction build() {
+            return new CommentAction(user, targetAction, comment);
+        }
+    }
 }

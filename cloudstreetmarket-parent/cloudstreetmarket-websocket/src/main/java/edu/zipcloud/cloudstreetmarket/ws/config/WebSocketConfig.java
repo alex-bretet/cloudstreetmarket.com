@@ -19,8 +19,7 @@
  **/
 package edu.zipcloud.cloudstreetmarket.ws.config;
 
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.ACTIVITY_FEED_ENDPOINT;
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.PRIVATE_STOCKS_ENDPOINT;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +36,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
-@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.ws","edu.zipcloud.cloudstreetmarket.shared"})
+@ComponentScan(value={"edu.zipcloud.cloudstreetmarket.ws"})
 @EnableScheduling
 @EnableAsync
 @EnableRabbit
@@ -47,7 +46,7 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<ExpiringSession> {
 
     @Value("${realm.name}")
-    private String realmName = "cloudstreetmarket.com";
+    private String realmName = "dev.cloudstreetmarket.com";
 
     @Value("${configured.protocol}")
     private String protocol = "http://";

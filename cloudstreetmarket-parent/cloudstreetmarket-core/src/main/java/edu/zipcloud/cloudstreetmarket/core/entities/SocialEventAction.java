@@ -30,6 +30,7 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableSerializer;
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
+import edu.zipcloud.cloudstreetmarket.core.entities.CommentAction.Builder;
 
 @Entity
 public abstract class SocialEventAction extends Action{
@@ -41,13 +42,22 @@ public abstract class SocialEventAction extends Action{
 	@JsonProperty("targetActionId")
 	@XStreamConverter(value=IdentifiableToIdConverter.class, strings={"id"})
 	@XStreamAlias("targetActionId")
-	private Action targetAction;
+	protected Action targetAction;
 	
 	public Action getTargetAction() {
 		return targetAction;
 	}
 
 	public void setTargetAction(Action targetAction) {
+		this.targetAction = targetAction;
+	}
+	
+	public SocialEventAction(){
+		super();
+	}
+	
+	public SocialEventAction(Action targetAction){
+		super();
 		this.targetAction = targetAction;
 	}
 }

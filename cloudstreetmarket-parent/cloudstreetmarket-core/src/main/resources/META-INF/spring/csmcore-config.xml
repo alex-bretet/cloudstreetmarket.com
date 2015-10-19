@@ -67,7 +67,6 @@
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.archive.autodetection">class, hbm</prop>
                 <prop key="hibernate.format_sql">false</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						
         </property>
 	</bean>

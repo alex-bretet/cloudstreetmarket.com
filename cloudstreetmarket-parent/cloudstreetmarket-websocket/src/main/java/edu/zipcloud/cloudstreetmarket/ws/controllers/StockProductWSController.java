@@ -19,7 +19,7 @@
  **/
 package edu.zipcloud.cloudstreetmarket.ws.controllers;
 
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
-import edu.zipcloud.cloudstreetmarket.shared.services.StockProductServiceOffline;
+import edu.zipcloud.cloudstreetmarket.core.services.StockProductServiceOffline;
 
 @RestController
 public class StockProductWSController extends CloudstreetWebSocketWCI<StockProduct>{
@@ -67,10 +67,7 @@ public class StockProductWSController extends CloudstreetWebSocketWCI<StockProdu
     private static String extractUserFromQueueId(String token){
     	Pattern p = Pattern.compile("_[0-9]+$");
     	Matcher m = p.matcher(token);
-    	String sessionNumber = "";
-    	if(m.find()){
-    		sessionNumber = m.group();
-    	}
+    	String sessionNumber = m.find() ? m.group() : "";
     	return token.replaceAll(sessionNumber, "");
     }
 }

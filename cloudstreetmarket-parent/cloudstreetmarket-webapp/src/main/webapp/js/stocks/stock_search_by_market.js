@@ -102,7 +102,7 @@ function initPaginationStockS_BM ($scope, $interval, httpAuth, dynStockSearchSer
 		$scope.socket.onclose = function() {
 			$scope.stompClient.disconnect();
 		};
-		$scope.stompClient.connect(httpAuth.getHeaders(), function(frame) {
+		$scope.stompClient.connect({}, function(frame) {
 
 			var intervalPromise = $interval(function() {
 				$scope.stompClient.send('/app/queue/CSM_QUEUE_'+queueId, {}, JSON.stringify($scope.tickers)); 

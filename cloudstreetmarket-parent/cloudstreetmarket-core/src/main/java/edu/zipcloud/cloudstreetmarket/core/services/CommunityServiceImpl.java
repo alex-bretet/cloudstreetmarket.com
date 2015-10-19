@@ -19,13 +19,11 @@
  **/
 package edu.zipcloud.cloudstreetmarket.core.services;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ADMIN;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.SYSTEM;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -42,6 +40,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,6 +56,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import edu.zipcloud.cloudstreetmarket.core.daos.ActionRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.UserRepository;
@@ -72,6 +73,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
+import edu.zipcloud.cloudstreetmarket.core.helpers.CommunityServiceHelper;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
 import edu.zipcloud.cloudstreetmarket.core.util.TransactionUtil;
 
@@ -89,11 +91,13 @@ public class CommunityServiceImpl implements CommunityService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private CommunityServiceHelper communityServiceHelper;
+	
+	public static final Class<?>[] PUBLIC_ACTIVITY_TYPES = {AccountActivity.class, Transaction.class};
+	
 	private String[] reservedUserNames = {"leaderboard"};
 
-    private static final String RANDOM_PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!$*";
-    private static final int RANDOM_PASSWORD_LENGTH = 12;
-    
 	@Override
 	public Page<UserActivityDTO> getPublicActivity(Pageable pageable) {
 		Page<Action> actions = actionRepository.findAll(pageable);
@@ -102,7 +106,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	private List<UserActivityDTO> transform(Iterable<Action> actions){
-		List<UserActivityDTO> result = new LinkedList<UserActivityDTO>();
+		List<UserActivityDTO> result = Lists.newLinkedList();
 		actions.forEach(
 				a -> {
 					if(a instanceof AccountActivity){
@@ -158,8 +162,14 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Override
 	public User updateUser(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return userRepository.save(user);
+		Preconditions.checkNotNull(user);
+		if(AuthenticationUtil.isThePrincipal(user.getId()) || AuthenticationUtil.userHasRole(ROLE_ADMIN)){
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			return userRepository.save(user);
+		}
+		else{
+			throw new BadCredentialsException("You are not authorized to perfom this operation!");
+		}
 	}
 	
 	public User createUserWithBalance(User user, Role[] roles, BigDecimal balance) {
@@ -172,12 +182,8 @@ public class CommunityServiceImpl implements CommunityService {
 	public Page<UserDTO> search(Specification<User> spec, Pageable pageable) {
 		Page<User> users = userRepository.findAll(spec, pageable);
 		List<UserDTO> result = users.getContent().stream()
-			.map(u -> {
-				UserDTO userDTO = new UserDTO(u);
-				hideSensitiveFieldsIfNecessary(userDTO);
-		        return new UserDTO(u);
-			})
-			.collect(Collectors.toCollection(LinkedList::new));
+									.map(u -> hideSensitiveFieldsIfNecessary(new UserDTO(u)))
+									.collect(Collectors.toCollection(LinkedList::new));
 		return new PageImpl<>(result, pageable, users.getTotalElements());
 	}
 
@@ -202,13 +208,9 @@ public class CommunityServiceImpl implements CommunityService {
 	public Page<UserDTO> getLeaders(Pageable pageable) {
 		Page<User> users = userRepository.findAll(pageable);
 		List<UserDTO> result = users.getContent().stream()
-				.map(u -> {
-					UserDTO userDTO = new UserDTO(u);
-					hideSensitiveFieldsIfNecessary(userDTO);
-			        return new UserDTO(u);
-				})
-				.collect(Collectors.toCollection(LinkedList::new));
-			return new PageImpl<>(result, pageable, users.getTotalElements());
+									.map(u -> hideSensitiveInformation(new UserDTO(u)))
+									.collect(Collectors.toCollection(LinkedList::new));
+		return new PageImpl<>(result, pageable, users.getTotalElements());
 	}
 	
 	@Override
@@ -218,13 +220,13 @@ public class CommunityServiceImpl implements CommunityService {
 			throw new ResourceNotFoundException();
 		}
 		UserDTO userDTO = new UserDTO(user);
-		hideSensitiveFieldsIfNecessary(userDTO);
-		return userDTO;
+		return hideSensitiveFieldsIfNecessary(userDTO);
 	}
 	
-	private  void hideSensitiveInformation(UserDTO userDTO){
+	private static UserDTO hideSensitiveInformation(final UserDTO userDTO){
 		userDTO.setPassword("hidden");
 		userDTO.setEmail("hidden");
+		return userDTO;
 	}
 	
 	private  UserDTO hideSensitiveFieldsIfNecessary(UserDTO userDTO){
@@ -233,8 +235,7 @@ public class CommunityServiceImpl implements CommunityService {
 			return userDTO;
 		}
 		else{
-			hideSensitiveInformation(userDTO);
-			return userDTO;
+			return hideSensitiveInformation(userDTO);
 		}
 	}
 	
@@ -251,58 +252,43 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
+	@Secured({ADMIN, SYSTEM})
 	public User getUserByEmail(String email) {
 		Set<User> result = userRepository.findByEmail(email);
 		return result != null ? result.stream().findFirst().orElse(null) : null;
 	}
 
 	@Override
-	public User createUser(String nickName, String email, String password) {
-		User user = new User(nickName, passwordEncoder.encode(password), email, null, true, true, true, true, null, null, null, null);
-		return userRepository.save(user);
-	}
-	
-	@Override
 	public Set<Authority> createAuthorities(Role[] roles) {
-		Set<Authority> authorities = new HashSet<Authority>();
-		Authority auth = new Authority();
-		Arrays.asList(roles).forEach(r -> {
-			auth.setAuthority(r);
-		});
-		authorities.add(auth);		
+		Set<Authority> authorities = Sets.newHashSet();
+		Arrays.asList(roles).forEach(r -> authorities.add(new Authority(r.name())));
 		return authorities;
 	}
 
 	@Override
-	public User save(User user) {
-		return userRepository.save(user);
+	public void save(User user) {
+		userRepository.save(user);
 	}
 
 	@Override
-	public User findByLogin(String login) {
-		return userRepository.findOne(login);
+	public UserDTO findByLogin(String login) {
+		User user = userRepository.findOne(login);
+		if(user == null){
+			throw new ResourceNotFoundException();
+		}
+		UserDTO userDTO = new UserDTO(user);
+		return hideSensitiveFieldsIfNecessary(userDTO);
 	}
 
 	@Override
 	public void registerUser(User user) {
 		String password = user.getPassword();
         if (password == null) {
-            password = generatePassword();
+            password = communityServiceHelper.generatePassword();
         }
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
 	}
-
-	@Override
-    public String generatePassword() {
-        StringBuilder password = new StringBuilder();
-        for (int i = 0; i < RANDOM_PASSWORD_LENGTH; i++) {
-            int charIndex = (int) (Math.random() * RANDOM_PASSWORD_CHARS.length());
-            char randomChar = RANDOM_PASSWORD_CHARS.charAt(charIndex);
-            password.append(randomChar);
-        }
-        return password.toString();
-    }
 
 	@Override
 	public Authentication signInUser(User user) {
@@ -359,6 +345,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public User hydrate(User user) {
+		//TODO
 		return user;
 	}
 }

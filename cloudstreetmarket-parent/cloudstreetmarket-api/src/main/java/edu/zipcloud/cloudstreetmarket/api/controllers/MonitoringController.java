@@ -56,7 +56,7 @@ public class MonitoringController extends CloudstreetApiWCI<User>{
 	}
 	
 	@RequestMapping(value="/users/{username}", method=DELETE)
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete user-account", notes = "")
 	public void deleteUser(@PathVariable String username){
 		communityService.delete(username);

@@ -30,7 +30,7 @@
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 	
 	<context:annotation-config/>
-	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api,edu.zipcloud.cloudstreetmarket.shared,edu.zipcloud.cloudstreetmarket.core"/>
+	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api,edu.zipcloud.cloudstreetmarket.core"/>
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

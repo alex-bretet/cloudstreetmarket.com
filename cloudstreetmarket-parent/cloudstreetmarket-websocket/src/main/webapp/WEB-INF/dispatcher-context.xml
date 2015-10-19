@@ -33,7 +33,7 @@
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
  	<context:annotation-config/>
-	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.ws,edu.zipcloud.cloudstreetmarket.shared"/>
+	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.ws"/>
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
 
 	<mvc:interceptors>
@@ -43,7 +43,7 @@
 	<bean class="org.springframework.web.socket.server.support.OriginHandshakeInterceptor">
 	    <property name="allowedOrigins">
 	    	<list>
-	    		<value>http://cloudstreetmarket.com</value>
+	    		<value>${configured.protocol}${realm.name}</value>
 	    	</list>
 	    </property>
 	</bean>

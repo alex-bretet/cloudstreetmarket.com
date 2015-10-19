@@ -21,13 +21,15 @@ package edu.zipcloud.cloudstreetmarket.core.dtos;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
+import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 import edu.zipcloud.core.util.ImageUtil;
 
-@XStreamAlias("activity")
+@XStreamAlias("user")
 public class UserDTO {
 	
 	private String id;
@@ -56,7 +58,7 @@ public class UserDTO {
 		return profileImg;
 	}
 	public String getBigProfileImg() {
-		return ImageUtil.renameToBig(profileImg);
+		return profileImg != null ? ImageUtil.renameToBig(profileImg) : null;
 	}
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
@@ -91,6 +93,9 @@ public class UserDTO {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+	public UserDTO(){
+		
+	}
 	public UserDTO (User user){
 		this.setHeadline(user.getHeadline());
 		this.setProfileImg(user.getProfileImg());
@@ -99,6 +104,6 @@ public class UserDTO {
 		this.setBalance(user.getBalance());
 		this.setEmail(user.getEmail());
 		this.setPassword(user.getPassword());
-		this.setLanguage(user.getLanguage().name());
+		this.setLanguage(user.getLanguage()!=null ? user.getLanguage().name(): SupportedLanguage.EN.name());
 	}
 }

@@ -396,7 +396,7 @@
 	<div id="copyright">
 		<!-- start: Container -->
 		<div class="container">
-			<p><a href="http://bootstrapmaster.com" alt="Bootstrap Themes">Bootstrap Themes</a> by BootstrapMaster, thanks</p>
+			<p><a href="http://bootstrapmaster.com">Bootstrap Themes</a> by BootstrapMaster, thanks</p>
 		</div>
 		<!-- end: Container  -->
 	</div>	

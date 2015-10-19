@@ -22,7 +22,7 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 import static edu.zipcloud.cloudstreetmarket.api.resources.TransactionResource.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -59,7 +59,7 @@ import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 import edu.zipcloud.cloudstreetmarket.core.entities.Transaction;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 import edu.zipcloud.cloudstreetmarket.core.services.TransactionService;
-import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
+import edu.zipcloud.cloudstreetmarket.core.util.Constants;
 import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
 import edu.zipcloud.cloudstreetmarket.core.validators.TransactionValidator;
 

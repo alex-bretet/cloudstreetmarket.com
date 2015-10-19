@@ -20,7 +20,7 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 
 import java.io.File;
 import java.io.IOException;

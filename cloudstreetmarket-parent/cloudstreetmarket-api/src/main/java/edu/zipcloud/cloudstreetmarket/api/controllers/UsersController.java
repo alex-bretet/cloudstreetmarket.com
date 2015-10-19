@@ -23,12 +23,13 @@ import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
+import static edu.zipcloud.cloudstreetmarket.core.util.Constants.*;
 import static edu.zipcloud.cloudstreetmarket.api.controllers.UsersController.*;
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -44,6 +45,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -64,7 +66,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 import edu.zipcloud.cloudstreetmarket.api.services.CurrencyExchangeServiceOnline;
-
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
@@ -72,7 +73,8 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
-import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
+import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
+import edu.zipcloud.cloudstreetmarket.core.util.Constants;
 import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
 import edu.zipcloud.cloudstreetmarket.core.validators.UserValidator;
 
@@ -100,7 +102,7 @@ public class UsersController extends CloudstreetApiWCI{
 									@RequestHeader(value="OAuthProvider", required=false) String provider,
 										HttpServletResponse response) throws IllegalAccessException{
 		if(isNotBlank(guid)){
-			if(isUnknownToProvider(guid, provider) || usersConnectionRepository.isSocialUserAlreadyRegistered(guid)){
+			if(isGuidUnknownToProvider(guid, provider) || usersConnectionRepository.isSocialUserAlreadyRegistered(guid)){
 				throw new AccessDeniedException(guid+" @ "+ provider);
 			}
 			
@@ -125,7 +127,7 @@ public class UsersController extends CloudstreetApiWCI{
 		}
 		
 		response.setHeader(MUST_REGISTER_HEADER, FALSE);
-		response.setHeader(LOCATION_HEADER, USERS_PATH + user.getId());
+		response.setHeader(LOCATION_HEADER, USERS_PATH + "/" + user.getId());
 	}
 	
 	@RequestMapping(method=PUT)
@@ -133,7 +135,7 @@ public class UsersController extends CloudstreetApiWCI{
 	@ApiOperation(value = "Updates a user account")
 	public void update(@Valid @RequestBody User user, BindingResult result){
 		ValidatorUtil.raiseFirstError(result);
-		prepareUser(user);
+		prepareUserForUpdate(user);
 		communityService.updateUser(user);
 	}
 	
@@ -163,20 +165,13 @@ public class UsersController extends CloudstreetApiWCI{
 	public UserDTO get(@PathVariable String username){
 		return communityService.getUser(username);
 	}
-	
-	@RequestMapping(value="/{username}", method=DELETE)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@ApiOperation(value = "Delete user account", notes = "")
-	public void delete(@PathVariable String username){
-		communityService.delete(username);
-	}
-	
+
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(new UserValidator());
     }
 
-	private boolean isUnknownToProvider(String guid, String providerId) {
+	private boolean isGuidUnknownToProvider(String guid, String providerId) {
 		Preconditions.checkArgument(isNotBlank(providerId), bundle.get(I18N_USER_GUID_UNKNOWN_TO_PROVIDER));
 		
 		Set<String> results = usersConnectionRepository.findUserIdsConnectedTo(providerId, Sets.newHashSet(guid));
@@ -186,7 +181,7 @@ public class UsersController extends CloudstreetApiWCI{
 		return false;
 	}
 	
-	private void prepareUser(User user){
+	private void prepareUserForUpdate(User user){
 		User existingUser = communityService.findOne(user.getId());
 		if(!existingUser.getCurrency().equals(user.getCurrency())){
 			CurrencyExchange currencyExchange = currencyExchangeService.gather(existingUser.getCurrency().name() + user.getCurrency().name()+"=X");

@@ -34,7 +34,7 @@ import org.springframework.social.yahoo.module.ChartType;
 import edu.zipcloud.cloudstreetmarket.core.entities.ChartStock;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
-import edu.zipcloud.cloudstreetmarket.shared.services.StockProductService;
+import edu.zipcloud.cloudstreetmarket.core.services.StockProductService;
 
 public interface StockProductServiceOnline extends StockProductService {
 	Page<StockProduct> gather(String indexId, String exchangeId, MarketId marketId, String startWith, Specification<StockProduct> spec, Pageable pageable);

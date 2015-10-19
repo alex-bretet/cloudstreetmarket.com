@@ -29,7 +29,7 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 	<dependencies>
 
 		<!-- Projects dependencies -->
@@ -39,15 +39,8 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
-			<artifactId>cloudstreetmarket-shared</artifactId>
-			<version>${csm.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
 			<artifactId>cloudstreetmarket-core</artifactId>
-			<version>${csm.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -69,6 +62,7 @@
 		    <artifactId>javaee-api</artifactId>
 		    <scope>provided</scope>
 		</dependency>
+		
 		<!-- Spring core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -86,6 +80,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
 		</dependency>
+		
 		<!-- Spring web -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -112,13 +107,11 @@
 		  <artifactId>spring-data-rest-webmvc</artifactId>
 		</dependency>
 
-
 		<!-- Messaging -->
 		<dependency>
 		   <groupId>org.springframework</groupId>
 		   <artifactId>spring-messaging</artifactId>
 		</dependency>
-
     	<dependency>
 		   <groupId>org.springframework</groupId>
 		   <artifactId>spring-websocket</artifactId>
@@ -127,21 +120,20 @@
 		    <groupId>org.springframework.amqp</groupId>
 		    <artifactId>spring-rabbit</artifactId>
 		</dependency>
-		<!-- Messaging -->
 		
 		<!-- Session -->
-			<dependency>
-				<groupId>org.springframework.session</groupId>
-				<artifactId>spring-session</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-pool2</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.session</groupId>
-				<artifactId>spring-session-data-redis</artifactId>
-			</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
 
 		<!-- Spring Security -->
 		<dependency>
@@ -157,7 +149,7 @@
 			<artifactId>spring-security-config</artifactId>
 		</dependency>
 		
-		<!-- jackson so spring mvc handle json responses out of the box -->
+		<!-- Jackson so spring mvc handle json responses out of the box -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -166,17 +158,16 @@
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 		</dependency>
-
  		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 		</dependency>
-	        <!-- Apache Commons Upload --> 
+		
+	    <!-- Apache Commons Upload --> 
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -190,6 +181,10 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
 		</dependency>
 
 		<!-- Logging dependencies -->
@@ -207,7 +202,6 @@
 		</dependency>
 
 		<!-- Bean Validation -->
-
 	   <dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-validator</artifactId>
@@ -222,8 +216,91 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		
 	</dependencies>
 	
-
+	<profiles>
+	  <profile>
+	    <id>integration</id>
+	    <build>
+	      <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					  <includes>
+					 	<include>**/*IT.java</include>
+				      </includes>
+			          <excludes>
+				         <exclude>**/*Test.java</exclude>
+				      </excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin> 
+			  <groupId>org.codehaus.cargo</groupId> 
+			  <artifactId>cargo-maven2-plugin</artifactId> 
+			  <version>1.4.16</version> 
+			  	<configuration> 
+					<wait>false</wait>
+					<container>
+						<containerId>tomcat8x</containerId>
+						<home>C://tomcat8</home>
+						<logLevel>warn</logLevel>
+					</container>
+					<deployer />
+			        <type>existing</type>
+			        <deployables>
+		               <deployable>
+		                   <groupId>edu.zipcloud.cloudstreetmarket</groupId>
+		                   <artifactId>cloudstreetmarket-api</artifactId>
+		                   <type>war</type>
+		                   <properties>
+		                       <context>api</context>
+		                   </properties>
+		               </deployable>
+			        </deployables>
+				</configuration>
+		        <executions>
+		          <execution>
+		            <id>start-container</id>
+		            <phase>pre-integration-test</phase>
+		            <goals>
+		              <goal>start</goal>
+		              <goal>deploy</goal>
+		            </goals>
+		          </execution>
+		          <execution>
+		            <id>stop-container</id>
+		            <phase>post-integration-test</phase>
+		            <goals>
+		              <goal>undeploy</goal>
+		              <goal>stop</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+			</plugin>
+	      </plugins>
+	    </build>
+	  </profile>
+	</profiles>
 </project>

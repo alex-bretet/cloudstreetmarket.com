@@ -76,10 +76,10 @@
 						<td style="width:20%;vertical-align: middle"><span translate="screen.stock.detail.actions">Actions</span>:</td>
 						
 						<td style="width:40%">
-							<button type="button" ng-if="user.balance >= currencyExchange*quote.ask" class="btn btn-success" href="#" ng-click="buyButton(buy)" ng-disabled="buy || transactionComplete" ng-class="(buy || transactionComplete) ? 'disabled': ''"><i class="mini-ico-plus-sign mini-white"></i> <span translate="screen.stock.detail.buy">Buy</span></button>	
+							<button type="button" ng-if="user.balance >= currencyExchange*quote.ask" class="btn btn-success" ng-click="buyButton(buy)" ng-disabled="buy || transactionComplete" ng-class="(buy || transactionComplete) ? 'disabled': ''"><i class="mini-ico-plus-sign mini-white"></i> <span translate="screen.stock.detail.buy">Buy</span></button>	
 						</td>
 						<td style="width:40%">
-							<button type="button" ng-if="totalOwned > 0" class="btn btn-danger" href="#" ng-click="sellButton(sell)" ng-disabled="sell || transactionComplete" ng-class="(sell || transactionComplete) ? 'disabled': ''"><i class="mini-ico-minus-sign mini-white"></i> <span translate="screen.stock.detail.sell">Sell</span></button>
+							<button type="button" ng-if="totalOwned > 0" class="btn btn-danger" ng-click="sellButton(sell)" ng-disabled="sell || transactionComplete" ng-class="(sell || transactionComplete) ? 'disabled': ''"><i class="mini-ico-minus-sign mini-white"></i> <span translate="screen.stock.detail.sell">Sell</span></button>
 						</td>
 					</tr>
 				</table>
@@ -90,7 +90,7 @@
 					<table ng-show="user.balance && totalOwned > 0" class="table table-condensed table-striped table-bordered" >
 						<tr>
 							<td style="width:30%;vertical-align: middle"><strong><span translate="screen.stock.detail.quantity">Quantity</span>:</strong></td>
-							<td style="width:45%;"">
+							<td style="width:45%;">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-small btn-danger btn-number" ng-disabled="quantity <= minQuantity" ng-class="(quantity <= minQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) - 1">
 						                <span class="mini-ico-arrow-down mini-white"></span>
@@ -144,7 +144,7 @@
 					<table ng-show="user.balance" class="table table-condensed table-striped table-bordered" >
 						<tr>
 							<td style="width:30%;vertical-align: middle"><strong><span translate="screen.stock.detail.quantity">Quantity</span>:</strong></td>
-							<td style="width:45%;"">
+							<td style="width:45%;">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-small btn-danger btn-number" ng-disabled="quantity <= minQuantity" ng-class="(quantity <= minQuantity) ? 'disabled': ''" ng-click="quantity = parseInt(quantity) - 1">
 						                <span class="mini-ico-arrow-down mini-white"></span>

@@ -33,7 +33,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import edu.zipcloud.cloudstreetmarket.core.entities.Transaction.Builder;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
+import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Entity
 @Table(name="stock_quote")
@@ -168,7 +170,7 @@ public class StockQuote extends Quote{
 	public StockQuote(int id) {
 		setId(Long.valueOf(id));
 	}
-
+	
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {

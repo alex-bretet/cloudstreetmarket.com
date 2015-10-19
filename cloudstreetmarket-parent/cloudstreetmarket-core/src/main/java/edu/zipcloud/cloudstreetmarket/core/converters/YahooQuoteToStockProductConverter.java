@@ -44,7 +44,6 @@ public class YahooQuoteToStockProductConverter implements Converter<YahooQuote, 
 	
 	@Override
 	public StockProduct convert(YahooQuote yahooQuote) {
-		
 		StockProduct stockProduct = stockProductRepository.findOne(yahooQuote.getId());
 		if(stockProduct == null){
 			stockProduct = new StockProduct();
@@ -59,6 +58,7 @@ public class YahooQuoteToStockProductConverter implements Converter<YahooQuote, 
 		stockProduct.setDailyLatestValue(BigDecimal.valueOf(yahooQuote.getLast()));
 		stockProduct.setPreviousClose(BigDecimal.valueOf(yahooQuote.getPreviousClose()));
 		stockProduct.setOpen(BigDecimal.valueOf(yahooQuote.getOpen()));
+		
 		if(!StringUtils.isEmpty(yahooQuote.getExchange())){
 			stockProduct.setExchange(exchangeService.get(yahooQuote.getExchange()));
 		}

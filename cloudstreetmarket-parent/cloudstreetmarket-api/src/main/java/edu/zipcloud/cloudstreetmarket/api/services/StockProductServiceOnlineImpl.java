@@ -62,8 +62,8 @@ import edu.zipcloud.cloudstreetmarket.core.entities.StockProduct;
 import edu.zipcloud.cloudstreetmarket.core.entities.StockQuote;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.services.StockProductServiceImpl;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
-import edu.zipcloud.cloudstreetmarket.shared.services.StockProductServiceImpl;
 import edu.zipcloud.core.util.DateUtil;
 
 @Service

@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,6 +34,7 @@ import edu.zipcloud.cloudstreetmarket.core.daos.UserRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.helpers.CommunityServiceHelper;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 
 @Transactional(propagation = Propagation.REQUIRED)
@@ -44,8 +44,11 @@ public class SignInAdapterImpl implements SignInAdapter{
 	private UserRepository userRepository;
 	
 	@Autowired
-	private CommunityService communityService;
+	private CommunityServiceHelper communityServiceHelper;
 
+	@Autowired
+	private CommunityService communityService;
+	
 	@Autowired
 	private SocialUserRepository socialUserRepository;
 	
@@ -58,7 +61,7 @@ public class SignInAdapterImpl implements SignInAdapter{
 		if(user == null){
 			//temporary user for Spring Security
 			//won't be persisted
-			user = new User(userId, communityService.generatePassword(), null, null, true, true, true, true, communityService.createAuthorities(new Role[]{Role.ROLE_BASIC, Role.ROLE_OAUTH2}), null, null, null);
+			user = new User(userId, communityServiceHelper.generatePassword(), null, null, true, true, true, true, communityService.createAuthorities(new Role[]{Role.ROLE_BASIC, Role.ROLE_OAUTH2}), null, null, null, null);
 		}
 		else{
 			//Here we have a successful previous oAuth authentication

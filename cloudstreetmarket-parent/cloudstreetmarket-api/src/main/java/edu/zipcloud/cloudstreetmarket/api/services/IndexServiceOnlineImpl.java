@@ -61,9 +61,9 @@ import edu.zipcloud.cloudstreetmarket.core.entities.IndexQuote;
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
+import edu.zipcloud.cloudstreetmarket.core.services.IndexServiceImpl;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.cloudstreetmarket.core.util.AuthenticationUtil;
-import edu.zipcloud.cloudstreetmarket.shared.services.IndexServiceImpl;
 import edu.zipcloud.core.util.DateUtil;
 
 @Service

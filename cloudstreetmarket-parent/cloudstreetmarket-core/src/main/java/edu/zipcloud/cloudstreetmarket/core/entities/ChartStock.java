@@ -67,6 +67,10 @@ public class ChartStock extends Chart {
 	
 	public ChartStock(){
 	}
+	public ChartStock(Long id){
+		super(id);
+	}
+	
 
 	public ChartStock(StockProduct stock, ChartType type, ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage, 
 						ChartHistoTimeSpan histoPeriod, Integer intradayWidth, Integer intradayHeight, String path) {
