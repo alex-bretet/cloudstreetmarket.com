@@ -67,10 +67,7 @@ public class StockProductWSController extends CloudstreetWebSocketWCI<StockProdu
     private static String extractUserFromQueueId(String token){
     	Pattern p = Pattern.compile("_[0-9]+$");
     	Matcher m = p.matcher(token);
-    	String sessionNumber = "";
-    	if(m.find()){
-    		sessionNumber = m.group();
-    	}
+    	String sessionNumber = m.find() ? m.group() : "";
     	return token.replaceAll(sessionNumber, "");
     }
 }
