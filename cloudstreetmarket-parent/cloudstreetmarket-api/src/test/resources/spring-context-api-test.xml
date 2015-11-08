@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>${db.connection.url}</value>
+        </property>
+        <property name="username">
+            <value>${db.user.name}</value>
+        </property>
+        <property name="password">
+            <value>${db.user.passsword}</value>
+        </property>
+        <property name="defaultReadOnly">
+        	<value>false</value>
+        </property>
+    </bean>
+
+</beans>

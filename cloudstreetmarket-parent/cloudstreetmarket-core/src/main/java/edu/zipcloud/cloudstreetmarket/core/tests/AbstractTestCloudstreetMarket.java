@@ -3,6 +3,8 @@ package edu.zipcloud.cloudstreetmarket.core.tests;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 
-public abstract class AbstractTestCloudstreetMarketIT {
+public abstract class AbstractTestCloudstreetMarket {
 
 	private static Properties appProperties = new Properties();
 	protected static ObjectMapper mapper = new ObjectMapper();
@@ -27,6 +29,9 @@ public abstract class AbstractTestCloudstreetMarketIT {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 
+	protected final static SimpleDateFormat MYSQL_DATE_FORMAT = 
+	     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	public static String getProperty(String key){
 		String systemProperty = System.getProperty(key);
 		if(StringUtils.isBlank(systemProperty)){
@@ -39,12 +44,16 @@ public abstract class AbstractTestCloudstreetMarketIT {
 		return getProperty("configured.protocol").concat(getProperty("realm.name"));
 	}
 	
+	protected static String formatDate(Date date){
+		return MYSQL_DATE_FORMAT.format(date);
+	}
+	
 	public static String generateUserName(){
-		return "it_test" + System.currentTimeMillis();
+		return "it_test" + System.nanoTime();
 	}
 	
 	public static String generateEmail(){
-		return "it_test" + System.currentTimeMillis() +"@csm.com";
+		return "it_test" + System.nanoTime() +"@csm.com";
 	}
 	
 	public static String getAdminUsername(){
@@ -56,7 +65,7 @@ public abstract class AbstractTestCloudstreetMarketIT {
 	}
 	
 	public static String generatePassword(){
-		return String.valueOf(System.currentTimeMillis());
+		return String.valueOf(System.nanoTime());
 	}
 	
 	public static String serialize(Object object){

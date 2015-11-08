@@ -21,7 +21,8 @@ package edu.zipcloud.cloudstreetmarket.core.dtos;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
@@ -31,6 +32,8 @@ import edu.zipcloud.core.util.ImageUtil;
 
 @XStreamAlias("user")
 public class UserDTO {
+	
+	public static final String NO_IMAGE = "img/anon.png";
 	
 	private String id;
 	private String headline;
@@ -58,7 +61,7 @@ public class UserDTO {
 		return profileImg;
 	}
 	public String getBigProfileImg() {
-		return profileImg != null ? ImageUtil.renameToBig(profileImg) : null;
+		return ImageUtil.renameToBig(profileImg);
 	}
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
@@ -98,7 +101,7 @@ public class UserDTO {
 	}
 	public UserDTO (User user){
 		this.setHeadline(user.getHeadline());
-		this.setProfileImg(user.getProfileImg());
+		this.setProfileImg(StringUtils.isBlank(user.getProfileImg())? "img/anon.png" : user.getProfileImg());
 		this.setId(user.getId());
 		this.setCurrency(user.getCurrency());
 		this.setBalance(user.getBalance());

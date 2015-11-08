@@ -18,6 +18,9 @@
  * 
  **/
 package edu.zipcloud.cloudstreetmarket.core.util;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
@@ -25,7 +28,11 @@ import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 public class UserDetailsUtil {
 	
 	public static boolean hasRole(UserDetails userDetails, Role role){
-		return userDetails.getAuthorities().stream()
+		return hasRole(userDetails.getAuthorities(), role);
+	}
+	
+	public static boolean hasRole(Collection<? extends GrantedAuthority> authorities, Role role){
+		return authorities.stream()
 			.filter(a -> {
 				return a.getAuthority().equals(role.toString());
 			})

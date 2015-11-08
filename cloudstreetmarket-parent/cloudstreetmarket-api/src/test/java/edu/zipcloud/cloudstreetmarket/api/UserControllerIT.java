@@ -1,98 +1,182 @@
 package edu.zipcloud.cloudstreetmarket.api;
 
-import org.apache.http.HttpStatus;
-import org.junit.*;
+import static com.jayway.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import static org.junit.Assert.*;
-import static com.jayway.restassured.RestAssured.*;
+import java.util.Date;
+
+import javax.sql.DataSource;
+
+import org.apache.http.HttpStatus;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jayway.restassured.response.Response;
 
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
-import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
-import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
-import edu.zipcloud.cloudstreetmarket.core.tests.AbstractTestApiIT;
+import edu.zipcloud.cloudstreetmarket.core.tests.AbstractCommonTestUser;
+import edu.zipcloud.core.util.DateUtil;
 
-public class UserControllerIT extends AbstractTestApiIT{
-		
-	protected static final String DEFAULT_IMG_PATH = "img/anon.png";
-	protected static final String HIDDEN_FIELD = "hidden";
-	
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:spring-context-api-test.xml")
+public class UserControllerIT extends AbstractCommonTestUser{
+
 	private static User userA;
 	private static User userB;
 	
+    @Autowired
+    private DataSource dataSource;
+	
+    private JdbcTemplate jdbcTemplate;
+    
 	@Before
 	public void before(){
 		userA = generateUser();
+		userB = generateUser();
+		
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	@After
 	public void after(){
-		deleteUserAsAdmin(userA.getId());
+		deleteUserAsAdmin(userA);
+		deleteUserAsAdmin(userB);
 	}
 
 	@Test
-	public void create_user_basic_auth(){
+	public void createUserBasicAuth(){
         Response response = given()
-            .contentType("application/json;charset=UTF-8")
-            .accept("application/json")
-    		.body(userA)
-            .expect().log().ifError()
-            .statusCode(HttpStatus.SC_CREATED)
-            .when()
-            .post(getHost() + CONTEXT_PATH + "/users");
-        
+					            .contentType("application/json;charset=UTF-8")
+					            .accept("application/json")
+					    		.body(userA)
+					            .expect()
+					            .when()
+					            .post(getHost() + CONTEXT_PATH + "/users");
+					        
         assertNotNull(response.getHeader("Location"));
         UserDTO userADTO = assertUserExists(response.getHeader("Location"));
         assertUserDTOValidForBASIC(userADTO);
 	}
 
 	@Test
-	public void create_user_basic_auth_ajax(){
+	public void createUserBasicAuthAjax(){
 		Response response = given()
+					            .header("X-Requested-With", "XMLHttpRequest")
+					            .contentType("application/json;charset=UTF-8")
+					            .accept("application/json")
+					    		.body(userA)
+					            .expect()
+					            .statusCode(HttpStatus.SC_CREATED)
+					            .when()
+					            .post(getHost() + CONTEXT_PATH + "/users");
+					        
+        assertNotNull(response.getHeader("Location"));
+        UserDTO userADTO = assertUserExists(response.getHeader("Location"));
+        assertUserDTOValidForBASIC(userADTO);
+	}
+	
+	@Test
+	public void createUserOAuth2Ajax(){
+		String spi = generateSpi();
+		insertConnection(spi, userA.getId());
+		
+		Response response = given()
+					            .header("X-Requested-With", "XMLHttpRequest")
+					            .header("Spi", spi)
+					            .header("OAuthProvider", "yahoo")
+					            .contentType("application/json;charset=UTF-8")
+					            .accept("application/json")
+					    		.body(userA)
+					            .expect()
+					            .statusCode(HttpStatus.SC_CREATED)
+					            .when()
+					            .post(getHost() + CONTEXT_PATH + "/users");
+					        
+        assertNotNull(response.getHeader("Location"));
+        UserDTO userADTO = assertUserExists(response.getHeader("Location"));
+        assertUserDTOValidForOAuth2(userADTO);
+        deleteConnection(spi, userA.getId());
+	}
+
+	@Test
+	public void updateUserSelfUpdateByBasic(){
+		assertCreateUser(userA);
+
+		given()
+            .contentType("application/json;charset=UTF-8")
+            .accept("application/json")
+	        .auth()
+	        .preemptive()
+	        .basic(userA.getId(), userA.getPassword())
+	        .body(userA)
+	        .expect()
+	        .statusCode(HttpStatus.SC_OK)
+	        .when()
+	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userA.getId());
+	}
+	
+	@Test
+	public void updateUserSelfUpdateByBasicAjax(){
+		assertCreateUser(userA);
+
+		given()
             .header("X-Requested-With", "XMLHttpRequest")
             .contentType("application/json;charset=UTF-8")
             .accept("application/json")
-    		.body(userA)
-            .expect().log().ifError()
-            .statusCode(HttpStatus.SC_CREATED)
-            .when()
-            .post(getHost() + CONTEXT_PATH + "/users");
-        
-        assertNotNull(response.getHeader("Location"));
-        UserDTO userADTO = assertUserExists(response.getHeader("Location"));
-        assertUserDTOValidForBASIC(userADTO);
+	        .auth()
+	        .preemptive()
+	        .basic(userA.getId(), userA.getPassword())
+	        .body(userA)
+	        .expect()
+	        .statusCode(HttpStatus.SC_OK)
+	        .when()
+	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userA.getId());
 	}
 	
 	@Test
-	public void delete_forbidden_to_user(){
+	public void update3rdPartyUserForbiddenForBasicUser(){
 		assertCreateUser(userA);
-		userB = generateUser();
 		assertCreateUser(userB);
 
-		deleteUserFromCredentials(userB.getId(), userA.getUsername(), userA.getPassword());
-	}
-
-	private static void assertCreateUser(User user){
-        given()
+		given()
             .contentType("application/json;charset=UTF-8")
             .accept("application/json")
-    		.body(user)
-            .expect().log().ifError()
-            .statusCode(HttpStatus.SC_CREATED)
-            .when()
-            .post(getHost() + CONTEXT_PATH + "/users");
+	        .auth()
+	        .preemptive()
+	        .basic(userA.getId(), userA.getPassword())
+	        .body(userB)
+	        .expect()
+	        .statusCode(HttpStatus.SC_FORBIDDEN)
+	        .when()
+	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userB.getId());
 	}
 	
-	private static UserDTO assertUserExists(String path){
-		Response response = given()
-	        .expect().log().ifError()
-	        .statusCode(HttpStatus.SC_OK)
+	@Test
+	public void update3rdPartyUserForbiddenForBasicUserAjax(){
+		assertCreateUser(userA);
+		assertCreateUser(userB);
+
+		given()
+            .header("X-Requested-With", "XMLHttpRequest")
+            .contentType("application/json;charset=UTF-8")
+            .accept("application/json")
+	        .auth()
+	        .preemptive()
+	        .basic(userA.getId(), userA.getPassword())
+	        .body(userB)
+	        .expect()
+	        .statusCode(HttpStatus.SC_FORBIDDEN)
 	        .when()
-	        .get(getHost() + CONTEXT_PATH + path + JSON_SUFFIX);
-		
-		return deserialize(response.getBody().asString());
+	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userB.getId());
 	}
 	
 	private void assertUserDTOValidForBASIC(UserDTO userADTO) {
@@ -103,31 +187,28 @@ public class UserControllerIT extends AbstractTestApiIT{
 		assertNull(userA.getBalance());
 	}
 	
-	private static void deleteUserAsAdmin(String userId) {
-		deleteUserFromCredentials(userId, getAdminUsername(), getAdminPassword());
+	private void assertUserDTOValidForOAuth2(UserDTO userADTO) {
+		assertEquals(userA.getId(), userADTO.getId());
+		assertEquals(userA.getLanguage().name(), userADTO.getLanguage());
+		assertEquals(HIDDEN_FIELD, userADTO.getEmail());
+		assertEquals(HIDDEN_FIELD, userADTO.getPassword());
+		assertEquals(20000, userADTO.getBalance().intValue());
 	}
 	
-	private static void deleteUserFromCredentials(String userId, String username, String password) {
-		given()
-            .header("X-Requested-With", "XMLHttpRequest")
-            .auth()
-            .basic(username, password)
-            .contentType("application/json;charset=UTF-8")
-            .accept("application/json")
-            .expect().log().ifError()
-            .statusCode(HttpStatus.SC_NO_CONTENT)
-            .when()
-            .delete(getHost() + CONTEXT_PATH + MONITORING_PATH + userId);
-	}
+	public void insertConnection(String spi, String username) {
+        this.jdbcTemplate.execute("insert into userconnection ("
+        		+ "accessToken, createDate, displayName, expireTime, "
+        		+ "imageUrl, last_update, profileUrl, providerId, providerUserId, "
+        		+ "rank, refreshToken, secret, userId "
+        		
+        		+ ") values ("
+        		
+        		+ "'"+generateGuid()+"', '"+formatDate(new Date())+"', NULL, '"+DateUtil.getXMinAfterDate(new Date(), 500).getTime()+"', "
+        		+ "NULL, '"+formatDate(new Date())+"', NULL, 'yahoo', '"+spi+"', "
+        		+ "'0', '"+generateGuid()+"', NULL, '"+spi+"');");
+    }
 	
-	private static User generateUser(){
-		return new User.Builder()
-			.withId(generateUserName())
-			.withEmail(generateEmail())
-			.withCurrency(SupportedCurrency.GBP)
-			.withPassword(generatePassword())
-			.withLanguage(SupportedLanguage.EN)
-			.withProfileImg(DEFAULT_IMG_PATH)
-			.build();
+	private void deleteConnection(String spi, String id) {
+        this.jdbcTemplate.execute("delete from userconnection where providerUserId = '"+spi+"' and userId = '"+id+"'");
 	}
 }

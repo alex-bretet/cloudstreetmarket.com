@@ -19,10 +19,15 @@
  **/
 package edu.zipcloud.cloudstreetmarket.core.dtos;
 
+import java.io.Serializable;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("wallet-item")
-public class WalletItemDTO {
+public class WalletItemDTO implements Serializable{
+	
+
+	private static final long serialVersionUID = -8744322740340915970L;
 	
 	private String symbol;
 	private String companyName;

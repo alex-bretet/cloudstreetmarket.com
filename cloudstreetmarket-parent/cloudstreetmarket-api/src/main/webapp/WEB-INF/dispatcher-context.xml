@@ -30,9 +30,12 @@
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 	
 	<context:annotation-config/>
+	
 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api,edu.zipcloud.cloudstreetmarket.core"/>
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
 	
+	<import resource="classpath*:/META-INF/spring/security-config.xml" />
+
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
@@ -114,6 +117,8 @@
     <rabbit:connection-factory id="connectionFactory" host="localhost" username="guest" password="guest" />
     <rabbit:admin connection-factory="connectionFactory" />
     <rabbit:template id="messagingTemplate" connection-factory="connectionFactory"/>
+
+	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler />

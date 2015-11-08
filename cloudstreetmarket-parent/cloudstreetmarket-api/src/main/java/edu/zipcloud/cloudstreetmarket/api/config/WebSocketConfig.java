@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -32,7 +33,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
  * The Class WebSocketConfig.
  */
 @Configuration
-@ComponentScan("edu.zipcloud.cloudstreetmarket.api")
+@ComponentScan({"edu.zipcloud.cloudstreetmarket.api","edu.zipcloud.cloudstreetmarket.core"})
 @EnableWebSocketMessageBroker
 @EnableScheduling
 @EnableAsync

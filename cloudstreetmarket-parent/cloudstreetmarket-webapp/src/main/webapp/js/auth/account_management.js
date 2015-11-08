@@ -10,9 +10,6 @@ cloudStreetMarketApp.factory("accountManagementFactory", function ($http, httpAu
         	}
         	return httpAuth.post('/api/users', body);
         },
-        updateAccount: function (body) {
-        	return httpAuth.put('/api/users', body);
-        },
         saveImage: function (formData) {
         	return $http.post('/api/images/users', formData, {
                 headers: {'Content-Type': undefined },
@@ -61,7 +58,7 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
 		       return;
 		  }
 		  
-		  httpAuth.put('/api/users', JSON.stringify($scope.form)).success(
+		  httpAuth.put('/api/users/'+$scope.form.id, JSON.stringify($scope.form)).success(
 			  function(data, status, headers, config) {
 				httpAuth.setCredentials($scope.form.id, $scope.form.password);
 				$scope.updateSuccess = true;

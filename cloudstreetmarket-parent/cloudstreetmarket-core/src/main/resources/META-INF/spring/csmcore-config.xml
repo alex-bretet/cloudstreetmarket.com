@@ -28,7 +28,6 @@
  
  	<context:annotation-config/>
  	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.core" />  
-
 	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
 	
 	<jpa:repositories base-package="edu.zipcloud.cloudstreetmarket.core.daos" />
@@ -127,6 +126,7 @@
 	</bean>
 	
 	<bean id="resourceConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+
 
     <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
     	<property name="autodetectAnnotations" value="true"/>

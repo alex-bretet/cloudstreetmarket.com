@@ -40,7 +40,6 @@
 		<dependency>
 			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
 			<artifactId>cloudstreetmarket-core</artifactId>
-			<version>${csm.version}</version>
 		</dependency>
 		
 		<dependency>

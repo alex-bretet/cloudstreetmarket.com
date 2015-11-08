@@ -1,6 +1,9 @@
 package edu.zipcloud.cloudstreetmarket.core.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,6 +100,8 @@ public class CommunityServiceImplTest {
 	private User userA;
 	private User userAStored;
 	private User userB;
+	private User userAdmin;
+	
 	private Transaction transaction;
 	private CommentAction commentAction;
 	private StockQuote stockQuote;
@@ -126,10 +131,15 @@ public class CommunityServiceImplTest {
 	private static String USER_B_NAME = "nameB";
 	private static String USER_B_PASSWORD = "123PWD2";
 	private static String USER_B_PASSWORD_ENCODED = "*%^!~";
+	private static String USER_ADMIN_NAME = "nameAdmin";
+	private static String USER_ADMIN_PASSWORD = "123PWD2";
+	private static String USER_ADMIN_PASSWORD_ENCODED = "*%^!~";
+	
 	private static String HIDDEN_USER_ATTRIBUTE = "hidden";
 	private static String COMMENT_1 = "blah1";
 	private static Date TRANSACTION_DATE1 = new Date();
-
+	private static Set<Authority> ADMIN_AUTHORITIES = Sets.newHashSet(new Authority(Role.ADMIN));
+	
 	@Before
 	public void setup(){
 		MockitoAnnotations.initMocks(this);
@@ -160,6 +170,13 @@ public class CommunityServiceImplTest {
 							.withPassword(USER_B_PASSWORD)
 							.withLanguage(SupportedLanguage.EN)
 							.build();
+		
+		userAdmin = new User.Builder()
+			.withId(USER_ADMIN_NAME)
+			.withPassword(USER_ADMIN_PASSWORD)
+			.withLanguage(SupportedLanguage.EN)
+			.withAuthorities(ADMIN_AUTHORITIES)
+			.build();
 						
 		yahooQuote = new YahooQuote.Builder()
 							.withId(TICKER_ID)
@@ -286,17 +303,50 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void updateUser_usesDAO() {
+	public void updateUser_usesDAO_001() {
 		when(userRepository.save(userA)).thenReturn(userA);
+		when(securityContext.getAuthentication()).thenReturn(authentication);
+		when(authentication.getPrincipal()).thenReturn(userA);
+
 		User user = communityServiceImpl.updateUser(userA);
 		assertEquals(userA, user);
+		
 		verify(userRepository, times(1)).save(userA);
+		verify(securityContext, times(1)).getAuthentication();
+		verify(authentication, times(1)).getPrincipal();
+	}
+	
+	@Test
+	public void updateUser_usesDAO_002() {
+		when(userRepository.save(userA)).thenReturn(userA);
+		when(securityContext.getAuthentication()).thenReturn(authentication);
+		when(authentication.getPrincipal()).thenReturn(userAdmin);
+		when(authentication.isAuthenticated()).thenReturn(true);
+
+		User user = communityServiceImpl.updateUser(userA);
+		assertEquals(userA, user);
+		
+		verify(userRepository, times(1)).save(userA);
+		verify(securityContext, atLeastOnce()).getAuthentication();
+		verify(authentication, atLeastOnce()).getPrincipal();
+	}
+	
+	@Test(expected=BadCredentialsException.class)
+	public void updateUser_throwsUnAuthorized() {
+		when(userRepository.save(userA)).thenReturn(userA);
+		when(securityContext.getAuthentication()).thenReturn(authentication);
+		when(authentication.getPrincipal()).thenReturn(userB);
+		
+		communityServiceImpl.updateUser(userA);
 	}
 	
 	@Test
 	public void updateUser_setAttributes() {
 		when(userRepository.save(userA)).thenReturn(userA);
 		when(passwordEncoder.encode(USER_A_PASSWORD)).thenReturn(USER_A_PASSWORD_ENCODED);
+		when(securityContext.getAuthentication()).thenReturn(authentication);
+		when(authentication.getPrincipal()).thenReturn(userA);
+
 		User user = communityServiceImpl.updateUser(userA);
 		assertEquals(USER_A_PASSWORD_ENCODED, user.getPassword());
 		verify(passwordEncoder, times(1)).encode(USER_A_PASSWORD);
@@ -653,7 +703,7 @@ public class CommunityServiceImplTest {
 		assertEquals(HIDDEN_USER_ATTRIBUTE, userDTO.getPassword());
 		assertEquals(referenceUser.getBalance(), userDTO.getBalance());
 		assertEquals(referenceUser.getHeadline(), userDTO.getHeadline());
-		assertEquals(referenceUser.getProfileImg(), userDTO.getProfileImg());
+		assertEquals(referenceUser.getProfileImg() != null ? referenceUser.getProfileImg() : UserDTO.NO_IMAGE, userDTO.getProfileImg());
 		assertEquals(referenceUser.getCurrency(), userDTO.getCurrency());
 		assertEquals(HIDDEN_USER_ATTRIBUTE, userDTO.getEmail());
 		assertEquals(referenceUser.getLanguage().toString(), userDTO.getLanguage());

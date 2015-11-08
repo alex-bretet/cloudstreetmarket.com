@@ -186,7 +186,11 @@
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 		</dependency>
-
+		<dependency>
+	        <groupId>org.hamcrest</groupId>
+	        <artifactId>hamcrest-core</artifactId>
+	    </dependency>
+		    
 		<!-- Logging dependencies -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -220,7 +224,6 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 		</dependency>
-		
 	</dependencies>
 	
 	<profiles>
