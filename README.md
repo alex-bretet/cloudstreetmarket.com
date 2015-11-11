@@ -14,7 +14,8 @@ Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wik
 ## Quickstart
 
 1. You must have a %JAVA_HOME% environment variable pointing to the root directory of a JDK8.
-2. From the command line do:
+2. You must have a %CATALINA_HOME% environment variable pointing to the root directory of a Tomcat8.
+3. From the command line do:
 
   ```
   git clone https://github.com/alex-bretet/cloudstreetmarket.com.git
@@ -22,7 +23,7 @@ Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wik
   mvn clean install
   ```
 
-3. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
+4. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
 
 ## IDE setup
 
