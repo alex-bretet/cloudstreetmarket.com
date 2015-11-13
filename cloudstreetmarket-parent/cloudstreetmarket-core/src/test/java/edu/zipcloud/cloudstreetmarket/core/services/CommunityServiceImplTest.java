@@ -251,7 +251,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void createUser_setAttributes() {
+	public void createUser_setsAttributes() {
 		when(userRepository.save(userB)).thenReturn(userB);
 		when(passwordEncoder.encode(USER_B_PASSWORD)).thenReturn(USER_B_PASSWORD_ENCODED);
 		User user = communityServiceImpl.createUser(userB, Role.ROLE_BASIC);
@@ -280,7 +280,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void createUser_byRoles_setAttributes() {
+	public void createUser_byRoles_setsAttributes() {
 		when(userRepository.save(userB)).thenReturn(userB);
 		when(passwordEncoder.encode(USER_B_PASSWORD)).thenReturn(USER_B_PASSWORD_ENCODED);
 		Role[] roles = {Role.ROLE_BASIC, Role.ROLE_OAUTH2};
@@ -341,7 +341,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void updateUser_setAttributes() {
+	public void updateUser_setsAttributes() {
 		when(userRepository.save(userA)).thenReturn(userA);
 		when(passwordEncoder.encode(USER_A_PASSWORD)).thenReturn(USER_A_PASSWORD_ENCODED);
 		when(securityContext.getAuthentication()).thenReturn(authentication);
@@ -353,7 +353,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void createUserWithBalance_setAttributes() {
+	public void createUserWithBalance_setsAttributes() {
 		when(userRepository.save(userB)).thenReturn(userB);
 		when(passwordEncoder.encode(USER_B_PASSWORD)).thenReturn(USER_B_PASSWORD_ENCODED);
 		Role[] roles = {Role.ROLE_BASIC, Role.ROLE_OAUTH2};
@@ -485,7 +485,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void getUser_setAttributes() {
+	public void getUser_setsAttributes() {
 		when(communityServiceImpl.findOne(USER_A_NAME)).thenReturn(userA);
 		UserDTO userDTO = communityServiceImpl.getUser(USER_A_NAME);
 		assertDTOWithHiddenValues(userDTO, userA);
@@ -569,7 +569,7 @@ public class CommunityServiceImplTest {
 	}
 
 	@Test
-	public void findByLogin_setFilteredAttributes() {
+	public void findByLogin_setsFilteredAttributes() {
 		when(userRepository.findOne(USER_A_NAME)).thenReturn(userAStored);
 		UserDTO userDTO = communityServiceImpl.findByLogin(USER_A_NAME);
 		assertDTOWithHiddenValues(userDTO, userA);
@@ -583,7 +583,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void registerUser_reusePasswordAndEncodeIt() {
+	public void registerUser_reusesPasswordAndEncodeIt() {
 		when(passwordEncoder.encode(USER_A_PASSWORD)).thenReturn(USER_A_PASSWORD_ENCODED);
 		communityServiceImpl.registerUser(userA);
 		ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
@@ -594,7 +594,7 @@ public class CommunityServiceImplTest {
 	}
 	
 	@Test
-	public void registerUser_generatePasswordAndEncodeIt() {
+	public void registerUser_generatesPasswordAndEncodesIt() {
 		when(communityServiceHelper.generatePassword()).thenReturn("newlyGeneratedPassword");
 		when(passwordEncoder.encode("newlyGeneratedPassword")).thenReturn("newlyGeneratedPasswordEncoded");
 		ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);

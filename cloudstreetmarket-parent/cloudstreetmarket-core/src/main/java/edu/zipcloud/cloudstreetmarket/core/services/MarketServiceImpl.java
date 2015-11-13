@@ -19,6 +19,8 @@
  **/
 package edu.zipcloud.cloudstreetmarket.core.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,11 +31,14 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.Market;
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
+import edu.zipcloud.cloudstreetmarket.core.validators.TransactionValidator;
 
 @Service
 @Transactional(readOnly = true)
 public class MarketServiceImpl implements MarketService {
 
+	private static final Logger logger = LogManager.getLogger(TransactionValidator.class);
+	
 	@Autowired
 	private MarketRepository marketRepository;
 
@@ -46,6 +51,7 @@ public class MarketServiceImpl implements MarketService {
 	public Market get(MarketId marketId) {
 		Market market = marketRepository.findOne(marketId);
 		if(market == null){
+			logger.debug("The requested market " + marketId + " was not found");
 			throw new ResourceNotFoundException("No market has been found for the provided market ID: "+marketId);
 		}
 		return market;

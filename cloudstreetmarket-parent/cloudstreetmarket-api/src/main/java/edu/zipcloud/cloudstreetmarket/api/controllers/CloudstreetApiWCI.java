@@ -146,7 +146,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	public void afterCompletion(
 			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 	}
-	
+		
 	protected void handlePostSignIn(HttpServletRequest request, HttpServletResponse response, String scheme){
 		response.setHeader(WWW_AUTHENTICATE_HEADER, scheme.concat(authenticationHeaderSequence));
 		response.setHeader(AUTHENTICATED_HEADER, SecurityContextHolder.getContext().getAuthentication().getName());

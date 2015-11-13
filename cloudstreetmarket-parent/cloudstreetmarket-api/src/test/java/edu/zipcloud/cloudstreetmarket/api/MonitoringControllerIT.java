@@ -24,7 +24,6 @@ public class MonitoringControllerIT extends AbstractCommonTestUser{
 	@After
 	public void after(){
 		deleteUserAsAdmin(userA);
-		deleteUserAsAdmin(userB);
 	}
 	
 	@Test
@@ -40,6 +39,8 @@ public class MonitoringControllerIT extends AbstractCommonTestUser{
 	        .statusCode(HttpStatus.SC_FORBIDDEN)
 	        .when()
 	        .delete(getHost() + CONTEXT_PATH + MONITORING_PATH + userB.getId());
+		
+		deleteUserAsAdmin(userB);
 	}
 	
 	@Test
@@ -58,6 +59,8 @@ public class MonitoringControllerIT extends AbstractCommonTestUser{
 	        .statusCode(HttpStatus.SC_FORBIDDEN)
 	        .when()
 	        .delete(getHost() + CONTEXT_PATH + MONITORING_PATH + userB.getId());
+		
+		deleteUserAsAdmin(userB);
 	}
 	
 	@Test
@@ -71,7 +74,7 @@ public class MonitoringControllerIT extends AbstractCommonTestUser{
 	        .basic(getAdminUsername(), getAdminPassword())
 	        .contentType("application/json;charset=UTF-8")
 	        .accept("application/json")
-	        .expect()
+	        .expect().log().ifError()
 	        .statusCode(HttpStatus.SC_NO_CONTENT)
 	        .when()
 	        .delete(getHost() + CONTEXT_PATH + MONITORING_PATH + userB.getId());

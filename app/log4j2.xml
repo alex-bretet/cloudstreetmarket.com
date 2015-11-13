@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="30">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+
+	 <RollingFile name="FileAppender" fileName="${sys:user.home}/app/logs/cloudstreetmarket.log"
+				  filePattern="${sys:user.home}/app/logs/$${date:yyyy-MM}/cloudstreetmarket-%d{MM-dd-yyyy}-%i.log.gz">
+	   <PatternLayout>
+		 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+	   </PatternLayout>
+	   <Policies>
+		 <TimeBasedTriggeringPolicy />
+		 <SizeBasedTriggeringPolicy size="250 MB"/>
+	   </Policies>
+	 </RollingFile>
+		
+  </Appenders>
+
+  <Loggers>
+	<Logger name="edu.zipcloud" level="WARN"/>
+	<Logger name="org.apache.catalina" level="ERROR"/>
+	<Logger name="org.springframework.amqp" level="ERROR"/>
+
+    <Root level="WARN">
+      <AppenderRef ref="Console"/>
+	  <AppenderRef ref="FileAppender"/>
+    </Root>
+  </Loggers>
+</Configuration>

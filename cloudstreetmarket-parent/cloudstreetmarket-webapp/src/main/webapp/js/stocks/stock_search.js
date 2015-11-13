@@ -1,11 +1,17 @@
 cloudStreetMarketApp.service("dynStockSearchService", function ($timeout) {
     return {
     	triggerAnim: function (id, field, oldValue, newValue) {
-	   		 if(oldValue[field] > newValue[field]){
-	   			 $("#td_"+oldValue.domId+"_"+field).addClass("bg-upd-less active");
+	   		 if(newValue[field] < oldValue[field]){
+				 $("#td_"+oldValue.domId+"_"+field).removeClass("bg-upd-less");
+				 $("#td_"+oldValue.domId+"_"+field).removeClass("bg-upd-more");
+	   			 $("#td_"+oldValue.domId+"_"+field).addClass("bg-upd-less");
+	   			$("#td_"+oldValue.domId+"_"+field).addClass("active");
 	   		 }
-	   		 else if(oldValue[field] < newValue[field]){
-	   			 $("#td_"+oldValue.domId+"_"+field).addClass("bg-upd-more active");
+	   		 else{
+				 $("#td_"+oldValue.domId+"_"+field).removeClass("bg-upd-less");
+				 $("#td_"+oldValue.domId+"_"+field).removeClass("bg-upd-more");
+	   			 $("#td_"+oldValue.domId+"_"+field).addClass("bg-upd-more");
+	   			 $("#td_"+oldValue.domId+"_"+field).addClass("active");
 	   		 }
         },
     	clearAllAnim: function () {
@@ -13,10 +19,12 @@ cloudStreetMarketApp.service("dynStockSearchService", function ($timeout) {
 			$(".bg-upd-less").removeClass("bg-upd-less");
        },
        fadeOutAnim: function () {
-			 $timeout(function() {
-					$(".bg-upd-more.active").removeClass("active");
-					$(".bg-upd-less.active").removeClass("active");
-		     }, 1.5);
+    	   
+    	   $timeout(function() {
+				$(".bg-upd-more.active").removeClass("active");
+				$(".bg-upd-less.active").removeClass("active");
+	        }, 1500);
+
 	   }
     }
 });

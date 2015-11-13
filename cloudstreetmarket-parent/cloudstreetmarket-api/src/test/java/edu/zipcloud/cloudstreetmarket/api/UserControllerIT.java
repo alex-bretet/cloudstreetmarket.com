@@ -7,8 +7,6 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 
-import javax.sql.DataSource;
-
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -32,24 +30,19 @@ public class UserControllerIT extends AbstractCommonTestUser{
 
 	private static User userA;
 	private static User userB;
-	
-    @Autowired
-    private DataSource dataSource;
-	
+
+	@Autowired
     private JdbcTemplate jdbcTemplate;
     
 	@Before
 	public void before(){
 		userA = generateUser();
 		userB = generateUser();
-		
-		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	@After
 	public void after(){
 		deleteUserAsAdmin(userA);
-		deleteUserAsAdmin(userB);
 	}
 
 	@Test
@@ -58,7 +51,7 @@ public class UserControllerIT extends AbstractCommonTestUser{
 					            .contentType("application/json;charset=UTF-8")
 					            .accept("application/json")
 					    		.body(userA)
-					            .expect()
+					            .expect().log().ifError()
 					            .when()
 					            .post(getHost() + CONTEXT_PATH + "/users");
 					        
@@ -74,7 +67,7 @@ public class UserControllerIT extends AbstractCommonTestUser{
 					            .contentType("application/json;charset=UTF-8")
 					            .accept("application/json")
 					    		.body(userA)
-					            .expect()
+					            .expect().log().ifError()
 					            .statusCode(HttpStatus.SC_CREATED)
 					            .when()
 					            .post(getHost() + CONTEXT_PATH + "/users");
@@ -96,7 +89,7 @@ public class UserControllerIT extends AbstractCommonTestUser{
 					            .contentType("application/json;charset=UTF-8")
 					            .accept("application/json")
 					    		.body(userA)
-					            .expect()
+					            .expect().log().ifError()
 					            .statusCode(HttpStatus.SC_CREATED)
 					            .when()
 					            .post(getHost() + CONTEXT_PATH + "/users");
@@ -118,7 +111,7 @@ public class UserControllerIT extends AbstractCommonTestUser{
 	        .preemptive()
 	        .basic(userA.getId(), userA.getPassword())
 	        .body(userA)
-	        .expect()
+	        .expect().log().ifError()
 	        .statusCode(HttpStatus.SC_OK)
 	        .when()
 	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userA.getId());
@@ -136,7 +129,7 @@ public class UserControllerIT extends AbstractCommonTestUser{
 	        .preemptive()
 	        .basic(userA.getId(), userA.getPassword())
 	        .body(userA)
-	        .expect()
+	        .expect().log().ifError()
 	        .statusCode(HttpStatus.SC_OK)
 	        .when()
 	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userA.getId());
@@ -158,6 +151,8 @@ public class UserControllerIT extends AbstractCommonTestUser{
 	        .statusCode(HttpStatus.SC_FORBIDDEN)
 	        .when()
 	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userB.getId());
+		
+		deleteUserAsAdmin(userB);
 	}
 	
 	@Test
@@ -177,6 +172,8 @@ public class UserControllerIT extends AbstractCommonTestUser{
 	        .statusCode(HttpStatus.SC_FORBIDDEN)
 	        .when()
 	        .put(getHost() + CONTEXT_PATH + USER_CONTROLLER_PATH + userB.getId());
+		
+		deleteUserAsAdmin(userB);
 	}
 	
 	private void assertUserDTOValidForBASIC(UserDTO userADTO) {
@@ -200,9 +197,7 @@ public class UserControllerIT extends AbstractCommonTestUser{
         		+ "accessToken, createDate, displayName, expireTime, "
         		+ "imageUrl, last_update, profileUrl, providerId, providerUserId, "
         		+ "rank, refreshToken, secret, userId "
-        		
         		+ ") values ("
-        		
         		+ "'"+generateGuid()+"', '"+formatDate(new Date())+"', NULL, '"+DateUtil.getXMinAfterDate(new Date(), 500).getTime()+"', "
         		+ "NULL, '"+formatDate(new Date())+"', NULL, 'yahoo', '"+spi+"', "
         		+ "'0', '"+generateGuid()+"', NULL, '"+spi+"');");

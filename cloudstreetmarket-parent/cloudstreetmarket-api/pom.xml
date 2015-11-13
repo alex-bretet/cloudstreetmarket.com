@@ -193,16 +193,20 @@
 		    
 		<!-- Logging dependencies -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		</dependency>
+		<dependency>
+	    	<groupId>org.apache.logging.log4j</groupId>
+	    	<artifactId>log4j-1.2-api</artifactId>
 		</dependency>
 
 		<!-- Bean Validation -->
@@ -227,83 +231,77 @@
 	</dependencies>
 	
 	<profiles>
-	  <profile>
+		<profile>
 	    <id>integration</id>
 	    <build>
-	      <plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.12.4</version>
-				<configuration>
-					  <includes>
-					 	<include>**/*IT.java</include>
-				      </includes>
-			          <excludes>
-				         <exclude>**/*Test.java</exclude>
-				      </excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>verify</id>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<plugin> 
-			  <groupId>org.codehaus.cargo</groupId> 
-			  <artifactId>cargo-maven2-plugin</artifactId> 
-			  <version>1.4.16</version> 
-			  	<configuration> 
-					<wait>false</wait>
-					<container>
-						<containerId>tomcat8x</containerId>
-						<home>C://tomcat8</home>
-						<logLevel>warn</logLevel>
-					</container>
-					<deployer />
-			        <type>existing</type>
-			        <deployables>
-		               <deployable>
-		                   <groupId>edu.zipcloud.cloudstreetmarket</groupId>
-		                   <artifactId>cloudstreetmarket-api</artifactId>
-		                   <type>war</type>
-		                   <properties>
-		                       <context>api</context>
-		                   </properties>
-		               </deployable>
-			        </deployables>
-				</configuration>
-		        <executions>
-		          <execution>
-		            <id>start-container</id>
-		            <phase>pre-integration-test</phase>
-		            <goals>
-		              <goal>start</goal>
-		              <goal>deploy</goal>
-		            </goals>
-		          </execution>
-		          <execution>
-		            <id>stop-container</id>
-		            <phase>post-integration-test</phase>
-		            <goals>
-		              <goal>undeploy</goal>
-		              <goal>stop</goal>
-		            </goals>
-		          </execution>
-		        </executions>
-			</plugin>
-	      </plugins>
-	    </build>
-	  </profile>
+		    <plugins>
+		    	<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.12.4</version>
+					<configuration>
+						  <includes><include>**/*IT.java</include></includes>
+				          <excludes><exclude>**/*Test.java</exclude></excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>integration-test</id>
+							<goals><goal>integration-test</goal></goals>
+						</execution>
+						<execution>
+							<id>verify</id>
+							<goals><goal>verify</goal></goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin> 
+				  <groupId>org.codehaus.cargo</groupId> 
+				  <artifactId>cargo-maven2-plugin</artifactId> 
+				  <version>1.4.16</version> 
+				  	<configuration> 
+						<wait>false</wait>
+						<container>
+							<containerId>tomcat8x</containerId>
+							<home>${CATALINA_HOME}</home>
+							<logLevel>warn</logLevel>
+						  	<systemProperties>
+						    	<log4j.configurationFile>${user.home}/app/log4j2.xml</log4j.configurationFile>
+						  	</systemProperties>
+						</container>
+						<deployer />
+				        <type>existing</type>
+				        <deployables>
+			               <deployable>
+			                   <groupId>edu.zipcloud.cloudstreetmarket</groupId>
+			                   <artifactId>cloudstreetmarket-api</artifactId>
+			                   <type>war</type>
+			                   <properties><context>api</context></properties>
+			               </deployable>
+				        </deployables>
+					</configuration>
+			        <executions>
+			          <execution>
+			            <id>start-container</id>
+			            <phase>pre-integration-test</phase>
+			            <goals>
+			              <goal>start</goal>
+			              <goal>deploy</goal>
+			            </goals>
+			          </execution>
+			          <execution>
+			            <id>stop-container</id>
+			            <phase>post-integration-test</phase>
+			            <goals>
+			              <goal>undeploy</goal>
+			              <goal>stop</goal>
+			            </goals>
+			          </execution>
+			        </executions>
+				</plugin>
+			  </plugins>
+	      </build>
+	      </profile>
 	</profiles>
+	
+	
 </project>

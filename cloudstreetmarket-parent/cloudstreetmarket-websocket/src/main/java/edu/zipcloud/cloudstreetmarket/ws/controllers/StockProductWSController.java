@@ -48,7 +48,6 @@ public class StockProductWSController extends CloudstreetWebSocketWCI<StockProdu
 
     @MessageMapping("/queue/CSM_QUEUE_{queueId}")
     @SendTo("/queue/CSM_QUEUE_{queueId}")
-	@PreAuthorize("hasRole('OAUTH2')")
     public List<StockProduct> sendContent(@Payload List<String> tickers, @DestinationVariable("queueId") String queueId) throws Exception {
     	String username = extractUserFromQueueId(queueId);
     	if(!getPrincipal().getUsername().equals(username)){
@@ -59,7 +58,6 @@ public class StockProductWSController extends CloudstreetWebSocketWCI<StockProdu
     
     @RequestMapping(value=PRIVATE_STOCKS_ENDPOINT+"/info", produces={"application/xml", "application/json"})
 	@ResponseBody
-	@PreAuthorize("hasRole('OAUTH2')")
 	public String info(HttpServletRequest request) {
 	    return "v0";
 	}

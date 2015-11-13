@@ -39,6 +39,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -78,45 +79,37 @@ public class CustomOAuth2RequestFilter extends OncePerRequestFilter {
 		
 		final boolean debug = logger.isDebugEnabled();
 
-		if(StringUtils.isEmpty(request.getHeader(SPI_HEADER))){
+		String userIdentifier =  request.getHeader(SPI_HEADER);
+
+		if(userIdentifier == null){
 			chain.doFilter(request, response);
 			return;
 		}
 
 		try {
-			String username = AuthenticationUtil.getPrincipal().getUsername();
-
-			if (debug) {
-				logger.debug("OAuth2 SPI header found for user '"
-						+ username + "'");
+			SocialUser socialUser = getRegisteredUser(userIdentifier);
+			if(socialUser == null){
+				response.setHeader(MUST_REGISTER_HEADER, request.getHeader(SPI_HEADER));
+				chain.doFilter(request, response);
+				return;
 			}
-
-			if (authenticationIsRequired(username)) {
+			
+			if (authenticationIsRequired(socialUser.getUserId())) {
+				User registeredUser = communityService.findOne(socialUser.getUserId());
 				
-				SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(request.getHeader(SPI_HEADER));
-				if(socialUser == null){
-					response.setHeader(MUST_REGISTER_HEADER, request.getHeader(SPI_HEADER));
-					chain.doFilter(request, response);
-					return;
+				UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(registeredUser, registeredUser.getPassword(), registeredUser.getAuthorities());
+				authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+				Authentication authResult = authenticationManager.authenticate(authRequest);
+				
+				if (debug) {
+					logger.debug("Authentication success: " + authResult);
 				}
-				else{
-					User registeredUser = communityService.findOne(socialUser.getUserId());
-					
-					UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(registeredUser, registeredUser.getPassword(), registeredUser.getAuthorities());
-					authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
-					Authentication authResult = authenticationManager.authenticate(authRequest);
-					if (debug) {
-						logger.debug("Authentication success: " + authResult);
-					}
-					
-					SecurityContextHolder.getContext().setAuthentication(authResult);
-
-					rememberMeServices.loginSuccess(request, response, authResult);
-
-					onSuccessfulAuthentication(request, response, authResult);
-				}
+				
+				SecurityContextHolder.getContext().setAuthentication(authResult);
+				rememberMeServices.loginSuccess(request, response, authResult);
+				onSuccessfulAuthentication(request, response, authResult);
 			}
-
+			
 		}
 		catch (AuthenticationException failed) {
 			SecurityContextHolder.clearContext();
@@ -136,6 +129,10 @@ public class CustomOAuth2RequestFilter extends OncePerRequestFilter {
 		}
 
 		chain.doFilter(request, response);
+	}
+	
+	private SocialUser getRegisteredUser(String socialId){
+		return usersConnectionRepository.getRegisteredSocialUser(socialId);
 	}
 	
 	private boolean authenticationIsRequired(String username) {

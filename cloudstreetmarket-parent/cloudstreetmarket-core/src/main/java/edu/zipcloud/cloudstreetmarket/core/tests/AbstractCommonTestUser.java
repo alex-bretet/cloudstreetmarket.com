@@ -47,7 +47,7 @@ public abstract class AbstractCommonTestUser extends AbstractTestCloudstreetMark
 	        .basic(username, password)
             .contentType("application/json;charset=UTF-8")
             .accept("application/json")
-            .expect().log().ifError()
+            .expect()
             .when()
             .delete(getHost() + CONTEXT_PATH + MONITORING_PATH + userId);
 	}
