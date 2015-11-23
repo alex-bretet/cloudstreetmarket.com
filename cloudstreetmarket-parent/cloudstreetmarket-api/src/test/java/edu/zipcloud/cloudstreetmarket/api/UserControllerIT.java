@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Date;
-
+import javax.sql.DataSource;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.jayway.restassured.response.Response;
-
 import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.tests.AbstractCommonTestUser;
@@ -30,10 +28,14 @@ public class UserControllerIT extends AbstractCommonTestUser{
 
 	private static User userA;
 	private static User userB;
-
-	@Autowired
+	
     private JdbcTemplate jdbcTemplate;
-    
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
 	@Before
 	public void before(){
 		userA = generateUser();
@@ -193,17 +195,18 @@ public class UserControllerIT extends AbstractCommonTestUser{
 	}
 	
 	public void insertConnection(String spi, String username) {
-        this.jdbcTemplate.execute("insert into userconnection ("
+        this.jdbcTemplate.update("insert into userconnection ("
         		+ "accessToken, createDate, displayName, expireTime, "
         		+ "imageUrl, last_update, profileUrl, providerId, providerUserId, "
-        		+ "rank, refreshToken, secret, userId "
-        		+ ") values ("
-        		+ "'"+generateGuid()+"', '"+formatDate(new Date())+"', NULL, '"+DateUtil.getXMinAfterDate(new Date(), 500).getTime()+"', "
-        		+ "NULL, '"+formatDate(new Date())+"', NULL, 'yahoo', '"+spi+"', "
-        		+ "'0', '"+generateGuid()+"', NULL, '"+spi+"');");
+        		+ "rank, refreshToken, secret, userId ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+        		new Object[] {generateGuid(), new Date(), null, 
+        				DateUtil.getXMinAfterDate(new Date(), 500).getTime(), null, new Date(), 
+        						null, "yahoo", spi, 
+        						"0", generateGuid(), null, spi}
+        		);
     }
 	
 	private void deleteConnection(String spi, String id) {
-        this.jdbcTemplate.execute("delete from userconnection where providerUserId = '"+spi+"' and userId = '"+id+"'");
+        this.jdbcTemplate.update("delete from userconnection where providerUserId = ? and userId = ?", new Object[] {spi, id});
 	}
 }

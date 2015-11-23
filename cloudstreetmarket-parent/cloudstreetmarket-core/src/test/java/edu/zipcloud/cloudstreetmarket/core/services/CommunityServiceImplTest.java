@@ -142,7 +142,6 @@ public class CommunityServiceImplTest {
 	
 	@Before
 	public void setup(){
-		MockitoAnnotations.initMocks(this);
 		Set<Authority> authorities = Sets.newHashSet(new Authority(Role.OAUTH2), new Authority(Role.BASIC));
 		
 		//init (reinit) variables

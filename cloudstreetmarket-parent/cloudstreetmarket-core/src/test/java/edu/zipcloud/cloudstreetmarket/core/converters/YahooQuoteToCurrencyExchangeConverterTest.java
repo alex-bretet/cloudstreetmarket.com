@@ -1,15 +1,17 @@
 package edu.zipcloud.cloudstreetmarket.core.converters;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.math.BigDecimal;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.social.yahoo.module.YahooQuote;
 
@@ -19,16 +21,11 @@ import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
 @RunWith(MockitoJUnitRunner.class)
 public class YahooQuoteToCurrencyExchangeConverterTest {
 	
-	@InjectMocks
+	@InjectMocks()
     private YahooQuoteToCurrencyExchangeConverter converter;
 	
 	@Mock
 	private CurrencyExchangeRepository currencyExchangeRepository;
-	
-	@Before
-	public void setup(){
-		MockitoAnnotations.initMocks(this);
-	}
 
 	private static String NAME_VALUE = "USDGBP=X";
 	private static String ID_VALUE = "WHATEVER_ID";
@@ -41,7 +38,7 @@ public class YahooQuoteToCurrencyExchangeConverterTest {
 	private static double PREVIOUS_CLOSE_VALUE = 18;
 	
 	@Test
-	public void essentialDataTransfered(){
+	public void transferCriticalData(){
 		when(currencyExchangeRepository.findOne(any(String.class))).thenReturn(new CurrencyExchange(ID_VALUE));
 		validateResult(converter.convert(buildYahooQuoteInstance()));
 		verify(currencyExchangeRepository, times(1)).findOne(any(String.class));

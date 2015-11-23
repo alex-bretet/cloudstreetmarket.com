@@ -175,4 +175,5 @@
 	<task:annotation-driven scheduler="wsScheduler"/>
 	<task:scheduler id="wsScheduler" pool-size="1000"/>
 	<task:executor id="taskExecutor"/>
+	
 </beans>
