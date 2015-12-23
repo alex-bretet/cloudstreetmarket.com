@@ -52,11 +52,6 @@
 		    </dependency> 
 
 			<dependency>
-			    <groupId>javax</groupId>
-			    <artifactId>javaee-api</artifactId>
-			    <scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.0-api</artifactId>
 			</dependency>
