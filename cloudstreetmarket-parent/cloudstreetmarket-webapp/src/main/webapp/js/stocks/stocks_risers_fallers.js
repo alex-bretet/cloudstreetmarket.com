@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("stocksRisersAndFallersFactory", function ($http) {
     return {
         get: function (ps, pn, sf, sd) {
-        	return $http.get("/api/products/stocks.json?ps="+ps+"&pn="+pn+"&sf="+sf+"&sd="+sd);
+        	return $http.get("/api/products/stocks.json?size="+ps+"&page="+pn+"&sort="+sf+","+sd);
         }
     }
 });

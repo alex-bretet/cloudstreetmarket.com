@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.zipcloud.cloudstreetmarket.core.daos.HistoricalIndexRepository;
-import edu.zipcloud.cloudstreetmarket.core.daos.IndexProductRepository;
+import edu.zipcloud.cloudstreetmarket.core.daos.IndexRepository;
 import edu.zipcloud.cloudstreetmarket.core.daos.MarketRepository;
 import edu.zipcloud.cloudstreetmarket.core.dtos.HistoProductDTO;
 import edu.zipcloud.cloudstreetmarket.core.dtos.IndexOverviewDTO;
@@ -30,7 +30,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.QuotesInterval;
 @Service(value="marketServiceImpl")
 public class MarketServiceImpl implements IMarketService {
 
-	private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+	private static final DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 	
 	@Autowired
 	private MarketRepository marketRepository;
@@ -39,7 +39,7 @@ public class MarketServiceImpl implements IMarketService {
 	private HistoricalIndexRepository historicalIndexRepository;
 	
 	@Autowired
-	private IndexProductRepository indexProductRepository;
+	private IndexRepository indexRepository;
 	
 	@Override
 	public HistoProductDTO getHistoIndex(String code, MarketCode market, Date fromDate, Date toDate, QuotesInterval interval){
@@ -52,22 +52,23 @@ public class MarketServiceImpl implements IMarketService {
 			 histoList = historicalIndexRepository.findHistoric(code, market, fromDate, toDate, interval).iterator();
 		}
 
-		Date lastDate = null;
+		Date firstDate = null;
 		HistoricalIndex lastValue = null;
-		
 		while(histoList.hasNext()){
 			lastValue = histoList.next();
-			lastDate = lastValue.getToDate();
-			map.put(dateFormat.format(lastDate), lastValue.getClose());
+			if(firstDate==null){
+				firstDate = lastValue.getFromDate();
+			}
+			map.put(dateFormat.format(lastValue.getToDate()), lastValue.getClose());
 		}
 
-		return (lastValue != null) ? new HistoProductDTO(lastValue.getIndex().getName(), code, map, fromDate, toDate) : null;
+		return (lastValue != null) ? new HistoProductDTO(lastValue.getIndex().getName(), code, map, firstDate, lastValue.getToDate()) : null;
 	}
 
 	@Override
 	public Page<IndexOverviewDTO> getLastDayIndicesOverview(MarketCode market, Pageable pageable) {
 		Market marketEntity = marketRepository.findByCode(market);
-		Page<Index> indices = indexProductRepository.findByMarket(marketEntity, pageable);
+		Page<Index> indices = indexRepository.findByMarket(marketEntity, pageable);
 
 		List<IndexOverviewDTO> result = new LinkedList<>();
 		for (Index index : indices) {
@@ -79,7 +80,7 @@ public class MarketServiceImpl implements IMarketService {
 
 	@Override
 	public Page<IndexOverviewDTO> getLastDayIndicesOverview(Pageable pageable) {
-		Page<Index> indices = indexProductRepository.findAll(pageable);
+		Page<Index> indices = indexRepository.findAll(pageable);
 		List<IndexOverviewDTO> result = new LinkedList<>();
 		for (Index index : indices) {
 			result.add(IndexOverviewDTO.build(index));

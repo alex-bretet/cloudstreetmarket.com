@@ -1,7 +1,7 @@
 cloudStreetMarketApp.factory("stockTableFactory", function ($http) {
     return {
         get: function (ps, pn, cn, sw, sf, sd) {
-        	return $http.get("/api/products/stocks.json?sw="+sw+"&cn="+cn+"&ps="+ps+"&pn="+pn+"&sf="+sf+"&sd="+sd);
+        	return $http.get("/api/products/stocks.json?sw="+sw+"&cn="+cn+"&size="+ps+"&page="+pn+"&sort="+sf+","+sd);
         }
     }
 });

@@ -38,7 +38,7 @@ public class HistoricalIndexRepositoryImpl implements HistoricalIndexRepository{
 		sqlQuery.setParameter(5, interval);
 		return sqlQuery.getResultList();
 	}
-	
+
 	@Override
 	public Iterable<HistoricalIndex> findLastIntraDay(String code) {
 		return findIntraDay(code, findLastHistoric(code).getToDate());

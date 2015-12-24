@@ -3,33 +3,22 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.NoSuchElementException;
 
-import javax.persistence.NoResultException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
-import edu.zipcloud.cloudstreetmarket.api.exceptions.ErrorInfo;
-
+@Component
 public class CloudstreetApiWCI extends WebContentInterceptor {
 
-    private Logger log = Logger.getLogger(CloudstreetApiWCI.class);
-    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	public CloudstreetApiWCI(){
 		setRequireSession(false);
@@ -57,43 +46,9 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
 	}
 	
 	@InitBinder
-	public void allowEmptyDateBinding( WebDataBinder binder )
+	public void allowDateBinding ( WebDataBinder binder )
 	{
-		synchronized(df) {
-			binder.registerCustomEditor( Date.class, new CustomDateEditor( df, true ));
-			binder.registerCustomEditor( String.class, new StringTrimmerEditor( true ));
-		}
-	}
+		binder.registerCustomEditor( Date.class, new CustomDateEditor( df, true ));
+	}                                                          
 	
-	@ExceptionHandler({ConversionNotSupportedException.class, IllegalArgumentException.class})
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ResponseBody
-	public ErrorInfo badRequestHandler(HttpServletRequest req, HttpServletResponse resp, Exception ex) throws Exception {
-		log.debug("Response: "+HttpStatus.BAD_REQUEST+": "+ex.getMessage());
-		return new ErrorInfo(ex);
-	}
-	
-	@ExceptionHandler(DataIntegrityViolationException.class)
-	@ResponseStatus(HttpStatus.CONFLICT)
-	@ResponseBody
-	public ErrorInfo conflictHandler(HttpServletRequest req, HttpServletResponse resp, Exception ex) throws Exception {
-		log.debug("Response: "+HttpStatus.CONFLICT+": "+ex.getMessage());
-		return new ErrorInfo(ex);
-	}
-	
-	@ExceptionHandler({NoSuchElementException.class, NoResultException.class})
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ResponseBody
-	public ErrorInfo noResultHandler(HttpServletRequest req, HttpServletResponse resp, Exception ex) throws Exception {
-		log.debug("Response: "+HttpStatus.NOT_FOUND+": "+ex.getMessage());
-		return new ErrorInfo(ex);
-	}
-	
-	@ExceptionHandler({Exception.class})
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ResponseBody
-	public ErrorInfo errorHandler(HttpServletRequest req, HttpServletResponse resp, Exception ex) throws Exception {
-		log.debug("Response: "+HttpStatus.INTERNAL_SERVER_ERROR+": "+ex.getMessage());
-		return new ErrorInfo(ex);
-	}
 }

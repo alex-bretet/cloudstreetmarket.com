@@ -20,32 +20,31 @@
 	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api"/>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<property name="conversionService" ref="conversionService"></property>
+			</bean>
+		</property>
 	    <property name="messageConverters">
 	        <list>
-               <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-                    <property name="marshaller">
-                        <bean class="org.springframework.oxm.xstream.XStreamMarshaller">
-                        	<property name="autodetectAnnotations" value="true"/>
-                        </bean>
-                    </property>
-                </bean>
-	            <ref bean="jsonConverter"/>
+	        	<ref bean="jsonConverter"/>
+                <ref bean="xmlConverter"/>
 	        </list>
 	    </property>
 		<property name="customArgumentResolvers">
 			<list>
-				<bean class="net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver" />
+				<bean class="net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver"/>
+		        <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
 			</list>
 		</property>
 	    <property name="requireSession" value="false"/>
 	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
 	</bean>
-	
+
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 	    <property name="favorPathExtension" value="true" />
 	    <property name="favorParameter" value="false" />
 	    <property name="ignoreAcceptHeader" value="false"/>
-	    
 	    <property name="parameterName" value="format" />
 	    <property name="useJaf" value="false"/>
 	    <property name="defaultContentType" value="application/json" />
@@ -60,7 +59,39 @@
 	
 	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	    <property name="supportedMediaTypes" value="application/json"/>
+	    <property name="objectMapper">
+	   		<!-- Automatically parses the Dates of the response object into a default string format-->
+           <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+               <property name="dateFormat">
+	               <bean class="java.text.SimpleDateFormat">
+	               		<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm"/>
+	               </bean>
+               </property>
+           </bean>
+        </property>
 	</bean>
+	
+	<bean id="xmlConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+   		<property name="marshaller">
+   			<ref bean="xStreamMarshaller"/>
+       	</property>
+   		<property name="unmarshaller">
+	    	<ref bean="xStreamMarshaller"/>
+       	</property>
+	</bean>
+
+	<bean id="conversionService"
+	      class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    <property name="converters">
+	        <list>
+	            <bean class="edu.zipcloud.cloudstreetmarket.core.converters.StringToStockProduct"/>
+	        </list>
+	    </property>
+	</bean>
+	
+    <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+		<property name="autodetectAnnotations" value="true"/>
+    </bean>
 
 	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 	<bean class="edu.zipcloud.cloudstreetmarket.api.swagger.SwaggerConfig"/>
@@ -74,5 +105,6 @@
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven/>
+
 	
 </beans>

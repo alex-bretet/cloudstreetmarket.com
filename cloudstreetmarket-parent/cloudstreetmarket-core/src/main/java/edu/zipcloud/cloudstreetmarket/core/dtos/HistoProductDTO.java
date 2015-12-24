@@ -18,7 +18,9 @@ public class HistoProductDTO {
 	String code;
 	Set<Map<String, BigDecimal>> values;
 	Map<String, BigDecimal> mapValues = new HashMap<>();
+
 	Date fromDate;
+
 	Date toDate;
 	
 	public HistoProductDTO(String productName, String code, Map<String, BigDecimal> mapValues, Date fromDate, Date toDate){
