@@ -36,7 +36,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.mangofactory.swagger.annotations.ApiIgnore;
-import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -47,7 +46,6 @@ import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
 import edu.zipcloud.core.util.ImageUtil;
-import edu.zipcloud.cloudstreetmarket.core.services.ICommunityService;
 
 @Api(value = "users", description = "Cloudstreet Market users") // Swagger annotation
 @RestController
