@@ -53,11 +53,11 @@ public class IndexController extends CloudstreetApiWCI {
 			@ApiIgnore @PageableDefault(size=10, page=0, sort={"dailyLatestValue"}, direction=Direction.DESC) Pageable pageable){
 		return marketService.getLastDayIndicesOverview(market, pageable);
 	}
-	
+
 	@RequestMapping(value="/{market}/{index}/histo", method=GET)
 	@ApiOperation(value = "Get historical-data for one index", notes = "Return a set of historical-data from one index")
 	public HistoProductDTO getHistoIndex(
-			@PathVariable("market") MarketCode market, 
+			@ApiParam(value="Market Code: EUROPE") @PathVariable("market") MarketCode market, 
 			@ApiParam(value="Index code: ^OEX") @PathVariable("index") String indexCode,
 			@ApiParam(value="Start date: 2014-01-01") @RequestParam(value="fd",defaultValue="") Date fromDate,
 			@ApiParam(value="End date: 2020-12-12") 	@RequestParam(value="td",defaultValue="") Date toDate,
