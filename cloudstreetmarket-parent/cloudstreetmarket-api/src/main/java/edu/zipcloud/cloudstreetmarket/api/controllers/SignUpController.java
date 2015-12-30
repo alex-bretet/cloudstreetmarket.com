@@ -46,7 +46,6 @@ public class SignUpController extends CloudstreetApiWCI{
     private String successView;
 
     @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.CONTINUE)
     public String getForm(NativeWebRequest request,  @ModelAttribute User user) {
     	String view = successView;
     	
@@ -64,9 +63,6 @@ public class SignUpController extends CloudstreetApiWCI{
             signInAdapter.signIn(user.getUsername(), connection, request);
     		view += "?spi="+ user.getUsername();
         }
-        
         return view;
-        
     }
-
 }

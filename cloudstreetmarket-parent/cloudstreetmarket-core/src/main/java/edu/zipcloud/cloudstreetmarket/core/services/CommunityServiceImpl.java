@@ -43,9 +43,6 @@ import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
-
-
 @Service(value="communityServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED)
 @PropertySource(value="classpath:application.properties")
@@ -138,19 +135,18 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	@Secured(ADMIN)
 	public User findOne(String username) {
 		return userRepository.findOne(username);
 	}
 	
 	@Override
-	@Secured({ADMIN, SYSTEM})
+	@Secured({"ROLE_ADMIN", "ROLE_SYSTEM"})
 	public void delete(String userName) {
 		userRepository.delete(userName);
 	}
 	
 	@Override
-	@Secured(ADMIN)
+	@Secured("ROLE_ADMIN")
 	public Page<User> findAll(Pageable pageable) {
 		return userRepository.findAll(pageable);
 	}

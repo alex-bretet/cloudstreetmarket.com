@@ -30,7 +30,7 @@ public class Market implements Serializable {
 
 	private String name;
 	
-	@OneToMany(mappedBy = "market", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "market", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Index> indices = new LinkedHashSet<>();
 
 	public MarketCode getCode() {

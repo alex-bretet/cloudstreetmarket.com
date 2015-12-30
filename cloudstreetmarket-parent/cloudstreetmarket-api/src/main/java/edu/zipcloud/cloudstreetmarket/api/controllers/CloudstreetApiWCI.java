@@ -92,6 +92,7 @@ public class CloudstreetApiWCI extends WebContentInterceptor {
 	private void preAuthenticate(HttpServletRequest request, HttpServletResponse response){
 		String oAuthGuid = request.getHeader(SPI_HEADER);
 		UserDetails user = getPrincipal();
+
 		if(!StringUtils.isEmpty(oAuthGuid) || UserDetailsUtil.hasRole(user, ROLE_OAUTH2)){
 			SocialUser socialUser = socialUserService.getRegisteredSocialUser(oAuthGuid);
 			if(socialUser == null){

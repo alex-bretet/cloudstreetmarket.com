@@ -22,35 +22,32 @@
 
 	<context:property-placeholder location="classpath:application.properties" />
 
-    <bean id="authenticationEntryPoint" 
-        class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
-        <property name="realmName" value="${realm.name}" />
-    </bean>
-    
+	<bean id="authenticationEntryPoint" class="edu.zipcloud.cloudstreetmarket.api.authentication.CustomBasicAuthenticationEntryPoint">
+		<property name="realmName" value="${realm.name}" />
+	</bean> 
+
     <security:http create-session="stateless" 
-        entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager">
+        entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager" >
         <security:custom-filter ref="basicAuthenticationFilter" after="BASIC_AUTH_FILTER" />
         <security:csrf disabled="true"/>
          <!--<security:access-denied-handler ref="oauthAccessDeniedHandler"/>-->
         <security:intercept-url pattern="/signup*" access="permitAll"/>
         <security:intercept-url pattern="/signin/**" access="permitAll"/>
-        <security:intercept-url pattern="/basic.html" access="hasRole('ROLE_BASIC')"/>
+        <security:intercept-url pattern="/basic.html" access="hasRole('BASIC')"/>
         <security:intercept-url pattern="/**" access="permitAll"/>
     </security:http>
 
-    <bean id="basicAuthenticationFilter"
-        class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
-        <constructor-arg name="authenticationManager" ref="authenticationManager" />
-        <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
-    </bean>
+	<bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<constructor-arg name="authenticationManager" ref="authenticationManager" />
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+	</bean>
 
 	<security:authentication-manager alias="authenticationManager" >
-		<security:authentication-provider >
-			<security:password-encoder ref="passwordEncoder"/>
-			<security:jdbc-user-service data-source-ref="dataSource" />
-		</security:authentication-provider>
-	</security:authentication-manager>
+		<security:authentication-provider user-service-ref='communityServiceImpl'>
+    		<security:password-encoder ref="passwordEncoder"/>
+    	</security:authentication-provider>
+  	</security:authentication-manager>
 
-	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager" />
 
 </beans>

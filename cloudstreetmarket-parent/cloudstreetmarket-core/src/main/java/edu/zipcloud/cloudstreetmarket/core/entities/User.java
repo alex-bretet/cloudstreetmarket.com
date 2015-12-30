@@ -35,7 +35,8 @@ public class User implements UserDetails{
 	@Column(nullable = false)
 	private String username;
 	
-	private String fullname;
+	@Column(name="full_name")
+	private String fullName;
 	
 	private String email;
 	
@@ -43,6 +44,7 @@ public class User implements UserDetails{
 	
 	private boolean enabled = true;
 	
+	@Column(name="profile_img")
 	private String profileImg;
 	
 	@Column(name="not_expired")
@@ -98,12 +100,12 @@ public class User implements UserDetails{
 		this.password = password;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public String getFullName() {
+		return fullName;
 	}
 
 	public void setFullname(String fullname) {
-		this.fullname = fullname;
+		this.fullName = fullname;
 	}
 
 	public String getProfileImg() {
