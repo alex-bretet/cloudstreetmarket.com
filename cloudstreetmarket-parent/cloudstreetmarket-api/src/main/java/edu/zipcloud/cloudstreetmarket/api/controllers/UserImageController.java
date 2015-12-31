@@ -2,6 +2,7 @@ package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +35,7 @@ public class UserImageController extends CloudstreetApiWCI{
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get uploaded images for users")
 	public InputStreamResource get(@PathVariable String fileName, @PathVariable String extension, HttpServletResponse response) throws IOException{
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\");
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat(File.separator);
     	Path URI = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));
     	
     	response.setContentType(Files.probeContentType(URI));
@@ -49,7 +50,7 @@ public class UserImageController extends CloudstreetApiWCI{
     	String extension = ImageUtil.getExtension(file.getOriginalFilename());
     	String name = UUID.randomUUID().toString().concat(".").concat(extension);
     	
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\").concat(name);
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat(File.separator).concat(name);
     	String pathToMiniUserPictures = ImageUtil.renameToMini(pathToUserPictures);
     	
         if (!file.isEmpty()) {
@@ -75,7 +76,7 @@ public class UserImageController extends CloudstreetApiWCI{
     
     @RequestMapping(method=DELETE, produces={"application/json"})
 	public String delete(@PathVariable String fileName, @PathVariable String extension) {
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("\\");
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat(File.separator);
     	Path path = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));
     	
         try {
