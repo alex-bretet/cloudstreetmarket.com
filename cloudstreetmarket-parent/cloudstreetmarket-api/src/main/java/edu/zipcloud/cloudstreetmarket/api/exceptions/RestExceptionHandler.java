@@ -1,5 +1,4 @@
 package edu.zipcloud.cloudstreetmarket.api.exceptions;
-
 import javax.naming.AuthenticationException;
 import javax.persistence.EntityNotFoundException;
 
@@ -14,8 +13,7 @@ import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.*;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.converter.HttpMessageNotReadableException;import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -56,7 +54,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, "The request parameters were not valid!", new HttpHeaders(), BAD_REQUEST, request);
     }
-
+    
     @ExceptionHandler({ BadCredentialsException.class, AuthenticationException.class, AccessDeniedException.class})
     protected ResponseEntity<Object> handleBadCredentials(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, "The attempted operation has been denied!", new HttpHeaders(), FORBIDDEN, request);
@@ -64,7 +62,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     
     // 403
 
-    
     // 404
 
     @ExceptionHandler(value = { EntityNotFoundException.class, ResourceNotFoundException.class})

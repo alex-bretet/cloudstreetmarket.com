@@ -54,7 +54,7 @@ public class UserDTO {
 	}
 	
 	public UserDTO (User user){
-		this.setFullname(user.getFullname());
+		this.setFullname(user.getFullName());
 		this.setProfileImg(user.getProfileImg());
 		this.setUsername(user.getUsername());
 		this.setCurrency(user.getCurrency());

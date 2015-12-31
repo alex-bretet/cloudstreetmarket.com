@@ -82,11 +82,11 @@
 	    <property name="supportedMediaTypes" value="application/json"/>
 	    <property name="objectMapper">
 	   		<!-- Automatically parses the Dates of the response object into a default string format-->
-           <bean class="com.fasterxml.jackson.databind.ObjectMapper" >
+           <bean class="com.fasterxml.jackson.databind.ObjectMapper">
                <property name="dateFormat">
-	                <bean class="java.text.SimpleDateFormat">
-	                	<constructor-arg value="yyyy-MM-dd" />
-	                </bean>
+	               <bean class="java.text.SimpleDateFormat">
+	               		<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm"/>
+	               </bean>
                </property>
            </bean>
         </property>
@@ -181,5 +181,5 @@
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven/>
-
+	
 </beans>

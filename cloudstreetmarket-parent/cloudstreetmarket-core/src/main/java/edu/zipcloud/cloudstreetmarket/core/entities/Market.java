@@ -16,6 +16,9 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 public class Market extends AbstractEnumId<MarketId>{
 
 	private String name;
+	
+	@OneToMany(mappedBy = "market", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Index> indices = new LinkedHashSet<>();
 
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
