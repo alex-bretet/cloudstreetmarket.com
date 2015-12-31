@@ -104,7 +104,7 @@ public class User extends AbstractId<String> implements UserDetails{
 		return fullName;
 	}
 
-	public void setFullname(String fullname) {
+	public void setFullName(String fullname) {
 		this.fullName = fullname;
 	}
 
@@ -192,7 +192,7 @@ public class User extends AbstractId<String> implements UserDetails{
 	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
-		return "User [fullname=" + fullname + ", email=" + email
+		return "User [fullname=" + fullName + ", email=" + email
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
