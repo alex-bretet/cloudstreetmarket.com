@@ -10,7 +10,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
 @Entity
 @XStreamAlias("market")
-public class Market extends AbstractEnumId<MarketId>{
+public class Market extends ProvidedEnumId<MarketId>{
 
 	private String name;
 
@@ -34,7 +34,6 @@ public class Market extends AbstractEnumId<MarketId>{
 		this.lastUpdate = lastUpdate;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "Market [name=" + name + ", lastUpdate=" + lastUpdate + ", id="

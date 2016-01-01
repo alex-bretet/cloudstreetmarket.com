@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.hateoas.Identifiable;
 
 @MappedSuperclass
-public class AbstractId<ID extends Serializable> implements Identifiable<ID> {
+public class ProvidedId<ID extends Serializable> implements Identifiable<ID> {
 
 	@Id 
 	protected ID id;
@@ -42,7 +42,7 @@ public class AbstractId<ID extends Serializable> implements Identifiable<ID> {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		AbstractId<?> other = (AbstractId<?>) obj;
+		ProvidedId<?> other = (ProvidedId<?>) obj;
 		return Objects.equals(this.id, other.id);
 	}
 }

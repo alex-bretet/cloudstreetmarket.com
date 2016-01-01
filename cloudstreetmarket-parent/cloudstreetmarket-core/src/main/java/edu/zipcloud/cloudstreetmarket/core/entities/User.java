@@ -26,7 +26,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 
 @Entity
 @Table(name="users")
-public class User extends AbstractId<String> implements UserDetails{
+public class User extends ProvidedId<String> implements UserDetails{
 
 	private static final long serialVersionUID = 1990856213905768044L;
 
@@ -189,7 +189,6 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.lastUpdate = lastUpdate;
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "User [fullname=" + fullName + ", email=" + email

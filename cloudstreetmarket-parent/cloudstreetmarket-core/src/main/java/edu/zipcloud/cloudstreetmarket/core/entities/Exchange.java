@@ -21,7 +21,7 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableSerializer;
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 
 @Entity
-public class Exchange extends AbstractId<String> {
+public class Exchange extends ProvidedId<String> {
 	
 	private String name;
 
@@ -33,12 +33,12 @@ public class Exchange extends AbstractId<String> {
 	@XStreamAlias("marketId")
 	private Market market;
 	
-	@OneToMany(mappedBy = "exchange", cascade = { CascadeType.ALL }, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "exchange", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
 	@XStreamOmitField
 	private Set<Index> indices = new LinkedHashSet<>();
 	
-	@OneToMany(mappedBy = "exchange", cascade = { CascadeType.ALL }, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "exchange", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
 	@XStreamOmitField
 	private Set<StockProduct> stocks = new LinkedHashSet<>();
@@ -82,7 +82,6 @@ public class Exchange extends AbstractId<String> {
 		this.stocks = stocks;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "Exchange [name=" + name + ", market=" + market + ", id=" + id+ "]";
