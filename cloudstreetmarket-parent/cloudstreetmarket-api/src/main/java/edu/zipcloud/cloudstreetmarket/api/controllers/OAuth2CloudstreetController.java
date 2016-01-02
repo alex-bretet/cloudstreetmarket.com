@@ -58,7 +58,6 @@ public class OAuth2CloudstreetController extends CloudstreetApiWCI{
 
     @SuppressWarnings("deprecation")
 	@RequestMapping(value="/signup", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.CONTINUE)
     public String getForm(NativeWebRequest request,  @ModelAttribute User user) {
     	String view = successView;
     	
@@ -76,7 +75,6 @@ public class OAuth2CloudstreetController extends CloudstreetApiWCI{
             signInAdapter.signIn(user.getUsername(), connection, request);
     		view += "?spi="+ user.getUsername();
         }
-        
         return view;
     }
     

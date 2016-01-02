@@ -217,12 +217,6 @@
 			</dependency>
 		    
 			<dependency>
-			    <groupId>javax</groupId>
-			    <artifactId>javaee-api</artifactId>
-			    <version>${jee.version}</version>
-			    <scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.1-api</artifactId>
 				<version>${hibernate-jpa.version}</version>

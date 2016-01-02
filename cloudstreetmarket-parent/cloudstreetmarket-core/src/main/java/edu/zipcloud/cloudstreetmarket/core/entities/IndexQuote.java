@@ -63,7 +63,6 @@ public class IndexQuote extends Quote {
 		setIndex(index);
 	}
 
-	//Avoid fetching lazy collections (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "IndexQuote [index=" + index + ", symbol=" + symbol + ", id="

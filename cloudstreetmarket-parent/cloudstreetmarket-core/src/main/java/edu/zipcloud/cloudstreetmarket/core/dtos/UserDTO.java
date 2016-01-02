@@ -84,7 +84,7 @@ public class UserDTO {
 		this.language = language;
 	}
 	public UserDTO (User user){
-		this.setFullname(user.getFullname());
+		this.setFullname(user.getFullName());
 		this.setProfileImg(user.getProfileImg());
 		this.setId(user.getId());
 		this.setCurrency(user.getCurrency());

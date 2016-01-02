@@ -40,7 +40,7 @@ public class AnnotationConfig{
             		  "The Rest API developed with Spring MVC Cookbook [PACKT]",
             		  "",
             		  "alex.bretet@gmail.com",
-            		  "GNU GENERAL PUBLIC LICENSE v2",
-            		  "http://www.gnu.org/licenses/gpl-2.0.html"));
+            		  "GPL v3",
+            		  "http://www.gnu.org/licenses/gpl-3.0.en.html"));
    }
 }

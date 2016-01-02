@@ -55,6 +55,7 @@ public class SocialUserServiceImpl implements SocialUserService {
                 textEncryptor);
     }
 
+    @Transactional
 	public SocialUser bindSocialUserToUser(String guid, User user, String providerId) {
 		SocialUser socialUser = socialUserRepository.findFirstByUserIdAndProviderId(guid, providerId);
 		socialUser.setUserId(user.getUsername());

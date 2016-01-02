@@ -28,20 +28,19 @@
     </bean>
     
     <security:http create-session="stateless" 
-        authentication-manager-ref="authenticationManager" entry-point-ref="authenticationEntryPoint">
+        entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager" >
         <security:custom-filter ref="basicAuthenticationFilter" after="BASIC_AUTH_FILTER" />
         <security:csrf disabled="true"/>
          <!--<security:access-denied-handler ref="oauthAccessDeniedHandler"/>-->
         <security:intercept-url pattern="/oauth2/**" access="permitAll"/>
-        <security:intercept-url pattern="/basic.html" access="hasRole('ROLE_BASIC')"/>
+        <security:intercept-url pattern="/basic.html" access="hasRole('BASIC')"/>
         <security:intercept-url pattern="/**" access="permitAll"/>
     </security:http>
 
-    <bean id="basicAuthenticationFilter"
-        class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
-        <constructor-arg name="authenticationManager" ref="authenticationManager" />
-        <constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
-    </bean>
+	<bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<constructor-arg name="authenticationManager" ref="authenticationManager" />
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+	</bean>
 
 	<security:authentication-manager alias="authenticationManager">
     	<security:authentication-provider user-service-ref='communityServiceImpl'>

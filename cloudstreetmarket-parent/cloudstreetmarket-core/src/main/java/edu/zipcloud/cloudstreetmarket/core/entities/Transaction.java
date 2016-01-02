@@ -90,7 +90,6 @@ public class Transaction extends Action implements Comparable<Transaction>
 		this.quote = quote;
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "Transaction [quote=" + quote + ", quantity=" + quantity

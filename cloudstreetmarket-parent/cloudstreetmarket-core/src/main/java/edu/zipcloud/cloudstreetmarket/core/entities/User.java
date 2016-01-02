@@ -38,11 +38,12 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 @Validated
 @Entity
 @Table(name="users")
-public class User extends AbstractId<String> implements UserDetails{
+public class User extends ProvidedId<String> implements UserDetails{
 
 	private static final long serialVersionUID = 1990856213905768044L;
 
-	private String fullname;
+	@Column(name="full_name")
+	private String fullName;
 	
 	@NotNull
 	@Size(min=4, max=30)
@@ -56,7 +57,8 @@ public class User extends AbstractId<String> implements UserDetails{
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SupportedLanguage language;
-	
+
+	@Column(name="profile_img")
 	private String profileImg;
 	
 	@Column(name="not_expired")
@@ -143,12 +145,12 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.password = password;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setFullName(String fullname) {
+		this.fullName = fullname;
 	}
 
 	public String getProfileImg() {
@@ -244,10 +246,9 @@ public class User extends AbstractId<String> implements UserDetails{
 		return new Locale.Builder().setLanguage((language ==  null ? SupportedLanguage.EN : language).name().toLowerCase()).build();
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
-		return "User [fullname=" + fullname + ", email=" + email
+		return "User [fullname=" + fullName + ", email=" + email
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
