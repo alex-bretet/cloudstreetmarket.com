@@ -103,7 +103,7 @@ public class User extends ProvidedId<String> implements UserDetails{
 		setId(id);
 	}
 	
-	public User(String id, String password, String email, String fullname, boolean enabled, boolean accountNonExpired,
+	public User(String id, String password, String email, String fullName, boolean enabled, boolean accountNonExpired,
 			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance,
 			 SupportedLanguage language) {
 		setId(id);
@@ -115,12 +115,12 @@ public class User extends ProvidedId<String> implements UserDetails{
 		this.authorities = auth;
 		this.currency = currency;
 		this.balance = balance;
-		this.fullname = fullname;
+		this.fullName = fullName;
 		this.language = language;
 	}
 
 	public User(User user, Set<Authority> authorities) {
-		this(user.getId(), user.getPassword(), user.getEmail(), user.getFullname(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage());
+		this(user.getId(), user.getPassword(), user.getEmail(), user.getFullName(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage());
 	}
 
 	@Override
