@@ -83,7 +83,6 @@ public class StockQuote extends Quote{
 		setStock(stockProduct);
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "StockQuote [stock=" + stock + ", bid=" + bid + ", ask=" + ask

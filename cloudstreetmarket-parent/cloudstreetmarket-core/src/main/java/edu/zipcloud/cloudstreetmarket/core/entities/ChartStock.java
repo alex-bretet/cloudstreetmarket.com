@@ -53,7 +53,6 @@ public class ChartStock extends Chart {
 		this.stock= stock;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "ChartStock [id=" + id + ", getType()=" + getType()
