@@ -14,7 +14,7 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 public class UserDTO {
 	
 	private String id;
-	private String fullname;
+	private String fullName;
 	private String profileImg;
 	private String password;
 	private String email;
@@ -30,11 +30,11 @@ public class UserDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getFullname() {
-		return fullname;
+	public String getFullName() {
+		return fullName;
 	}
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	public String getProfileImg() {
 		return profileImg;
@@ -84,7 +84,7 @@ public class UserDTO {
 		this.language = language;
 	}
 	public UserDTO (User user){
-		this.setFullname(user.getFullName());
+		this.setFullName(user.getFullName());
 		this.setProfileImg(user.getProfileImg());
 		this.setId(user.getId());
 		this.setCurrency(user.getCurrency());

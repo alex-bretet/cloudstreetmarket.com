@@ -11,8 +11,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
-
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
 public class Product extends ProvidedId<String>{

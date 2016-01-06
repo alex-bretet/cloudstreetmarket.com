@@ -23,10 +23,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -35,7 +33,6 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 
 
-@Validated
 @Entity
 @Table(name="users")
 public class User extends ProvidedId<String> implements UserDetails{
@@ -149,8 +146,8 @@ public class User extends ProvidedId<String> implements UserDetails{
 		return fullName;
 	}
 
-	public void setFullName(String fullname) {
-		this.fullName = fullname;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getProfileImg() {
@@ -248,7 +245,7 @@ public class User extends ProvidedId<String> implements UserDetails{
 
 	@Override
 	public String toString() {
-		return "User [fullname=" + fullName + ", email=" + email
+		return "User [fullName=" + fullName + ", email=" + email
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
 				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked

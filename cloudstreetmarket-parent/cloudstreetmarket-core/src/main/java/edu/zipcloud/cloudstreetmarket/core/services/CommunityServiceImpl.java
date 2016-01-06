@@ -49,8 +49,6 @@ import edu.zipcloud.cloudstreetmarket.core.enums.Role;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
-
 @Service(value="communityServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED)
 @PropertySource(value="file:${user.home}/app/cloudstreetmarket.properties")
