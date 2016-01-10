@@ -42,7 +42,6 @@
 			<artifactId>cloudstreetmarket-core</artifactId>
 			<version>${csm.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -145,7 +144,7 @@
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
+			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
 		

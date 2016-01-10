@@ -10,7 +10,7 @@
 		<csm.version>0.0.1-SNAPSHOT</csm.version >
 		<zipcloud.version>0.0.1-SNAPSHOT</zipcloud.version>
 		<csm.group.id>edu.zipcloud.cloudstreetmarket</csm.group.id>
-		<spring.version>4.1.2.RELEASE</spring.version>
+		<spring.version>4.2.4.RELEASE</spring.version>
 		<spring.security.version>4.0.0.RELEASE</spring.security.version>
 		<spring.hateoas.version>0.17.0.RELEASE</spring.hateoas.version>
 		<spring.data.rest.version>2.3.0.RELEASE</spring.data.rest.version>
@@ -26,6 +26,7 @@
 		<junit.version>4.4</junit.version>
 		<commons-lang3.version>3.2</commons-lang3.version>
 		<commons-collections.version>3.2</commons-collections.version>
+		<commons-logging.version>1.2</commons-logging.version>
 		<persistence.api>1.0.2</persistence.api>
 		<jee.version>7.0</jee.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
@@ -146,11 +147,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring-websocket</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc-portlet</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
@@ -162,11 +158,6 @@
 			<dependency>
 			   <groupId>org.springframework</groupId>
 			   <artifactId>spring-websocket</artifactId>
-			   <version>${spring.version}</version>
-			</dependency>
-			<dependency>
-			   <groupId>org.springframework</groupId>
-			   <artifactId>spring-messaging</artifactId>
 			   <version>${spring.version}</version>
 			</dependency>
 			
@@ -284,6 +275,11 @@
 				<version>${commons-dbcp2.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${commons-logging.version}</version>
+			</dependency>
+			<dependency>
 			    <groupId>net.kaczmarzyk</groupId>
 			    <artifactId>specification-arg-resolver</artifactId>
 			    <version>${specification-arg-resolver.version}</version>
@@ -324,7 +320,7 @@
 				<version>${commons-fileupload.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.commons</groupId>
+				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
 				<version>${commons-io.version}</version>
 			</dependency>
@@ -365,6 +361,7 @@
 				<version>${servlet-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 			    <groupId>com.mangofactory</groupId>
 			    <artifactId>swagger-springmvc</artifactId>
