@@ -50,7 +50,7 @@ public class UserImageController extends CloudstreetApiWCI{
     	String extension = ImageUtil.getExtension(file.getOriginalFilename());
     	String name = UUID.randomUUID().toString().concat(".").concat(extension);
     	
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat("/"+name);
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat(File.separator).concat(name);
     	String pathToMiniUserPictures = ImageUtil.renameToMini(pathToUserPictures);
     	String pathToBigUserPictures = ImageUtil.renameToBig(pathToUserPictures);
     	
@@ -83,7 +83,7 @@ public class UserImageController extends CloudstreetApiWCI{
     @RequestMapping(method=DELETE, produces={"application/json"})
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public String delete(@PathVariable String fileName, @PathVariable String extension) {
-    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")+File.separator);
+    	String pathToUserPictures = env.getProperty("user.home").concat(env.getProperty("pictures.user.path")).concat(File.separator);
     	Path path = Paths.get(pathToUserPictures.concat(fileName.concat(".").concat(extension)));
     	
         try {

@@ -17,6 +17,7 @@ package edu.zipcloud.cloudstreetmarket.api.signin;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -61,9 +62,8 @@ public class SignInAdapterImpl implements SignInAdapter{
 			//Here we have a successful previous oAuth authentication
 			//Also the user is already registered
 			//Only the guid will be sent back
-			
 			List<SocialUser> socialUsers = socialUserRepository.findByProviderUserIdOrUserId(userId, userId);
-			if(socialUsers!= null && !socialUsers.isEmpty()){
+			if(CollectionUtils.isNotEmpty(socialUsers)){
 				//For now we only deal with Yahoo!
 				//Later we will have to get the provider the user has selected to login with
 				view = successView.concat("?spi="+socialUsers.get(0).getProviderUserId());
@@ -72,7 +72,5 @@ public class SignInAdapterImpl implements SignInAdapter{
 		
 	    communityService.signInUser(user);
 	    return view;
-
 	}
-	
 }

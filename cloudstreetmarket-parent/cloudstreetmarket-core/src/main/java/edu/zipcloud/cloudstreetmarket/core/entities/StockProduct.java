@@ -97,7 +97,6 @@ public class StockProduct extends Product{
 		this.quote = quote;
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "StockProduct [industry=" + industry + ", exchange=" + exchange

@@ -11,11 +11,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
-
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
-public class Product extends AbstractId<String>{
+public class Product extends ProvidedId<String>{
 	
 	protected String name;
 
@@ -123,7 +121,6 @@ public class Product extends AbstractId<String>{
 		this.open = open;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "Product [name=" + name + ", dailyLatestValue="

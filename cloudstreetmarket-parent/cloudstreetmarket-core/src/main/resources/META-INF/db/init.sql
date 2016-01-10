@@ -307,4 +307,3 @@ insert into industry(label,id) values ('Toy & Hobby Stores',741);
 insert into industry(label,id) values ('Medical Practitioners',527);
 insert into industry(label,id) values ('Wholesale, Other',759);
 insert into industry(label,id) values ('Closed-End Fund - Foreign',427);
-

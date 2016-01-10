@@ -115,6 +115,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	private void preAuthenticate(HttpServletRequest request, HttpServletResponse response){
 		String oAuthGuid = request.getHeader(SPI_HEADER);
 		UserDetails user = getPrincipal();
+
 		if(!StringUtils.isEmpty(oAuthGuid) || UserDetailsUtil.hasRole(user, ROLE_OAUTH2)){
 			SocialUser socialUser = usersConnectionRepository.getRegisteredSocialUser(oAuthGuid);
 			if(socialUser == null){
