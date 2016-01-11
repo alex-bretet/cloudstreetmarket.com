@@ -25,7 +25,7 @@ public class DefaultController extends CloudstreetWebAppWCI {
 	@RequestMapping(value="/*", method={RequestMethod.GET,RequestMethod.HEAD})
 	public String fallback(Model model, @RequestParam(value="spi", required=false) String spi) {
 		
-		if(!StringUtils.isBlank(spi)){
+		if(StringUtils.isNotBlank(spi)){
 			model.addAttribute("spi", spi);
 		}
 

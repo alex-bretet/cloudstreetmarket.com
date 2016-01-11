@@ -96,7 +96,6 @@ public class OAuth2CloudstreetController extends CloudstreetApiWCI{
             signInAdapter.signIn(user.getUsername(), connection, request);
     		view += "?spi="+ user.getUsername();
         }
-        
         return view;
     }
     

@@ -33,7 +33,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @Entity
 @Table(name="currency_exchange")
 @XStreamAlias("currency_exchange")
-public class CurrencyExchange extends AbstractId<String> {
+public class CurrencyExchange extends ProvidedId<String> {
 	
 	private static final long serialVersionUID = 3197924065214694462L;
 

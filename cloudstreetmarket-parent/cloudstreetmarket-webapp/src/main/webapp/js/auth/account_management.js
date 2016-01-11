@@ -60,7 +60,7 @@ cloudStreetMarketApp.controller('accountController', function ($scope, $translat
 		  if(!$scope.updateAccount.$valid) {
 		       return;
 		  }
-		  
+
 		  httpAuth.put('/api/users', JSON.stringify($scope.form)).success(
 			  function(data, status, headers, config) {
 				httpAuth.setCredentials($scope.form.id, $scope.form.password);

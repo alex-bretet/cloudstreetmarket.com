@@ -42,7 +42,7 @@ import static javax.persistence.InheritanceType.*;
 
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
-public class Quote extends AbstractTableGeneratedId<Long> {
+public class Quote extends TableGeneratedId<Long>{
 
 	private static final long serialVersionUID = -854929089039706306L;
 
@@ -143,7 +143,6 @@ public class Quote extends AbstractTableGeneratedId<Long> {
 		return localLastUpdate.isBefore(localNow);
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "Quote [date=" + date + ", open=" + open + ", previousClose="

@@ -169,7 +169,6 @@ public class StockQuote extends Quote{
 		setId(Long.valueOf(id));
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "StockQuote [bid=" + bid + ", ask=" + ask

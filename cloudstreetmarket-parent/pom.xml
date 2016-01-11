@@ -11,7 +11,7 @@
 		<csm.version>0.0.1-SNAPSHOT</csm.version>
 		<zipcloud.version>0.0.1-SNAPSHOT</zipcloud.version>
 		<csm.group.id>edu.zipcloud.cloudstreetmarket</csm.group.id>
-		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring.version>4.2.4.RELEASE</spring.version>
 		<spring.security.version>4.0.2.RELEASE</spring.security.version>
 		<spring.hateoas.version>0.17.0.RELEASE</spring.hateoas.version>
 		<spring.data.rest.version>2.3.0.RELEASE</spring.data.rest.version>
@@ -27,6 +27,7 @@
 		<junit.version>4.4</junit.version>
 		<commons-lang3.version>3.2</commons-lang3.version>
 		<commons-collections.version>3.2</commons-collections.version>
+		<commons-logging.version>1.2</commons-logging.version>
 		<persistence.api>1.0.2</persistence.api>
 		<jee.version>7.0</jee.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
@@ -124,11 +125,6 @@
 			  <artifactId>spring-data-rest-webmvc</artifactId>
 			  <version>${spring.data.rest.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-oxm</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
 		    <dependency>
 		      <groupId>org.springframework.data</groupId>
 		      <artifactId>spring-data-jpa</artifactId>
@@ -161,11 +157,6 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-websocket</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -287,7 +278,6 @@
 				<artifactId>spring-instrument</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-
 			<dependency>
 			    <groupId>javax</groupId>
 			    <artifactId>javaee-api</artifactId>
@@ -357,6 +347,11 @@
 						<artifactId>commons-logging</artifactId>
 			        </exclusion>
 			    </exclusions> 
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${commons-logging.version}</version>
 			</dependency>
 			<dependency>
 			    <groupId>net.kaczmarzyk</groupId>
@@ -440,6 +435,7 @@
 				<version>${servlet-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 			    <groupId>com.mangofactory</groupId>
 			    <artifactId>swagger-springmvc</artifactId>
@@ -479,12 +475,6 @@
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>1.2</version>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
@@ -569,10 +559,10 @@
 	</build>
 
 	<modules>
-		<module>cloudstreetmarket-webapp</module>
 		<module>cloudstreetmarket-core</module>
 		<module>cloudstreetmarket-shared</module>
 		<module>cloudstreetmarket-api</module>
+		<module>cloudstreetmarket-webapp</module>
 		<module>cloudstreetmarket-websocket</module>
   </modules>
 

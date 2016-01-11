@@ -35,8 +35,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.converter.HttpMessageNotReadableException;import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -99,7 +98,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, I18N_API_GENERIC_REQUEST_PARAMS_NOT_VALID, new HttpHeaders(), BAD_REQUEST, request);
     }
-
+    
     @ExceptionHandler({ BadCredentialsException.class, AuthenticationException.class, AccessDeniedException.class})
     protected ResponseEntity<Object> handleBadCredentials(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, I18N_API_GENERIC_OPERATION_DENIED, new HttpHeaders(), FORBIDDEN, request);
@@ -107,7 +106,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     
     // 403
 
-    
     // 404
 
     @ExceptionHandler(value = { EntityNotFoundException.class, ResourceNotFoundException.class})

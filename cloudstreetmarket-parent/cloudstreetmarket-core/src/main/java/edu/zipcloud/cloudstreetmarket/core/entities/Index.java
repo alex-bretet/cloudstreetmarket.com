@@ -48,7 +48,7 @@ import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
 @Entity
 @Table(name="index_value")
 @XStreamAlias("index")
-public class Index extends AbstractId<String> {
+public class Index extends ProvidedId<String> {
 
 	private static final long serialVersionUID = 7652033887219337074L;
 
@@ -187,7 +187,6 @@ public class Index extends AbstractId<String> {
 		this.open = open;
 	}
 
-	//Avoid fetching lazy collections (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "Index [name=" + name + ", dailyLatestValue=" + dailyLatestValue

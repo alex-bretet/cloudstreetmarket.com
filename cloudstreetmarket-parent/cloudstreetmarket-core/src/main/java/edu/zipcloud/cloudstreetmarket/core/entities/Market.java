@@ -20,19 +20,16 @@
 package edu.zipcloud.cloudstreetmarket.core.entities;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import edu.zipcloud.cloudstreetmarket.core.enums.MarketId;
 
 @Entity
 @XStreamAlias("market")
-public class Market extends AbstractEnumId<MarketId>{
+public class Market extends ProvidedEnumId<MarketId>{
 
 	private static final long serialVersionUID = -6095402949255569113L;
 
@@ -58,7 +55,6 @@ public class Market extends AbstractEnumId<MarketId>{
 		this.lastUpdate = lastUpdate;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "Market [name=" + name + ", lastUpdate=" + lastUpdate + ", id="

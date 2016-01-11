@@ -33,7 +33,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
-public class Product extends AbstractId<String> implements Serializable {
+public class Product extends ProvidedId<String> implements Serializable {
 	
 	private static final long serialVersionUID = 8571185085199807041L;
 
@@ -147,7 +147,6 @@ public class Product extends AbstractId<String> implements Serializable {
 		this.open = open;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "Product [name=" + name + ", dailyLatestValue="

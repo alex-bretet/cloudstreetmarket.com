@@ -19,9 +19,6 @@
  **/
 package edu.zipcloud.cloudstreetmarket.core.services;
 
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ADMIN;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.SYSTEM;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
@@ -187,13 +184,13 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 	
 	@Override
-	@Secured({ADMIN, SYSTEM})
+	@Secured({"ROLE_ADMIN", "ROLE_SYSTEM"})
 	public void delete(String userName) {
 		userRepository.delete(userName);
 	}
 	
 	@Override
-	@Secured(ADMIN)
+	@Secured("ROLE_ADMIN")
 	public Page<User> findAll(Pageable pageable) {
 		return userRepository.findAll(pageable);
 	}

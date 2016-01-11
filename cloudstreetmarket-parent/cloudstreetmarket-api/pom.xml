@@ -47,7 +47,6 @@
 			<artifactId>cloudstreetmarket-core</artifactId>
 			<version>${csm.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -63,11 +62,6 @@
 		<dependency>
 		    <groupId>com.mangofactory</groupId>
 		    <artifactId>swagger-springmvc</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>javax</groupId>
-		    <artifactId>javaee-api</artifactId>
-		    <scope>provided</scope>
 		</dependency>
 		<!-- Spring core -->
 		<dependency>

@@ -22,21 +22,17 @@ package edu.zipcloud.cloudstreetmarket.core.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import static javax.persistence.EnumType.*;
 
 import org.springframework.hateoas.Identifiable;
 
 @MappedSuperclass
-public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID>, Serializable {
+public class ProvidedId<ID extends Serializable> implements Identifiable<ID>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id 
-	@Enumerated(STRING)
 	protected ID id;
 
 	@Override
@@ -52,7 +48,7 @@ public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID>
 	public String toString() {
 		return id.toString();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -67,7 +63,7 @@ public class AbstractEnumId<ID extends Serializable> implements Identifiable<ID>
 		if (getClass() != obj.getClass())
 			return false;
 		
-		AbstractEnumId<?> other = (AbstractEnumId<?>) obj;
+		ProvidedId<?> other = (ProvidedId<?>) obj;
 		return Objects.equals(this.id, other.id);
 	}
 }

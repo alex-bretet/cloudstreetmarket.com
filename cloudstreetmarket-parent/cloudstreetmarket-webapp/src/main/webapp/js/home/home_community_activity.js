@@ -18,12 +18,41 @@ cloudStreetMarketApp.filter('orderObjectBy', function() {
 	    if(reverse) filtered.reverse();
 	    return filtered;
 	  };
-	});
+});
 
 cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $rootScope, $timeout, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
 
+	var $this = this,
+	socket = new SockJS('/api/users/feed/add'),
+    pageNumber = 0;
+    $scope.communityActivities = {};
+    $scope.pageSize=10;
+    
+    $rootScope.stompClient = Stomp.over(socket);
+
 	$scope.init = function () {
 		$scope.loadMore();
+ 		
+ 		var timer = $timeout( function(){
+			socket.onclose = function() {
+				$scope.stompClient.disconnect();
+			};
+			$rootScope.stompClient.connect({}, function(frame) {
+				$rootScope.stompClient.subscribe('/topic/actions', function(message){
+					 var newActivity = $this.prepareActivity(JSON.parse(message.body));
+					 $this.addAsyncActivityToFeed(newActivity);
+					 $scope.$apply();
+				 });
+			});
+			$scope.$on(
+					"$destroy",
+					function( event ) {
+						$timeout.cancel( timer );
+						$rootScope.stompClient.disconnect();
+					}
+			);
+		}, 5000);
+		
 		$('.feedEkList').slimScroll({
 	        height: '365px',
 	        railVisible: true,
@@ -37,85 +66,21 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 	
 	$scope.loadMore = function () {
 		communityFactory.getUsersActivity(pageNumber, $scope.pageSize)
-			.success(
-				function(usersData, status, headers, config) {
-					if(usersData.content){
-			        	if(usersData.content.length >0){
-			        		pageNumber++;
-			        	}
-			        	$.each( usersData.content, function(index, el ) {
-			        		usersData.content[index].urlProfileMiniPicture = $scope.renamePictureToMini(el.urlProfilePicture);
-			        		$scope.communityActivities[usersData.content[index].id] = usersData.content[index];
+			.then(function(response) {
+				var usersData = response.data,
+				status = response.status,
+				headers  = response.headers,
+				config = response.config;
 
-			        		 //Check if other people have liked the action
-			        		 if($scope.communityActivities[usersData.content[index].id].amountOfLikes > 0 
-			        				 && $scope.communityActivities[usersData.content[index].id].authorOfLikes[httpAuth.getLoggedInUser()]){
-			        			 $scope.communityActivities[usersData.content[index].id].userHasLiked = true;
-			        		 }
-			        	});
-					}
-					
-					var timer = $timeout( function(){ 
-							$rootScope.socket = new SockJS('/ws/channels/users/broadcast');
-							$rootScope.stompClient = Stomp.over($scope.socket);
-							$rootScope.socket.onclose = function() {
-								$rootScope.stompClient.disconnect();
-							};
-							$rootScope.stompClient.connect({}, function(frame) {
-								$rootScope.stompClient.subscribe('/topic/actions', function(message){
-									 var newActivity = JSON.parse(message.body);
-									 newActivity.urlProfileMiniPicture = $scope.renamePictureToMini(newActivity.urlProfilePicture);
-									 if(newActivity.userAction.type == 'LIKE'){
+				$this.handleHeaders(headers);
 
-							        	 if($scope.communityActivities[newActivity.targetActionId]){
-											 //if we receive an activity that is from another user
-							        		 if(newActivity.userName != httpAuth.getLoggedInUser()){
-								        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
-								        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
-								        		 $scope.$apply();
-							        		 }
-							        		 else{
-							        			 //If user hasn't already liked in scope (realtime update from ajax)
-							        			 //Possible from another tab
-							        			 if(!$scope.communityActivities[newActivity.targetActionId].userHasLiked){
-									        		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
-									        		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
-									        		 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
-									        		 $scope.$apply();
-							        			 }
-							        		 }
-							        	 }
-
-									 }
-									 else if(newActivity.userAction.type == 'COMMENT'){
-							        	 if($scope.communityActivities[newActivity.targetActionId]){
-							        		 $scope.communityActivities[newActivity.targetActionId].amountOfComments = $scope.communityActivities[newActivity.targetActionId].amountOfComments +1;
-							        	 }
-							        	 $scope.$apply();
-									 }
-									 else{
-										 $scope.communityActivities[newActivity.id]=newActivity;
-										 $scope.$apply();
-									 }
-						        	 
-						         });
-						    });
-					        $scope.$on(
-					                "$destroy",
-					                function( event ) {
-					                	$timeout.cancel( timer );
-					                	$rootScope.stompClient.disconnect();
-					                }
-					        );
-					}, 5000);
-				}).then(function(response){
-					if(response.headers('Must-Register')){
-						modalService.showModal({templateUrl:'/portal/html/partials/must_register_modal.html'}, {});
-					}
-					if(response.headers('Authenticated')){
-						httpAuth.setSession('authenticatedCSM', response.headers('Authenticated'));
-					}
-				});
+				if(usersData.content){
+		        	if(usersData.content.length > 0){
+		        		pageNumber++;
+		        	}
+		        	$this.addActivitiesToFeed(usersData.content);
+				}
+		});
 	};
 
 	$scope.like = function (targetActionId){
@@ -158,9 +123,51 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
 		return name = name.substring(0, name.length-ext.length) + "-mini"+ ext;
 	}
 
-   pageNumber = 0;
-   $scope.communityActivities = {};
-   $scope.pageSize=10;
-   $scope.injectedActions = [];
+    $this.addActivitiesToFeed = function(content){
+    	$.each( content, function(index, el ) {
+    		el.urlProfileMiniPicture = $scope.renamePictureToMini(el.urlProfilePicture);
+    		$scope.communityActivities[el.id] = el;
+    		 //Check if the user has liked the activity
+    		 if($scope.communityActivities[el.id].amountOfLikes > 0 
+    				 && $scope.communityActivities[el.id].authorOfLikes[httpAuth.getLoggedInUser()]){
+    			 $scope.communityActivities[el.id].userHasLiked = true;
+    		 }
+    	});
+    }
+    
+    $this.prepareActivity = function(newActivity){
+		newActivity.urlProfileMiniPicture = $scope.renamePictureToMini(newActivity.urlProfilePicture);
+		return newActivity;
+    }
+    
+    $this.addAsyncActivityToFeed = function(newActivity){
+	   	 if(newActivity.userAction.type == 'LIKE'){
+	    	 if($scope.communityActivities[newActivity.targetActionId]){
+	    		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
+	    		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
+	    		 if(newActivity.userName == httpAuth.getLoggedInUser()){
+	    			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+	    		 }
+	    	 }
+		 }
+		 else if(newActivity.userAction.type == 'COMMENT'){
+	    	 if($scope.communityActivities[newActivity.targetActionId]){
+	    		 $scope.communityActivities[newActivity.targetActionId].amountOfComments = $scope.communityActivities[newActivity.targetActionId].amountOfComments +1;
+	    	 }
+		 }
+		 else{
+			 $scope.communityActivities[newActivity.id]=newActivity;
+		 }
+    }
+    
+    $this.handleHeaders = function(headers){
+    	if(headers('Must-Register')){
+    		modalService.showModal({templateUrl:'/portal/html/partials/must_register_modal.html'}, {});
+    	}
+    	if(headers('Authenticated')){
+    		httpAuth.setSession('authenticatedCSM', headers('Authenticated'));
+    	}
+    }
+
    $scope.init();
 });

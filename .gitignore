@@ -3,6 +3,7 @@
 ### Eclipse ###
 *.pydevproject
 .metadata
+.metadata/
 .gradle
 bin/
 tmp/
@@ -19,6 +20,8 @@ local.properties
 
 # External tool builders
 .externalToolBuilders/
+
+Servers/
 
 # Locally stored "Eclipse launch configurations"
 *.launch

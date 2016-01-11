@@ -47,7 +47,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -56,10 +55,9 @@ import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedLanguage;
 
 
-@Validated
 @Entity
 @Table(name="users")
-public class User extends AbstractId<String> implements UserDetails{
+public class User extends ProvidedId<String> implements UserDetails{
 
 	private static final long serialVersionUID = 1990856213905768044L;
 
@@ -78,7 +76,8 @@ public class User extends AbstractId<String> implements UserDetails{
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SupportedLanguage language;
-	
+
+	@Column(name="profile_img")
 	private String profileImg;
 	
 	@Column(name="not_expired")
@@ -323,7 +322,6 @@ public class User extends AbstractId<String> implements UserDetails{
 		this.balanceUSD = balanceUSD;
 	}
 
-	//Avoid fetching lazy collections here (session may be closed depending upon where toString is called from)
 	@Override
 	public String toString() {
 		return "User [headline=" + headline + ", email=" + email

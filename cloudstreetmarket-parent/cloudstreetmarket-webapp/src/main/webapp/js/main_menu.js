@@ -69,7 +69,7 @@ cloudStreetMarketApp.factory("errorHandler", ['$translate', function ($translate
         		return data.error;
         	}
         	else if(data.message && data.message.length > 0){
-            	return message;
+            	return data.message;
         	}
         	else if(!data.message && data.i18nKey && data.i18nKey.length > 0){
         		return $translate(data.i18nKey);

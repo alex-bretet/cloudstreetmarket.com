@@ -73,7 +73,6 @@ public class ChartIndex extends Chart {
 		this.index= index;
 	}
 
-	//Avoid fetching lazy collections at this stage (session may be closed)
 	@Override
 	public String toString() {
 		return "ChartIndex [index=" + index + ", id=" + id + ", getType()="

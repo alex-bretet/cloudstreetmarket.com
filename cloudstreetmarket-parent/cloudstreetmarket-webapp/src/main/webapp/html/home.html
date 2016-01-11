@@ -74,7 +74,8 @@
 									
 									<span ng-if="userAuthenticated() && value.amountOfLikes == 0">
 										<img ng-src="{{image}}"
-										    	class="like-img" ng-init="image = 'img/icon-finder/1441189591_1_like.png'"
+										    	class="like-img" 
+										    	ng-init="image = 'img/icon-finder/1441189591_1_like.png'"
 										    	ng-mouseover="image='img/icon-finder/1441188631_4_like.png'"
 										    	ng-mouseleave="image='img/icon-finder/1441189591_1_like.png'"
 										    	ng-click="like(value.id)"/>
