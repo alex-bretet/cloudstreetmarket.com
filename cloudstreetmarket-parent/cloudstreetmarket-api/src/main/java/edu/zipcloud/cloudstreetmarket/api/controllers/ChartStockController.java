@@ -66,48 +66,14 @@ public class ChartStockController extends CloudstreetApiWCI<ChartStock> {
 		catch(ResourceNotFoundException e){
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    	String pathToYahooPicture = env.getProperty("pictures.yahoo.path").concat(File.separator+"graph_not_found.png");
-	    	log.error("Resource not found: "+pathToYahooPicture, e);
-			bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
+	    	log.warn("Resource not found: Chart for ticker "+ticker);
+			try {
+				bytes = Files.readAllBytes(Paths.get(pathToYahooPicture));
+			} catch (IOException ioEx) {
+				log.error("Failed to load image: "+pathToYahooPicture);
+			}
 		}
 
 		return new HttpEntity<>(bytes, headers);
 	}
-	
-	/*
-	private String buildYahooFallback(String indexId, ChartType type,
-			ChartHistoSize histoSize, ChartHistoMovingAverage histoAverage,
-			ChartHistoTimeSpan histoPeriod, Integer intradayWidth,
-			Integer intradayHeight) {
-			
-		StringBuilder sb;
-		if(type.equals(ChartType.INTRADAY)){
-			sb = new StringBuilder(YahooAPIType.FINANCIAL_CHARTS_INTRA.getBaseUrl()+"?s="+indexId);
-			if(intradayWidth!=null){
-				sb.append("&width=");
-				sb.append(intradayWidth);
-			}
-			if(intradayHeight!=null){
-				sb.append("&height=");
-				sb.append(intradayHeight);
-			}
-		}
-		else{
-			sb = new StringBuilder(YahooAPIType.FINANCIAL_CHARTS_HISTO.getBaseUrl()+"?s="+indexId);
-			if(histoSize!=null){
-				sb.append("&z=");
-				sb.append(histoSize.getTag());
-			}
-			if(histoAverage!=null){
-				sb.append("&p=");
-				sb.append(histoAverage.getTag());
-			}
-			if(histoPeriod!=null){
-				sb.append("&t=");
-				sb.append(histoPeriod.getTag());
-			}
-		}
-
-		return sb.toString();
-	}
-	 */
 }
