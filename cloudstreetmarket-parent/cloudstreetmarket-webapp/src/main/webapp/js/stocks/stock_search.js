@@ -119,28 +119,28 @@ function initPaginationStockS ($scope, $scope, $interval, httpAuth, dynStockSear
 
 	if(httpAuth.isUserAuthenticated()){
 
-		$scope.socket = new SockJS('/ws/channels/private');
-		$scope.stompClient = Stomp.over($scope.socket);
+		window.socket = new SockJS('/ws/channels/private');
+		window.stompClient = Stomp.over(window.socket);
 		var queueId = httpAuth.generatedQueueId();
 		
-		$scope.socket.onclose = function() {
-			$scope.stompClient.disconnect();
+		window.socket.onclose = function() {
+			window.stompClient.disconnect();
 		};
-		$scope.stompClient.connect({}, function(frame) {
+		window.stompClient.connect({}, function(frame) {
 
 			var intervalPromise = $interval(function() {
-				$scope.stompClient.send('/app/queue/CSM_QUEUE_'+queueId, {}, JSON.stringify($scope.tickers)); 
+				window.stompClient.send('/app/queue/CSM_QUEUE_'+queueId, {}, JSON.stringify($scope.tickers)); 
 	        }, 5000);
 			
 			$scope.$on(
 	                "$destroy",
 	                function( event ) {
 	                	$interval.cancel( intervalPromise );
-	                	$scope.stompClient.disconnect();
+	                	window.stompClient.disconnect();
 	                }
 	        );
 			
-			$scope.stompClient.subscribe('/queue/CSM_QUEUE_'+queueId, function(message){
+			window.stompClient.subscribe('/queue/CSM_QUEUE_'+queueId, function(message){
 				 var freshStocks = JSON.parse(message.body);
 				 $scope.stocks.forEach(function(existingStock) {
 

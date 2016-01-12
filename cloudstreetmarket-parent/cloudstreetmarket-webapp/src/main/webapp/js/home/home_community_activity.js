@@ -20,37 +20,39 @@ cloudStreetMarketApp.filter('orderObjectBy', function() {
 	  };
 });
 
-cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $rootScope, $timeout, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
+cloudStreetMarketApp.controller('homeCommunityActivityController', function ($scope, $timeout, httpAuth, modalService, communityFactory, genericAPIFactory, $filter){
 
 	var $this = this,
-	socket = new SockJS('/api/users/feed/add'),
     pageNumber = 0;
     $scope.communityActivities = {};
     $scope.pageSize=10;
-    
-    $rootScope.stompClient = Stomp.over(socket);
 
 	$scope.init = function () {
+
 		$scope.loadMore();
  		
- 		var timer = $timeout( function(){
-			socket.onclose = function() {
-				$scope.stompClient.disconnect();
+		var timer = $timeout( function(){ 
+			window.socket = new SockJS('/ws/channels/users/broadcast');
+			window.stompClient = Stomp.over(window.socket);
+			
+			window.socket.onclose = function() {
+				window.stompClient.disconnect();
 			};
-			$rootScope.stompClient.connect({}, function(frame) {
-				$rootScope.stompClient.subscribe('/topic/actions', function(message){
-					 var newActivity = $this.prepareActivity(JSON.parse(message.body));
-					 $this.addAsyncActivityToFeed(newActivity);
-					 $scope.$apply();
-				 });
-			});
-			$scope.$on(
+			
+			window.stompClient.connect({}, function(frame) {
+				window.stompClient.subscribe('/topic/actions', function(message){
+						 var newActivity = 	$this.prepareActivity(JSON.parse(message.body));
+						 $this.addAsyncActivityToFeed(newActivity);
+						 $scope.$apply();
+					});
+				});
+				$scope.$on(
 					"$destroy",
 					function( event ) {
 						$timeout.cancel( timer );
-						$rootScope.stompClient.disconnect();
+						window.stompClient.disconnect();
 					}
-			);
+				);
 		}, 5000);
 		
 		$('.feedEkList').slimScroll({

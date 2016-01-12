@@ -56,6 +56,9 @@ public class ImageUtil {
 	}
 	
 	public static String renameToBig(String fileName){
+		if(fileName==null){
+			return null;
+		}
 		String ext = "."+getExtension(fileName);
 		return fileName = fileName.substring(0, fileName.lastIndexOf(ext))+"-big"+ext;
 	}
