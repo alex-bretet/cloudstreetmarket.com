@@ -31,6 +31,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +52,9 @@ import edu.zipcloud.core.util.ImageUtil;
 @RestController
 @RequestMapping(value="/images/users")
 public class UserImageController extends CloudstreetApiWCI{
-
+	
+	private static final Logger logger = LogManager.getLogger(UserImageController.class);
+	
 	@RequestMapping(value="/{fileName}.{extension}", method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get uploaded images for users")
@@ -89,7 +93,9 @@ public class UserImageController extends CloudstreetApiWCI{
                 newPath = Paths.get(pathToBigUserPictures);
                 Files.write(newPath, bytes, StandardOpenOption.CREATE);
                 ImageUtil.createThumbnail(newPath.toFile(), 125, 125, extension);
-
+                
+            	logger.info("User {} uploads a new profile picture: {}", getPrincipal().getUsername(), name);
+            	
                 response.addHeader(Constants.LOCATION_HEADER, env.getProperty("pictures.user.endpoint").concat(name));
                 return "Success";
             } catch (IOException e) {

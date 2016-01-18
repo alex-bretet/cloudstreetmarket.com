@@ -37,6 +37,9 @@ public class I18nKeys {
 	public static final String I18N_TRANSACTIONS_CANT_AFFORD = "error.api.transactions.control.cant.afford";
 	public static final String I18N_TRANSACTIONS_DONT_OWN_QUANTITY = "error.api.transactions.control.dont.own.quantity";
 	
+	//User Management
+	public static final String I18N_UPDATE_USER_FORBIDDEN = "error.api.user.management.update.forbidden";
+	
 	public static final String I18N_INDICES_INDEX_NOT_FOUND = "error.api.indices.index.not.found";
 
 	public static final String I18N_API_GENERIC_REQUEST_BODY_NOT_VALID = "error.api.generic.provided.request.body.not.valid";

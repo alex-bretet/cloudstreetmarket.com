@@ -101,7 +101,7 @@ public class LikeActionController extends CloudstreetApiWCI<LikeAction> {
 		}
 		
 		likeAction = likeActionService.create(likeAction);
-    	logger.info("User " + getPrincipal().getUsername() + " likes action id " + likeAction.getTargetAction().getId());
+    	logger.info("User {} likes action id {}", getPrincipal().getUsername(), likeAction.getTargetAction().getId());
 		messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(likeAction));
 
 		LikeActionResource resource = assembler.toResource(likeAction);

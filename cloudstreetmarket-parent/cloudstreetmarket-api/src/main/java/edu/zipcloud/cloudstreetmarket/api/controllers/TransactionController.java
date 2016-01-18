@@ -135,7 +135,13 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			else{
 				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_CANT_AFFORD));
 			}
-	    	logger.info("User " + getPrincipal().getUsername() + " " + bundle.get(transaction.getType().getPresentTense()) + " " + transaction.getQuantity() + " " + transaction.getQuote().getStock().getId() + " at " + transaction.getQuote().getBid() + " " + transaction.getQuote().getCurrency());
+	    	logger.info("User {} {} {} {} at {} {}", 
+	    			getPrincipal().getUsername(), 
+	    			bundle.get(transaction.getType().getPresentTense()), 
+	    			transaction.getQuantity(), 
+	    			transaction.getQuote().getStock().getId(), 
+	    			transaction.getQuote().getBid(), 
+	    			transaction.getQuote().getCurrency());
 		}
 		else if(transaction.getType().equals(UserActivityType.SELL)){
 			if(transactionService.isOwnedByUser(transaction.getUser(), transaction.getQuantity(), transaction.getQuote().getStock())){
@@ -145,7 +151,13 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			else{
 				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_DONT_OWN_QUANTITY));
 			}
-	    	logger.info("User " + getPrincipal().getUsername() +  " " + bundle.get(transaction.getType().getPresentTense()) + " " + transaction.getQuantity() + " " + transaction.getQuote().getStock().getId() + " at " + transaction.getQuote().getAsk() + " " + transaction.getQuote().getCurrency());
+	    	logger.info("User {} {} {} {} at {} {}", 
+	    			getPrincipal().getUsername(), 
+	    			bundle.get(transaction.getType().getPresentTense()), 
+	    			transaction.getQuantity(), 
+	    			transaction.getQuote().getStock().getId(), 
+	    			transaction.getQuote().getAsk(), 
+	    			transaction.getQuote().getCurrency());
 		}
 		
 		messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(transaction));

@@ -81,7 +81,7 @@ public class SignInAdapterImpl implements SignInAdapter{
 		}
 		
 	    communityService.signInUser(user);
-	    logger.info("User " + user.getId() + " logs in with OAUth2 account");
+	    logger.info("User {} logs in with OAUth2 account", user.getId());
 	    
 	    return view;
 	}

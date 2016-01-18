@@ -20,13 +20,10 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static edu.zipcloud.cloudstreetmarket.api.controllers.UsersController.USERS_PATH;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_BASIC;
-import static edu.zipcloud.cloudstreetmarket.core.enums.Role.ROLE_OAUTH2;
-import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.I18N_USER_GUID_UNKNOWN_TO_PROVIDER;
+import static edu.zipcloud.cloudstreetmarket.core.enums.Role.*;
+import static edu.zipcloud.cloudstreetmarket.core.i18n.I18nKeys.*;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -38,6 +35,8 @@ import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -82,6 +81,7 @@ import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 @RequestMapping(value=USERS_PATH, produces={"application/xml", "application/json"})
 public class UsersController extends CloudstreetApiWCI{
 
+	private static final Logger logger = LogManager.getLogger(UsersController.class);
 	public static final String USERS_PATH = "/users";
 	
 	@Autowired
@@ -118,13 +118,13 @@ public class UsersController extends CloudstreetApiWCI{
 			}
 
 			communityService.save(user);
-		    logger.info("User " + user.getId() + " registers an OAuth2 account ("+guid+")");
+		    logger.info("User {} registers an OAuth2 account: {}", user.getId(), guid);
 		}
 		else{
 			user = communityService.createUser(user, ROLE_BASIC);
 			messagingTemplate.convertAndSend(AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(user.getActions().iterator().next()));
 			communityService.signInUser(user);
-		    logger.info("User " + user.getId() + " registers a BASIC account");
+		    logger.info("User registers a BASIC account", user.getId());
 		}
 		
 		response.setHeader(MUST_REGISTER_HEADER, FALSE);
@@ -136,6 +136,9 @@ public class UsersController extends CloudstreetApiWCI{
 	@ApiOperation(value = "Updates a user account")
 	public void update(@Valid @RequestBody User user, BindingResult result){
 		ValidatorUtil.raiseFirstError(result);
+		if(!user.getUsername().equals(getPrincipal().getUsername())){
+			throw new AccessDeniedException(bundle.get(I18N_UPDATE_USER_FORBIDDEN));
+		}
 		prepareUserForUpdate(user);
 		communityService.updateUser(user);
 	}
