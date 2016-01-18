@@ -40,6 +40,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
+import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
 import edu.zipcloud.cloudstreetmarket.core.services.SocialUserService;
@@ -88,7 +89,7 @@ public class CloudstreetWebSocketWCI<T extends Identifiable<?>> extends WebConte
 	   return AuthenticationUtil.getPrincipal();
 	}
 	
-	public User getAuthenticated(){
+	public UserDTO getAuthenticated(){
 		UserDetails userDetail = getPrincipal();
 		if(userDetail != null){
 			return communityService.findByLogin(userDetail.getUsername());

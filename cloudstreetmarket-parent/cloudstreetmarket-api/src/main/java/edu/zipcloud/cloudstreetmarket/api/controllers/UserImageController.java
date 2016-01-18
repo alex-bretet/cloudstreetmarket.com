@@ -20,7 +20,6 @@
 package edu.zipcloud.cloudstreetmarket.api.controllers;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
+import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
 import edu.zipcloud.core.util.ImageUtil;
 
 @Api(value = "user images", description = "Cloudstreet Market user-uploaded images") // Swagger annotation
@@ -90,7 +90,7 @@ public class UserImageController extends CloudstreetApiWCI{
                 Files.write(newPath, bytes, StandardOpenOption.CREATE);
                 ImageUtil.createThumbnail(newPath.toFile(), 125, 125, extension);
 
-                response.addHeader(LOCATION_HEADER, env.getProperty("pictures.user.endpoint").concat(name));
+                response.addHeader(Constants.LOCATION_HEADER, env.getProperty("pictures.user.endpoint").concat(name));
                 return "Success";
             } catch (IOException e) {
                 return "Fail: " + e.getMessage();

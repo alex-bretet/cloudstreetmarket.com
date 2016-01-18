@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import edu.zipcloud.cloudstreetmarket.core.daos.CurrencyExchangeRepository;
 import edu.zipcloud.cloudstreetmarket.core.entities.CurrencyExchange;
-import edu.zipcloud.cloudstreetmarket.core.services.ExchangeService;
 
 @Component
 @Transactional(readOnly=true)
@@ -36,10 +35,7 @@ public class YahooQuoteToCurrencyExchangeConverter implements Converter<YahooQuo
 
 	@Autowired
 	private CurrencyExchangeRepository currencyExchangeRepository;
-	
-	@Autowired
-	private ExchangeService exchangeService;
-	
+
 	@Override
 	public CurrencyExchange convert(YahooQuote yahooQuote) {
 		

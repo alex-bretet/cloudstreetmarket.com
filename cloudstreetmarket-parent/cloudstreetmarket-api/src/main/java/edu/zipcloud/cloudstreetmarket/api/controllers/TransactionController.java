@@ -62,6 +62,8 @@ import edu.zipcloud.cloudstreetmarket.core.services.TransactionService;
 import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
 import edu.zipcloud.cloudstreetmarket.core.util.ValidatorUtil;
 import edu.zipcloud.cloudstreetmarket.core.validators.TransactionValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Api(value = TRANSACTIONS, description = "Transactions") // Swagger annotation
 @RestController
@@ -82,7 +84,8 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 	private TransactionValidator validator;
 	
 	private static final String TRANSACTION_QUOTE_TTL = "transactions.quotes.ttl.minutes";
-	
+	private static final Logger logger = LogManager.getLogger(TransactionController.class);
+
 	@RequestMapping(method=GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get the user transactions", notes = "Return the transactions of a user")
@@ -132,6 +135,7 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			else{
 				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_CANT_AFFORD));
 			}
+	    	logger.info("User " + getPrincipal().getUsername() + " " + bundle.get(transaction.getType().getPresentTense()) + " " + transaction.getQuantity() + " " + transaction.getQuote().getStock().getId() + " at " + transaction.getQuote().getBid() + " " + transaction.getQuote().getCurrency());
 		}
 		else if(transaction.getType().equals(UserActivityType.SELL)){
 			if(transactionService.isOwnedByUser(transaction.getUser(), transaction.getQuantity(), transaction.getQuote().getStock())){
@@ -141,6 +145,7 @@ public class TransactionController extends CloudstreetApiWCI<Transaction> {
 			else{
 				throw new AccessDeniedException(bundle.get(I18N_TRANSACTIONS_DONT_OWN_QUANTITY));
 			}
+	    	logger.info("User " + getPrincipal().getUsername() +  " " + bundle.get(transaction.getType().getPresentTense()) + " " + transaction.getQuantity() + " " + transaction.getQuote().getStock().getId() + " at " + transaction.getQuote().getAsk() + " " + transaction.getQuote().getCurrency());
 		}
 		
 		messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(transaction));

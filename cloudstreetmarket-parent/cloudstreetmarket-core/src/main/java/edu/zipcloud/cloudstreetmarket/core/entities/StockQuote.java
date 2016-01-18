@@ -33,7 +33,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import edu.zipcloud.cloudstreetmarket.core.entities.Transaction.Builder;
 import edu.zipcloud.cloudstreetmarket.core.enums.SupportedCurrency;
+import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Entity
 @Table(name="stock_quote")

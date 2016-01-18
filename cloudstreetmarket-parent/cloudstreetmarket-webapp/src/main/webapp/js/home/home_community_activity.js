@@ -145,10 +145,12 @@ cloudStreetMarketApp.controller('homeCommunityActivityController', function ($sc
     $this.addAsyncActivityToFeed = function(newActivity){
 	   	 if(newActivity.userAction.type == 'LIKE'){
 	    	 if($scope.communityActivities[newActivity.targetActionId]){
-	    		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
-	    		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
-	    		 if(newActivity.userName == httpAuth.getLoggedInUser()){
-	    			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+	    		 if(!(newActivity.userName == httpAuth.getLoggedInUser() && $scope.communityActivities[newActivity.targetActionId].userHasLiked)){
+		    		 $scope.communityActivities[newActivity.targetActionId].amountOfLikes = $scope.communityActivities[newActivity.targetActionId].amountOfLikes +1;
+		    		 $scope.communityActivities[newActivity.targetActionId].authorOfLikes[newActivity.userName] = newActivity.id;
+		    		 if(newActivity.userName == httpAuth.getLoggedInUser()){
+		    			 $scope.communityActivities[newActivity.targetActionId].userHasLiked = true;
+		    		 }
 	    		 }
 	    	 }
 		 }

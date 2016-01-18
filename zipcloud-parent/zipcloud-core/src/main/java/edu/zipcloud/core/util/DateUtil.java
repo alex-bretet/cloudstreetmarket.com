@@ -49,6 +49,10 @@ public class DateUtil {
 	public static Date getXMinPriorDate(Date date, int nbMinutes) {
 	    return DateUtils.addMinutes(date, -1*nbMinutes);
 	}
+	
+	public static Date getXMinAfterDate(Date date, int nbMinutes) {
+	    return DateUtils.addMinutes(date, +1*nbMinutes);
+	}
 
 	public static boolean isRecent(Date date, int nbMinutes) {
 		if(date==null){

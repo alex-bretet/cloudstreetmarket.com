@@ -30,6 +30,7 @@
 		</plugins>
 	</build>
 
+
 	<dependencies>
 
 		<!-- Projects dependencies -->
@@ -39,15 +40,12 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
-			<artifactId>cloudstreetmarket-shared</artifactId>
-			<version>${csm.version}</version>
+			<artifactId>cloudstreetmarket-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>edu.zipcloud.cloudstreetmarket</groupId>
-			<artifactId>cloudstreetmarket-core</artifactId>
-			<version>${csm.version}</version>
+			<artifactId>cloudstreetmarket-shared</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -192,20 +190,32 @@
 
 		<!-- Logging dependencies -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
-
+	    <dependency>
+	    	<groupId>org.apache.logging.log4j</groupId>
+	    	<artifactId>log4j-1.2-api</artifactId>
+	    </dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-web</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		</dependency>
+		
 		<!-- Bean Validation -->
-
 	   <dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-validator</artifactId>
@@ -220,6 +230,5 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-
 	</dependencies>
 </project>

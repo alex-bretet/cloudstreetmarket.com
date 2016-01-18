@@ -62,74 +62,74 @@ public class User extends ProvidedId<String> implements UserDetails{
 	private static final long serialVersionUID = 1990856213905768044L;
 
 	@Size(max=140)
-	private String headline;
+	protected String headline;
 	
 	@NotNull
 	@Size(min=4, max=30)
-	private String email;
+	protected String email;
 	
 	@NotNull
-	private String password;
+	protected String password;
 	
-	private boolean enabled = true;
+	protected boolean enabled = true;
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private SupportedLanguage language;
+	protected SupportedLanguage language;
 
 	@Column(name="profile_img")
-	private String profileImg;
+	protected String profileImg;
 	
 	@Column(name="not_expired")
-	private boolean accountNonExpired;
+	protected boolean accountNonExpired;
 	
 	@Column(name="not_locked")
-	private boolean accountNonLocked;
+	protected boolean accountNonLocked;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private SupportedCurrency currency;
+	protected SupportedCurrency currency;
 
 	@Column(precision = 10, scale = 5)
-	private BigDecimal balance;
+	protected BigDecimal balance;
 	
 	@Column(name="balance_usd", precision = 10, scale = 5)
-	private BigDecimal balanceUSD;
+	protected BigDecimal balanceUSD;
 	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JsonIgnore
 	@XStreamOmitField
 	@OrderBy("id desc")
-	private Set<Action> actions = new LinkedHashSet<Action>();
+	protected Set<Action> actions = new LinkedHashSet<Action>();
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_followers", joinColumns = { @JoinColumn(name = "followed_user_id") },
 		inverseJoinColumns = { @JoinColumn(name = "follower_user_id") })
 	@JsonIgnore
 	@XStreamOmitField
-	private Set<User> followers = new LinkedHashSet<User>();
+	protected Set<User> followers = new LinkedHashSet<User>();
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_following", joinColumns = { @JoinColumn(name = "follower_user_id") },
 		inverseJoinColumns = { @JoinColumn(name = "followed_user_id") })
 	@JsonIgnore
 	@XStreamOmitField
-	private Set<User> following = new LinkedHashSet<User>();
+	protected Set<User> following = new LinkedHashSet<User>();
 	
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JsonIgnore
 	@XStreamOmitField
-	private Set<Authority> authorities = new LinkedHashSet<Authority>();
+	protected Set<Authority> authorities = new LinkedHashSet<Authority>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore
 	@XStreamOmitField
-	private Set<SocialUser> socialUsers = new LinkedHashSet<SocialUser>();
+	protected Set<SocialUser> socialUsers = new LinkedHashSet<SocialUser>();
 	
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastUpdate;
+	protected Date lastUpdate;
 
 	public User(){
 	
@@ -141,7 +141,7 @@ public class User extends ProvidedId<String> implements UserDetails{
 	
 	public User(String id, String password, String email, String headline, boolean enabled, boolean accountNonExpired,
 			boolean accountNonLocked, boolean credentialNotExpired, Set<Authority> auth, SupportedCurrency currency, BigDecimal balance,
-			 SupportedLanguage language) {
+			 SupportedLanguage language, String profileImg) {
 		setId(id);
 		this.password = password;
 		this.email = email;
@@ -153,13 +153,15 @@ public class User extends ProvidedId<String> implements UserDetails{
 		this.balance = balance;
 		this.headline = headline;
 		this.language = language;
+		this.profileImg = profileImg;
 	}
 
 	public User(User user, Set<Authority> authorities) {
-		this(user.getId(), user.getPassword(), user.getEmail(), user.getHeadline(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage());
+		this(user.getId(), user.getPassword(), user.getEmail(), user.getHeadline(), user.isEnabled(), user.isAccountNonExpired(), user.isAccountNonLocked(), true, authorities, user.getCurrency(), user.getBalance(), user.getLanguage(), user.getProfileImg());
 	}
 
 	@Override
+	@JsonIgnore
 	public String getUsername() {
 		return getId();
 	}
@@ -248,20 +250,24 @@ public class User extends ProvidedId<String> implements UserDetails{
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 	
+	@JsonIgnore
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
@@ -309,11 +315,13 @@ public class User extends ProvidedId<String> implements UserDetails{
 	public void setAccountNonLocked(boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
 	}
-
+	
+	@JsonIgnore
 	public Locale getLocale(){
 		return new Locale.Builder().setLanguage((language ==  null ? SupportedLanguage.EN : language).name().toLowerCase()).build();
 	}
 
+	@JsonIgnore
 	public BigDecimal getBalanceUSD() {
 		return balanceUSD;
 	}
@@ -322,12 +330,70 @@ public class User extends ProvidedId<String> implements UserDetails{
 		this.balanceUSD = balanceUSD;
 	}
 
+	public static class Builder extends User {
+		private static final long serialVersionUID = -7449245034377241127L;
+
+		public Builder withId(String id) {
+        	this.id = id;
+            return this;
+        }
+        
+        public Builder withPassword(String password) {
+        	this.password = password;
+            return this;
+        }
+        
+        public Builder withUser(String email) {
+        	this.email = email;
+            return this;
+        }
+        
+        public Builder withActions(Set<Action> actions) {
+        	this.actions = actions;
+            return this;
+        }
+        
+        public Builder withLanguage(SupportedLanguage language) {
+        	this.language = language;
+            return this;
+        }
+        
+        public Builder withEmail(String email) {
+        	this.email = email;
+            return this;
+        }
+        
+        public Builder withBalance(BigDecimal balance) {
+        	this.balance = balance;
+            return this;
+        }
+        
+        public Builder withAuthorities(Set<Authority> authorities) {
+        	this.authorities = authorities;
+            return this;
+        }
+        
+        public Builder withCurrency(SupportedCurrency currency){
+        	this.currency = currency;
+            return this;
+        }
+        
+		public Builder withProfileImg(String profileImg) {
+			this.profileImg = profileImg;
+			return this;
+		}
+		
+        public User build() {
+            return new User(id, password, email, headline, enabled, accountNonExpired, accountNonLocked, true, authorities, currency, balance, language, profileImg);
+        }
+    }
+
 	@Override
 	public String toString() {
 		return "User [headline=" + headline + ", email=" + email
 				+ ", password=" + password + ", enabled=" + enabled
 				+ ", profileImg=" + profileImg + ", accountNonExpired="
-				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked
+				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked + ", language=" + language
 				+ ", currency=" + currency + ", balance=" +balance +", authorities=" + authorities
 				+ ", lastUpdate=" + lastUpdate + ", id=" + id + "]";
 	}

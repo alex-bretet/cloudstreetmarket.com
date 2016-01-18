@@ -8,195 +8,214 @@
   <artifactId>cloudstreetmarket-core</artifactId>
   <name>CloudStreetMarket Core</name>
 
-		<dependencies>
-			<dependency>
-				<groupId>edu.zipcloud</groupId>
-				<artifactId>zipcloud-core</artifactId>
-			</dependency>
-	
-			<!-- Logging -->
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-			</dependency>
-	
-			<!-- Spring core -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-expression</artifactId>
-			</dependency>
-			<dependency>
-		      <groupId>org.springframework.data</groupId>
-		      <artifactId>spring-data-jpa</artifactId>
-		    </dependency> 
-		    <dependency>
-		      <groupId>org.springframework.data</groupId>
-		      <artifactId>spring-data-commons</artifactId>
-		    </dependency> 
-		    <dependency>
-		        <groupId>org.springframework.hateoas</groupId>
-		        <artifactId>spring-hateoas</artifactId>
-		    </dependency>
-			<dependency>
-			  <groupId>org.springframework.data</groupId>
-			  <artifactId>spring-data-rest-webmvc</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-oxm</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jms</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>javax.jms</groupId>
-				<artifactId>javax.jms-api</artifactId>
-			</dependency>
+	<dependencies>
+		<dependency>
+			<groupId>edu.zipcloud</groupId>
+			<artifactId>zipcloud-core</artifactId>
+		</dependency>
 
-			<!-- Spring social -->
-			<dependency>
-				<groupId>org.springframework.social</groupId>
-				<artifactId>spring-social-core</artifactId>
-			</dependency>
-			<dependency>
-			    <groupId>org.springframework.social</groupId>
-			    <artifactId>spring-social-config</artifactId>
-			</dependency>
+		<!-- Logging -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		</dependency>	
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-1.2-api</artifactId>
+    	</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		</dependency>
 
-			<!-- Spring Security -->
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-web</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-config</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-core</artifactId>
-			</dependency>
-		    
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate.javax.persistence</groupId>
-				<artifactId>hibernate-jpa-2.1-api</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-			</dependency>
-		   	<dependency>
-		    	<groupId>org.hibernate</groupId>
-		    	<artifactId>hibernate-core</artifactId>
-		   	</dependency>
-		   	<dependency>
-		    	<groupId>org.hibernate</groupId>
-		    	<artifactId>hibernate-entitymanager</artifactId>
-		   	</dependency>
-			<dependency>
-				<groupId>org.hibernate.common</groupId>
-				<artifactId>hibernate-commons-annotations</artifactId>
-			</dependency>
-		   <dependency>
-			    <groupId>org.hibernate</groupId>
-			    <artifactId>hibernate-validator</artifactId>
-			</dependency> 
-			<dependency>
-			    <groupId>org.jboss.logging</groupId>
-			    <artifactId>jboss-logging</artifactId>
-			</dependency>
-		   <dependency>
-		        <groupId>org.javassist</groupId>
-		        <artifactId>javassist</artifactId>
-		    </dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-dbcp2</artifactId>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-			</dependency>
-			<dependency>
-		    	<groupId>com.fasterxml.jackson.core</groupId>
-		    	<artifactId>jackson-databind</artifactId>
-			</dependency>
+		<!-- Spring core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>
+		<dependency>
+	      <groupId>org.springframework.data</groupId>
+	      <artifactId>spring-data-jpa</artifactId>
+	    </dependency> 
+	    <dependency>
+	      <groupId>org.springframework.data</groupId>
+	      <artifactId>spring-data-commons</artifactId>
+	    </dependency> 
+	    <dependency>
+	        <groupId>org.springframework.hateoas</groupId>
+	        <artifactId>spring-hateoas</artifactId>
+	    </dependency>
+		<dependency>
+		  <groupId>org.springframework.data</groupId>
+		  <artifactId>spring-data-rest-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>javax.jms-api</artifactId>
+		</dependency>
 
-			<dependency>
-				<groupId>com.thoughtworks.xstream</groupId>
-				<artifactId>xstream</artifactId>
-			</dependency>
-			<dependency>
-			    <groupId>net.kaczmarzyk</groupId>
-			    <artifactId>specification-arg-resolver</artifactId>
-			</dependency>
+		<!-- Spring social -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-config</artifactId>
+		</dependency>
 
-			<!-- Session -->
-			<dependency>
-				<groupId>org.springframework.session</groupId>
-				<artifactId>spring-session</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-pool2</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.session</groupId>
-				<artifactId>spring-session-data-redis</artifactId>
-			</dependency>
-			<!-- Session -->
-			
-			<!-- Tests -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-			</dependency>
-	
-			<!-- Utilities -->
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-			</dependency>
-			
-			
-		</dependencies>
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+	   	<dependency>
+	    	<groupId>org.hibernate</groupId>
+	    	<artifactId>hibernate-core</artifactId>
+	   	</dependency>
+	   	<dependency>
+	    	<groupId>org.hibernate</groupId>
+	    	<artifactId>hibernate-entitymanager</artifactId>
+	   	</dependency>
+		<dependency>
+			<groupId>org.hibernate.common</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+		</dependency>
+	   <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency> 
+		<dependency>
+		    <groupId>org.jboss.logging</groupId>
+		    <artifactId>jboss-logging</artifactId>
+		</dependency>
+	   <dependency>
+	        <groupId>org.javassist</groupId>
+	        <artifactId>javassist</artifactId>
+	    </dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+	    	<groupId>com.fasterxml.jackson.core</groupId>
+	    	<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>net.kaczmarzyk</groupId>
+		    <artifactId>specification-arg-resolver</artifactId>
+		</dependency>
+
+		<!-- Session -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+		<!-- Session -->
+		
+		<!-- Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+		</dependency>
+		<!-- Tests -->
+		
+		<!-- Utilities -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+	</dependencies>
   
 </project>

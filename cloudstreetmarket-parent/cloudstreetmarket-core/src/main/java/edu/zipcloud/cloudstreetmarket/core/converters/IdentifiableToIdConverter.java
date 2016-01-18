@@ -75,8 +75,13 @@ public class IdentifiableToIdConverter implements Converter {
                 throw new IllegalArgumentException(e.getMessage() + ": " + valueFieldName);
             }
 	    }
+	    
+	    //only for testing
+	    public IdentifiableToIdConverter(Class type) {
+	    	this.type = type;
+		}
 
-	    public boolean canConvert(final Class type) {
+		public boolean canConvert(final Class type) {
 	        return type.isAssignableFrom(this.type);
 	    }
 

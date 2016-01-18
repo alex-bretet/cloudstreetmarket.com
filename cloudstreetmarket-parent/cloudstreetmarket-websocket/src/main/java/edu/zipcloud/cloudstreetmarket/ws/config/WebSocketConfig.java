@@ -19,8 +19,7 @@
  **/
 package edu.zipcloud.cloudstreetmarket.ws.config;
 
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.ACTIVITY_FEED_ENDPOINT;
-import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.PRIVATE_STOCKS_ENDPOINT;
+import static edu.zipcloud.cloudstreetmarket.shared.util.Constants.*;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;

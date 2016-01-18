@@ -58,6 +58,8 @@
         <property name="prefetchCount" value="12"/>
     </bean>
 
+	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+
 	<!-- Serve static content-->
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />

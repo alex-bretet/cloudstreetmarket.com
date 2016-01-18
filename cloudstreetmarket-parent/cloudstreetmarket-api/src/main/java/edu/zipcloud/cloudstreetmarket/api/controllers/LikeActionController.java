@@ -57,12 +57,16 @@ import edu.zipcloud.cloudstreetmarket.core.dtos.UserActivityDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.LikeAction;
 import edu.zipcloud.cloudstreetmarket.core.services.LikeActionService;
 import edu.zipcloud.cloudstreetmarket.shared.util.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Api(value = LIKES, description = "Like actions") // Swagger annotation
 @RestController
 @ExposesResourceFor(LikeAction.class)
 @RequestMapping(value=ACTIONS_PATH + LIKES_PATH, produces={"application/xml", "application/json"})
 public class LikeActionController extends CloudstreetApiWCI<LikeAction> {
+	
+	private static final Logger logger = LogManager.getLogger(LikeActionController.class);
 	
 	@Autowired
 	private LikeActionService likeActionService;
@@ -97,7 +101,7 @@ public class LikeActionController extends CloudstreetApiWCI<LikeAction> {
 		}
 		
 		likeAction = likeActionService.create(likeAction);
-
+    	logger.info("User " + getPrincipal().getUsername() + " likes action id " + likeAction.getTargetAction().getId());
 		messagingTemplate.convertAndSend(Constants.AMQP_USER_ACTIVITY_QUEUE, new UserActivityDTO(likeAction));
 
 		LikeActionResource resource = assembler.toResource(likeAction);

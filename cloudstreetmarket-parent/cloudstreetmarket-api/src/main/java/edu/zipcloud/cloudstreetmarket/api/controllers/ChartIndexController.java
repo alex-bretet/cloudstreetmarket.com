@@ -83,7 +83,7 @@ public class ChartIndexController extends CloudstreetApiWCI<ChartIndex> {
 			chartIndex = indexService.gather(indexId, type, histoSize, histoAverage, histoPeriod, intradayWidth, intradayHeight);
 			bytes = Files.readAllBytes(Paths.get(chartIndex.getPath()));
 		}
-		catch(ResourceNotFoundException e){
+		catch(NullPointerException | ResourceNotFoundException e){
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    	String pathToYahooPicture =  env.getProperty("user.home").concat(env.getProperty("pictures.yahoo.path")).concat(File.separator).concat("graph_not_found.png");
 			log.warn("Resource not found: Chart for Index "+indexId);
@@ -95,7 +95,7 @@ public class ChartIndexController extends CloudstreetApiWCI<ChartIndex> {
 		}
 		catch(IOException e){
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			log.error("Failed to load image: "+chartIndex.getPath(), e);
+			log.error("Failed to load image: "+chartIndex.getPath());
 		}
 
 		return new HttpEntity<>(bytes, headers);

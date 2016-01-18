@@ -45,6 +45,8 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableSerializer;
 import edu.zipcloud.cloudstreetmarket.core.converters.IdentifiableToIdConverter;
+import edu.zipcloud.cloudstreetmarket.core.entities.CommentAction.Builder;
+import edu.zipcloud.cloudstreetmarket.core.enums.UserActivityType;
 
 @Entity
 @DiscriminatorValue(DISCR)
@@ -79,13 +81,13 @@ public class Transaction extends Action implements Comparable<Transaction>, Seri
 	@JsonProperty("quoteId")
 	@XStreamConverter(value=IdentifiableToIdConverter.class, strings={"id"})
 	@XStreamAlias("quoteId")
-	private StockQuote quote;
+	protected StockQuote quote;
 
-	private int quantity;
+	protected int quantity;
 
 	@Column(name="last_update", insertable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", precision = 10, scale = 5)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastUpdate;
+	protected Date lastUpdate;
 
 	public Date getLastUpdate() {
 		return lastUpdate;
@@ -112,14 +114,59 @@ public class Transaction extends Action implements Comparable<Transaction>, Seri
 	}
 
 	@Override
+	public int compareTo(Transaction arg0) {
+		return this.getDate().compareTo(arg0.getDate());
+	}
+	
+	public Transaction(){
+	}
+	
+	public Transaction(StockQuote quote, int quantity, Date date,  User user, UserActivityType type){
+		this.quote = quote;
+		this.quantity = quantity;
+		this.date = date;
+		this.user = user;
+		this.type = type;
+	}
+
+	public static class Builder extends Transaction {
+
+		private static final long serialVersionUID = -7449245034377241127L;
+
+		public Builder withDate(Date date) {
+        	this.date = date;
+            return this;
+        }
+        
+        public Builder withQuantity(int quantity) {
+        	this.quantity = quantity;
+            return this;
+        }
+        
+        public Builder withUser(User user) {
+        	this.user = user;
+            return this;
+        }
+        
+        public Builder withStockQuote(StockQuote quote) {
+        	this.quote = quote;
+            return this;
+        }
+
+        public Builder withType(UserActivityType type) {
+        	this.type = type;
+            return this;
+        }
+        
+        public Transaction build() {
+            return new Transaction(quote, quantity, date, user, type);
+        }
+    }
+	
+	@Override
 	public String toString() {
 		return "Transaction [quote=" + quote + ", quantity=" + quantity
 				+ ", lastUpdate=" + lastUpdate + ", id=" + id + ", getType()="
 				+ getType() + ", getDate()=" + getDate() + "]";
-	}
-
-	@Override
-	public int compareTo(Transaction arg0) {
-		return this.getDate().compareTo(arg0.getDate());
 	}
 }

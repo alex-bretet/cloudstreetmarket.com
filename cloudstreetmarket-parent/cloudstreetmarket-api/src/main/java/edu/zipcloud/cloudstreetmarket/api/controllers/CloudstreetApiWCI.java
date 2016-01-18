@@ -59,6 +59,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
+import edu.zipcloud.cloudstreetmarket.core.dtos.UserDTO;
 import edu.zipcloud.cloudstreetmarket.core.entities.SocialUser;
 import edu.zipcloud.cloudstreetmarket.core.entities.User;
 import edu.zipcloud.cloudstreetmarket.core.services.CommunityService;
@@ -183,7 +184,7 @@ public class CloudstreetApiWCI<T extends Identifiable<?>> extends WebContentInte
 	   return AuthenticationUtil.getPrincipal();
 	}
 	
-	public User getAuthenticated(){
+	public UserDTO getAuthenticated(){
 		UserDetails userDetail = getPrincipal();
 		if(userDetail != null){
 			return communityService.findByLogin(userDetail.getUsername());

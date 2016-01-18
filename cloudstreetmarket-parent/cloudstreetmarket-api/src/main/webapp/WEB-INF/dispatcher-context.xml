@@ -111,6 +111,8 @@
 	
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
+	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+
     <rabbit:connection-factory id="connectionFactory" host="localhost" username="guest" password="guest" />
     <rabbit:admin connection-factory="connectionFactory" />
     <rabbit:template id="messagingTemplate" connection-factory="connectionFactory"/>

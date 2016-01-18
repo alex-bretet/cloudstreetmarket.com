@@ -67,7 +67,6 @@
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.archive.autodetection">class, hbm</prop>
                 <prop key="hibernate.format_sql">false</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						
         </property>
 	</bean>
@@ -172,8 +171,12 @@
 		<constructor-arg><null/></constructor-arg>
 		<constructor-arg><null/></constructor-arg>
 	</bean>
+	
+	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" 
+		pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
 	<task:annotation-driven scheduler="wsScheduler"/>
 	<task:scheduler id="wsScheduler" pool-size="1000"/>
 	<task:executor id="taskExecutor"/>
+	
 </beans>
