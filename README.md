@@ -12,8 +12,7 @@ Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wik
 ## Build the app
 
 1. You must have a %JAVA_HOME% environment variable pointing to the root directory of a JDK8.
-2. You must have a %CATALINA_HOME% environment variable pointing to the root directory of a Tomcat8.
-3. From the command line do:
+2. From the command line do:
 
   ```
   git clone https://github.com/alex-bretet/cloudstreetmarket.com.git
@@ -24,6 +23,7 @@ Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wik
 ## Run the app
 
 1. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
+
 2. Please refer to the Wiki page [Running the app](https://github.com/alex-bretet/cloudstreetmarket.com/wiki/Running-the-app)
 
 ## IDE setup
