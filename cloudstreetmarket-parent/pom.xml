@@ -53,10 +53,11 @@
 		<rest.assured.version>2.7.0</rest.assured.version>
 			
 		<!-- Default DEV env. / overridable with Profile  -->
-        <database.name>csm</database.name>
-        <database.driver>com.mysql.jdbc.Driver</database.driver>
-        <database.url>jdbc:mysql://localhost</database.url>
-        <database.serverId>flyway-dev</database.serverId>
+		<database.name>csm</database.name>
+		<database.driver>org.hsqldb.jdbcDriver</database.driver>
+		<database.url>jdbc:hsqldb:file:csm</database.url>
+		<database.serverId>csm_hsql</database.serverId>
+		<database.migrations.location>filesystem:../app/db/migration/hsqldb</database.migrations.location>
 
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -349,6 +350,11 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>5.1.6</version>
 			</dependency>
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>2.3.4</version>
+			</dependency>
 		   <dependency>
 		        <groupId>org.javassist</groupId>
 		        <artifactId>javassist</artifactId>
@@ -605,7 +611,7 @@
 			      	<schema>${database.name}</schema>
 			      </schemas>
 			      <locations>
-			      	<location>filesystem:${user.home}/app/db/migration</location>
+					  <location>${database.migrations.location}</location>
 			      </locations>
 			      <initOnMigrate>true</initOnMigrate>
 				  <sqlMigrationPrefix>Migration-</sqlMigrationPrefix>
@@ -622,6 +628,11 @@
 						<artifactId>mysql-connector-java</artifactId>
 						<version>5.1.6</version>
 					</dependency>
+				   <dependency>
+					   <groupId>org.hsqldb</groupId>
+					   <artifactId>hsqldb</artifactId>
+					   <version>2.3.4</version>
+				   </dependency>
                </dependencies>
 			</plugin>
 		</plugins>
@@ -657,13 +668,24 @@
 	</build>
 
 	<profiles>
+		<profile>
+			<id>csm_dev</id>
+			<properties>
+				<database.name>csm</database.name>
+				<database.driver>com.mysql.jdbc.Driver</database.driver>
+				<database.url>jdbc:mysql://localhost</database.url>
+				<database.serverId>csm_db</database.serverId>
+				<database.migrations.location>filesystem:../app/db/migration/mysql</database.migrations.location>
+			</properties>
+		</profile>
 	  <profile>
-	      <id>flyway-integration</id>
+	      <id>csm_integration</id>
 	      <properties>
 	         <database.name>csm_integration</database.name>
 	         <database.driver>com.mysql.jdbc.Driver</database.driver>
 	         <database.url>jdbc:mysql://localhost</database.url>
-	         <database.serverId>flyway-dev</database.serverId>
+	         <database.serverId>csm_db</database.serverId>
+			 <database.migrations.location>filesystem:../app/db/migration/mysql</database.migrations.location>
 	      </properties>
 	  </profile>
 	</profiles>
