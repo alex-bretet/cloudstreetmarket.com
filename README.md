@@ -9,7 +9,7 @@ The latest Release of the application is running at: [cloudstreetmarket.com](htt
 
 Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wiki)
 
-## Quickstart
+## Build the app
 
 1. You must have a %JAVA_HOME% environment variable pointing to the root directory of a JDK8.
 2. You must have a %CATALINA_HOME% environment variable pointing to the root directory of a Tomcat8.
@@ -21,7 +21,10 @@ Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wik
   mvn clean install
   ```
 
-4. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
+## Run the app
+
+1. Copy-paste the entire [app](https://github.com/alex-bretet/cloudstreetmarket.com/tree/master/app) directory to your ${user.home}
+2. Please refer to the Wiki page [Running the app](https://github.com/alex-bretet/cloudstreetmarket.com/wiki/Running-the-app)
 
 ## IDE setup
 
