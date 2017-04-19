@@ -1,7 +1,7 @@
 # cloudstreetmarket.com
 
 ![Build Status](https://travis-ci.org/alex-bretet/cloudstreetmarket.com.svg?branch=master)
-![License](http://img.shields.io/:license-gpl3-blue.svg)
+![License](https://img.shields.io/aur/license/yaourt.svg)
 
 This project is the application developed with the book [Spring MVC Cookbook](https://www.packtpub.com/web-development/spring-mvc-cookbook)
 
