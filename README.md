@@ -6,8 +6,6 @@
 
 This project is the application developed with the book [Spring MVC Cookbook](https://www.packtpub.com/web-development/spring-mvc-cookbook)
 
-The latest Release of the application is running at: [cloudstreetmarket.com](http://cloudstreetmarket.com)
-
 Read more in the [WIKI](https://github.com/alex-bretet/cloudstreetmarket.com/wiki)
 
 ## Build the app
